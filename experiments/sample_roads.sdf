@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <scene>
+      <grid>false</grid>
+    </scene>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <road name="1">
+      <width>5</width>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Residential</name>
+        </script>
+      </material>
+      <point>-50 0 0.05</point>
+      <point>50 0 0.05</point>
+    </road>
+    <road name="2">
+      <width>10</width>
+      <material>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>Gazebo/Motorway</name>
+        </script>
+      </material>
+      <point>0 -50 0.05</point>
+      <point>0 50 0.05</point>
+    </road>
+  </world>
+</sdf>
