@@ -38,7 +38,7 @@ class Highway(Road):
         super(Highway, self).__init__(name, 10)
 
     def material_name(self):
-        return 'Gazebo/Motorway'
+        return 'Gazebo/Trunk'
 
 
 
