@@ -1,12 +1,17 @@
 from city_model import CityModel
 
+
 # For the time being, the city will be our Gazebo world
 class City(CityModel):
     def __init__(self):
         super(City, self).__init__()
+        self.ground_plane = None
         self.roads = []
         self.blocks = []
         self.buildings = []
+
+    def add_ground_plane(self, ground_plane):
+        self.ground_plane = ground_plane
 
     def add_road(self, road):
         self.roads.append(road)
@@ -17,7 +22,6 @@ class City(CityModel):
     def add_building(self, building):
         self.buildings.append(building)
 
-
     def template(self):
         return """
         <?xml version="1.0" ?>
@@ -26,6 +30,7 @@ class City(CityModel):
             <include>
               <uri>model://sun</uri>
             </include>
+            {{model.ground_plane.to_sdf()}}
             {% for road in model.roads %}
               {{road.to_sdf()}}
             {% endfor %}

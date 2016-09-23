@@ -3,6 +3,8 @@ from road import Street, Trunk
 from point import Point
 from block import Block
 from building import Building
+from ground_plane import GroundPlane
+
 
 class SimpleCityBuilder(object):
 
@@ -10,11 +12,20 @@ class SimpleCityBuilder(object):
         size = 3
         city = City()
 
+        self._create_ground_plane(city, size)
         self._create_street_matrix(city, size)
         self._create_surrounding_ring_road(city, size)
         self._create_blocks(city, size)
         self._create_bildings(city, size)
         return city
+
+    def _create_ground_plane(self, city, size):
+        ground_plane_size = size*100
+        ground_plane = GroundPlane('ground_plane',
+                                   ground_plane_size,
+                                   Point(ground_plane_size/2,
+                                         ground_plane_size/2, 0))
+        city.add_ground_plane(ground_plane)
 
     def _create_street_matrix(self, city, size):
         for x in range(1, size):
@@ -59,7 +70,8 @@ class SimpleCityBuilder(object):
     def _create_bildings(self, city, size):
         for x in range(size):
             for y in range(size):
-              for block_x in range(6):
-                  for block_y in range(6):
-                    building = Building(Point(x*100+block_x*15+12, y*100+block_y*15+12, 0))
-                    city.add_building(building)
+                for block_x in range(6):
+                    for block_y in range(6):
+                        building = Building(Point(x*100+block_x*15+12,
+                                                  y*100+block_y*15+12, 0))
+                        city.add_building(building)

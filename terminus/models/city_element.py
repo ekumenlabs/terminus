@@ -1,5 +1,6 @@
 from jinja2 import Template
 
+
 # Just an element of the city. It has a template so it can be rendered to an
 # sdf file
 class CityElement(object):
