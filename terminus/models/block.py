@@ -20,14 +20,13 @@ class Block(CityModel):
                    </geometry>
                 </collision>
                 <visual name="{{model.name}}_visual">
-        <cast_shadows>1</cast_shadows>
-        <transparency>0</transparency>
-        <material>
-          <shader type='vertex'>
-            <normal_map>__default__</normal_map>
-          </shader>
-          <lighting>0</lighting>
-        </material>
+                   <material>
+                      <script>
+                         <uri>file://media/materials/scripts/gazebo.material</uri>
+                         <name>Gazebo/Grey</name>
+                      </script>
+                      <ambient>1 1 1 1</ambient>
+                   </material>
                    <meta>
                       <layer>0</layer>
                    </meta>
