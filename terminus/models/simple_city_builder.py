@@ -13,7 +13,7 @@ class SimpleCityBuilder(object):
         self._create_street_matrix(city, size)
         self._create_surrounding_ring_road(city, size)
         self._create_blocks(city, size)
-        self._create_bildings(city, size)
+        #self._create_bildings(city, size)
         return city
 
     def _create_street_matrix(self, city, size):
