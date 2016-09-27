@@ -1,9 +1,9 @@
-from city import City
-from road import Street, Trunk
-from point import Point
-from block import Block
-from building import Building
-from ground_plane import GroundPlane
+from models.city import City
+from models.road import Street, Trunk
+from models.point import Point
+from models.block import Block
+from models.building import Building
+from models.ground_plane import GroundPlane
 
 
 class SimpleCityBuilder(object):
@@ -21,21 +21,21 @@ class SimpleCityBuilder(object):
 
     def _create_ground_plane(self, city, size):
         ground_plane_size = size*100
-        ground_plane = GroundPlane('ground_plane',
-                                   ground_plane_size,
+        ground_plane = GroundPlane(ground_plane_size,
                                    Point(ground_plane_size/2,
-                                         ground_plane_size/2, 0))
-        city.add_ground_plane(ground_plane)
+                                         ground_plane_size/2, 0),
+                                   'ground_plane')
+        city.set_ground_plane(ground_plane)
 
     def _create_street_matrix(self, city, size):
         for x in range(1, size):
-            road = Street(str(x))
+            road = Street()
             road.add_segment(Point(0, x*100, 0))
             road.add_segment(Point(100 * size, x*100, 0))
             city.add_road(road)
 
         for x in range(1, size):
-            road = Street(str(x))
+            road = Street()
             road.add_segment(Point(x*100, 0, 0))
             road.add_segment(Point(x*100, 100 * size, 0))
             city.add_road(road)

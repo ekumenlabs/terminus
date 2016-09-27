@@ -1,8 +1,8 @@
 from city_model import CityModel
 
 class Block(CityModel):
-    def __init__(self, origin):
-        super(Block, self).__init__()
+    def __init__(self, origin, name=None):
+        super(Block, self).__init__(name)
         self.origin = origin
 
     def template(self):

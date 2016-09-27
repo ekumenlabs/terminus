@@ -3,14 +3,14 @@ from city_model import CityModel
 
 # For the time being, the city will be our Gazebo world
 class City(CityModel):
-    def __init__(self):
-        super(City, self).__init__()
+    def __init__(self, name=None):
+        super(City, self).__init__(name)
         self.ground_plane = None
         self.roads = []
         self.blocks = []
         self.buildings = []
 
-    def add_ground_plane(self, ground_plane):
+    def set_ground_plane(self, ground_plane):
         self.ground_plane = ground_plane
 
     def add_road(self, road):
