@@ -10,7 +10,7 @@ class City(CityModel):
         self.blocks = []
         self.buildings = []
 
-    def add_ground_plane(self, ground_plane):
+    def set_ground_plane(self, ground_plane):
         self.ground_plane = ground_plane
 
     def add_road(self, road):

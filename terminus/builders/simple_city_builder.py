@@ -25,7 +25,7 @@ class SimpleCityBuilder(object):
                                    Point(ground_plane_size/2,
                                          ground_plane_size/2, 0),
                                    'ground_plane')
-        city.add_ground_plane(ground_plane)
+        city.set_ground_plane(ground_plane)
 
     def _create_street_matrix(self, city, size):
         for x in range(1, size):
