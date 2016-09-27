@@ -1,9 +1,8 @@
 from city_model import CityModel
 
 class Road(CityModel):
-    def __init__(self, name, width):
-        super(Road, self).__init__()
-        self.name = name
+    def __init__(self, width, name=None):
+        super(Road, self).__init__(name)
         self.width = width
         self.segments = []
 
@@ -30,16 +29,16 @@ class Road(CityModel):
 
 
 class Street(Road):
-    def __init__(self, name):
-        super(Street, self).__init__(name, 5)
+    def __init__(self, name=None):
+        super(Street, self).__init__(5, name)
 
     def material_name(self):
         return 'Gazebo/Residential'
 
 
 class Trunk(Road):
-    def __init__(self, name):
-        super(Trunk, self).__init__(name, 10)
+    def __init__(self, name=None):
+        super(Trunk, self).__init__(10, name)
 
     def material_name(self):
         return 'Gazebo/Trunk'

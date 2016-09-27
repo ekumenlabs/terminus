@@ -21,21 +21,21 @@ class SimpleCityBuilder(object):
 
     def _create_ground_plane(self, city, size):
         ground_plane_size = size*100
-        ground_plane = GroundPlane('ground_plane',
-                                   ground_plane_size,
+        ground_plane = GroundPlane(ground_plane_size,
                                    Point(ground_plane_size/2,
-                                         ground_plane_size/2, 0))
+                                         ground_plane_size/2, 0),
+                                   'ground_plane')
         city.add_ground_plane(ground_plane)
 
     def _create_street_matrix(self, city, size):
         for x in range(1, size):
-            road = Street(str(x))
+            road = Street()
             road.add_segment(Point(0, x*100, 0))
             road.add_segment(Point(100 * size, x*100, 0))
             city.add_road(road)
 
         for x in range(1, size):
-            road = Street(str(x))
+            road = Street()
             road.add_segment(Point(x*100, 0, 0))
             road.add_segment(Point(x*100, 100 * size, 0))
             city.add_road(road)

@@ -2,9 +2,8 @@ from city_model import CityModel
 
 
 class GroundPlane(CityModel):
-    def __init__(self, name, size, origin):
-        super(GroundPlane, self).__init__()
-        self.name = name
+    def __init__(self, size, origin, name=None):
+        super(GroundPlane, self).__init__(name)
         self.size = size
         self.origin = origin
 
