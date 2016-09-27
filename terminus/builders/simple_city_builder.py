@@ -1,9 +1,9 @@
-from city import City
-from road import Street, Trunk
-from point import Point
-from block import Block
-from building import Building
-from ground_plane import GroundPlane
+from models.city import City
+from models.road import Street, Trunk
+from models.point import Point
+from models.block import Block
+from models.building import Building
+from models.ground_plane import GroundPlane
 
 
 class SimpleCityBuilder(object):

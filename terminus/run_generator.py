@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from models.simple_city_builder import SimpleCityBuilder
+from builders.simple_city_builder import SimpleCityBuilder
 
 city = SimpleCityBuilder().get_city()
 
