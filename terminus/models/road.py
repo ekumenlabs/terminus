@@ -1,5 +1,6 @@
 from city_model import CityModel
 
+
 class Road(CityModel):
     def __init__(self, width, name=None):
         super(Road, self).__init__(name)

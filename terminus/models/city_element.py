@@ -9,5 +9,7 @@ class CityElement(object):
         raise NotImplementedError()
 
     def to_sdf(self):
-        template = Template(self.template(), trim_blocks=True, lstrip_blocks=True)
+        template = Template(self.template(),
+                            trim_blocks=True,
+                            lstrip_blocks=True)
         return template.render(model=self)

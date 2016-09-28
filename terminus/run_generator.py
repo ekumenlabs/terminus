@@ -22,7 +22,8 @@ parser.add_argument('-p',
                     '--parameters',
                     nargs='*',
                     default='',
-                    help='extra parameters to pass to the builder. Must be formatted as <key>=<value> pairs')
+                    help='extra parameters to pass to the builder. Must be \
+                    formatted as <key>=<value> pairs')
 
 arguments = parser.parse_args()
 
@@ -38,7 +39,7 @@ builder_parameters = dict(pair.split('=', 1) for pair in arguments.parameters)
 
 # Create the builder instance. Unpack the parameter dictionary to be used as
 # keyword parameters
-builder = builder_class(**builder_parameters);
+builder = builder_class(**builder_parameters)
 
 city = builder.get_city()
 
