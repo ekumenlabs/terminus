@@ -27,6 +27,11 @@ class City(CityModel):
         <?xml version="1.0" ?>
         <sdf version="1.5">
           <world name="{{model.name}}">
+            <gui fullscreen='0'>
+              <camera name='city_camera'>
+                <pose frame=''>-0.065965 0.276379 1005.72 2e-06 1.5538 1.5962</pose>
+              </camera>
+            </gui>
             <include>
               <uri>model://sun</uri>
             </include>
