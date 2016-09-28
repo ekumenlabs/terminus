@@ -12,7 +12,7 @@ class Building(CityModel):
         self.size = size
         self.height = height
 
-    def box_base
+    def box_base(self):
         return self.origin.z + self.height / 2
 
     def template(self):
