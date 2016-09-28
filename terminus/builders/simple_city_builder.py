@@ -74,5 +74,5 @@ class SimpleCityBuilder(object):
                     for block_y in range(6):
                         building = Building(Point(x*100+block_x*15+12,
                                                   y*100+block_y*15+12, 0),
-                                                  10, 40)
+                                            10, 40)
                         city.add_building(building)

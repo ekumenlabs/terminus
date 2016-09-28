@@ -27,7 +27,9 @@ class Building(CityModel):
                 <collision name="{{model.name}}_collision">
                    <geometry>
                       <box>
-                         <size>{{model.size}} {{model.size}} {{model.height}}</size>
+                        <size>
+                          {{model.size}} {{model.size}} {{model.height}}
+                        </size>
                       </box>
                    </geometry>
                 </collision>
@@ -46,7 +48,9 @@ class Building(CityModel):
                    </meta>
                    <geometry>
                       <box>
-                         <size>{{model.size}} {{model.size}} {{model.height}}</size>
+                        <size>
+                          {{model.size}} {{model.size}} {{model.height}}
+                        </size>
                       </box>
                    </geometry>
                 </visual>
