@@ -7,10 +7,7 @@ from models.ground_plane import GroundPlane
 
 from procedural_city.vertex import Vertex
 
-import sys
 import pickle
-import os
-import re
 
 class ProceduralCityBuilder(object):
     def __init__(self, filename):
