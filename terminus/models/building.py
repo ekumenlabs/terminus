@@ -1,20 +1,28 @@
 from city_model import CityModel
 
 class Building(CityModel):
-    def __init__(self, origin, name=None):
+    def __init__(self, origin, size, height, name=None):
+        """
+        Generates a square building of base (size * size) and the given height,
+        located at position 'origin'.
+        """
         super(Building, self).__init__(name)
         self.origin = origin
+        self.size = size
+        self.height = height
+        self.boxBase = origin.z + height / 2
 
     def template(self):
         return """
           <model name="{{model.name}}">
              <static>1</static>
              <link name="{{model.name}}_link">
-                <pose frame="">{{model.origin.x}} {{model.origin.y}} {{model.origin.z + 20}} 0 0 0</pose>
+                <pose frame="">{{model.origin.x}} {{model.origin.y}}
+                    {{model.boxBase}} 0 0 0</pose>
                 <collision name="{{model.name}}_collision">
                    <geometry>
                       <box>
-                         <size>12 12 40</size>
+                         <size>{{model.size}} {{model.size}} {{model.height}}</size>
                       </box>
                    </geometry>
                 </collision>
@@ -31,7 +39,7 @@ class Building(CityModel):
                    </meta>
                    <geometry>
                       <box>
-                         <size>12 12 40</size>
+                         <size>{{model.size}} {{model.size}} {{model.height}}</size>
                       </box>
                    </geometry>
                 </visual>

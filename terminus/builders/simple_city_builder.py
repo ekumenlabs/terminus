@@ -16,7 +16,7 @@ class SimpleCityBuilder(object):
         self._create_street_matrix(city, size)
         self._create_surrounding_ring_road(city, size)
         self._create_blocks(city, size)
-        self._create_bildings(city, size)
+        self._create_buildings(city, size)
         return city
 
     def _create_ground_plane(self, city, size):
@@ -67,11 +67,12 @@ class SimpleCityBuilder(object):
                 block = Block(Point(x*100+50, y*100+50, 0))
                 city.add_block(block)
 
-    def _create_bildings(self, city, size):
+    def _create_buildings(self, city, size):
         for x in range(size):
             for y in range(size):
                 for block_x in range(6):
                     for block_y in range(6):
                         building = Building(Point(x*100+block_x*15+12,
-                                                  y*100+block_y*15+12, 0))
+                                                  y*100+block_y*15+12, 0),
+                                                  10, 40)
                         city.add_building(building)
