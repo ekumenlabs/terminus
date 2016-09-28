@@ -21,6 +21,7 @@ parser.add_argument('-d',
 parser.add_argument('-p',
                     '--parameters',
                     nargs='*',
+                    default='',
                     help='extra parameters to pass to the builder. Must be formatted as <key>=<value> pairs')
 
 arguments = parser.parse_args()
