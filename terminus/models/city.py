@@ -22,7 +22,8 @@ class City(CityModel):
     def add_building(self, building):
         self.buildings.append(building)
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return """
         <?xml version="1.0" ?>
         <sdf version="1.5">

@@ -7,5 +7,6 @@ class Point(CityElement):
         self.y = y
         self.z = z
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return "<point>{{model.x}} {{model.y}} {{model.z}}</point>"

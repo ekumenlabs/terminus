@@ -6,7 +6,8 @@ class Block(CityModel):
         super(Block, self).__init__(name)
         self.origin = origin
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return """
           <model name="{{model.name}}">
              <static>1</static>

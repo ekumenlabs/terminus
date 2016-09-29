@@ -13,7 +13,8 @@ class Road(CityModel):
     def material_name(self):
         raise NotImplementedError()
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return """
           <road name="{{model.name}}">
             <width>{{model.width}}</width>
