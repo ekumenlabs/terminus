@@ -7,7 +7,8 @@ class GroundPlane(CityModel):
         self.size = size
         self.origin = origin
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return """
           <model name="{{model.name}}">
             <static>1</static>

@@ -5,11 +5,20 @@ from jinja2 import Template
 # sdf file
 class CityElement(object):
 
-    def template(self):
+    @classmethod
+    def template(cls):
         raise NotImplementedError()
 
+    @classmethod
+    def cached_jinja_template(cls):
+        if not hasattr(cls, '_cached_jinja_template'):
+            cls._cached_jinja_template = Template(cls.template(),
+                                                  trim_blocks=True,
+                                                  lstrip_blocks=True)
+        return cls._cached_jinja_template
+
+    def jinja_template(self):
+        return self.cached_jinja_template()
+
     def to_sdf(self):
-        template = Template(self.template(),
-                            trim_blocks=True,
-                            lstrip_blocks=True)
-        return template.render(model=self)
+        return self.jinja_template().render(model=self)

@@ -15,7 +15,8 @@ class Building(CityModel):
     def box_base(self):
         return self.origin.z + self.height / 2
 
-    def template(self):
+    @classmethod
+    def template(cls):
         return """
           <model name="{{model.name}}">
              <static>1</static>
