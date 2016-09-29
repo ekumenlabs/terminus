@@ -17,9 +17,7 @@ class ProceduralCityBuilder(object):
     def get_city(self):
         city = City()
         ratio = 10
-        print("Parsing file...")
         vertex_list = self._parse_file()
-        print("Building streets...")
         for vertex in vertex_list:
             for neighbour in vertex.neighbours:
                 road = Street()
