@@ -13,8 +13,8 @@ class CityElement(object):
     def cached_jinja_template(cls):
         if not hasattr(cls, '_cached_jinja_template'):
             cls._cached_jinja_template = Template(cls.template(),
-                                                 trim_blocks=True,
-                                                 lstrip_blocks=True)
+                                                  trim_blocks=True,
+                                                  lstrip_blocks=True)
         return cls._cached_jinja_template
 
     def jinja_template(self):
