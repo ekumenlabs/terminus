@@ -7,8 +7,8 @@ class Road(CityModel):
         self.width = width
         self.segments = []
 
-    def add_segment(self, coordinates):
-        self.segments.append(coordinates)
+    def add_segment(self, point):
+        self.segments.append(point)
 
     def material_name(self):
         raise NotImplementedError()
@@ -25,7 +25,7 @@ class Road(CityModel):
               </script>
             </material>
             {% for point in model.segments %}
-              {{ point.to_sdf() }}
+              <point>{{point.x}} {{point.y}} {{point.z}}</point>
             {% endfor %}
           </road>"""
 
