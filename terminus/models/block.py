@@ -1,5 +1,6 @@
 from city_model import CityModel
 
+
 class Block(CityModel):
     def __init__(self, origin, name=None):
         super(Block, self).__init__(name)
@@ -11,7 +12,10 @@ class Block(CityModel):
              <static>1</static>
              <allow_auto_disable>1</allow_auto_disable>
              <link name="{{model.name}}_link">
-                <pose frame="">{{model.origin.x}} {{model.origin.y}} {{model.origin.z}} 0 0 0</pose>
+                <pose frame="">
+                  {{model.origin.x}} {{model.origin.y}} {{model.origin.z}}
+                  0 0 0
+                </pose>
                 <collision name="{{model.name}}_collision">
                    <geometry>
                       <box>
@@ -22,7 +26,9 @@ class Block(CityModel):
                 <visual name="{{model.name}}_visual">
                    <material>
                       <script>
-                         <uri>file://media/materials/scripts/gazebo.material</uri>
+                          <uri>
+                            file://media/materials/scripts/gazebo.material
+                          </uri>
                          <name>Gazebo/Grey</name>
                       </script>
                       <ambient>1 1 1 1</ambient>
@@ -38,4 +44,3 @@ class Block(CityModel):
                 </visual>
              </link>
           </model>"""
-

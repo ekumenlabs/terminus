@@ -1,5 +1,6 @@
 from city_element import CityElement
 
+
 class Point(CityElement):
     def __init__(self, x, y, z):
         self.x = x
