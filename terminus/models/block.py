@@ -2,9 +2,15 @@ from city_model import CityModel
 
 
 class Block(CityModel):
-    def __init__(self, origin, name=None):
+    def __init__(self, origin, vertices, height=0.15, name=None):
+        """
+        Generates one block of a city with a shape defined by an array of
+        vertices and the specified height.
+        """
         super(Block, self).__init__(name)
         self.origin = origin
+        self.height = height
+        self.vertices = vertices
 
     @classmethod
     def template(cls):
@@ -19,9 +25,12 @@ class Block(CityModel):
                 </pose>
                 <collision name="{{model.name}}_collision">
                    <geometry>
-                      <box>
-                         <size>95 95 0.15</size>
-                      </box>
+                        <polyline>
+                        {% for vertex in model.vertices %}
+                            <point>{{vertex.x}} {{vertex.y}}</point>
+                        {% endfor %}
+                        <height>{{model.height}}</height>
+                        </polyline>
                    </geometry>
                 </collision>
                 <visual name="{{model.name}}_visual">
@@ -38,9 +47,12 @@ class Block(CityModel):
                       <layer>0</layer>
                    </meta>
                    <geometry>
-                      <box>
-                         <size>95 95 0.15</size>
-                      </box>
+                        <polyline>
+                        {% for vertex in model.vertices %}
+                            <point>{{vertex.x}} {{vertex.y}}</point>
+                        {% endfor %}
+                        <height>{{model.height}}</height>
+                        </polyline>
                    </geometry>
                 </visual>
              </link>

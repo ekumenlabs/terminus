@@ -4,6 +4,7 @@ from models.road import Street, Trunk
 from models.block import Block
 from models.building import Building
 from models.ground_plane import GroundPlane
+from square_block_builder import SquareBlockBuilder
 
 
 class SimpleCityBuilder(object):
@@ -62,9 +63,10 @@ class SimpleCityBuilder(object):
         city.add_road(ring_road_4)
 
     def _create_blocks(self, city, size):
+        blockBuilder = SquareBlockBuilder()
         for x in range(size):
             for y in range(size):
-                block = Block(Point(x*100+50, y*100+50))
+                block = blockBuilder.gen_block(Point(x*100+50, y*100+50, 0), 95)
                 city.add_block(block)
 
     def _create_buildings(self, city, size):
