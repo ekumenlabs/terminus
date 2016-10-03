@@ -7,6 +7,7 @@ from models.building import Building
 from models.ground_plane import GroundPlane
 
 from procedural_city.vertex import Vertex
+from procedural_city.vertex_graph_to_roads_converter import VertexGraphToRoadsConverter
 
 import pickle
 
@@ -19,29 +20,19 @@ class ProceduralCityBuilder(object):
         city = City()
         ratio = 10
         vertex_list = self._parse_file()
-        segments = self._build_unique_street_segments(vertex_list, ratio)
-        for segment in segments:
-            road = Street()
-            road.add_segment(segment.start)
-            road.add_segment(segment.end)
+        roads = self._build_roads(vertex_list, ratio)
+        for road in roads:
             city.add_road(road)
         city.set_ground_plane(GroundPlane(100, Point(0, 0)))
         return city
 
-    def _build_unique_street_segments(self, vertex_list, ratio):
-        """For each street segment there are two vertex in the list, with
-           the coords and neighbour exchanged (like a two-way street). We
-           don't support street directions so far, so we just get rid of
-           the duplicate road segments"""
-        segments = set()
+    def _build_roads(self, vertex_list, ratio):
+        # Convert them to Gazebo coordinates
         for vertex in vertex_list:
-            for neighbour in vertex.neighbours:
-                start = Point(vertex.coords[0]*ratio,
-                              vertex.coords[1]*ratio)
-                end = Point(neighbour.coords[0]*ratio,
-                            neighbour.coords[1]*ratio)
-                segments.add(LineSegment(start, end))
-        return segments
+            vertex.coords = Point(vertex.coords[0]*ratio,
+                                  vertex.coords[1]*ratio)
+        converter = VertexGraphToRoadsConverter(vertex_list)
+        return converter.get_roads()
 
     def _parse_file(self):
         with open(self.filename, 'rb') as f:

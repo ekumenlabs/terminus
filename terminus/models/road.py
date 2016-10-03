@@ -1,17 +1,30 @@
 from city_model import CityModel
+import random
 
 
 class Road(CityModel):
     def __init__(self, width, name=None):
         super(Road, self).__init__(name)
         self.width = width
-        self.segments = []
+        self.points = []
 
-    def add_segment(self, point):
-        self.segments.append(point)
+    def add_point(self, point):
+        self.points.append(point)
 
     def material_name(self):
         raise NotImplementedError()
+
+    def __eq__(self, other):
+        return (self.width == other.width) and (self.points == other.points)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(tuple(sorted(self.__dict__.items())))
+
+    def __repr__(self):
+        return "Road: " + reduce(lambda acc, point: acc + str(point), self.points, '')
 
     @classmethod
     def template(cls):
@@ -24,7 +37,7 @@ class Road(CityModel):
                 <name>{{model.material_name()}}</name>
               </script>
             </material>
-            {% for point in model.segments %}
+            {% for point in model.points %}
               <point>{{point.x}} {{point.y}} {{point.z}}</point>
             {% endfor %}
           </road>"""
@@ -35,6 +48,8 @@ class Street(Road):
         super(Street, self).__init__(5, name)
 
     def material_name(self):
+        #colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
+        #return 'Gazebo/' + random.choice(colors)
         return 'Gazebo/Residential'
 
 
