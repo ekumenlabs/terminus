@@ -1,4 +1,5 @@
 from city_model import CityModel
+from geometry.point import Point
 
 
 class Block(CityModel):
@@ -10,6 +11,7 @@ class Block(CityModel):
         super(Block, self).__init__(name)
         self.origin = origin
         self.height = height
+        # TODO: review using 3D points when polyline only uses 2D.
         self.vertices = vertices
 
     @classmethod
@@ -57,3 +59,12 @@ class Block(CityModel):
                 </visual>
              </link>
           </model>"""
+
+    @staticmethod
+    def square(origin, size):
+        """
+        Generate a square block of the given size and in the given position.
+        """
+        w = size / 2.0
+        vertices = [Point(w, w, 0), Point(-w, w, 0), Point(-w, -w, 0), Point(w, -w, 0)]
+        return Block(origin, vertices)
