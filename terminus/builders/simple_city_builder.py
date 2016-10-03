@@ -64,7 +64,7 @@ class SimpleCityBuilder(object):
     def _create_blocks(self, city, size):
         for x in range(size):
             for y in range(size):
-                block = Block(Point(x*100+50, y*100+50))
+                block = Block.square(Point(x*100+50, y*100+50), 95)
                 city.add_block(block)
 
     def _create_buildings(self, city, size):
