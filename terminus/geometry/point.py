@@ -24,7 +24,9 @@ class Point():
         return alpha
 
     def __eq__(self, other_point):
-        return self.x == other_point.x and self.y == other_point.y and self.z == other_point.z
+        return (self.x == other_point.x) and \
+               (self.y == other_point.y) and \
+               (self.z == other_point.z)
 
     def __ne__(self, other_point):
         return not self.__eq__(other_point)

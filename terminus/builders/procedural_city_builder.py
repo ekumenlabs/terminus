@@ -1,5 +1,4 @@
 from geometry.point import Point
-from geometry.line_segment import LineSegment
 from models.city import City
 from models.road import Street, Trunk
 from models.block import Block
@@ -7,7 +6,8 @@ from models.building import Building
 from models.ground_plane import GroundPlane
 
 from procedural_city.vertex import Vertex
-from procedural_city.vertex_graph_to_roads_converter import VertexGraphToRoadsConverter
+from procedural_city.vertex_graph_to_roads_converter \
+    import VertexGraphToRoadsConverter
 
 import pickle
 

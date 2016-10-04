@@ -1,0 +1,3421 @@
+
+        <?xml version="1.0" ?>
+        <sdf version="1.5">
+          <world name="city_1">
+            <gui fullscreen='0'>
+              <camera name='city_camera'>
+                <pose frame=''>
+                  -0.065965 0.276379 1005.72 2e-06 1.5538 1.5962
+                </pose>
+              </camera>
+            </gui>
+            <include>
+              <uri>model://sun</uri>
+            </include>
+            
+          <model name="groundPlane_233">
+            <static>1</static>
+            <pose frame=''>0 0 0 0 0 0</pose>
+            <link name='groundPlane_233_link'>
+              <collision name='groundPlane_233'>
+                <geometry>
+                  <plane>
+                    <normal>0 0 1</normal>
+                    <size>100 100</size>
+                  </plane>
+                </geometry>
+                <surface>
+                  <friction>
+                    <ode>
+                      <mu>100</mu>
+                      <mu2>50</mu2>
+                    </ode>
+                    <torsional>
+                      <ode/>
+                    </torsional>
+                  </friction>
+                  <contact>
+                    <ode/>
+                  </contact>
+                  <bounce/>
+                </surface>
+                <max_contacts>10</max_contacts>
+              </collision>
+              <visual name='groundPlane_233'>
+                <cast_shadows>0</cast_shadows>
+                <geometry>
+                  <plane>
+                    <normal>0 0 1</normal>
+                    <size>100 100</size>
+                  </plane>
+                </geometry>
+                <material>
+                  <script>
+                    <uri>file://media/materials/scripts/gazebo.material</uri>
+                    <name>Gazebo/Grey</name>
+                  </script>
+                </material>
+                <transparency>1</transparency>
+              </visual>
+              <self_collide>0</self_collide>
+              <kinematic>0</kinematic>
+            </link>
+          </model>
+              
+          <road name="street_2">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 0.0 0</point>
+              <point>30.0 0.0 0</point>
+              <point>39.2467689426 3.26548775732 0</point>
+              <point>48.7287981275 9.87131046949 0</point>
+              <point>59.0022582061 16.4542609072 0</point>
+              <point>64.7836482126 24.3544775972 0</point>
+              <point>72.1661274368 29.1941174374 0</point>
+              <point>82.910694492 30.5711467662 0</point>
+              <point>95.7916242971 28.2586647879 0</point>
+              <point>110.14635334 32.6068243292 0</point>
+              <point>119.475902923 42.453454164 0</point>
+              <point>122.770836304 51.9934845291 0</point>
+              <point>129.87146044 58.8484996886 0</point>
+              <point>141.380460171 66.3965450302 0</point>
+              <point>149.693069006 73.5682025254 0</point>
+          </road>
+              
+          <road name="street_3">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 30.0 0</point>
+              <point>0.0 20.0 0</point>
+              <point>-5.60961604273 6.17570821152 0</point>
+              <point>-13.4848189232 -4.76109386379 0</point>
+              <point>-16.8907065001 -9.42178212684 0</point>
+              <point>-20.4256306844 -14.2590468002 0</point>
+              <point>-30.5253218253 -24.8191383089 0</point>
+              <point>-37.7944257766 -30.2946197323 0</point>
+              <point>-44.7849574859 -34.5364563092 0</point>
+              <point>-55.7118441466 -39.8929189281 0</point>
+              <point>-69.3013450968 -44.4471943394 0</point>
+              <point>-83.1692056598 -46.8149311561 0</point>
+              <point>-97.4041804968 -47.0912533783 0</point>
+              <point>-109.470927319 -45.5088860848 0</point>
+              <point>-117.62240184 -43.3642077757 0</point>
+              <point>-125.367301958 -40.5836052694 0</point>
+              <point>-139.523052417 -34.0962521296 0</point>
+              <point>-147.408039994 -28.8274612261 0</point>
+          </road>
+              
+          <road name="street_4">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 -170.0 0</point>
+              <point>0.0 -160.0 0</point>
+              <point>0.0 -150.0 0</point>
+              <point>0.0 -140.0 0</point>
+              <point>0.0 -130.0 0</point>
+              <point>0.0 -120.0 0</point>
+              <point>0.0 -110.0 0</point>
+              <point>0.0 -100.0 0</point>
+              <point>0.0 -90.0 0</point>
+              <point>0.0 -80.0 0</point>
+              <point>0.0 -70.0 0</point>
+              <point>0.0 -60.0 0</point>
+              <point>0.0 -50.0 0</point>
+              <point>0.0 -40.0 0</point>
+              <point>0.0 -30.0 0</point>
+              <point>0.0 -20.0 0</point>
+              <point>0.0 -10.0 0</point>
+              <point>0.0 0.0 0</point>
+              <point>1.96903792438 9.02720370219 0</point>
+              <point>0.0 20.0 0</point>
+          </road>
+              
+          <road name="street_5">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>150.0 -50.0 0</point>
+              <point>140.0 -50.0 0</point>
+              <point>130.0 -50.0 0</point>
+              <point>120.0 -50.0 0</point>
+              <point>110.0 -50.0 0</point>
+              <point>100.0 -50.0 0</point>
+              <point>90.0 -50.0 0</point>
+              <point>80.0 -50.0 0</point>
+              <point>70.0 -50.0 0</point>
+              <point>60.0 -50.0 0</point>
+              <point>50.0 -50.0 0</point>
+              <point>40.0 -50.0 0</point>
+              <point>30.0 -50.0 0</point>
+              <point>20.0 -50.0 0</point>
+              <point>10.0 -50.0 0</point>
+              <point>0.0 -50.0 0</point>
+          </road>
+              
+          <road name="street_6">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-56.4360210011 165.776357717 0</point>
+              <point>-52.3652411711 155.114870673 0</point>
+              <point>-41.873880325 143.255133262 0</point>
+              <point>-35.4330816915 138.188114119 0</point>
+              <point>-30.4789876081 129.987949591 0</point>
+              <point>-21.3019712851 120.985176756 0</point>
+              <point>-15.465233693 115.223343452 0</point>
+              <point>-6.33887011622 107.309144862 0</point>
+              <point>0.37291512112 100.99282266 0</point>
+              <point>7.3577900483 91.4284673714 0</point>
+              <point>8.84222672623 79.586759831 0</point>
+              <point>14.8121730232 67.9663154787 0</point>
+              <point>19.2235639815 58.6281540146 0</point>
+          </road>
+              
+          <road name="street_7">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -30.0 0</point>
+              <point>0.0 -30.0 0</point>
+          </road>
+              
+          <road name="street_8">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -10.0 0</point>
+              <point>-10.0 -20.0 0</point>
+              <point>-10.0 -30.0 0</point>
+              <point>-17.5109197294 -39.9640768089 0</point>
+              <point>-25.0953075007 -46.4815197227 0</point>
+              <point>-32.679695272 -52.9989626365 0</point>
+          </road>
+              
+          <road name="street_9">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>9.85347180887 -1.35933408489 0</point>
+              <point>0.0 0.0 0</point>
+          </road>
+              
+          <road name="street_10">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-42.9139251219 -54.2354065238 0</point>
+              <point>-39.339259299 -63.5746658229 0</point>
+              <point>-35.7645934762 -72.9139251219 0</point>
+          </road>
+              
+          <road name="street_11">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>89.7278600335 19.1495631488 0</point>
+              <point>99.6635321612 20.2820027149 0</point>
+              <point>109.484829587 21.4014061788 0</point>
+              <point>119.188088235 23.7710898534 0</point>
+          </road>
+              
+          <road name="street_12">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-46.4885909448 -44.8961472248 0</point>
+              <point>-55.8278502438 -48.4708130477 0</point>
+              <point>-65.1671095429 -52.0454788705 0</point>
+              <point>-74.5063688419 -55.6201446934 0</point>
+              <point>-83.845628141 -59.1948105163 0</point>
+              <point>-93.18488744 -62.7694763392 0</point>
+              <point>-102.524146739 -66.344142162 0</point>
+              <point>-111.240445683 -64.093390821 0</point>
+              <point>-119.335212294 -58.2218702752 0</point>
+          </road>
+              
+          <road name="street_13">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>50.0 -70.0 0</point>
+              <point>40.0 -70.0 0</point>
+          </road>
+              
+          <road name="street_14">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-150.310922138 -50.9215318189 0</point>
+              <point>-141.89268409 -56.3190560815 0</point>
+              <point>-133.474446042 -61.716580344 0</point>
+              <point>-125.056207994 -67.1141046066 0</point>
+              <point>-116.637969946 -72.5116288691 0</point>
+          </road>
+              
+          <road name="street_15">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>140.0 -60.0 0</point>
+              <point>130.0 -60.0 0</point>
+              <point>120.0 -60.0 0</point>
+              <point>110.0 -60.0 0</point>
+              <point>100.0 -60.0 0</point>
+              <point>90.0 -60.0 0</point>
+              <point>80.0 -60.0 0</point>
+          </road>
+              
+          <road name="street_16">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>30.0 -160.0 0</point>
+              <point>20.0 -160.0 0</point>
+              <point>10.0 -160.0 0</point>
+          </road>
+              
+          <road name="street_17">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -160.0 0</point>
+              <point>-20.0 -160.0 0</point>
+          </road>
+              
+          <road name="street_18">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>75.9433713609 69.3719838524 0</point>
+              <point>85.3185751302 65.8926801456 0</point>
+          </road>
+              
+          <road name="street_19">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>82.9019787747 88.122391391 0</point>
+              <point>92.277182544 84.6430876841 0</point>
+          </road>
+              
+          <road name="street_20">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-50.0 -160.0 0</point>
+              <point>-60.0 -160.0 0</point>
+          </road>
+              
+          <road name="street_21">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-70.0 -160.0 0</point>
+              <point>-70.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_22">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-146.164293008 20.4865609034 0</point>
+              <point>-145.728173347 10.4960754476 0</point>
+              <point>-145.292053685 0.505589991935 0</point>
+          </road>
+              
+          <road name="street_23">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-96.7595532629 -53.4302170401 0</point>
+              <point>-106.098812562 -57.004882863 0</point>
+              <point>-111.240445683 -64.093390821 0</point>
+              <point>-116.637969946 -72.5116288691 0</point>
+              <point>-122.035494208 -80.9298669173 0</point>
+              <point>-127.433018471 -89.3481049654 0</point>
+              <point>-132.830542734 -97.7663430136 0</point>
+              <point>-138.228066996 -106.184581062 0</point>
+              <point>-143.625591259 -114.60281911 0</point>
+              <point>-149.023115521 -123.021057158 0</point>
+          </road>
+              
+          <road name="street_24">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-146.60041267 30.4770463591 0</point>
+              <point>-147.036532331 40.4675318148 0</point>
+              <point>-147.472651993 50.4580172705 0</point>
+          </road>
+              
+          <road name="street_25">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-67.5487683471 53.9469745627 0</point>
+              <point>-67.9848880087 63.9374600184 0</point>
+              <point>-68.4210076702 73.9279454741 0</point>
+              <point>-68.8571273317 83.9184309298 0</point>
+          </road>
+              
+          <road name="street_26">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-17.160221407 46.1370874146 0</point>
+              <point>-27.1507068628 45.700967753 0</point>
+              <point>-37.1411923185 45.2648480915 0</point>
+              <point>-47.1316777742 44.82872843 0</point>
+              <point>-57.1221632299 44.3926087685 0</point>
+          </road>
+              
+          <road name="street_27">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-139.226645183 90.8560787549 0</point>
+              <point>-129.236159728 91.2921984164 0</point>
+          </road>
+              
+          <road name="street_28">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-119.245674272 91.7283180779 0</point>
+              <point>-109.255188816 92.1644377394 0</point>
+              <point>-99.2647033604 92.600557401 0</point>
+          </road>
+              
+          <road name="street_29">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-147.290208353 -64.7372941296 0</point>
+              <point>-152.687732615 -73.1555321778 0</point>
+          </road>
+              
+          <road name="street_30">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-131.542736116 -169.865868353 0</point>
+              <point>-139.960974164 -164.46834409 0</point>
+              <point>-148.379212213 -159.070819828 0</point>
+          </road>
+              
+          <road name="street_31">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>130.0 -100.0 0</point>
+              <point>120.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_32">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>39.2467689426 3.26548775732 0</point>
+              <point>38.0913346693 12.1873961712 0</point>
+              <point>32.5653957909 22.5345352277 0</point>
+              <point>23.9363419765 33.6898323085 0</point>
+              <point>18.5823181154 44.9588224826 0</point>
+              <point>19.2235639815 58.6281540146 0</point>
+          </road>
+              
+          <road name="street_33">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>95.7916242971 28.2586647879 0</point>
+              <point>99.6635321612 20.2820027149 0</point>
+          </road>
+              
+          <road name="street_34">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>110.14635334 32.6068243292 0</point>
+              <point>109.484829587 21.4014061788 0</point>
+          </road>
+              
+          <road name="street_35">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>141.380460171 66.3965450302 0</point>
+              <point>135.056088432 74.1249481514 0</point>
+              <point>127.2032526 81.5368721935 0</point>
+          </road>
+              
+          <road name="street_36">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-147.408039994 -28.8274612261 0</point>
+              <point>-133.993209245 -29.0297467137 0</point>
+              <point>-124.002723789 -28.5936270522 0</point>
+              <point>-114.012238334 -28.1575073906 0</point>
+              <point>-104.021752878 -27.7213877291 0</point>
+              <point>-94.0312674221 -27.2852680676 0</point>
+              <point>-84.0407819664 -26.8491484061 0</point>
+              <point>-74.0502965107 -26.4130287446 0</point>
+          </road>
+              
+          <road name="street_37">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-37.7944257766 -30.2946197323 0</point>
+              <point>-31.6127504145 -38.8971319514 0</point>
+              <point>-25.0953075007 -46.4815197227 0</point>
+          </road>
+              
+          <road name="street_38">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-55.7118441466 -39.8929189281 0</point>
+              <point>-63.6236913934 -35.9673945388 0</point>
+              <point>-73.6141768492 -36.4035142003 0</point>
+              <point>-83.6046623049 -36.8396338618 0</point>
+              <point>-93.5951477606 -37.2757535233 0</point>
+          </road>
+              
+          <road name="street_39">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-97.4041804968 -47.0912533783 0</point>
+              <point>-93.5951477606 -37.2757535233 0</point>
+              <point>-94.0312674221 -27.2852680676 0</point>
+              <point>-94.4673870836 -17.2947826119 0</point>
+              <point>-94.9035067452 -7.30429715617 0</point>
+              <point>-95.3396264067 2.68618829954 0</point>
+          </road>
+              
+          <road name="street_40">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-109.470927319 -45.5088860848 0</point>
+              <point>-106.098812562 -57.004882863 0</point>
+              <point>-102.524146739 -66.344142162 0</point>
+              <point>-98.9494809162 -75.6834014611 0</point>
+              <point>-95.3748150933 -85.0226607601 0</point>
+          </road>
+              
+          <road name="street_41">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-117.62240184 -43.3642077757 0</point>
+              <point>-113.463691748 -50.1271036646 0</point>
+              <point>-106.098812562 -57.004882863 0</point>
+          </road>
+              
+          <road name="street_42">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-139.523052417 -34.0962521296 0</point>
+              <point>-144.913397876 -42.5032937708 0</point>
+          </road>
+              
+          <road name="street_43">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-16.8907065001 -9.42178212684 0</point>
+              <point>-23.4598353223 -8.8705487089 0</point>
+              <point>-34.9605940109 -4.68757918705 0</point>
+              <point>-44.9510794666 -5.12369884857 0</point>
+              <point>-54.9415649223 -5.55981851009 0</point>
+              <point>-64.932050378 -5.99593817161 0</point>
+              <point>-74.9225358337 -6.43205783313 0</point>
+              <point>-84.9130212894 -6.86817749465 0</point>
+              <point>-94.9035067452 -7.30429715617 0</point>
+          </road>
+              
+          <road name="street_44">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 -20.0 0</point>
+              <point>-10.0 -20.0 0</point>
+          </road>
+              
+          <road name="street_45">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 -90.0 0</point>
+              <point>-10.0 -90.0 0</point>
+              <point>-20.0 -90.0 0</point>
+              <point>-30.0 -90.0 0</point>
+              <point>-41.5291869523 -85.8278502438 0</point>
+          </road>
+              
+          <road name="street_46">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 -110.0 0</point>
+              <point>10.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_47">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>0.0 -150.0 0</point>
+              <point>-10.0 -150.0 0</point>
+              <point>-20.0 -150.0 0</point>
+              <point>-30.0 -150.0 0</point>
+              <point>-40.0 -150.0 0</point>
+              <point>-50.0 -150.0 0</point>
+              <point>-60.0 -150.0 0</point>
+              <point>-70.0 -150.0 0</point>
+              <point>-79.9072879118 -147.222420716 0</point>
+          </road>
+              
+          <road name="street_48">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -50.0 0</point>
+              <point>10.0 -60.0 0</point>
+              <point>10.0 -70.0 0</point>
+              <point>10.0 -80.0 0</point>
+              <point>10.0 -90.0 0</point>
+              <point>10.0 -100.0 0</point>
+              <point>10.0 -110.0 0</point>
+              <point>10.0 -120.0 0</point>
+              <point>10.0 -130.0 0</point>
+              <point>10.0 -140.0 0</point>
+              <point>10.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_49">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 -50.0 0</point>
+              <point>20.0 -60.0 0</point>
+              <point>20.0 -70.0 0</point>
+              <point>20.0 -80.0 0</point>
+              <point>20.0 -90.0 0</point>
+              <point>20.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_50">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>100.0 -50.0 0</point>
+              <point>100.0 -60.0 0</point>
+              <point>100.0 -70.0 0</point>
+          </road>
+              
+          <road name="street_51">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>130.0 -50.0 0</point>
+              <point>130.0 -60.0 0</point>
+              <point>130.0 -70.0 0</point>
+              <point>130.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_52">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-74.5063688419 -55.6201446934 0</point>
+              <point>-70.931703019 -64.9594039925 0</point>
+              <point>-67.3570371962 -74.2986632915 0</point>
+              <point>-63.7823713733 -83.6379225905 0</point>
+              <point>-60.2077055504 -92.9771818896 0</point>
+              <point>-53.3923412413 -100.745364503 0</point>
+              <point>-46.9512086189 -107.1889289 0</point>
+              <point>-40.0 -110.0 0</point>
+              <point>-30.0 -110.0 0</point>
+              <point>-20.0 -110.0 0</point>
+              <point>-10.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_53">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-55.8278502438 -48.4708130477 0</point>
+              <point>-52.253184421 -57.8100723467 0</point>
+              <point>-48.6785185981 -67.1493316457 0</point>
+              <point>-45.1038527752 -76.4885909448 0</point>
+              <point>-41.5291869523 -85.8278502438 0</point>
+          </road>
+              
+          <road name="street_54">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-65.1671095429 -52.0454788705 0</point>
+              <point>-69.3013450968 -44.4471943394 0</point>
+              <point>-73.6141768492 -36.4035142003 0</point>
+              <point>-74.0502965107 -26.4130287446 0</point>
+              <point>-74.4864161722 -16.4225432888 0</point>
+              <point>-74.9225358337 -6.43205783313 0</point>
+              <point>-75.3586554952 3.55842762258 0</point>
+              <point>-75.7947751568 13.5489130783 0</point>
+          </road>
+              
+          <road name="street_55">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-93.18488744 -62.7694763392 0</point>
+              <point>-89.6102216171 -72.1087356382 0</point>
+              <point>-86.0355557943 -81.4479949372 0</point>
+              <point>-82.4608899714 -90.7872542363 0</point>
+              <point>-78.8862241485 -100.126513535 0</point>
+          </road>
+              
+          <road name="street_56">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>40.0 -70.0 0</point>
+              <point>40.0 -80.0 0</point>
+              <point>40.0 -90.0 0</point>
+          </road>
+              
+          <road name="street_57">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-141.89268409 -56.3190560815 0</point>
+              <point>-136.495159828 -47.9008180333 0</point>
+              <point>-125.367301958 -40.5836052694 0</point>
+          </road>
+              
+          <road name="street_58">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>80.0 -60.0 0</point>
+              <point>80.0 -70.0 0</point>
+              <point>80.0 -80.0 0</point>
+              <point>80.0 -90.0 0</point>
+              <point>80.0 -100.0 0</point>
+              <point>80.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_59">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>90.0 -60.0 0</point>
+              <point>90.0 -70.0 0</point>
+              <point>90.0 -80.0 0</point>
+              <point>90.0 -90.0 0</point>
+              <point>90.0 -100.0 0</point>
+              <point>90.0 -110.0 0</point>
+              <point>90.0 -120.0 0</point>
+              <point>90.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_60">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 -160.0 0</point>
+              <point>20.0 -150.0 0</point>
+              <point>20.0 -140.0 0</point>
+              <point>20.0 -130.0 0</point>
+              <point>20.0 -120.0 0</point>
+              <point>20.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_61">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -160.0 0</point>
+              <point>-20.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_62">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>85.3185751302 65.8926801456 0</point>
+              <point>88.7978788371 75.2678839148 0</point>
+          </road>
+              
+          <road name="street_63">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>92.277182544 84.6430876841 0</point>
+              <point>95.7564862509 94.0182914533 0</point>
+          </road>
+              
+          <road name="street_64">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-60.0 -160.0 0</point>
+              <point>-60.0 -150.0 0</point>
+              <point>-60.0 -140.0 0</point>
+              <point>-60.1704412033 -126.962685229 0</point>
+              <point>-60.6869099915 -116.976031135 0</point>
+              <point>-61.2033787797 -106.989377041 0</point>
+              <point>-69.5469648495 -96.5518477125 0</point>
+              <point>-73.1216306723 -87.2125884134 0</point>
+          </road>
+              
+          <road name="street_65">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-145.292053685 0.505589991935 0</point>
+              <point>-135.30156823 0.941709653456 0</point>
+              <point>-125.311082774 1.37782931498 0</point>
+              <point>-115.320597318 1.8139489765 0</point>
+          </road>
+              
+          <road name="street_66">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-145.728173347 10.4960754476 0</point>
+              <point>-135.737687891 10.9321951092 0</point>
+              <point>-125.747202435 11.3683147707 0</point>
+          </road>
+              
+          <road name="street_67">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-149.023115521 -123.021057158 0</point>
+              <point>-140.604877473 -128.418581421 0</point>
+              <point>-132.186639425 -133.816105683 0</point>
+          </road>
+              
+          <road name="street_68">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-132.830542734 -97.7663430136 0</point>
+              <point>-141.248780782 -92.368818751 0</point>
+              <point>-149.66701883 -86.9712944885 0</point>
+          </road>
+              
+          <road name="street_69">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-147.036532331 40.4675318148 0</point>
+              <point>-137.046046876 40.9036514763 0</point>
+              <point>-127.05556142 41.3397711378 0</point>
+              <point>-117.065075964 41.7758907994 0</point>
+              <point>-107.074590508 42.2120104609 0</point>
+              <point>-97.0841050528 42.6481301224 0</point>
+              <point>-87.093619597 43.0842497839 0</point>
+          </road>
+              
+          <road name="street_70">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-68.8571273317 83.9184309298 0</point>
+              <point>-78.8476127874 83.4823112683 0</point>
+          </road>
+              
+          <road name="street_71">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-67.9848880087 63.9374600184 0</point>
+              <point>-77.9753734644 63.5013403569 0</point>
+              <point>-87.9658589201 63.0652206953 0</point>
+          </road>
+              
+          <road name="street_72">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-68.4210076702 73.9279454741 0</point>
+              <point>-78.4114931259 73.4918258126 0</point>
+              <point>-88.4019785816 73.0557061511 0</point>
+              <point>-98.3924640373 72.6195864895 0</point>
+              <point>-108.382949493 72.183466828 0</point>
+              <point>-118.373434949 71.7473471665 0</point>
+              <point>-128.363920404 71.311227505 0</point>
+              <point>-138.35440586 70.8751078435 0</point>
+          </road>
+              
+          <road name="street_73">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-37.1411923185 45.2648480915 0</point>
+              <point>-37.57731198 55.2553335472 0</point>
+              <point>-38.0134316415 65.245819003 0</point>
+          </road>
+              
+          <road name="street_74">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-27.1507068628 45.700967753 0</point>
+              <point>-26.7145872012 35.7104822973 0</point>
+          </road>
+              
+          <road name="street_75">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-129.236159728 91.2921984164 0</point>
+              <point>-128.800040066 81.3017129607 0</point>
+              <point>-128.363920404 71.311227505 0</point>
+              <point>-127.927800743 61.3207420493 0</point>
+              <point>-127.491681081 51.3302565935 0</point>
+              <point>-127.05556142 41.3397711378 0</point>
+              <point>-126.619441758 31.3492856821 0</point>
+              <point>-126.183322097 21.3588002264 0</point>
+              <point>-125.747202435 11.3683147707 0</point>
+              <point>-125.311082774 1.37782931498 0</point>
+              <point>-124.874963112 -8.61265614074 0</point>
+              <point>-124.438843451 -18.6031415965 0</point>
+          </road>
+              
+          <road name="street_76">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-99.2647033604 92.600557401 0</point>
+              <point>-98.8285836988 82.6100719453 0</point>
+          </road>
+              
+          <road name="street_77">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-109.255188816 92.1644377394 0</point>
+              <point>-108.819069155 82.1739522837 0</point>
+              <point>-108.382949493 72.183466828 0</point>
+          </road>
+              
+          <road name="street_78">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-152.687732615 -73.1555321778 0</point>
+              <point>-144.269494567 -78.5530564403 0</point>
+              <point>-135.851256519 -83.9505807029 0</point>
+              <point>-127.433018471 -89.3481049654 0</point>
+              <point>-119.014780423 -94.745629228 0</point>
+              <point>-107.184619272 -98.2873424755 0</point>
+              <point>-96.6201880779 -109.135232557 0</point>
+              <point>-91.1861348788 -117.529937188 0</point>
+          </road>
+              
+          <road name="street_79">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.0 -100.0 0</point>
+              <point>120.0 -110.0 0</point>
+              <point>120.0 -120.0 0</point>
+              <point>120.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_80">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>127.2032526 81.5368721935 0</point>
+              <point>120.402793852 74.2051765634 0</point>
+              <point>116.923490145 64.8299727941 0</point>
+              <point>113.444186438 55.4547690249 0</point>
+              <point>109.964882731 46.0795652556 0</point>
+          </road>
+              
+          <road name="street_81">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>135.056088432 74.1249481514 0</point>
+              <point>127.317071427 67.7918907702 0</point>
+          </road>
+              
+          <road name="street_82">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-104.021752878 -27.7213877291 0</point>
+              <point>-104.457872539 -17.7309022734 0</point>
+              <point>-104.893992201 -7.74041681769 0</point>
+              <point>-105.330111862 2.25006863802 0</point>
+              <point>-105.766231524 12.2405540937 0</point>
+          </road>
+              
+          <road name="street_83">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-114.012238334 -28.1575073906 0</point>
+              <point>-114.448357995 -18.1670219349 0</point>
+              <point>-114.884477657 -8.17653647922 0</point>
+              <point>-115.320597318 1.8139489765 0</point>
+              <point>-115.75671698 11.8044344322 0</point>
+              <point>-116.192836641 21.7949198879 0</point>
+          </road>
+              
+          <road name="street_84">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-124.002723789 -28.5936270522 0</point>
+              <point>-125.367301958 -40.5836052694 0</point>
+          </road>
+              
+          <road name="street_85">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-133.993209245 -29.0297467137 0</point>
+              <point>-134.429328906 -19.039261258 0</point>
+              <point>-134.865448568 -9.04877580226 0</point>
+              <point>-135.30156823 0.941709653456 0</point>
+              <point>-135.737687891 10.9321951092 0</point>
+          </road>
+              
+          <road name="street_86">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-31.6127504145 -38.8971319514 0</point>
+              <point>-24.0283626432 -32.3796890376 0</point>
+              <point>-16.4439748719 -25.8622461238 0</point>
+          </road>
+              
+          <road name="street_87">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-63.6236913934 -35.9673945388 0</point>
+              <point>-64.059811055 -25.976909083 0</point>
+              <point>-64.4959307165 -15.9864236273 0</point>
+              <point>-64.932050378 -5.99593817161 0</point>
+              <point>-65.3681700395 3.9945472841 0</point>
+          </road>
+              
+          <road name="street_88">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-95.3748150933 -85.0226607601 0</point>
+              <point>-86.0355557943 -81.4479949372 0</point>
+              <point>-76.6962964952 -77.8733291144 0</point>
+              <point>-67.3570371962 -74.2986632915 0</point>
+          </road>
+              
+          <road name="street_89">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-113.463691748 -50.1271036646 0</point>
+              <point>-119.335212294 -58.2218702752 0</point>
+              <point>-125.056207994 -67.1141046066 0</point>
+              <point>-130.453732257 -75.5323426547 0</point>
+              <point>-135.851256519 -83.9505807029 0</point>
+          </road>
+              
+          <road name="street_90">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-144.913397876 -42.5032937708 0</point>
+              <point>-136.495159828 -47.9008180333 0</point>
+              <point>-128.07692178 -53.2983422959 0</point>
+          </road>
+              
+          <road name="street_91">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-84.9130212894 -6.86817749465 0</point>
+              <point>-84.4769016279 -16.8586629504 0</point>
+              <point>-84.0407819664 -26.8491484061 0</point>
+              <point>-83.6046623049 -36.8396338618 0</point>
+              <point>-83.1692056598 -46.8149311561 0</point>
+          </road>
+              
+          <road name="street_92">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-34.9605940109 -4.68757918705 0</point>
+              <point>-34.5244743493 -14.6780646428 0</point>
+              <point>-30.5253218253 -24.8191383089 0</point>
+              <point>-24.0283626432 -32.3796890376 0</point>
+              <point>-17.5109197294 -39.9640768089 0</point>
+              <point>-10.0 -50.0 0</point>
+          </road>
+              
+          <road name="street_93">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-79.9072879118 -147.222420716 0</point>
+              <point>-80.0380101064 -137.223275167 0</point>
+              <point>-80.168732301 -127.224129618 0</point>
+              <point>-76.8254538564 -119.477402117 0</point>
+              <point>-69.014416318 -113.233389579 0</point>
+              <point>-61.2033787797 -106.989377041 0</point>
+              <point>-53.3923412413 -100.745364503 0</point>
+          </road>
+              
+          <road name="street_94">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -150.0 0</point>
+              <point>-10.0 -140.0 0</point>
+              <point>-10.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_95">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-30.0 -150.0 0</point>
+              <point>-30.0 -140.0 0</point>
+              <point>-30.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_96">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-40.0 -150.0 0</point>
+              <point>-40.0 -140.0 0</point>
+              <point>-40.0 -130.0 0</point>
+              <point>-40.0 -120.0 0</point>
+              <point>-40.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_97">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -150.0 0</point>
+              <point>20.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_98">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -60.0 0</point>
+              <point>0.0 -60.0 0</point>
+              <point>-10.0 -60.0 0</point>
+          </road>
+              
+          <road name="street_99">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -90.0 0</point>
+              <point>20.0 -90.0 0</point>
+              <point>30.0 -90.0 0</point>
+              <point>40.0 -90.0 0</point>
+              <point>50.0 -90.0 0</point>
+              <point>60.0 -90.0 0</point>
+              <point>70.0 -90.0 0</point>
+              <point>80.0 -90.0 0</point>
+              <point>90.0 -90.0 0</point>
+              <point>100.0 -90.0 0</point>
+              <point>110.0 -90.0 0</point>
+          </road>
+              
+          <road name="street_100">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -140.0 0</point>
+              <point>20.0 -140.0 0</point>
+              <point>30.0 -140.0 0</point>
+          </road>
+              
+          <road name="street_101">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>10.0 -70.0 0</point>
+              <point>20.0 -70.0 0</point>
+              <point>30.0 -70.0 0</point>
+          </road>
+              
+          <road name="street_102">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 -100.0 0</point>
+              <point>10.0 -100.0 0</point>
+              <point>0.0 -100.0 0</point>
+              <point>-10.0 -100.0 0</point>
+              <point>-20.0 -100.0 0</point>
+              <point>-30.0 -100.0 0</point>
+              <point>-40.0 -100.0 0</point>
+              <point>-44.9320034177 -95.2310858626 0</point>
+              <point>-50.8684462514 -89.4025160667 0</point>
+              <point>-54.4431120743 -80.0632567677 0</point>
+              <point>-58.0177778971 -70.7239974686 0</point>
+              <point>-61.59244372 -61.3847381696 0</point>
+          </road>
+              
+          <road name="street_103">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 -60.0 0</point>
+              <point>30.0 -60.0 0</point>
+          </road>
+              
+          <road name="street_104">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>130.0 -80.0 0</point>
+              <point>120.0 -80.0 0</point>
+              <point>110.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_105">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>130.0 -70.0 0</point>
+              <point>120.0 -70.0 0</point>
+              <point>110.0 -70.0 0</point>
+              <point>100.0 -70.0 0</point>
+              <point>90.0 -70.0 0</point>
+              <point>80.0 -70.0 0</point>
+              <point>70.0 -70.0 0</point>
+          </road>
+              
+          <road name="street_106">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -110.0 0</point>
+              <point>-20.0 -100.0 0</point>
+              <point>-20.0 -90.0 0</point>
+              <point>-20.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_107">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-48.6785185981 -67.1493316457 0</point>
+              <point>-58.0177778971 -70.7239974686 0</point>
+          </road>
+              
+          <road name="street_108">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-52.253184421 -57.8100723467 0</point>
+              <point>-61.59244372 -61.3847381696 0</point>
+              <point>-70.931703019 -64.9594039925 0</point>
+              <point>-80.2709623181 -68.5340698153 0</point>
+              <point>-89.6102216171 -72.1087356382 0</point>
+              <point>-98.9494809162 -75.6834014611 0</point>
+              <point>-108.288740215 -79.2580672839 0</point>
+          </road>
+              
+          <road name="street_109">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-75.3586554952 3.55842762258 0</point>
+              <point>-65.3681700395 3.9945472841 0</point>
+          </road>
+              
+          <road name="street_110">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-82.4608899714 -90.7872542363 0</point>
+              <point>-73.1216306723 -87.2125884134 0</point>
+              <point>-63.7823713733 -83.6379225905 0</point>
+              <point>-54.4431120743 -80.0632567677 0</point>
+              <point>-45.1038527752 -76.4885909448 0</point>
+              <point>-35.7645934762 -72.9139251219 0</point>
+              <point>-26.4253341771 -69.339259299 0</point>
+              <point>-20.0 -70.0 0</point>
+              <point>-10.0 -70.0 0</point>
+          </road>
+              
+          <road name="street_111">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>80.0 -100.0 0</point>
+              <point>90.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_112">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>90.0 -130.0 0</point>
+              <point>100.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_113">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>90.0 -120.0 0</point>
+              <point>100.0 -120.0 0</point>
+              <point>110.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_114">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>20.0 -110.0 0</point>
+              <point>30.0 -110.0 0</point>
+              <point>40.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_115">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>88.7978788371 75.2678839148 0</point>
+              <point>98.1730826064 71.7885802079 0</point>
+              <point>107.548286376 68.309276501 0</point>
+              <point>116.923490145 64.8299727941 0</point>
+              <point>129.87146044 58.8484996886 0</point>
+          </road>
+              
+          <road name="street_116">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>95.7564862509 94.0182914533 0</point>
+              <point>105.13169002 90.5389877465 0</point>
+          </road>
+              
+          <road name="street_117">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-149.66701883 -86.9712944885 0</point>
+              <point>-144.269494567 -78.5530564403 0</point>
+          </road>
+              
+          <road name="street_118">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-141.248780782 -92.368818751 0</point>
+              <point>-146.646305044 -100.787056799 0</point>
+              <point>-152.043829307 -109.205294847 0</point>
+          </road>
+              
+          <road name="street_119">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-137.046046876 40.9036514763 0</point>
+              <point>-137.482166537 50.894136932 0</point>
+              <point>-137.918286199 60.8846223877 0</point>
+              <point>-138.35440586 70.8751078435 0</point>
+              <point>-138.790525522 80.8655932992 0</point>
+          </road>
+              
+          <road name="street_120">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-78.8476127874 83.4823112683 0</point>
+              <point>-78.4114931259 73.4918258126 0</point>
+              <point>-77.9753734644 63.5013403569 0</point>
+              <point>-77.5392538029 53.5108549012 0</point>
+              <point>-77.1031341413 43.5203694454 0</point>
+              <point>-76.6670144798 33.5298839897 0</point>
+              <point>-76.2308948183 23.539398534 0</point>
+          </road>
+              
+          <road name="street_121">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-87.9658589201 63.0652206953 0</point>
+              <point>-88.4019785816 73.0557061511 0</point>
+          </road>
+              
+          <road name="street_122">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-98.3924640373 72.6195864895 0</point>
+              <point>-97.9563443758 62.6291010338 0</point>
+              <point>-97.5202247143 52.6386155781 0</point>
+              <point>-97.0841050528 42.6481301224 0</point>
+              <point>-96.6479853912 32.6576446667 0</point>
+              <point>-96.2118657297 22.667159211 0</point>
+              <point>-95.7757460682 12.6766737553 0</point>
+          </road>
+              
+          <road name="street_123">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-118.373434949 71.7473471665 0</point>
+              <point>-118.80955461 81.7378326222 0</point>
+          </road>
+              
+          <road name="street_124">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-38.0134316415 65.245819003 0</point>
+              <point>-48.0039170972 64.8096993414 0</point>
+          </road>
+              
+          <road name="street_125">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-37.57731198 55.2553335472 0</point>
+              <point>-47.5677974357 54.8192138857 0</point>
+              <point>-57.5582828914 54.3830942242 0</point>
+          </road>
+              
+          <road name="street_126">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-26.7145872012 35.7104822973 0</point>
+              <point>-36.705072657 35.2743626358 0</point>
+          </road>
+              
+          <road name="street_127">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-124.438843451 -18.6031415965 0</point>
+              <point>-134.429328906 -19.039261258 0</point>
+          </road>
+              
+          <road name="street_128">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-126.183322097 21.3588002264 0</point>
+              <point>-116.192836641 21.7949198879 0</point>
+          </road>
+              
+          <road name="street_129">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-126.619441758 31.3492856821 0</point>
+              <point>-116.628956303 31.7854053436 0</point>
+              <point>-106.638470847 32.2215250052 0</point>
+          </road>
+              
+          <road name="street_130">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-98.8285836988 82.6100719453 0</point>
+              <point>-108.819069155 82.1739522837 0</point>
+              <point>-118.80955461 81.7378326222 0</point>
+              <point>-128.800040066 81.3017129607 0</point>
+              <point>-138.790525522 80.8655932992 0</point>
+          </road>
+              
+          <road name="street_131">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-96.6201880779 -109.135232557 0</point>
+              <point>-88.2254834476 -103.701179358 0</point>
+              <point>-78.8862241485 -100.126513535 0</point>
+              <point>-69.5469648495 -96.5518477125 0</point>
+              <point>-60.2077055504 -92.9771818896 0</point>
+              <point>-50.8684462514 -89.4025160667 0</point>
+          </road>
+              
+          <road name="street_132">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.0 -130.0 0</point>
+              <point>110.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_133">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.0 -110.0 0</point>
+              <point>110.0 -110.0 0</point>
+              <point>100.0 -110.0 0</point>
+              <point>90.0 -110.0 0</point>
+              <point>80.0 -110.0 0</point>
+              <point>70.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_134">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>109.964882731 46.0795652556 0</point>
+              <point>100.589678962 49.5588689625 0</point>
+              <point>91.2144751926 53.0381726694 0</point>
+          </road>
+              
+          <road name="street_135">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-104.893992201 -7.74041681769 0</point>
+              <point>-114.884477657 -8.17653647922 0</point>
+              <point>-124.874963112 -8.61265614074 0</point>
+              <point>-134.865448568 -9.04877580226 0</point>
+          </road>
+              
+          <road name="street_136">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-105.330111862 2.25006863802 0</point>
+              <point>-95.3396264067 2.68618829954 0</point>
+              <point>-85.349140951 3.12230796106 0</point>
+          </road>
+              
+          <road name="street_137">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-114.448357995 -18.1670219349 0</point>
+              <point>-104.457872539 -17.7309022734 0</point>
+              <point>-94.4673870836 -17.2947826119 0</point>
+              <point>-84.4769016279 -16.8586629504 0</point>
+              <point>-74.4864161722 -16.4225432888 0</point>
+              <point>-64.4959307165 -15.9864236273 0</point>
+              <point>-54.5054452608 -15.5503039658 0</point>
+              <point>-44.5149598051 -15.1141843043 0</point>
+              <point>-34.5244743493 -14.6780646428 0</point>
+          </road>
+              
+          <road name="street_138">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-115.75671698 11.8044344322 0</point>
+              <point>-105.766231524 12.2405540937 0</point>
+              <point>-95.7757460682 12.6766737553 0</point>
+              <point>-85.7852606125 13.1127934168 0</point>
+              <point>-75.7947751568 13.5489130783 0</point>
+              <point>-65.8042897011 13.9850327398 0</point>
+              <point>-55.8138042453 14.4211524013 0</point>
+              <point>-45.8233187896 14.8572720629 0</point>
+              <point>-35.8328333339 15.2933917244 0</point>
+              <point>-25.8423478782 15.7295113859 0</point>
+          </road>
+              
+          <road name="street_139">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-16.4439748719 -25.8622461238 0</point>
+              <point>-20.4256306844 -14.2590468002 0</point>
+              <point>-23.4598353223 -8.8705487089 0</point>
+              <point>-30.0 0.0 0</point>
+          </road>
+              
+          <road name="street_140">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-64.059811055 -25.976909083 0</point>
+              <point>-54.0693255993 -25.5407894215 0</point>
+              <point>-44.0788401435 -25.10466976 0</point>
+          </road>
+              
+          <road name="street_141">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-76.6962964952 -77.8733291144 0</point>
+              <point>-80.2709623181 -68.5340698153 0</point>
+              <point>-83.845628141 -59.1948105163 0</point>
+              <point>-83.1692056598 -46.8149311561 0</point>
+          </road>
+              
+          <road name="street_142">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-128.07692178 -53.2983422959 0</point>
+              <point>-133.474446042 -61.716580344 0</point>
+              <point>-138.871970305 -70.1348183922 0</point>
+          </road>
+              
+          <road name="street_143">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -50.0 0</point>
+              <point>-10.0 -60.0 0</point>
+              <point>-10.0 -70.0 0</point>
+              <point>-10.0 -80.0 0</point>
+              <point>-10.0 -90.0 0</point>
+              <point>-10.0 -100.0 0</point>
+              <point>-10.0 -110.0 0</point>
+              <point>-10.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_144">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-80.0380101064 -137.223275167 0</point>
+              <point>-70.0388645575 -137.092552973 0</point>
+              <point>-60.0 -140.0 0</point>
+              <point>-50.0 -140.0 0</point>
+              <point>-40.0 -140.0 0</point>
+          </road>
+              
+          <road name="street_145">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-80.168732301 -127.224129618 0</point>
+              <point>-70.1695867521 -127.093407424 0</point>
+              <point>-60.1704412033 -126.962685229 0</point>
+              <point>-50.0 -130.0 0</point>
+              <point>-40.0 -130.0 0</point>
+              <point>-30.0 -130.0 0</point>
+              <point>-20.0 -130.0 0</point>
+              <point>-10.0 -130.0 0</point>
+              <point>0.0 -130.0 0</point>
+              <point>10.0 -130.0 0</point>
+              <point>20.0 -130.0 0</point>
+              <point>30.0 -130.0 0</point>
+              <point>40.0 -130.0 0</point>
+              <point>50.0 -130.0 0</point>
+              <point>60.0 -130.0 0</point>
+              <point>70.0 -130.0 0</point>
+          </road>
+              
+          <road name="street_146">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -140.0 0</point>
+              <point>-20.0 -140.0 0</point>
+              <point>-30.0 -140.0 0</point>
+          </road>
+              
+          <road name="street_147">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>110.0 -90.0 0</point>
+              <point>110.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_148">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>100.0 -90.0 0</point>
+              <point>100.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_149">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>30.0 -140.0 0</point>
+              <point>30.0 -130.0 0</point>
+              <point>30.0 -120.0 0</point>
+              <point>30.0 -110.0 0</point>
+              <point>30.0 -100.0 0</point>
+              <point>30.0 -90.0 0</point>
+              <point>30.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_150">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>30.0 -70.0 0</point>
+              <point>30.0 -60.0 0</point>
+          </road>
+              
+          <road name="street_151">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-30.0 -100.0 0</point>
+              <point>-30.0 -110.0 0</point>
+              <point>-30.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_152">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>70.0 -70.0 0</point>
+              <point>70.0 -80.0 0</point>
+              <point>70.0 -90.0 0</point>
+              <point>70.0 -100.0 0</point>
+              <point>70.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_153">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.0 -70.0 0</point>
+              <point>120.0 -60.0 0</point>
+              <point>120.0 -50.0 0</point>
+              <point>120.0 -40.0 0</point>
+          </road>
+              
+          <road name="street_154">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>110.0 -70.0 0</point>
+              <point>110.0 -60.0 0</point>
+              <point>110.0 -50.0 0</point>
+              <point>108.3615568 -34.7493061465 0</point>
+              <point>109.359242522 -24.7991994536 0</point>
+              <point>110.356928244 -14.8490927606 0</point>
+              <point>111.354613966 -4.89898606771 0</point>
+              <point>112.710322177 8.62174601984 0</point>
+              <point>109.484829587 21.4014061788 0</point>
+          </road>
+              
+          <road name="street_155">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-108.288740215 -79.2580672839 0</point>
+              <point>-104.714074392 -88.597326583 0</point>
+          </road>
+              
+          <road name="street_156">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -70.0 0</point>
+              <point>-20.0 -60.0 0</point>
+          </road>
+              
+          <road name="street_157">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-35.7645934762 -72.9139251219 0</point>
+              <point>-41.5291869523 -85.8278502438 0</point>
+              <point>-44.9320034177 -95.2310858626 0</point>
+              <point>-46.9512086189 -107.1889289 0</point>
+              <point>-50.7002558976 -116.459562347 0</point>
+          </road>
+              
+          <road name="street_158">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>100.0 -130.0 0</point>
+              <point>100.0 -120.0 0</point>
+              <point>100.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_159">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>129.87146044 58.8484996886 0</point>
+              <point>127.317071427 67.7918907702 0</point>
+              <point>120.402793852 74.2051765634 0</point>
+              <point>111.027590083 77.6844802703 0</point>
+              <point>101.652386313 81.1637839772 0</point>
+          </road>
+              
+          <road name="street_160">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>105.13169002 90.5389877465 0</point>
+              <point>101.652386313 81.1637839772 0</point>
+              <point>98.1730826064 71.7885802079 0</point>
+              <point>94.6937788995 62.4133764387 0</point>
+              <point>91.2144751926 53.0381726694 0</point>
+          </road>
+              
+          <road name="street_161">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-152.043829307 -109.205294847 0</point>
+              <point>-143.625591259 -114.60281911 0</point>
+              <point>-135.20735321 -120.000343372 0</point>
+              <point>-126.789115162 -125.397867635 0</point>
+          </road>
+              
+          <road name="street_162">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-146.646305044 -100.787056799 0</point>
+              <point>-138.228066996 -106.184581062 0</point>
+              <point>-129.809828948 -111.582105324 0</point>
+              <point>-121.3915909 -116.979629587 0</point>
+              <point>-112.973352852 -122.377153849 0</point>
+              <point>-104.555114804 -127.774678112 0</point>
+          </road>
+              
+          <road name="street_163">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-137.482166537 50.894136932 0</point>
+              <point>-127.491681081 51.3302565935 0</point>
+              <point>-117.501195626 51.7663762551 0</point>
+              <point>-107.51071017 52.2024959166 0</point>
+              <point>-97.5202247143 52.6386155781 0</point>
+              <point>-87.5297392586 53.0747352396 0</point>
+              <point>-77.5392538029 53.5108549012 0</point>
+          </road>
+              
+          <road name="street_164">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-137.918286199 60.8846223877 0</point>
+              <point>-127.927800743 61.3207420493 0</point>
+              <point>-117.937315287 61.7568617108 0</point>
+          </road>
+              
+          <road name="street_165">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-77.1031341413 43.5203694454 0</point>
+              <point>-67.1126486856 43.956489107 0</point>
+          </road>
+              
+          <road name="street_166">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-96.6479853912 32.6576446667 0</point>
+              <point>-86.6574999355 33.0937643282 0</point>
+              <point>-76.6670144798 33.5298839897 0</point>
+              <point>-66.6765290241 33.9660036512 0</point>
+              <point>-56.6860435684 34.4021233128 0</point>
+              <point>-46.6955581127 34.8382429743 0</point>
+          </road>
+              
+          <road name="street_167">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-48.0039170972 64.8096993414 0</point>
+              <point>-47.5677974357 54.8192138857 0</point>
+              <point>-47.1316777742 44.82872843 0</point>
+              <point>-46.6955581127 34.8382429743 0</point>
+              <point>-46.2594384511 24.8477575186 0</point>
+              <point>-45.8233187896 14.8572720629 0</point>
+              <point>-45.3871991281 4.86678660715 0</point>
+              <point>-44.9510794666 -5.12369884857 0</point>
+              <point>-44.5149598051 -15.1141843043 0</point>
+              <point>-44.0788401435 -25.10466976 0</point>
+          </road>
+              
+          <road name="street_168">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-57.5582828914 54.3830942242 0</point>
+              <point>-57.1221632299 44.3926087685 0</point>
+              <point>-56.6860435684 34.4021233128 0</point>
+              <point>-56.2499239069 24.4116378571 0</point>
+          </road>
+              
+          <road name="street_169">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-36.705072657 35.2743626358 0</point>
+              <point>-36.2689529954 25.2838771801 0</point>
+          </road>
+              
+          <road name="street_170">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-116.628956303 31.7854053436 0</point>
+              <point>-117.065075964 41.7758907994 0</point>
+              <point>-117.501195626 51.7663762551 0</point>
+              <point>-117.937315287 61.7568617108 0</point>
+          </road>
+              
+          <road name="street_171">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-88.2254834476 -103.701179358 0</point>
+              <point>-83.0694663943 -111.666364579 0</point>
+              <point>-76.8254538564 -119.477402117 0</point>
+              <point>-70.1695867521 -127.093407424 0</point>
+              <point>-70.0388645575 -137.092552973 0</point>
+          </road>
+              
+          <road name="street_172">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>110.0 -130.0 0</point>
+              <point>110.0 -120.0 0</point>
+              <point>110.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_173">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>100.589678962 49.5588689625 0</point>
+              <point>104.068982669 58.9340727318 0</point>
+              <point>107.548286376 68.309276501 0</point>
+              <point>111.027590083 77.6844802703 0</point>
+          </road>
+              
+          <road name="street_174">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-85.349140951 3.12230796106 0</point>
+              <point>-85.7852606125 13.1127934168 0</point>
+              <point>-86.221380274 23.1032788725 0</point>
+              <point>-86.6574999355 33.0937643282 0</point>
+              <point>-87.093619597 43.0842497839 0</point>
+              <point>-87.5297392586 53.0747352396 0</point>
+          </road>
+              
+          <road name="street_175">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-25.8423478782 15.7295113859 0</point>
+              <point>-25.4062282167 5.73902593019 0</point>
+          </road>
+              
+          <road name="street_176">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-65.8042897011 13.9850327398 0</point>
+              <point>-66.2404093626 23.9755181955 0</point>
+              <point>-66.6765290241 33.9660036512 0</point>
+              <point>-67.1126486856 43.956489107 0</point>
+          </road>
+              
+          <road name="street_177">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-55.8138042453 14.4211524013 0</point>
+              <point>-55.3776845838 4.43066694562 0</point>
+              <point>-54.9415649223 -5.55981851009 0</point>
+              <point>-54.5054452608 -15.5503039658 0</point>
+              <point>-54.0693255993 -25.5407894215 0</point>
+          </road>
+              
+          <road name="street_178">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-35.8328333339 15.2933917244 0</point>
+              <point>-35.3967136724 5.30290626867 0</point>
+          </road>
+              
+          <road name="street_179">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-30.0 0.0 0</point>
+              <point>-20.0 0.0 0</point>
+              <point>-13.4848189232 -4.76109386379 0</point>
+          </road>
+              
+          <road name="street_180">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-23.4598353223 -8.8705487089 0</point>
+              <point>-20.0 0.0 0</point>
+          </road>
+              
+          <road name="street_181">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-138.871970305 -70.1348183922 0</point>
+              <point>-130.453732257 -75.5323426547 0</point>
+              <point>-122.035494208 -80.9298669173 0</point>
+              <point>-113.61725616 -86.3273911798 0</point>
+              <point>-104.714074392 -88.597326583 0</point>
+          </road>
+              
+          <road name="street_182">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-10.0 -120.0 0</point>
+              <point>0.0 -120.0 0</point>
+              <point>10.0 -120.0 0</point>
+              <point>20.0 -120.0 0</point>
+              <point>30.0 -120.0 0</point>
+              <point>40.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_183">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-50.0 -140.0 0</point>
+              <point>-50.0 -130.0 0</point>
+              <point>-50.7002558976 -116.459562347 0</point>
+          </road>
+              
+          <road name="street_184">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>70.0 -130.0 0</point>
+              <point>70.0 -140.0 0</point>
+          </road>
+              
+          <road name="street_185">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>40.0 -130.0 0</point>
+              <point>40.0 -120.0 0</point>
+              <point>40.0 -110.0 0</point>
+              <point>40.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_186">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>60.0 -130.0 0</point>
+              <point>60.0 -140.0 0</point>
+              <point>60.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_187">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -140.0 0</point>
+              <point>-20.0 -130.0 0</point>
+              <point>-20.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_188">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>100.0 -80.0 0</point>
+              <point>90.0 -80.0 0</point>
+              <point>80.0 -80.0 0</point>
+              <point>70.0 -80.0 0</point>
+              <point>60.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_189">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>30.0 -100.0 0</point>
+              <point>40.0 -100.0 0</point>
+              <point>50.0 -100.0 0</point>
+              <point>60.0 -100.0 0</point>
+              <point>70.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_190">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.0 -40.0 0</point>
+              <point>108.3615568 -34.7493061465 0</point>
+          </road>
+              
+          <road name="street_191">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>109.484829587 21.4014061788 0</point>
+              <point>116.815658415 33.485593276 0</point>
+              <point>119.475902923 42.453454164 0</point>
+          </road>
+              
+          <road name="street_192">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>112.710322177 8.62174601984 0</point>
+              <point>120.341765269 14.1405523213 0</point>
+              <point>132.662257513 20.5507135485 0</point>
+              <point>140.428080442 29.3429074083 0</point>
+              <point>145.758020324 41.3808626101 0</point>
+              <point>145.977145659 49.699398551 0</point>
+              <point>146.17860446 57.3472694635 0</point>
+              <point>149.693069006 73.5682025254 0</point>
+          </road>
+              
+          <road name="street_193">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -60.0 0</point>
+              <point>-30.0 -60.0 0</point>
+              <point>-39.339259299 -63.5746658229 0</point>
+          </road>
+              
+          <road name="street_194">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-46.9512086189 -107.1889289 0</point>
+              <point>-40.0 -100.0 0</point>
+              <point>-30.0 -90.0 0</point>
+              <point>-30.0 -80.0 0</point>
+              <point>-26.4253341771 -69.339259299 0</point>
+          </road>
+              
+          <road name="street_195">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>94.6937788995 62.4133764387 0</point>
+              <point>104.068982669 58.9340727318 0</point>
+              <point>113.444186438 55.4547690249 0</point>
+              <point>122.770836304 51.9934845291 0</point>
+              <point>133.05150809 45.8067448804 0</point>
+              <point>145.758020324 41.3808626101 0</point>
+          </road>
+              
+          <road name="street_196">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-104.555114804 -127.774678112 0</point>
+              <point>-109.952639066 -136.19291616 0</point>
+              <point>-115.350163329 -144.611154208 0</point>
+              <point>-120.747687591 -153.029392256 0</point>
+              <point>-126.145211854 -161.447630304 0</point>
+          </road>
+              
+          <road name="street_197">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-107.51071017 52.2024959166 0</point>
+              <point>-107.074590508 42.2120104609 0</point>
+              <point>-106.638470847 32.2215250052 0</point>
+              <point>-106.202351185 22.2310395494 0</point>
+          </road>
+              
+          <road name="street_198">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-44.0788401435 -25.10466976 0</point>
+              <point>-44.7849574859 -34.5364563092 0</point>
+          </road>
+              
+          <road name="street_199">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-36.2689529954 25.2838771801 0</point>
+              <point>-46.2594384511 24.8477575186 0</point>
+              <point>-56.2499239069 24.4116378571 0</point>
+              <point>-66.2404093626 23.9755181955 0</point>
+              <point>-76.2308948183 23.539398534 0</point>
+              <point>-86.221380274 23.1032788725 0</point>
+              <point>-96.2118657297 22.667159211 0</point>
+              <point>-106.202351185 22.2310395494 0</point>
+          </road>
+              
+          <road name="street_200">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-25.4062282167 5.73902593019 0</point>
+              <point>-15.415742761 6.17514559171 0</point>
+          </road>
+              
+          <road name="street_201">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-55.3776845838 4.43066694562 0</point>
+              <point>-45.3871991281 4.86678660715 0</point>
+              <point>-35.3967136724 5.30290626867 0</point>
+          </road>
+              
+          <road name="street_202">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-13.4848189232 -4.76109386379 0</point>
+              <point>-15.415742761 6.17514559171 0</point>
+          </road>
+              
+          <road name="street_203">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-104.714074392 -88.597326583 0</point>
+              <point>-107.184619272 -98.2873424755 0</point>
+              <point>-115.994066637 -108.561391539 0</point>
+              <point>-121.3915909 -116.979629587 0</point>
+              <point>-126.789115162 -125.397867635 0</point>
+              <point>-132.186639425 -133.816105683 0</point>
+              <point>-137.584163687 -142.234343731 0</point>
+              <point>-142.98168795 -150.652581779 0</point>
+              <point>-148.379212213 -159.070819828 0</point>
+              <point>-153.776736475 -167.489057876 0</point>
+          </road>
+              
+          <road name="street_204">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-113.61725616 -86.3273911798 0</point>
+              <point>-119.014780423 -94.745629228 0</point>
+              <point>-124.412304685 -103.163867276 0</point>
+              <point>-129.809828948 -111.582105324 0</point>
+              <point>-135.20735321 -120.000343372 0</point>
+              <point>-140.604877473 -128.418581421 0</point>
+              <point>-146.002401736 -136.836819469 0</point>
+          </road>
+              
+          <road name="street_205">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>70.0 -140.0 0</point>
+              <point>60.0 -140.0 0</point>
+              <point>50.0 -140.0 0</point>
+          </road>
+              
+          <road name="street_206">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>60.0 -150.0 0</point>
+              <point>50.0 -150.0 0</point>
+          </road>
+              
+          <road name="street_207">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-20.0 -120.0 0</point>
+              <point>-30.0 -120.0 0</point>
+              <point>-40.0 -120.0 0</point>
+              <point>-50.7002558976 -116.459562347 0</point>
+              <point>-60.6869099915 -116.976031135 0</point>
+              <point>-69.014416318 -113.233389579 0</point>
+              <point>-75.258428856 -105.422352041 0</point>
+          </road>
+              
+          <road name="street_208">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>60.0 -80.0 0</point>
+              <point>60.0 -90.0 0</point>
+              <point>60.0 -100.0 0</point>
+          </road>
+              
+          <road name="street_209">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>119.475902923 42.453454164 0</point>
+              <point>127.785151827 37.3058336524 0</point>
+          </road>
+              
+          <road name="street_210">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>149.693069006 73.5682025254 0</point>
+              <point>149.693069006 73.5682025254 0</point>
+          </road>
+              
+          <road name="street_211">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>120.341765269 14.1405523213 0</point>
+              <point>119.188088235 23.7710898534 0</point>
+              <point>116.815658415 33.485593276 0</point>
+          </road>
+              
+          <road name="street_212">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>132.662257513 20.5507135485 0</point>
+              <point>122.518795563 28.8049224243 0</point>
+              <point>116.815658415 33.485593276 0</point>
+          </road>
+              
+          <road name="street_213">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>146.17860446 57.3472694635 0</point>
+              <point>138.207698125 54.3749246362 0</point>
+              <point>133.05150809 45.8067448804 0</point>
+              <point>127.785151827 37.3058336524 0</point>
+              <point>122.518795563 28.8049224243 0</point>
+          </road>
+              
+          <road name="street_214">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>145.977145659 49.699398551 0</point>
+              <point>138.207698125 54.3749246362 0</point>
+          </road>
+              
+          <road name="street_215">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-39.339259299 -63.5746658229 0</point>
+              <point>-26.4253341771 -69.339259299 0</point>
+          </road>
+              
+          <road name="street_216">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-30.0 -60.0 0</point>
+              <point>-32.679695272 -52.9989626365 0</point>
+              <point>-40.2899064637 -43.4645292262 0</point>
+              <point>-44.7849574859 -34.5364563092 0</point>
+          </road>
+              
+          <road name="street_217">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-30.0 -80.0 0</point>
+              <point>-20.0 -80.0 0</point>
+              <point>-10.0 -80.0 0</point>
+              <point>0.0 -80.0 0</point>
+              <point>10.0 -80.0 0</point>
+              <point>20.0 -80.0 0</point>
+              <point>30.0 -80.0 0</point>
+              <point>40.0 -80.0 0</point>
+              <point>50.0 -80.0 0</point>
+          </road>
+              
+          <road name="street_218">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-120.747687591 -153.029392256 0</point>
+              <point>-129.165925639 -147.631867994 0</point>
+              <point>-137.584163687 -142.234343731 0</point>
+              <point>-146.002401736 -136.836819469 0</point>
+          </road>
+              
+          <road name="street_219">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-153.776736475 -167.489057876 0</point>
+              <point>-145.358498427 -172.886582138 0</point>
+          </road>
+              
+          <road name="street_220">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-142.98168795 -150.652581779 0</point>
+              <point>-134.563449902 -156.050106042 0</point>
+              <point>-126.145211854 -161.447630304 0</point>
+              <point>-117.726973806 -166.845154567 0</point>
+          </road>
+              
+          <road name="street_221">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-124.412304685 -103.163867276 0</point>
+              <point>-115.994066637 -108.561391539 0</point>
+              <point>-107.575828589 -113.958915801 0</point>
+              <point>-99.5808395091 -122.963990387 0</point>
+              <point>-94.14678631 -131.358695017 0</point>
+          </road>
+              
+          <road name="street_222">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>50.0 -150.0 0</point>
+              <point>50.0 -140.0 0</point>
+              <point>50.0 -130.0 0</point>
+              <point>50.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_223">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-75.258428856 -105.422352041 0</point>
+              <point>-83.0694663943 -111.666364579 0</point>
+              <point>-91.1861348788 -117.529937188 0</point>
+              <point>-99.5808395091 -122.963990387 0</point>
+          </road>
+              
+          <road name="street_224">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>50.0 -80.0 0</point>
+              <point>50.0 -90.0 0</point>
+              <point>50.0 -100.0 0</point>
+              <point>50.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_225">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-129.165925639 -147.631867994 0</point>
+              <point>-123.768401377 -139.213629946 0</point>
+              <point>-118.370877114 -130.795391898 0</point>
+              <point>-112.973352852 -122.377153849 0</point>
+              <point>-107.575828589 -113.958915801 0</point>
+          </road>
+              
+          <road name="street_226">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-145.358498427 -172.886582138 0</point>
+              <point>-139.960974164 -164.46834409 0</point>
+              <point>-134.563449902 -156.050106042 0</point>
+          </road>
+              
+          <road name="street_227">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-117.726973806 -166.845154567 0</point>
+              <point>-112.329449543 -158.426916519 0</point>
+              <point>-106.93192528 -150.008678471 0</point>
+              <point>-102.54149094 -136.792748216 0</point>
+              <point>-94.14678631 -131.358695017 0</point>
+          </road>
+              
+          <road name="street_228">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>50.0 -120.0 0</point>
+              <point>60.0 -120.0 0</point>
+          </road>
+              
+          <road name="street_229">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>50.0 -110.0 0</point>
+              <point>60.0 -110.0 0</point>
+          </road>
+              
+          <road name="street_230">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-118.370877114 -130.795391898 0</point>
+              <point>-109.952639066 -136.19291616 0</point>
+              <point>-102.54149094 -136.792748216 0</point>
+          </road>
+              
+          <road name="street_231">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>-123.768401377 -139.213629946 0</point>
+              <point>-115.350163329 -144.611154208 0</point>
+              <point>-106.93192528 -150.008678471 0</point>
+          </road>
+              
+          <road name="street_232">
+            <width>5</width>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Residential</name>
+              </script>
+            </material>
+              <point>60.0 -120.0 0</point>
+              <point>60.0 -110.0 0</point>
+          </road>
+          </world>
+        </sdf>

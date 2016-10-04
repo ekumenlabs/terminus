@@ -66,5 +66,10 @@ class Block(CityModel):
         Generate a square block of the given size and in the given position.
         """
         w = size / 2.0
-        vertices = [Point(w, w, 0), Point(-w, w, 0), Point(-w, -w, 0), Point(w, -w, 0)]
+        vertices = [
+            Point(w, w, 0),
+            Point(-w, w, 0),
+            Point(-w, -w, 0),
+            Point(w, -w, 0)
+        ]
         return Block(origin, vertices)

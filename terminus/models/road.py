@@ -2,6 +2,7 @@ from city_model import CityModel
 import random
 from pprint import pprint
 
+
 class Road(CityModel):
     def __init__(self, width, name=None):
         super(Road, self).__init__(name)
@@ -34,7 +35,8 @@ class Road(CityModel):
         return hash(tuple(sorted(self.__dict__.items())))
 
     def __repr__(self):
-        return "Road: " + reduce(lambda acc, point: acc + str(point), self.points, '')
+        return "Road: " + reduce(lambda acc, point: acc + str(point),
+                                 self.points, '')
 
     @classmethod
     def template(cls):
