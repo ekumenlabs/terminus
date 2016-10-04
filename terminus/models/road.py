@@ -62,9 +62,7 @@ class Street(Road):
         return 5
 
     def material_name(self):
-        colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
-        return 'Gazebo/' + random.choice(colors)
-        #return 'Gazebo/Residential'
+        return 'Gazebo/Residential'
 
 
 class Trunk(Road):
