@@ -27,11 +27,13 @@ class ProceduralCityBuilder(object):
         return city
 
     def _build_roads(self, vertex_list, ratio):
-        # Convert them to Gazebo coordinates
+        # Convert them to Gazebo coordinates. This is definitely ugly, as
+        # we are changing the type in vertex.coords, we should revisit.
         for vertex in vertex_list:
             vertex.coords = Point(vertex.coords[0]*ratio,
                                   vertex.coords[1]*ratio)
-        converter = VertexGraphToRoadsConverter(vertex_list)
+        # 0.79 rad ~ 45 deg
+        converter = VertexGraphToRoadsConverter(0.79, vertex_list)
         return converter.get_roads()
 
     def _parse_file(self):

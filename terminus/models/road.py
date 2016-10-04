@@ -1,12 +1,19 @@
 from city_model import CityModel
 import random
-
+from pprint import pprint
 
 class Road(CityModel):
     def __init__(self, width, name=None):
         super(Road, self).__init__(name)
         self.width = width
         self.points = []
+
+    @classmethod
+    def from_points(cls, array_of_points):
+        road = cls(cls.default_width())
+        for point in array_of_points:
+            road.add_point(point)
+        return road
 
     def add_point(self, point):
         self.points.append(point)
@@ -15,7 +22,10 @@ class Road(CityModel):
         raise NotImplementedError()
 
     def __eq__(self, other):
-        return (self.width == other.width) and (self.points == other.points)
+
+        return (self.__class__ == other.__class__) and \
+               (self.width == other.width) and \
+               (self.points == other.points)
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -45,17 +55,25 @@ class Road(CityModel):
 
 class Street(Road):
     def __init__(self, name=None):
-        super(Street, self).__init__(5, name)
+        super(Street, self).__init__(self.default_width(), name)
+
+    @classmethod
+    def default_width(cls):
+        return 5
 
     def material_name(self):
-        #colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
-        #return 'Gazebo/' + random.choice(colors)
-        return 'Gazebo/Residential'
+        colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
+        return 'Gazebo/' + random.choice(colors)
+        #return 'Gazebo/Residential'
 
 
 class Trunk(Road):
     def __init__(self, name=None):
-        super(Trunk, self).__init__(10, name)
+        super(Trunk, self).__init__(self.default_width(), name)
+
+    @classmethod
+    def default_width(cls):
+        return 10
 
     def material_name(self):
         return 'Gazebo/Trunk'
