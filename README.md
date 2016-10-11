@@ -10,7 +10,7 @@ Some examples:
     * Get help: `$ terminus/run_generator.py -h` 
     * Generate using the simple city builder `$ terminus/run_generator.py --builder=SimpleCityBuilder`
     * Specify the output file `$ terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world`
-    * Generate the city using the output file from the `procedural_city_generation` package `$ terminus/run_generator.py --builder=ProceduralCityBuilder --destination=procedural.world --parameters filename=../procedural_city_generation/procedural_city_generation/temp/mycity`    
+    * Generate the city using the output file from the `procedural_city_generation` package $ terminus/run_generator.py --builder=ProceduralCityBuilder --parameters verticesFilename=../procedural_city_generation/procedural_city_generation/temp/mycity polygonsFilename=../procedural_city_generation/procedural_city_generation/temp/mycity_polygons.txt`    
 
 - Open using `$ gazebo generated_worlds/city.world`
 

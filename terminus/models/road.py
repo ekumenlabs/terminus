@@ -1,6 +1,4 @@
 from city_model import CityModel
-import random
-from pprint import pprint
 
 
 class Road(CityModel):
