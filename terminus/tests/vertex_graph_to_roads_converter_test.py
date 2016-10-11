@@ -2,7 +2,7 @@ import unittest
 from builders.procedural_city.vertex_graph_to_roads_converter \
     import VertexGraphToRoadsConverter
 from builders.procedural_city.vertex import Vertex
-from geometry.point import Point
+from shapely.geometry import Point
 from models.road import Street, Trunk
 
 

@@ -1,5 +1,5 @@
 from city_element import CityElement
-
+import random
 
 # City models correspond to Gazebo models, and hence need a name
 class CityModel(CityElement):
@@ -17,3 +17,12 @@ class CityModel(CityElement):
                          + str(CityModel.incrementing_id))
         else:
             self.name = name
+
+    def material(self):
+        colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
+        return """<script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/{0}</name>
+        </script>""".format(random.choice(colors))

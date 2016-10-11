@@ -1,8 +1,6 @@
 import numpy as np
 from operator import itemgetter
 from models.road import Street, Trunk
-from geometry.point import Point
-
 
 class VertexGraphToRoadsConverter(object):
 
@@ -20,6 +18,7 @@ class VertexGraphToRoadsConverter(object):
             vertex = to_traverse.pop(0)
             while vertex.neighbours:
                 street = Street()
+                street.width = 5
                 street.add_point(vertex.coords)
                 self._build_road(street, None, vertex)
                 roads.append(street)
@@ -39,12 +38,12 @@ class VertexGraphToRoadsConverter(object):
             # Since there is a previous vertex, we must compute the angle
             # between the previous_vertex and the current_vertex and try to
             # find the neighbour that is better aligned with that segment.
-            current_angle = previous_vertex.coords.angle_2d_to(
-                current_vertex.coords)
+            current_angle = self._angle_2d(previous_vertex.coords,
+                                           current_vertex.coords)
             edges = []
             for neighbour in current_vertex.neighbours:
-                neighbours_angle = current_vertex.coords.angle_2d_to(
-                    neighbour.coords)
+                neighbours_angle = self._angle_2d(current_vertex.coords,
+                                                  neighbour.coords)
                 edges.append([neighbour,
                              abs(current_angle - neighbours_angle)])
             edges.sort(key=itemgetter(1))
@@ -54,3 +53,9 @@ class VertexGraphToRoadsConverter(object):
                 selected_neighbour.neighbours.remove(current_vertex)
                 street.add_point(selected_neighbour.coords)
                 self._build_road(street, current_vertex, selected_neighbour)
+
+    def _angle_2d(self, point_from, point_to):
+        alpha = np.arctan2(point_from.x - point_to.x, point_from.y - point_to.y)
+        if alpha < 0:
+            alpha += 2 * np.pi
+        return alpha

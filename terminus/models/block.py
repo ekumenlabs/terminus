@@ -1,5 +1,5 @@
 from city_model import CityModel
-from geometry.point import Point
+from shapely.geometry import Point
 
 
 class Block(CityModel):
@@ -13,6 +13,7 @@ class Block(CityModel):
         self.height = height
         # TODO: review using 3D points when polyline only uses 2D.
         self.vertices = vertices
+
 
     @classmethod
     def template(cls):
@@ -37,12 +38,7 @@ class Block(CityModel):
                 </collision>
                 <visual name="{{model.name}}_visual">
                    <material>
-                      <script>
-                          <uri>
-                            file://media/materials/scripts/gazebo.material
-                          </uri>
-                         <name>Gazebo/Grey</name>
-                      </script>
+                      {{model.material()}}
                       <ambient>1 1 1 1</ambient>
                    </material>
                    <meta>
