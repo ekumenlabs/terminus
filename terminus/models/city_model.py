@@ -20,6 +20,16 @@ class CityModel(CityElement):
             self.name = name
 
     def material(self):
+        return """<script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>"""
+
+    def _material_with_random_color(self):
+        """This is mostly for debugging / visualization purposes. Do not rely
+        on the existence of this method, we will eventually remove it"""
         colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
         return """<script>
           <uri>
