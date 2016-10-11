@@ -1,6 +1,7 @@
 from city_element import CityElement
 import random
 
+
 # City models correspond to Gazebo models, and hence need a name
 class CityModel(CityElement):
 

@@ -2,6 +2,7 @@ import numpy as np
 from operator import itemgetter
 from models.road import Street, Trunk
 
+
 class VertexGraphToRoadsConverter(object):
 
     def __init__(self, angle_threshold, vertex_list):
@@ -55,7 +56,8 @@ class VertexGraphToRoadsConverter(object):
                 self._build_road(street, current_vertex, selected_neighbour)
 
     def _angle_2d(self, point_from, point_to):
-        alpha = np.arctan2(point_from.x - point_to.x, point_from.y - point_to.y)
+        alpha = np.arctan2(point_from.x - point_to.x,
+                           point_from.y - point_to.y)
         if alpha < 0:
             alpha += 2 * np.pi
         return alpha

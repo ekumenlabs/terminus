@@ -17,7 +17,6 @@ class PolygonsToBlocksConverter(object):
         points = list(Point(c) for c in polygon.exterior.coords)
         return Block(Point(0, 0, 0), points)
 
-
     def _reduce_adjacent_polygons(self, polygons):
         """Adjacent lots that belong to the same block are quite likely to be
         consecutive. Reduce the list by merging contiguous polygons that
@@ -52,7 +51,8 @@ class PolygonsToBlocksConverter(object):
                         current_polygon = current_polygon.union(polygon)
                     else:
                         remainder.append(polygon)
-                one_more_iteration = one_more_iteration or (len(remainder) < len(current_list))
+                one_more_iteration = one_more_iteration or \
+                    (len(remainder) < len(current_list))
                 new_list.append(current_polygon)
                 current_list = remainder
             current_list = new_list

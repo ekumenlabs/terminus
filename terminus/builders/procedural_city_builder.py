@@ -15,6 +15,7 @@ from procedural_city.polygons_to_blocks_converter \
 
 import pickle
 
+
 class ProceduralCityBuilder(object):
     def __init__(self, verticesFilename, polygonsFilename):
         self.verticesFilename = verticesFilename
@@ -58,7 +59,7 @@ class ProceduralCityBuilder(object):
 
         for polygon in lot_polygons:
             points = polygon.get_vertices_as_points(ratio)
-            poly = Polygon(points).buffer(buffer_size,16,1,1,2)
+            poly = Polygon(points).buffer(buffer_size, 16, 1, 1, 2)
             block_polygons.append(poly)
 
         converter = PolygonsToBlocksConverter(block_polygons)
@@ -83,4 +84,3 @@ class ProceduralCityBuilder(object):
             # this builder.
             contents = f.read().replace(original_name, replace_name)
             return pickle.loads(contents)
-

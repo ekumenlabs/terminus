@@ -14,7 +14,6 @@ class Block(CityModel):
         # TODO: review using 3D points when polyline only uses 2D.
         self.vertices = vertices
 
-
     @classmethod
     def template(cls):
         return """
