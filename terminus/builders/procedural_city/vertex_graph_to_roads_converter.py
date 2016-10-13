@@ -19,11 +19,13 @@ class VertexGraphToRoadsConverter(object):
                                  key=lambda vertex: len(vertex.neighbours))
             vertex = to_traverse.pop(0)
             while vertex.neighbours:
-                street = Street()
-                street.width = 5
-                street.add_point(vertex.coords)
-                self._build_road(street, None, vertex)
-                roads.append(street)
+                if vertex.minor_road:
+                    road = Street()
+                else:
+                    road = Trunk()
+                road.add_point(vertex.coords)
+                self._build_road(road, None, vertex)
+                roads.append(road)
         return roads
 
     def _build_road(self, street, previous_vertex, current_vertex):
