@@ -1,6 +1,6 @@
 # If you want to rebuild all images, set this to --no-cache from the commandline
-DOCKER_ARGS=
-NVIDIA_DRIVER="nvidia-367"
+DOCKER_ARGS?=
+NVIDIA_DRIVER?="nvidia-367"
 
 default:
 	# You need to specify a particular target

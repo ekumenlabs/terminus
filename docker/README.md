@@ -1,9 +1,18 @@
 Create a docker image to compile Gazebo 7.
 
-## Using NVIDIA drivers
+It is important to have the exact version of the graphics card in your computer and in the docker container. In consequence we have different Dockerfiles for different drivers.
 
-Edit the variable `NVIDIA_DRIVER` in the Makefile to match your host nvidia driver. We are using the propietary drivers from `ppa:graphics-drivers/ppa`. After that you can execute:
+### Using NVIDIA drivers
+
+We are using the propietary drivers from `ppa:graphics-drivers/ppa`. The default driver is `nvidia-367`.
 
 `make gazebo7-nvidia gazebo7-nvidia`
 
+If you are using another one you can use:
+
+`make NVIDIA_DRIVER="nvidia-xxx" gazebo7-nvidia gazebo7-nvidia`
+
+Check that your nvidia driver that is going to be downloaded is the same than the one that you have instaled.
+
+### Using Intel drivers
 
