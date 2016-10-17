@@ -7,6 +7,7 @@ In order to guaranteed that we are all using the same gazebo configuration we ha
 To start the container just execute the script `run_simulator`:
 
 ```
+cd {REPOSITORY_PATH}/terminus/docker
 $ ./run_simulator [CONTAINER_NAME] [CONTAINER_IMAGE]
 ```
 
@@ -43,9 +44,12 @@ It is important to have the exact version of the graphics card in your computer 
 
 ### Using NVIDIA drivers
 
-We are using the propietary drivers from `ppa:graphics-drivers/ppa`. The default driver is `nvidia-367`.
+We are using the propietary drivers from `ppa:graphics-drivers/ppa`. The default driver is `nvidia-367`. From the docker folder execute:
 
-`make gazebo7-nvidia gazebo7-nvidia`
+```
+cd {REPOSITORY_PATH}/terminus/docker
+make gazebo7-nvidia gazebo7-nvidia
+```
 
 If you are using another one you can use:
 
@@ -57,6 +61,7 @@ Check that your nvidia driver that is going to be downloaded is the same than th
 
 For intel, you need to run the following command:
 ```
+cd {REPOSITORY_PATH}/terminus/docker
 make gazebo7-intel gazebo7-intel
 ```
 
