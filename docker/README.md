@@ -15,7 +15,7 @@ The image name is the one that you use with the makefile, for now:
 * gazebo7-nvidia
 * gazebo7-intel
 
-We recommend to use the same name for the container, so usually you should run:
+We recommend to use the same name for the container, so usually you should run one of this commands:
 
 ```
 $ ./run_simulator gazebo7-nvidia gazebo7-nvidia
@@ -27,14 +27,14 @@ The script `run simulator` will mount the repository folder into the docker cont
 
 ## Gazebo 7 version
 
-This docker compiles Gazebo7 on a previusly declared commit. Please make sure that you are compiling on the right commit. This commit hash is declared on the makefile. You can always check what commit it is using doing:
+This docker compiles Gazebo7 on a previusly declared commit. Please make sure that you are compiling the right commit and branch. You can always check what commit it is using doing:
 
 ```
 $ cd /home/gazebo/ws/gazebo
 $ hg --debug id -i
 ```
 
-The commit hash is set on the makefile under the variable `GAZEBO_COMMIT`.
+The commit hash is set on the makefile under the variable `GAZEBO_COMMIT`. Don't change without talking with the development team.
 
 ## Special considerations regarding the graphic card usage
 
