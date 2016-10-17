@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# USAGE:
-# You can use behind a proxy this way:
-#   run_simulator simulator simulator 
-
 
 CONTAINER=$1
 IMAGE_NAME=$2

@@ -1,6 +1,9 @@
 FROM ubuntu:xenial
 MAINTAINER Javier Choclin jchoclin@ekumenlabs.com
 
+# Select Gazeo 7 commit
+ARG gazebo_commit
+
 # setup environment
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -56,7 +59,7 @@ RUN cd /home/gazebo/ws/sdformat; mkdir build; cd build; cmake .. -DCMAKE_INSTALL
 # Download and compile Gazebo
 RUN hg clone https://bitbucket.org/osrf/gazebo /home/gazebo/ws/gazebo
 # Use branch visualization on demand
-RUN cd /home/gazebo/ws/gazebo; hg up vis_on_demand; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
+RUN cd /home/gazebo/ws/gazebo; hg up -r $gazebo_commit; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
 USER gazebo
 
