@@ -13,7 +13,7 @@ DOCKER_MOUNT_ARGS="\
     -v ${HOME}/.tmux.conf:/home/gazebo/.tmux.conf \
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     -v /dev:/dev \
-    -v ${REPO_DIR}:/home/gazebo/ws/ \
+    -v ${REPO_DIR}:/home/gazebo/ws/src \
     -v ${REPO_DIR}/docker:/home/gazebo/docker"
 
 xhost +

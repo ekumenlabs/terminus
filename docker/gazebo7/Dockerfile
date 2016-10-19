@@ -61,6 +61,8 @@ RUN hg clone https://bitbucket.org/osrf/gazebo /home/gazebo/ws/gazebo
 # Use branch visualization on demand
 RUN cd /home/gazebo/ws/gazebo; hg up -r $gazebo_commit; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
+RUN mkdir -p /home/gazebo/ws/src
+
 USER gazebo
 
 WORKDIR /home/gazebo/ws
