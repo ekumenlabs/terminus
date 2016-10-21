@@ -20,24 +20,28 @@ class VertexGraphToRoadsConverter(object):
             vertex = to_traverse.pop(0)
             while vertex.neighbours:
                 if vertex.minor_road:
-                    road = Street()
+                    road = Street(width=4)
                 else:
-                    road = Trunk()
+                    road = Trunk(width=22)
                 road.add_point(vertex.coords)
                 self._build_road(road, None, vertex)
-                roads.append(road)
+                if len(road.points) > 1:
+                    roads.append(road)
         return roads
 
-    def _build_road(self, street, previous_vertex, current_vertex):
+    def _build_road(self, road, previous_vertex, current_vertex):
         # If there is no previous vertex we don't care about the angle between
         # the current_vertex and the neighbour, as we are building the first
         # segment
         if previous_vertex is None:
             neighbour = current_vertex.neighbours.pop()
+            # If first vertex is a trunk and the second is a street, then stop
+            if not current_vertex.minor_road and neighbour.minor_road:
+                return
             if current_vertex in neighbour.neighbours:
                 neighbour.neighbours.remove(current_vertex)
-            street.add_point(neighbour.coords)
-            self._build_road(street, current_vertex, neighbour)
+            road.add_point(neighbour.coords)
+            self._build_road(road, current_vertex, neighbour)
         else:
             # Since there is a previous vertex, we must compute the angle
             # between the previous_vertex and the current_vertex and try to
@@ -51,12 +55,21 @@ class VertexGraphToRoadsConverter(object):
                 edges.append([neighbour,
                              abs(current_angle - neighbours_angle)])
             edges.sort(key=itemgetter(1))
+            # Pick the edge with the lowest angle and check if it's below the
+            # threshold.
             if edges and (edges[0][1] <= self.angle_threshold):
                 selected_neighbour = edges[0][0]
-                current_vertex.neighbours.remove(selected_neighbour)
-                selected_neighbour.neighbours.remove(current_vertex)
-                street.add_point(selected_neighbour.coords)
-                self._build_road(street, current_vertex, selected_neighbour)
+                # If we are connecting a street to either a street or a trunk
+                # it's ok to continue, also if the current and next vertices
+                # are part of a trunk.
+                if current_vertex.minor_road or \
+                        (not current_vertex.minor_road and \
+                        not selected_neighbour.minor_road):
+                    current_vertex.neighbours.remove(selected_neighbour)
+                    if current_vertex in selected_neighbour.neighbours:
+                        selected_neighbour.neighbours.remove(current_vertex)
+                    road.add_point(selected_neighbour.coords)
+                    self._build_road(road, current_vertex, selected_neighbour)
 
     def _angle_2d(self, point_from, point_to):
         alpha = np.arctan2(point_from.x - point_to.x,
