@@ -4,6 +4,7 @@ try:
 except:
     from io import StringIO
 
+
 class SDFGenerator(FileGenerator):
 
     def generate(self):
@@ -18,7 +19,8 @@ class SDFGenerator(FileGenerator):
         self.document = StringIO(new_contents)
 
     def end_city(self, city):
-        new_contents = self._contents_for(city, inner_contents=self.document.getvalue())
+        current_value = self.document.getvalue()
+        new_contents = self._contents_for(city, inner_contents=current_value)
         self.document = StringIO(new_contents)
 
     def end_street(self, street):

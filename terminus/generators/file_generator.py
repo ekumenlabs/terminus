@@ -82,7 +82,8 @@ class FileGenerator(object):
             self.template_cache[key] = template
         return self.template_cache[key]
 
-    # See http://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-snake-case
+    # See http://stackoverflow.com/questions/1175208/
+    # elegant-python-function-to-convert-camelcase-to-snake-case
     def _template_cache_key_for(self, model):
         class_name = model.__class__.__name__
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)

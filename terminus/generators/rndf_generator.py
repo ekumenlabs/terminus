@@ -5,6 +5,7 @@ try:
 except:
     from io import StringIO
 
+
 class RNDFGenerator(FileGenerator):
 
     def __init__(self, city, origin):
@@ -22,13 +23,14 @@ class RNDFGenerator(FileGenerator):
 
     def start_street(self, road):
         self.segment_id = self.segment_id + 1
-        self.document.write(self._contents_for(road, segment_id=self.segment_id))
+        street_contents = self._contents_for(road, segment_id=self.segment_id)
+        self.document.write(street_contents)
 
     def translate_point(self, point):
         meters_per_degree = 111319.9
         x = point.x / meters_per_degree + self.origin.x
         y = point.y / meters_per_degree + self.origin.y
-        return Point(x,y)
+        return Point(x, y)
 
     def city_template(self):
         return """
@@ -47,7 +49,9 @@ class RNDFGenerator(FileGenerator):
         lane_width\t{{model.width}}
         {% for point in model.points %}
         {% set latlon = generator.translate_point(point) %}
-        {{segment_id}}.1.{{loop.index}}\t{{latlon.x|round(6)}}\t{{latlon.y|round(6)}}
+        {% set lat = latlon.x %}
+        {% set lon = latlon.y %}
+        {{segment_id}}.1.{{loop.index}}\t{{lat|round(6)}}\t{{lon|round(6)}}
         {% endfor %}
         end_lane"""
 

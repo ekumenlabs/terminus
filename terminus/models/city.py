@@ -36,4 +36,3 @@ class City(CityModel):
         for building in self.buildings:
             building.accept(generator)
         generator.end_city(self)
-
