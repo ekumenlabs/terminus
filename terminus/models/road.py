@@ -9,7 +9,7 @@ class Road(CityModel):
 
     @classmethod
     def from_points(cls, array_of_points):
-        road = cls(cls.default_width())
+        road = cls()
         for point in array_of_points:
             road.add_point(point)
         return road
@@ -19,6 +19,12 @@ class Road(CityModel):
 
     def points_count(self):
         return len(self.points)
+        
+    def get_width(self):
+        return width
+
+    def set_width(self, width):
+        self.width = width
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
@@ -32,5 +38,5 @@ class Road(CityModel):
         return hash(tuple(sorted(self.__dict__.items())))
 
     def __repr__(self):
-        return "Road: " + reduce(lambda acc, point: acc + str(point),
-                                 self.points, '')
+        return "%s: " % self.__class__ + reduce(lambda acc, point: acc +
+               "%s," % str(point), self.points, '')

@@ -6,6 +6,8 @@ from shapely.geometry import Point
 from models.street import Street
 from models.trunk import Trunk
 
+STREET_WIDTH = 4
+
 
 class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
@@ -17,12 +19,11 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         v2 = Vertex(Point(1, 0))
 
         self._connect(v1, v2)
-
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 0)])
-        ]
+        street = Street.from_points([Point(0, 0), Point(1, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads = [street]
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_one_not_aligned_segment(self):
@@ -38,9 +39,9 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 1)])
-        ]
+        street = Street.from_points([Point(0, 0), Point(1, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads = [street]
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_multiple_aligned_segments(self):
@@ -58,10 +59,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3, v4])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points(
-                [Point(0, 0), Point(1, 0), Point(5, 1), Point(9, 3)])
-        ]
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(5, 1),
+                                    Point(9, 3)])
+        street.set_width(STREET_WIDTH)
+        expected_roads = [street]
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_multiple_non_aligned_segments(self):
@@ -80,10 +81,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3, v4])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 0), Point(5, 1)]),
-            Street.from_points([Point(6, 2), Point(5, 1)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(5, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(6, 2), Point(5, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_multiple_independent_segments(self):
@@ -104,10 +108,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self.converter = VertexGraphToRoadsConverter(
             0.25, [v1, v2, v3, v4, v5])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 0), Point(6, 1)]),
-            Street.from_points([Point(2, 5), Point(3, 4)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(6, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(2, 5), Point(3, 4)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_V_type(self):
@@ -124,10 +131,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(3, -1), Point(0, 0)]),
-            Street.from_points([Point(3, 1), Point(0, 0)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(3, -1), Point(0, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(3, 1), Point(0, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_L_type(self):
@@ -147,10 +157,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3, v4])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 0), Point(6, 1)]),
-            Street.from_points([Point(6, 6), Point(1, 0)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(6, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(6, 6), Point(1, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_Y_type(self):
@@ -171,10 +184,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3, v4])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(1, 0), Point(6, -0.8)]),
-            Street.from_points([Point(6, 1), Point(1, 0)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(6, -0.8)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(6, 1), Point(1, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def test_get_roads_matrix_distribution(self):
@@ -213,14 +229,25 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self.converter = VertexGraphToRoadsConverter(
             0.25, [v1, v2, v3, v4, v5, v6, v7, v8, v9])
         roads = self.converter.get_roads()
-        expected_roads = [
-            Street.from_points([Point(0, 0), Point(0, 1), Point(0, 2)]),
-            Street.from_points([Point(1, 0), Point(1, 1), Point(1, 2)]),
-            Street.from_points([Point(2, 0), Point(2, 1), Point(2, 2)]),
-            Street.from_points([Point(0, 0), Point(1, 0), Point(2, 0)]),
-            Street.from_points([Point(0, 1), Point(1, 1), Point(2, 1)]),
-            Street.from_points([Point(0, 2), Point(1, 2), Point(2, 2)])
-        ]
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(0, 1), Point(0, 2)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(1, 0), Point(1, 1), Point(1, 2)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(2, 0), Point(2, 1), Point(2, 2)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(2, 0)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(0, 1), Point(1, 1), Point(2, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(0, 2), Point(1, 2), Point(2, 2)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
     def _connect(self, v1, v2):
