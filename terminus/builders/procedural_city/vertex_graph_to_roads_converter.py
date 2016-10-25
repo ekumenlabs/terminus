@@ -63,22 +63,22 @@ class VertexGraphToRoadsConverter(object):
                     selected_neighbour = edge[0]
                     # Prefer building the same type of road in first place
                     if current_vertex.minor_road == \
-                       selected_neighbour.minor_road:
-                       first_option = selected_neighbour
-                       break
+                            selected_neighbour.minor_road:
+                        first_option = selected_neighbour
+                        break
                     # Prefer connecting a street to a trunk in second place
                     if current_vertex.minor_road and \
-                       not selected_neighbour.minor_road and \
-                       second_option == None:
-                       second_option = selected_neighbour
+                            not selected_neighbour.minor_road and \
+                            second_option is None:
+                        second_option = selected_neighbour
             # If we've got some options, use the best one
             best_neighbour = None
-            if first_option != None:
+            if first_option is not None:
                 best_neighbour = first_option
             else:
-                if second_option != None:
+                if second_option is not None:
                     best_neighbour = second_option
-            if best_neighbour != None:
+            if best_neighbour is not None:
                 current_vertex.neighbours.remove(best_neighbour)
                 if current_vertex in best_neighbour.neighbours:
                     best_neighbour.neighbours.remove(current_vertex)

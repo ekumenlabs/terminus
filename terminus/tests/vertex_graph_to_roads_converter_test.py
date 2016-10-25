@@ -261,7 +261,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         v2 = Vertex(Point(1, 0))
         v3 = Vertex(Point(6, 1))
         v4 = Vertex(Point(6, -0.8))
-        v4.minor_road = False # make trunk
+        v4.minor_road = False  # make trunk
 
         self._connect(v1, v2)
         self._connect(v2, v3)
