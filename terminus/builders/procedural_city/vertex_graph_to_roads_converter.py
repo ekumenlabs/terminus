@@ -1,6 +1,7 @@
 import numpy as np
 from operator import itemgetter
-from models.road import Street, Trunk
+from models.street import Street
+from models.trunk import Trunk
 
 
 class VertexGraphToRoadsConverter(object):

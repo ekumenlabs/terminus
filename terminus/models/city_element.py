@@ -1,24 +1,8 @@
-from jinja2 import Template
-
-
-# Just an element of the city. It has a template so it can be rendered to an
-# sdf file
 class CityElement(object):
+    """A city element is an object that belongs to a city and that may
+    be visited by a generator to create the contents for a file.
+    We are using a vistor pattern here to do the double-dispatching and
+    the entry point is the `accept` message"""
 
-    @classmethod
-    def template(cls):
+    def accept(self, generator):
         raise NotImplementedError()
-
-    @classmethod
-    def cached_jinja_template(cls):
-        if not hasattr(cls, '_cached_jinja_template'):
-            cls._cached_jinja_template = Template(cls.template(),
-                                                  trim_blocks=True,
-                                                  lstrip_blocks=True)
-        return cls._cached_jinja_template
-
-    def jinja_template(self):
-        return self.cached_jinja_template()
-
-    def to_sdf(self):
-        return self.jinja_template().render(model=self)

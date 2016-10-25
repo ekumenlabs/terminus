@@ -1,7 +1,8 @@
 from shapely.geometry import Point
 
 from models.city import City
-from models.road import Street, Trunk
+from models.street import Street
+from models.trunk import Trunk
 from models.block import Block
 from models.building import Building
 from models.ground_plane import GroundPlane

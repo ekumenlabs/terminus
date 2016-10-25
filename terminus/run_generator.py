@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
+from generators.rndf_generator import RNDFGenerator
+from generators.sdf_generator import SDFGenerator
 from builders import *
 
 import argparse
 import sys
+import os
 
 parser = argparse.ArgumentParser()
 
@@ -15,7 +18,7 @@ parser.add_argument('-b',
 # The output file
 parser.add_argument('-d',
                     '--destination',
-                    default='generated_worlds/city.world',
+                    default='generated_worlds/city.sdf',
                     help='destination file name')
 # Extra named parameters passed to the builder when creating it
 parser.add_argument('-p',
@@ -28,7 +31,12 @@ parser.add_argument('-p',
 arguments = parser.parse_args()
 
 # Get the file name to write to
-destination_file = arguments.destination
+destination_sdf_file = arguments.destination
+
+# Get the base file name + path to also generate the rndf
+base_path = os.path.splitext(destination_sdf_file)[0]
+
+destination_rndf_file = base_path + '.rndf'
 
 # Get the class of the builder to use
 builder_class = getattr(sys.modules[__name__], arguments.builder)
@@ -43,5 +51,10 @@ builder = builder_class(**builder_parameters)
 
 city = builder.get_city()
 
-with open(destination_file, "w") as f:
-    f.write(city.to_sdf())
+sdf_generator = SDFGenerator(city)
+sdf_generator.write_to(destination_sdf_file)
+
+# For the time being we use an arbitrary (lat,lon) pair as the origin
+rndf_generator = RNDFGenerator(city, Point(10, -65))
+rndf_generator.write_to(destination_rndf_file)
+

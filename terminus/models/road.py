@@ -17,11 +17,7 @@ class Road(CityModel):
     def add_point(self, point):
         self.points.append(point)
 
-    def material_name(self):
-        raise NotImplementedError()
-
     def __eq__(self, other):
-
         return (self.__class__ == other.__class__) and \
                (self.width == other.width) and \
                (self.points == other.points)
@@ -35,43 +31,3 @@ class Road(CityModel):
     def __repr__(self):
         return "Road: " + reduce(lambda acc, point: acc + str(point),
                                  self.points, '')
-
-    @classmethod
-    def template(cls):
-        return """
-          <road name="{{model.name}}">
-            <width>{{model.width}}</width>
-            <material>
-              <script>
-                <uri>file://media/materials/scripts/gazebo.material</uri>
-                <name>{{model.material_name()}}</name>
-              </script>
-            </material>
-            {% for point in model.points %}
-              <point>{{point.x}} {{point.y}} {{point.z}}</point>
-            {% endfor %}
-          </road>"""
-
-
-class Street(Road):
-    def __init__(self, name=None):
-        super(Street, self).__init__(self.default_width(), name)
-
-    @classmethod
-    def default_width(cls):
-        return 5
-
-    def material_name(self):
-        return 'Gazebo/Residential'
-
-
-class Trunk(Road):
-    def __init__(self, name=None):
-        super(Trunk, self).__init__(self.default_width(), name)
-
-    @classmethod
-    def default_width(cls):
-        return 10
-
-    def material_name(self):
-        return 'Gazebo/Trunk'
