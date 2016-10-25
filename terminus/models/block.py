@@ -11,49 +11,7 @@ class Block(CityModel):
         super(Block, self).__init__(name)
         self.origin = origin
         self.height = height
-        # TODO: review using 3D points when polyline only uses 2D.
         self.vertices = vertices
-
-    @classmethod
-    def template(cls):
-        return """
-          <model name="{{model.name}}">
-             <static>1</static>
-             <allow_auto_disable>1</allow_auto_disable>
-             <link name="{{model.name}}_link">
-                <pose frame="">
-                  {{model.origin.x}} {{model.origin.y}} {{model.origin.z}}
-                  0 0 0
-                </pose>
-                <collision name="{{model.name}}_collision">
-                   <geometry>
-                        <polyline>
-                        {% for vertex in model.vertices %}
-                            <point>{{vertex.x}} {{vertex.y}}</point>
-                        {% endfor %}
-                        <height>{{model.height}}</height>
-                        </polyline>
-                   </geometry>
-                </collision>
-                <visual name="{{model.name}}_visual">
-                   <material>
-                      {{model.material()}}
-                      <ambient>1 1 1 1</ambient>
-                   </material>
-                   <meta>
-                      <layer>0</layer>
-                   </meta>
-                   <geometry>
-                        <polyline>
-                        {% for vertex in model.vertices %}
-                            <point>{{vertex.x}} {{vertex.y}}</point>
-                        {% endfor %}
-                        <height>{{model.height}}</height>
-                        </polyline>
-                   </geometry>
-                </visual>
-             </link>
-          </model>"""
 
     @staticmethod
     def square(origin, size):
@@ -68,3 +26,7 @@ class Block(CityModel):
             Point(w, -w, 0)
         ]
         return Block(origin, vertices)
+
+    def accept(self, generator):
+        generator.start_block(self)
+        generator.end_block(self)

@@ -2,8 +2,11 @@ from city_element import CityElement
 import random
 
 
-# City models correspond to Gazebo models, and hence need a name
 class CityModel(CityElement):
+    """City models are city elements that also have an associated name. These
+    are useful to be mapped as Gazebo models, but it applies to any entity
+    that can be named. If no name is provided on object creation, one is
+    automatically generated for the model"""
 
     incrementing_id = 0
 
@@ -18,22 +21,3 @@ class CityModel(CityElement):
                          + str(CityModel.incrementing_id))
         else:
             self.name = name
-
-    def material(self):
-        return """<script>
-          <uri>
-            file://media/materials/scripts/gazebo.material
-          </uri>
-          <name>Gazebo/Grey</name>
-        </script>"""
-
-    def _material_with_random_color(self):
-        """This is mostly for debugging / visualization purposes. Do not rely
-        on the existence of this method, we will eventually remove it"""
-        colors = ['Red', 'Blue', 'White', 'Yellow', 'Green', 'Black', 'Purple']
-        return """<script>
-          <uri>
-            file://media/materials/scripts/gazebo.material
-          </uri>
-          <name>Gazebo/{0}</name>
-        </script>""".format(random.choice(colors))
