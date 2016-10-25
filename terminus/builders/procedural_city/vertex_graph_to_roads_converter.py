@@ -57,19 +57,33 @@ class VertexGraphToRoadsConverter(object):
             edges.sort(key=itemgetter(1))
             # Pick the edge with the lowest angle and check if it's below the
             # threshold.
-            if edges and (edges[0][1] <= self.angle_threshold):
-                selected_neighbour = edges[0][0]
-                # If we are connecting a street to either a street or a trunk
-                # it's ok to continue, also if the current and next vertices
-                # are part of a trunk.
-                if current_vertex.minor_road or \
-                        (not current_vertex.minor_road and \
-                        not selected_neighbour.minor_road):
-                    current_vertex.neighbours.remove(selected_neighbour)
-                    if current_vertex in selected_neighbour.neighbours:
-                        selected_neighbour.neighbours.remove(current_vertex)
-                    road.add_point(selected_neighbour.coords)
-                    self._build_road(road, current_vertex, selected_neighbour)
+            first_option = second_option = None
+            for edge in edges:
+                if edge[1] <= self.angle_threshold:
+                    selected_neighbour = edge[0]
+                    # Prefer building the same type of road in first place
+                    if current_vertex.minor_road == \
+                       selected_neighbour.minor_road:
+                       first_option = selected_neighbour
+                       break
+                    # Prefer connecting a street to a trunk in second place
+                    if current_vertex.minor_road and \
+                       not selected_neighbour.minor_road and \
+                       second_option == None:
+                       second_option = selected_neighbour
+            # If we've got some options, use the best one
+            best_neighbour = None
+            if first_option != None:
+                best_neighbour = first_option
+            else:
+                if second_option != None:
+                    best_neighbour = second_option
+            if best_neighbour != None:
+                current_vertex.neighbours.remove(best_neighbour)
+                if current_vertex in best_neighbour.neighbours:
+                    best_neighbour.neighbours.remove(current_vertex)
+                road.add_point(best_neighbour.coords)
+                self._build_road(road, current_vertex, best_neighbour)
 
     def _angle_2d(self, point_from, point_to):
         alpha = np.arctan2(point_from.x - point_to.x,
