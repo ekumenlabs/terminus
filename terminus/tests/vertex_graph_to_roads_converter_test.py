@@ -250,6 +250,34 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         expected_roads.append(street)
         self.assertItemsEqual(roads, expected_roads)
 
+    def test_get_roads_Y_street_and_trunk_type(self):
+        """
+        (0,0)--(1,0)--(6,1)
+                  |---(6,-0.8)(trunk)
+        Note that (6,-0.8) is discarded because it's a trunk even though it has
+        a has a smaller angle but we are building a street type.
+        """
+        v1 = Vertex(Point(0, 0))
+        v2 = Vertex(Point(1, 0))
+        v3 = Vertex(Point(6, 1))
+        v4 = Vertex(Point(6, -0.8))
+        v4.minor_road = False # make trunk
+
+        self._connect(v1, v2)
+        self._connect(v2, v3)
+        self._connect(v2, v4)
+
+        self.converter = VertexGraphToRoadsConverter(0.25, [v1, v2, v3, v4])
+        roads = self.converter.get_roads()
+        expected_roads = []
+        street = Street.from_points([Point(0, 0), Point(1, 0), Point(6, 1)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        street = Street.from_points([Point(1, 0), Point(6, -0.8)])
+        street.set_width(STREET_WIDTH)
+        expected_roads.append(street)
+        self.assertItemsEqual(roads, expected_roads)
+
     def _connect(self, v1, v2):
         """Make a bidirectional connection between two vertices"""
         v1.neighbours.append(v2)
