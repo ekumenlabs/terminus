@@ -45,6 +45,10 @@ builder_class = getattr(sys.modules[__name__], arguments.builder)
 # as a dictionary
 builder_parameters = dict(pair.split('=', 1) for pair in arguments.parameters)
 
+# Make sure size is an integer
+if 'size' in builder_parameters:
+    builder_parameters['size'] = int(builder_parameters['size'])
+
 # Create the builder instance. Unpack the parameter dictionary to be used as
 # keyword parameters
 builder = builder_class(**builder_parameters)

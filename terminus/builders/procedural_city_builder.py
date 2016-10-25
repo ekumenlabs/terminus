@@ -30,7 +30,7 @@ class ProceduralCityBuilder(object):
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)
-        self.size = int(size)
+        self.size = size
 
     def get_city(self):
         city = City()
