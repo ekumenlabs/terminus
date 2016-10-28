@@ -43,41 +43,10 @@ class VertexGraphToRoadsConverter(object):
             road.add_point(neighbour.coords)
             self._build_road(road, current_vertex, neighbour)
         else:
-            # Since there is a previous vertex, we must compute the angle
-            # between the previous_vertex and the current_vertex and try to
-            # find the neighbour that is better aligned with that segment.
-            current_angle = self._angle_2d(previous_vertex.coords,
-                                           current_vertex.coords)
-            edges = []
-            for neighbour in current_vertex.neighbours:
-                neighbours_angle = self._angle_2d(current_vertex.coords,
-                                                  neighbour.coords)
-                edges.append([neighbour,
-                             abs(current_angle - neighbours_angle)])
-            edges.sort(key=itemgetter(1))
-            # Pick the edge with the lowest angle and check if it's below the
-            # threshold.
-            first_option = second_option = None
-            for edge in edges:
-                if edge[1] <= self.angle_threshold:
-                    selected_neighbour = edge[0]
-                    # Prefer building the same type of road in first place
-                    if current_vertex.minor_road == \
-                            selected_neighbour.minor_road:
-                        first_option = selected_neighbour
-                        break
-                    # Prefer connecting a street to a trunk in second place
-                    if current_vertex.minor_road and \
-                            not selected_neighbour.minor_road and \
-                            second_option is None:
-                        second_option = selected_neighbour
-            # If we've got some options, use the best one
-            best_neighbour = None
-            if first_option is not None:
-                best_neighbour = first_option
-            else:
-                if second_option is not None:
-                    best_neighbour = second_option
+            # Since there is a previous vertex, we must select the
+            # best of the neighbours.
+            best_neighbour = self._pick_best_neighbour(previous_vertex,
+                                                  current_vertex)
             if best_neighbour is not None:
                 current_vertex.neighbours.remove(best_neighbour)
                 if current_vertex in best_neighbour.neighbours:
@@ -91,3 +60,42 @@ class VertexGraphToRoadsConverter(object):
         if alpha < 0:
             alpha += 2 * np.pi
         return alpha
+
+    def _pick_best_neighbour(self, previous_vertex, current_vertex):
+        """
+        Choose the best neighbour for the current vertex.
+        We order the edges according to their angle with the current edge and
+        we select the vertex with the lowest angle and check if it's below the
+        threshold. Also we prefer continuing the same type of road.
+        """
+        current_angle = self._angle_2d(previous_vertex.coords,
+                                       current_vertex.coords)
+        edges = []
+        for neighbour in current_vertex.neighbours:
+            neighbours_angle = self._angle_2d(current_vertex.coords,
+                                              neighbour.coords)
+            edges.append([neighbour,
+                         abs(current_angle - neighbours_angle)])
+        edges.sort(key=itemgetter(1))
+        first_option = second_option = None
+        for edge in edges:
+            if edge[1] <= self.angle_threshold:
+                selected_neighbour = edge[0]
+                # Prefer building the same type of road in first place
+                if current_vertex.minor_road == \
+                        selected_neighbour.minor_road:
+                    first_option = selected_neighbour
+                    break
+                # Prefer connecting a street to a trunk in second place
+                if current_vertex.minor_road and \
+                        not selected_neighbour.minor_road and \
+                        second_option is None:
+                    second_option = selected_neighbour
+        # If we've got some options, use the best one
+        best_neighbour = None
+        if first_option is not None:
+            best_neighbour = first_option
+        else:
+            if second_option is not None:
+                best_neighbour = second_option
+        return best_neighbour
