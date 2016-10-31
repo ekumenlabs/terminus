@@ -1,0 +1,3 @@
+[submodule "terminus/procedural_city_generation"]
+	path = terminus/procedural_city_generation
+	url = https://github.com/josauder/procedural_city_generation.git
