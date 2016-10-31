@@ -12,7 +12,7 @@ cmake ..
 make
 ```
 
-The binary file should be available on the build folder
+The binary file should be available in the build folder
 
 ### How to execute it
 
