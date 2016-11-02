@@ -1,3 +1,5 @@
+#!/bin/sh
+
 git stash -q --keep-index
 ./run_tests.sh
 RESULT=$?
