@@ -64,6 +64,13 @@ $ python setup.py develop
 ./run_pep8.sh
 ```
 
+## Add pre-commit hook
+
+Execute the following to run the tests as a pre-commit hook in your local env:
+```
+$ ln -s ../../pre-commit.sh .git/hooks/pre-commit
+```
+
 ## Run generators
 
 - Execute `$ terminus/run_generator.py` to create a new city. In order for the generator to run you **must** specify the builder to use (and its required constructor values). You can optionally specify the output file (if none specified the output will be written to `generated_worlds/city.world`).
