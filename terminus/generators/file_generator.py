@@ -89,7 +89,7 @@ class FileGenerator(object):
         return self._get_cached_template(key)
 
     def _get_cached_template(self, key):
-        if not key in self.template_cache:
+        if key not in self.template_cache:
             method_name = key + '_template'
             method = getattr(self, method_name)
             template = Template(method(),

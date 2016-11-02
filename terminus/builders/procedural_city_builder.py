@@ -26,8 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 class ProceduralCityBuilder(object):
-    def __init__(self, verticesFilename=None, polygonsFilename=None,
-                 size=1500):
+    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500):
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)
@@ -56,8 +55,8 @@ class ProceduralCityBuilder(object):
         # Convert them to Gazebo coordinates. This is definitely ugly, as
         # we are changing the type in vertex.coords, we should revisit.
         for vertex in vertex_list:
-            vertex.coords = Point(vertex.coords[0]*self.ratio,
-                                  vertex.coords[1]*self.ratio,
+            vertex.coords = Point(vertex.coords[0] * self.ratio,
+                                  vertex.coords[1] * self.ratio,
                                   0)
         # 0.79 rad ~ 45 deg
         converter = VertexGraphToRoadsConverter(0.79, vertex_list)
@@ -110,9 +109,10 @@ class ProceduralCityBuilder(object):
         pcg_run = 'python {0}/UI.py'.format(pcg_path)
 
         # Configure roadmap parameters
-        command = '{0} roadmap --configure plot False '\
-                  'border_x {1} border_y {1}'.format(pcg_run,
-                                                     int(self.size/self.ratio))
+        command_string = '{0} roadmap --configure plot False '\
+            'border_x {1} border_y {1}'
+        command = command_string.format(pcg_run, int(self.size / self.ratio))
+
         self._pcg_run_command(command)
 
         # Generate roadmap
