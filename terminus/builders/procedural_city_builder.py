@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 class ProceduralCityBuilder(object):
-    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500):
+    def __init__(self, verticesFilename=None, polygonsFilename=None,
+                 size=1500):
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)

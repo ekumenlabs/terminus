@@ -17,6 +17,9 @@ class Road(CityModel):
     def add_point(self, point):
         self.points.append(point)
 
+    def points_count(self):
+        return len(self.points)
+
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
                (self.width == other.width) and \

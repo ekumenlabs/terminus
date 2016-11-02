@@ -1,6 +1,10 @@
 from jinja2 import Template
 import textwrap
 import re
+try:
+    from cStringIO import StringIO
+except:
+    from io import StringIO
 
 
 class FileGenerator(object):
@@ -18,7 +22,19 @@ class FileGenerator(object):
             f.write(raw_text)
 
     def generate(self):
-        raise NotImplementedError()
+        self.document = StringIO()
+        self.start_document()
+        self.city.accept(self)
+        self.end_document()
+        return self.document.getvalue()
+
+    # Start/End document handling
+
+    def start_document(self):
+        pass
+
+    def end_document(self):
+        pass
 
     # Double-dispatching methods. By default do nothing. Override in subclasses
     # to build the required file contents
@@ -88,3 +104,20 @@ class FileGenerator(object):
         class_name = model.__class__.__name__
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+    # Private, stream management
+    def _append_to_document(self, contents):
+        self.document.write(contents)
+
+    def _wrap_document_with_contents_for(self, model, **kwargs):
+        params = dict(kwargs)
+        params['inner_contents'] = self.document.getvalue()
+        new_contents = self._contents_for(model, **params)
+        self.document = StringIO(new_contents)
+
+    def _wrap_document_with_template(self, key, **kwargs):
+        render_params = dict(kwargs)
+        render_params['inner_contents'] = self.document.getvalue()
+        template = self._get_cached_template(key)
+        new_contents = template.render(**render_params)
+        self.document = StringIO(new_contents)

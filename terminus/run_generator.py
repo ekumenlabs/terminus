@@ -59,5 +59,5 @@ sdf_generator = SDFGenerator(city)
 sdf_generator.write_to(destination_sdf_file)
 
 # For the time being we use an arbitrary (lat,lon) pair as the origin
-rndf_generator = RNDFGenerator(city, Point(10, -65))
+rndf_generator = RNDFGenerator(city, Point(45, 65))
 rndf_generator.write_to(destination_rndf_file)

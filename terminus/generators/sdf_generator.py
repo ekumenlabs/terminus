@@ -1,42 +1,28 @@
 from file_generator import FileGenerator
-try:
-    from cStringIO import StringIO
-except:
-    from io import StringIO
 
 
 class SDFGenerator(FileGenerator):
 
-    def generate(self):
-        self.document = StringIO()
-        self.city.accept(self)
-        self._wrap_document_contents()
-        return self.document.getvalue()
-
-    def _wrap_document_contents(self):
-        template = self._get_cached_template('document')
-        new_contents = template.render(inner_contents=self.document.getvalue())
-        self.document = StringIO(new_contents)
+    def end_document(self):
+        self._wrap_document_with_template('document')
 
     def end_city(self, city):
-        current_value = self.document.getvalue()
-        new_contents = self._contents_for(city, inner_contents=current_value)
-        self.document = StringIO(new_contents)
+        self._wrap_document_with_contents_for(city)
 
     def end_street(self, street):
-        self.document.write(self._contents_for(street))
+        self._append_to_document(self._contents_for(street))
 
     def end_trunk(self, trunk):
-        self.document.write(self._contents_for(trunk))
+        self._append_to_document(self._contents_for(trunk))
 
     def end_block(self, block):
-        self.document.write(self._contents_for(block))
+        self._append_to_document(self._contents_for(block))
 
     def end_building(self, building):
-        self.document.write(self._contents_for(building))
+        self._append_to_document(self._contents_for(building))
 
     def end_ground_plane(self, ground_plane):
-        self.document.write(self._contents_for(ground_plane))
+        self._append_to_document(self._contents_for(ground_plane))
 
     def city_template(self):
         return """
