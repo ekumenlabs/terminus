@@ -1,0 +1,15 @@
+language: python
+
+python:
+  - "2.7"
+
+before_install:
+    - pip install pep8
+
+install:
+    - python setup.py -q install
+
+script:
+    # Don't fail if a line is longer than 80 characters (E501)
+    - find . -name \*.py -exec pep8 --ignore=E501 --exclude='*/procedural_city_generation/*' {} +
+    - ./run_tests.sh

@@ -1,6 +1,8 @@
 # terminus
 Library to procedurally create cities and terrains
 
+[![Build Status](https://travis-ci.org/ekumenlabs/terminus.svg?branch=master)](https://travis-ci.org/ekumenlabs/terminus)
+
 ## Install
 
 - Clone the repo and run `$ python setup.py develop` to setup package and dependencies. 
