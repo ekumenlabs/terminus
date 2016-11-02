@@ -33,6 +33,10 @@ $ cd ~
 $ git clone git@github.com:ekumenlabs/terminus.git
 $ cd terminus
 ```
+- Setup submodule:
+```
+git submodule update --init --recursive
+```
 - Setup virtualenv with the proper binary:
 ```
 $ virtualenv -p /usr/local/lib/python2.7.9/bin/python2.7 env
