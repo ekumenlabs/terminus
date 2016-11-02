@@ -23,7 +23,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         expected_roads = [
             Street.from_points([Point(0, 0), Point(1, 0)])
         ]
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(roads, [])
 
     def test_get_roads_one_not_aligned_segment(self):
         """
