@@ -94,3 +94,12 @@ Currently the idea is to have a single, unified City model that knows how to con
 
 - `SimpleCityBuilder`, which generates a squared city based on a configurable size.
 - `ProceduralCityBuilder`, which takes the output file(s) produced by https://github.com/josauder/procedural_city_generation and uses that to build the city model.
+
+## About street and trunk generation
+
+The output of the PCG is a list of vertices with a `minor_road` property. Each vertex has a list of neighbouring vertices.
+If a vertex is marked as `minor_road == true` then we start building a street else if `minor_road == false` we start building a trunk. We then check the list of neighbours and choose the best one with the following criteria:
+
+- Prefer continue building a road of the same type (street or trunk). Trunks can only be built between vertices of type trunk (`minor_road` == false). Streets can eventually end in a trunk vertex, which is interpreted as an access to the highway.
+- Prefer neighbours which substend a similar angle to the current road segment and are below a maximum threshold.
+If these conditions are not met then the current roads stops growing.

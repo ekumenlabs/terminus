@@ -39,4 +39,5 @@ class Road(CityModel):
 
     def __repr__(self):
         return "%s: " % self.__class__ + reduce(lambda acc, point: acc +
-               "%s," % str(point), self.points, '')
+                                                "%s," % str(point),
+                                                self.points, '')
