@@ -19,7 +19,7 @@ class Road(CityModel):
 
     def points_count(self):
         return len(self.points)
-        
+
     def get_width(self):
         return width
 

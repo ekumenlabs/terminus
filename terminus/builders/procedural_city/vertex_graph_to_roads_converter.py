@@ -46,7 +46,7 @@ class VertexGraphToRoadsConverter(object):
             # Since there is a previous vertex, we must select the
             # best of the neighbours.
             best_neighbour = self._pick_best_neighbour(previous_vertex,
-                                                  current_vertex)
+                                                       current_vertex)
             if best_neighbour is not None:
                 current_vertex.neighbours.remove(best_neighbour)
                 if current_vertex in best_neighbour.neighbours:
@@ -67,6 +67,8 @@ class VertexGraphToRoadsConverter(object):
         We order the edges according to their angle with the current edge and
         we select the vertex with the lowest angle and check if it's below the
         threshold. Also we prefer continuing the same type of road.
+        Trunks can only start and end on trunk vertices (`minor_road` == false).
+        Streets can eventually end on a trunk vertex.
         """
         current_angle = self._angle_2d(previous_vertex.coords,
                                        current_vertex.coords)
