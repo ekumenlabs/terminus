@@ -59,6 +59,10 @@ Installing collected packages: pep8
 Successfully installed pep8
 Cleaning up...
 ```
+- Unfortunately, we need to install numpy by hand (see https://github.com/numpy/numpy/issues/2434):
+```
+$ pip install numpy
+```
 - Setup project dependencies:
 ```
 $ python setup.py develop
