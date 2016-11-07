@@ -1011,7 +1011,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		                  svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
 		                  svg::Stroke(4, svg::Color(0, 255, 0))));
 		}
-	}git 
+	} 
 	for(uint i = 0; i < graph->nodes_size; i++)
 	{
 		WayPointNode w1=graph->nodes[i];

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<svg baseProfile="tiny" height="100%" version="1.2" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<defs />
-	<rect fill="lime" height="200" stroke="pink" stroke-width="1" width="200" x="25" y="25" />
-	<circle cx="135" cy="125" fill="orange" r="75" />
-	<polyline fill="none" points="50,150 50,200 200,200 200,100" stroke="red" stroke-width="4" />
-	<line stroke="rgb(0%,0%,100%)" stroke-width="4" x1="50" x2="200" y1="50" y2="200" />
-</svg>
