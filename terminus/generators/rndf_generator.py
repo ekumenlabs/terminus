@@ -20,6 +20,11 @@ class RNDFGenerator(FileGenerator):
         street_contents = self._contents_for(road, segment_id=self.segment_id)
         self._append_to_document(street_contents)
 
+    def start_trunk(self, road):
+        self.segment_id = self.segment_id + 1
+        trunk_contents = self._contents_for(road, segment_id=self.segment_id)
+        self._append_to_document(trunk_contents)
+
     # Transformation taken from
     # http://gis.stackexchange.com/questions/107992/
     # converting-from-an-x-y-coordinate-system-to-latitude-longitude
