@@ -26,6 +26,7 @@
 #include <rndf_visualizer/rotate_translate_transform.h>
 
 #include <simple_svg_1.0.0.hpp>
+
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
 // applies to both since the RNDF itself doesn't specify. This can
@@ -882,7 +883,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
   float min_x = FLT_MAX;
   float max_y = -FLT_MAX;
   float min_y = FLT_MAX;
-  
+
   FILE* gpsFile = fopen("gps.kml","wb");
 
   fprintf(gpsFile,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <kml xmlns=\"http://earth.google.com/kml/2.2\">\n <Document>\n<name>Maplanes Polygon centres</name>\n<description>Path of the polygons</description>\n<Style id=\"yellowLineGreenPoly\">\n<LineStyle>\n<color>7f00ffff</color>\n<width>4</width>\n</LineStyle>\n<PolyStyle>\n<color>7f00ff00</color>\n</PolyStyle>\n</Style>\n<Placemark>\n<name>Absolute Extruded</name>\n<description>Transparent green wall with yellow outlines</description>\n<styleUrl>#yellowLineGreenPoly</styleUrl>\n<LineString>\n<extrude>1</extrude>\n<tessellate>1</tessellate>\n<altitudeMode>clampToGround</altitudeMode>\n<coordinates>\n");
@@ -954,34 +955,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
   svg::Layout layout(svg::Dimensions(imageWidth, imageHeight), svg::Layout::TopLeft, 1, svg::Point(0, 0));
   svg::Document doc("sample.svg", layout);
 
-  // Add Waypoints to WayPointImage
-  for(uint i = 0; i < graph->edges_size; i++)
-    {
-      WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
-      WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
-
-      if(!svg_format) {
-        edgeImage->addTrace(w1.map.x-min_x, max_y-w1.map.y,
-                            w2.map.x-min_x, max_y-w2.map.y);
-      }
-      else {
-        doc.operator << (svg::Line(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio),
-                          svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
-                          svg::Stroke(4, svg::Color(0, 255, 0))));
-      }
-    }
-
-  for(uint i = 0; i < graph->nodes_size; i++)
-    {
-      WayPointNode w1=graph->nodes[i];
-
-      if(!svg_format) {
-        polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
-      }
-      else {
-        doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
-      }
-    }
 
 #if 0 //TODO
   for(unsigned i = 0; i < zones.size(); i++)
@@ -1022,6 +995,35 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
          }
       }
     }
+
+	// Add Waypoints to WayPointImage
+	for(uint i = 0; i < graph->edges_size; i++)
+	{
+		WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
+		WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
+
+		if(!svg_format) {
+		edgeImage->addTrace(w1.map.x-min_x, max_y-w1.map.y,
+		                    w2.map.x-min_x, max_y-w2.map.y);
+		}
+		else {
+		doc.operator << (svg::Line(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio),
+		                  svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
+		                  svg::Stroke(4, svg::Color(0, 255, 0))));
+		}
+	}
+	for(uint i = 0; i < graph->nodes_size; i++)
+	{
+		WayPointNode w1=graph->nodes[i];
+
+		if(!svg_format) {
+		polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
+		}
+		else {
+		doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
+		}
+	}
+
   bool drawRobot=false;
   if (drawRobot) polyImage->addRobot(rX-min_x,max_y-rY);
   //output image
@@ -1043,6 +1045,39 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
     doc.save();
   }
 }
+
+/*void MapLanes::WriteWaypoints(MapLanes::MinMaxXY &mmXY, float ratio, DrawLanes* edgeImage, DrawLanes* polyImage, svg::Document *doc, bool svg_format){
+	// Add Waypoints to WayPointImage
+	for(uint i = 0; i < graph->edges_size; i++)
+	{
+		WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
+		WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
+
+		if(!svg_format) {
+		edgeImage->addTrace(w1.map.x-mmXY.min_x, mmXY.max_y-w1.map.y,
+		                    w2.map.x-mmXY.min_x, mmXY.max_y-w2.map.y);
+		}
+		else {
+		doc->operator << (svg::Line(svg::Point((w1.map.x-mmXY.min_x) * ratio, (mmXY.max_y-w1.map.y) * ratio),
+		                  svg::Point((w2.map.x-mmXY.min_x) * ratio, (mmXY.max_y-w2.map.y) * ratio),
+		                  svg::Stroke(4, svg::Color(0, 255, 0))));
+		}
+	}
+
+	for(uint i = 0; i < graph->nodes_size; i++)
+	{
+		WayPointNode w1=graph->nodes[i];
+
+		if(!svg_format) {
+		polyImage->addWay(w1.map.x-mmXY.min_x, mmXY.max_y-w1.map.y);
+		}
+		else {
+		doc->operator << (svg::Circle(svg::Point((w1.map.x-mmXY.min_x) * ratio, (mmXY.max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
+		}
+	}
+}*/
+
+
 
 #ifdef DEBUGMAP
 void MapLanes::WritePolygonToDebugFile(int i) {
