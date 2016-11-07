@@ -2,7 +2,7 @@
  *  Copyright (C) 2007, 2010 David Li, Patrick Beeson, Jack O'Quin
  *
  *  License: Modified BSD Software License Agreement
- * 
+ *
  *  $Id: 600f8f478f131ebb1027e7dcc26b1cd2bbb394ff $
  */
 
@@ -24,6 +24,8 @@
 #include <rndf_visualizer/euclidean_distance.h>
 
 #include <rndf_visualizer/rotate_translate_transform.h>
+
+#include <simple_svg_1.0.0.hpp>
 
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
@@ -824,7 +826,7 @@ void MapLanes::UpdatePoly(polyUpdate upPoly, float rrX, float rrY, float rrOri)
   int point=0;
   if ((upPoly.point_id==0 || upPoly.point_id==3) && curr.poly_id==prev.poly_id+1 && curr.start_way.lane==prev.start_way.lane && curr.start_way.seg==prev.start_way.seg) {
      FilteredPolygon* temp=&(filtPolys.at(prev.poly_id));
-     if (upPoly.point_id==0) point=1; 
+     if (upPoly.point_id==0) point=1;
      if (upPoly.point_id==3) point=2;
      temp->UpdatePoint(point,upPoly.distance,upPoly.bearing,upPoly.confidence,rrX,rrY,Normalise_PI(rrOri+PI));
      
@@ -834,7 +836,7 @@ void MapLanes::UpdatePoly(polyUpdate upPoly, float rrX, float rrY, float rrOri)
   }
   if ((upPoly.point_id==1 || upPoly.point_id==2) && curr.poly_id==next.poly_id-1 && curr.start_way.lane==next.start_way.lane && curr.start_way.seg==next.start_way.seg) {
      FilteredPolygon* temp=&(filtPolys.at(next.poly_id));
-     if (upPoly.point_id==1) point=0; 
+     if (upPoly.point_id==1) point=0;
      if (upPoly.point_id==2) point=3;
      temp->UpdatePoint(point,upPoly.distance,upPoly.bearing,upPoly.confidence,rrX,rrY,Normalise_PI(rrOri+PI));
   
@@ -871,17 +873,17 @@ void MapLanes::UpdateWithCurrent(int i){
 void MapLanes::testDraw(bool with_trans)
 {
   ZonePerimeterList empty_zones;
-  MapLanes::testDraw(with_trans, empty_zones);
+  MapLanes::testDraw(with_trans, empty_zones, false);
 }
 
 //test function which outputs all polygons to a pgm image.
-void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones)
+void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool svg_format)
 {
   float max_x = -FLT_MAX;
   float min_x = FLT_MAX;
   float max_y = -FLT_MAX;
   float min_y = FLT_MAX;
-  
+
   FILE* gpsFile = fopen("gps.kml","wb");
 
   fprintf(gpsFile,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <kml xmlns=\"http://earth.google.com/kml/2.2\">\n <Document>\n<name>Maplanes Polygon centres</name>\n<description>Path of the polygons</description>\n<Style id=\"yellowLineGreenPoly\">\n<LineStyle>\n<color>7f00ffff</color>\n<width>4</width>\n</LineStyle>\n<PolyStyle>\n<color>7f00ff00</color>\n</PolyStyle>\n</Style>\n<Placemark>\n<name>Absolute Extruded</name>\n<description>Transparent green wall with yellow outlines</description>\n<styleUrl>#yellowLineGreenPoly</styleUrl>\n<LineString>\n<extrude>1</extrude>\n<tessellate>1</tessellate>\n<altitudeMode>clampToGround</altitudeMode>\n<coordinates>\n");
@@ -921,14 +923,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones)
 
   int xsize=(int)ceil(max_x - min_x);
   int ysize=(int)ceil(max_y - min_y);
-  
+
   if (xsize < 240)
     {
       min_x -= (240-xsize)/2;
       max_x += (240-xsize)/2;
       xsize=240;
     }
-  
+
   if (ysize < 168)
     {
       min_y -= (168-ysize)/2;
@@ -941,29 +943,18 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones)
   if (image_size > (2048.0*2048))
     ratio=sqrtf((2047*2047.0)/(xsize*ysize));
 
-  std::cerr << "World size: "<<xsize<<","<<ysize<<std::endl;
-  std::cerr << "Image size: "<<xsize*ratio<<","<<ysize*ratio<<std::endl;
-  
+  std::cout << "World size: "<<xsize<<","<<ysize<<std::endl;
+  std::cout << "Image size: "<<xsize*ratio<<","<<ysize*ratio<<std::endl;
 
   //initialize VisualLanes
   DrawLanes* edgeImage = new DrawLanes(xsize,ysize,ratio);
   DrawLanes* polyImage = new DrawLanes(xsize,ysize,ratio);
-  
-  // Add Waypoints to WayPointImage
-  for(uint i = 0; i < graph->edges_size; i++)
-    {
-      WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
-      WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
-      edgeImage->addTrace(w1.map.x-min_x, max_y-w1.map.y,
-                          w2.map.x-min_x, max_y-w2.map.y);
 
-    }
+  int imageWidth=int(ceil(xsize*ratio));
+  int imageHeight=int(ceil(ysize*ratio));
+  svg::Layout layout(svg::Dimensions(imageWidth, imageHeight), svg::Layout::TopLeft, 1, svg::Point(0, 0));
+  svg::Document doc("sample.svg", layout);
 
-  for(uint i = 0; i < graph->nodes_size; i++)      
-    {
-      WayPointNode w1=graph->nodes[i];
-      polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
-    }
 
 #if 0 //TODO
   for(unsigned i = 0; i < zones.size(); i++)
@@ -976,29 +967,85 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones)
   for(int i = 0; i < (int)filtPolys.size(); i++)
     {
       poly temp = filtPolys.at(i).GetPolygon();
-      polyImage->addPoly(temp.p1.x-min_x, temp.p2.x-min_x, 
-			 temp.p3.x-min_x,temp.p4.x-min_x, 
-			 max_y-temp.p1.y, max_y-temp.p2.y, 
-			 max_y-temp.p3.y, max_y-temp.p4.y, 
-			 temp.is_stop, 
-			 temp.is_transition && !with_trans);
+
+      if(!svg_format) {
+        polyImage->addPoly(temp.p1.x-min_x, temp.p2.x-min_x,
+         temp.p3.x-min_x,temp.p4.x-min_x,
+         max_y-temp.p1.y, max_y-temp.p2.y,
+         max_y-temp.p3.y, max_y-temp.p4.y,
+         temp.is_stop,
+         temp.is_transition && !with_trans);
+      }
+      else {
+         if (!(temp.is_transition && !with_trans)) {
+           doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
+                            svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
+                            svg::Stroke(4, svg::Color(0, 0, 255))));
+           doc.operator << (svg::Line(svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
+                            svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
+                            svg::Stroke(4, svg::Color(0, 0, 255))));
+         }
+         if (temp.is_stop) {
+           doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
+                            svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
+                            svg::Stroke(4, svg::Color(255, 0, 0))));
+           doc.operator << (svg::Line(svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
+                            svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
+                            svg::Stroke(4, svg::Color(255, 0, 0))));
+         }
+      }
     }
+
+	// Add Waypoints to WayPointImage
+	for(uint i = 0; i < graph->edges_size; i++)
+	{
+		WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
+		WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
+
+		if(!svg_format) {
+		edgeImage->addTrace(w1.map.x-min_x, max_y-w1.map.y,
+		                    w2.map.x-min_x, max_y-w2.map.y);
+		}
+		else {
+		doc.operator << (svg::Line(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio),
+		                  svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
+		                  svg::Stroke(4, svg::Color(0, 255, 0))));
+		}
+	} 
+	for(uint i = 0; i < graph->nodes_size; i++)
+	{
+		WayPointNode w1=graph->nodes[i];
+
+		if(!svg_format) {
+		polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
+		}
+		else {
+		doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
+		}
+	}
+
   bool drawRobot=false;
   if (drawRobot) polyImage->addRobot(rX-min_x,max_y-rY);
   //output image
 
-  printf("Writing way-point image");
-  edgeImage->savePGM("wayImage.ppm");
+  if(!svg_format) {
+    printf("Writing way-point image");
+    edgeImage->savePGM("wayImage.ppm");
 
-  char* temp=new char[255];
-  sprintf(temp,"polyImage%i.ppm",writecounter);
-  writecounter++;
+    char* temp=new char[255];
+    sprintf(temp,"polyImage%i.ppm",writecounter);
+    writecounter++;
 
-  printf("Writing polygons image");
-  polyImage->savePGM(temp);
-  delete temp;
-
+    printf("Writing polygons image");
+    polyImage->savePGM(temp);
+    delete temp;
+  }
+  else {
+    printf("Generating SVG file.\n");
+    doc.save();
+  }
 }
+
 
 #ifdef DEBUGMAP
 void MapLanes::WritePolygonToDebugFile(int i) {

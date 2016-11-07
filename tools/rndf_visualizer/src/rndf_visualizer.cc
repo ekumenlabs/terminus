@@ -38,6 +38,7 @@ char *pname;				// program name
 bool print_polys = false;
 bool output_polys = false;
 bool make_image = false;
+bool svg_format = false;
 bool with_trans = false;
 int verbose = 0;
 char *rndf_name;
@@ -162,13 +163,14 @@ bool build_RNDF()
 void parse_args(int argc, char *argv[])
 {
   bool print_usage = false;
-  const char *options = "hiops:tx:y:v";
+  const char *options = "higops:tx:y:v";
   int opt = 0;
   int option_index = 0;
   struct option long_options[] =
     {
       { "help", 0, 0, 'h' },
       { "image", 0, 0, 'i' },
+      { "svg", 0, 0, 'g' },
       { "latitude", 1, 0, 'x' },
       { "longitude", 1, 0, 'y' },
       { "size", 1, 0, 's' },
@@ -195,6 +197,10 @@ void parse_args(int argc, char *argv[])
 	case 'i':
 	  make_image = true;
 	  break;
+
+	case 'g':
+	  make_image = true;
+    svg_format = true;
 
 	case 'v':
 	  ++verbose;
@@ -232,6 +238,7 @@ void parse_args(int argc, char *argv[])
 	      "    Display RNDF lane information.  Possible options:\n"
 	      "\t-h, --help\tprint this message\n"
 	      "\t-i, --image\tmake .pgm image of polygons\n"
+	      "\t-g, --svg\tmake SVG image from file\n"
 	      "\t-y, --latitude\tinitial pose latitude\n"
 	      "\t-x, --longitude\tinitial pose longitude\n"
 	      "\t-s, --size\tmax polygon size\n"
@@ -266,7 +273,7 @@ int main(int argc, char *argv[]) {
   if (make_image) {
     ZonePerimeterList zones = ZoneOps::build_zone_list_from_rndf(*rndf, *graph);
     mapl-> SetGPS(centerx,centery);
-	  mapl-> testDraw(with_trans, zones);
+	  mapl-> testDraw(with_trans, zones, svg_format);
   }
   return rc;
 }
