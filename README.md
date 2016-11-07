@@ -84,7 +84,8 @@ Some examples:
     * Get help: `$ terminus/run_generator.py -h`
     * Generate using the simple city builder `$ terminus/run_generator.py --builder=SimpleCityBuilder`
     * Specify the output file `$ terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world`
-    * Generate the city using the `procedural_city_generation` package $ terminus/run_generator.py --builder=ProceduralCityBuilder --parameters size=1500
+    * Generate the city using the `procedural_city_generation` package `$ terminus/run_generator.py --builder=ProceduralCityBuilder --parameters size=1500`
+    * Alternatively, if you want to generate the files using the existing 10km sq sample, do `$ terminus/run_generator.py --builder=ProceduralCityBuilder --parameters verticesFilename=../sample_city_10km_squared/mycity polygonsFilename=../sample_city_10km_squared/mycity_polygons.txt`
 
 - Open using `$ gazebo generated_worlds/city.world`
 
