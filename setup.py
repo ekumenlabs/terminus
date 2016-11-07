@@ -8,6 +8,7 @@ setup(name='terminus',
       packages=['terminus'],
       install_requires=[
           'jinja2',
-          'shapely'
+          'shapely',
+          'numpy'
       ],
       zip_safe=False)

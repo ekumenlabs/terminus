@@ -3,9 +3,81 @@ Library to procedurally create cities and terrains
 
 [![Build Status](https://travis-ci.org/ekumenlabs/terminus.svg?branch=master)](https://travis-ci.org/ekumenlabs/terminus)
 
-## Install
+## Install with virtualenv
 
-- Clone the repo and run `$ python setup.py develop` to setup package and dependencies. 
+Builds are performed against Python 2.7.9 and pep8 v1.7.0. Follow these steps to get such a setup in a separate virtual environment:
+
+- Install `virtualenv` if you don't have it already
+```
+$ sudo apt-get install python-virtualenv 
+```
+- Download and compile Python 2.7.9:
+```
+$ cd ~
+$ mkdir PythonInstalls
+$ cd PythonInstalls
+$ wget http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
+$ tar xfz Python-2.7.9.tgz
+$ cd Python-2.7.9/
+$ ./configure --prefix /usr/local/lib/python2.7.9 --enable-ipv6
+$ make
+$ make install
+```
+- Just to be sure things went ok:
+```
+$ /usr/local/lib/python2.7.9/bin/python -V
+Python 2.7.9
+```
+- Clone the repo in your machine and `cd` into it:
+```
+$ cd ~
+$ git clone git@github.com:ekumenlabs/terminus.git
+$ cd terminus
+```
+- Setup submodule:
+```
+git submodule update --init --recursive
+```
+- Setup virtualenv with the proper binary:
+```
+$ virtualenv -p /usr/local/lib/python2.7.9/bin/python2.7 env
+Running virtualenv with interpreter /usr/local/lib/python2.7.9/bin/python2.7
+New python executable in env/bin/python2.7
+Also creating executable in env/bin/python
+Installing setuptools, pip...done.
+```
+- Activate the new virtual environment:
+```
+$ source env/bin/activate
+```
+- Install pep 8:
+```
+$ pip install pep8==1.7.0
+Downloading/unpacking pep8==1.7.0
+  Downloading pep8-1.7.0-py2.py3-none-any.whl (41kB): 41kB downloaded
+Installing collected packages: pep8
+Successfully installed pep8
+Cleaning up...
+```
+- Setup project dependencies:
+```
+$ python setup.py develop
+```
+- Verify tests and pep8 are passing:
+```
+./run_tests.sh
+./run_pep8.sh
+```
+
+## Add pre-commit hook
+
+Execute the following to run the tests as a pre-commit hook in your local env:
+```
+$ ln -s ../../pre-commit.sh .git/hooks/pre-commit
+```
+
+## Run generators
+
 - Execute `$ terminus/run_generator.py` to create a new city. In order for the generator to run you **must** specify the builder to use (and its required constructor values). You can optionally specify the output file (if none specified the output will be written to `generated_worlds/city.world`).
 Some examples:
 
