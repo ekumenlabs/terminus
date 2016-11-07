@@ -964,6 +964,11 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 #endif
 
   //draw polygons
+  svg::Stroke lineStrokeBlue = svg::Stroke(4, svg::Color(0, 0, 255));
+  svg::Stroke lineStrokeRed = svg::Stroke(4, svg::Color(255, 0, 0));
+  svg::Stroke lineStrokeGreen = svg::Stroke(4, svg::Color(0, 255, 0));
+  svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
+
   for(int i = 0; i < (int)filtPolys.size(); i++)
     {
       poly temp = filtPolys.at(i).GetPolygon();
@@ -980,23 +985,24 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
          if (!(temp.is_transition && !with_trans)) {
            doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
                             svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
-                            svg::Stroke(4, svg::Color(0, 0, 255))));
+                            lineStrokeBlue));
            doc.operator << (svg::Line(svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
                             svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
-                            svg::Stroke(4, svg::Color(0, 0, 255))));
+                            lineStrokeBlue));
          }
          if (temp.is_stop) {
            doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
                             svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
-                            svg::Stroke(4, svg::Color(255, 0, 0))));
+                            lineStrokeRed));
            doc.operator << (svg::Line(svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
                             svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
-                            svg::Stroke(4, svg::Color(255, 0, 0))));
+                            lineStrokeRed));
          }
       }
     }
 
 	// Add Waypoints to WayPointImage
+
 	for(uint i = 0; i < graph->edges_size; i++)
 	{
 		WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
@@ -1009,7 +1015,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		else {
 		doc.operator << (svg::Line(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio),
 		                  svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
-		                  svg::Stroke(4, svg::Color(0, 255, 0))));
+		                  lineStrokeGreen));
 		}
 	} 
 	for(uint i = 0; i < graph->nodes_size; i++)
@@ -1020,7 +1026,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
 		}
 		else {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
+		doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, orangeFill));
 		}
 	}
 
