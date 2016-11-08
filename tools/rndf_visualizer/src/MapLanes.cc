@@ -975,7 +975,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	svg::Fill greenFill = svg::Fill(svg::Color::Green);
 	svg::Fill redFill = svg::Fill(svg::Color::Red);
 	svg::Fill blueFill = svg::Fill(svg::Color::Blue);
-	svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
 
 	//draw polygons
 	for (int i = 0; i < (int)filtPolys.size(); i++)
@@ -1010,20 +1009,25 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		}
 	}
 
+
 	// Add Waypoints to WayPointImage
+
+	//This cycle adds traces between entry and exit points.
 	for (uint i = 0; i < graph->edges_size; i++)
 	{
 		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
 		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
-		if (!svg_format) {
-			edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
-			                    w2.map.x - min_x, max_y - w2.map.y);
-		}
-		else {
-			doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
-			                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-			                           lineStrokeGreen));
+		if((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)){
+			if (!svg_format) {
+				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
+				                    w2.map.x - min_x, max_y - w2.map.y);
+			}
+			else {
+				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+				                           lineStrokeGreen));
+			}
 		}
 	}
 	for (uint i = 0; i < graph->nodes_size; i++)
