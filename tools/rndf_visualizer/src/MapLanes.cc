@@ -1064,27 +1064,45 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
 		}
 		else {
-			// if (w1.is_exit) {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
-			// }
-			// else if (w1.is_entry) {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
-			// }
-			// else if (w1.is_stop) {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
-			// }
-			// else if (w1.is_perimeter) {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
-			// }
-			// else if (w1.checkpoint_id != 0) {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
-			// }
-			// else {
-			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
-			// }
-			svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
-			createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-			doc.operator << (triangle);
+			if (w1.is_exit) {
+				svg::Polygon triangle = svg::Polygon(redFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);				
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
+			}
+			else if (w1.is_entry) {
+				svg::Polygon triangle = svg::Polygon(blueFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);		
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
+			}
+			else if (w1.is_stop) {
+				svg::Polygon triangle = svg::Polygon(orangeFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+			}
+			else if (w1.is_perimeter) {
+				svg::Polygon triangle = svg::Polygon(yellowFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+			}
+			else if (w1.checkpoint_id != 0) {
+				svg::Polygon triangle = svg::Polygon(fuchsiaFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+			}
+			else {
+				svg::Polygon triangle = svg::Polygon(greenFill);
+				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (triangle);
+				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
+			}
+			// svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
+			// createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+			// doc.operator << (triangle);
 		}
 	}
 
