@@ -962,15 +962,17 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	}
 #endif
 
-
 	svg::Color blueColor = svg::Color(svg::Color::Blue);
 	svg::Color redColor = svg::Color(svg::Color::Red);
 	svg::Color greenColor = svg::Color(svg::Color::Green);
-
+	svg::Color cyanColor = svg::Color(svg::Color::Cyan);
+	svg::Color darkGrayColor = svg::Color(64, 64, 64);
 
 	svg::Stroke lineStrokeBlue = svg::Stroke(4, blueColor);
 	svg::Stroke lineStrokeRed = svg::Stroke(4, redColor);
 	svg::Stroke lineStrokeGreen = svg::Stroke(4, greenColor);
+	svg::Stroke lineStrokeCyan = svg::Stroke(4, cyanColor);
+	svg::Stroke lineStrokeDarkGray = svg::Stroke(4, darkGrayColor);
 	
 	svg::Fill greenFill = svg::Fill(svg::Color::Green);
 	svg::Fill redFill = svg::Fill(svg::Color::Red);
@@ -993,10 +995,10 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			if (!(temp.is_transition && !with_trans)) {
 				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
 				                           svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
-				                           lineStrokeBlue));
+				                           lineStrokeDarkGray));
 				doc.operator << (svg::Line(svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
 				                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
-				                           lineStrokeBlue));
+				                           lineStrokeDarkGray));
 			}
 			if (temp.is_stop) {
 				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
@@ -1026,10 +1028,11 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			else {
 				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
 				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-				                           lineStrokeGreen));
+				                           lineStrokeCyan));
 			}
 		}
 	}
+	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
 	for (uint i = 0; i < graph->nodes_size; i++)
 	{
 		WayPointNode w1 = graph->nodes[i];
