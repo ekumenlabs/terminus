@@ -27,7 +27,7 @@
 
 #include <simple_svg_1.0.0.hpp>
 
-void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float radius);
+void createArrow(svg::Polygon &triangle, float x, float y, float radius);
 
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
@@ -1065,44 +1065,35 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		}
 		else {
 			if (w1.is_exit) {
-				svg::Polygon triangle = svg::Polygon(redFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);				
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
+				svg::Polygon arrow = svg::Polygon(redFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);				
 			}
 			else if (w1.is_entry) {
-				svg::Polygon triangle = svg::Polygon(blueFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);		
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
+				svg::Polygon arrow = svg::Polygon(blueFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);		
 			}
 			else if (w1.is_stop) {
-				svg::Polygon triangle = svg::Polygon(orangeFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+				svg::Polygon arrow = svg::Polygon(orangeFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);
 			}
 			else if (w1.is_perimeter) {
-				svg::Polygon triangle = svg::Polygon(yellowFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+				svg::Polygon arrow = svg::Polygon(yellowFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);
 			}
 			else if (w1.checkpoint_id != 0) {
-				svg::Polygon triangle = svg::Polygon(fuchsiaFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+				svg::Polygon arrow = svg::Polygon(fuchsiaFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);
 			}
 			else {
-				svg::Polygon triangle = svg::Polygon(greenFill);
-				createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-				doc.operator << (triangle);
-				// doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
+				svg::Polygon arrow = svg::Polygon(greenFill);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				doc.operator << (arrow);
 			}
-			// svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
-			// createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-			// doc.operator << (triangle);
 		}
 	}
 
@@ -1186,6 +1177,16 @@ void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float r
 	triangle.operator << (svg::Point(x, y + radius));
 	triangle.operator << (svg::Point(x + 0.866 * radius, y - 0.5 * radius));
 	triangle.operator << (svg::Point(x - 0.866 * radius, y - 0.5 * radius));
+}
+
+void createArrow(svg::Polygon &arrow, float x, float y, float radius){
+	arrow.operator << (svg::Point(x, y + radius));
+	arrow.operator << (svg::Point(x + radius, y - radius / 6.0));
+	arrow.operator << (svg::Point(x + radius / 6.0, y - radius / 6.0));
+	arrow.operator << (svg::Point(x + radius / 6.0, y - radius));
+	arrow.operator << (svg::Point(x - radius / 6.0, y - radius));
+	arrow.operator << (svg::Point(x - radius / 6.0, y - radius / 6.0));
+	arrow.operator << (svg::Point(x - radius, y - radius / 6.0));
 }
 
 
