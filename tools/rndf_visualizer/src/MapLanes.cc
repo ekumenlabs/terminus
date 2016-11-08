@@ -973,10 +973,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	svg::Stroke lineStrokeGreen = svg::Stroke(4, greenColor);
 	svg::Stroke lineStrokeCyan = svg::Stroke(4, cyanColor);
 	svg::Stroke lineStrokeDarkGray = svg::Stroke(4, darkGrayColor);
-	
+
 	svg::Fill greenFill = svg::Fill(svg::Color::Green);
 	svg::Fill redFill = svg::Fill(svg::Color::Red);
 	svg::Fill blueFill = svg::Fill(svg::Color::Blue);
+	svg::Fill fuchsiaFill = svg::Fill(svg::Color::Fuchsia);
+	svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
+	svg::Fill magentaFill = svg::Fill(svg::Color::Magenta);
+	svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
 
 	//draw polygons
 	for (int i = 0; i < (int)filtPolys.size(); i++)
@@ -1020,7 +1024,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
 		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
-		if((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)){
+		if ((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
 			if (!svg_format) {
 				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
 				                    w2.map.x - min_x, max_y - w2.map.y);
@@ -1041,17 +1045,35 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
 		}
 		else {
-			if(w1.is_exit){
+			if (w1.is_exit) {
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
 			}
-			else if(w1.is_entry){
+			else if (w1.is_entry) {
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
 			}
-			else{
+			else if (w1.is_stop) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+			}
+			else if (w1.is_perimeter) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+			}
+			else if (w1.checkpoint_id != 0) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+			}
+			else {
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
 			}
 		}
 	}
+
+	bool is_entry;			//< lane or zone exit point
+	bool is_exit;				//< lane or zone entry point
+	bool is_goal;				//< this is a goal checkpoint
+	bool is_lane_change;			//< change lanes after here
+	bool is_spot;				//< parking spot
+	bool is_stop;				//< stop line here
+	bool is_perimeter;			//< zone perimeter point
+	int checkpoint_id;
 
 	bool drawRobot = false;
 	if (drawRobot) polyImage->addRobot(rX - min_x, max_y - rY);
