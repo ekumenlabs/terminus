@@ -883,21 +883,21 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
   float min_x = FLT_MAX;
   float max_y = -FLT_MAX;
   float min_y = FLT_MAX;
+  
+  FILE* gpsFile = fopen("gps.kml", "wb");
 
-  FILE* gpsFile = fopen("gps.kml","wb");
-
-  fprintf(gpsFile,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <kml xmlns=\"http://earth.google.com/kml/2.2\">\n <Document>\n<name>Maplanes Polygon centres</name>\n<description>Path of the polygons</description>\n<Style id=\"yellowLineGreenPoly\">\n<LineStyle>\n<color>7f00ffff</color>\n<width>4</width>\n</LineStyle>\n<PolyStyle>\n<color>7f00ff00</color>\n</PolyStyle>\n</Style>\n<Placemark>\n<name>Absolute Extruded</name>\n<description>Transparent green wall with yellow outlines</description>\n<styleUrl>#yellowLineGreenPoly</styleUrl>\n<LineString>\n<extrude>1</extrude>\n<tessellate>1</tessellate>\n<altitudeMode>clampToGround</altitudeMode>\n<coordinates>\n");
+  fprintf(gpsFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <kml xmlns=\"http://earth.google.com/kml/2.2\">\n <Document>\n<name>Maplanes Polygon centres</name>\n<description>Path of the polygons</description>\n<Style id=\"yellowLineGreenPoly\">\n<LineStyle>\n<color>7f00ffff</color>\n<width>4</width>\n</LineStyle>\n<PolyStyle>\n<color>7f00ff00</color>\n</PolyStyle>\n</Style>\n<Placemark>\n<name>Absolute Extruded</name>\n<description>Transparent green wall with yellow outlines</description>\n<styleUrl>#yellowLineGreenPoly</styleUrl>\n<LineString>\n<extrude>1</extrude>\n<tessellate>1</tessellate>\n<altitudeMode>clampToGround</altitudeMode>\n<coordinates>\n");
 
   float yOff = 7.5;//5.17;
   float xOff = 2.9; //2.89;
 
-  for(int i = 0; i < (int)filtPolys.size(); i++)
+  for (int i = 0; i < (int)filtPolys.size(); i++)
     {
-      poly node=(filtPolys.at(i).GetPolygon());
-      double lon,lat;
-      UTM::UTMtoLL(cY+node.midpoint.y+yOff,cX+node.midpoint.x+xOff,
-                   "11S",lon,lat);
-      fprintf(gpsFile,"%lf,%lf,0\n",lat,lon);
+      poly node = (filtPolys.at(i).GetPolygon());
+      double lon, lat;
+      UTM::UTMtoLL(cY + node.midpoint.y + yOff, cX + node.midpoint.x + xOff,
+                   "11S", lon, lat);
+      fprintf(gpsFile, "%lf,%lf,0\n", lat, lon);
 
       max_x=fmax(fmax(fmax(fmax(node.p1.x,node.p2.x),
                            node.p3.x), node.p4.x),max_x);
@@ -907,7 +907,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
                            node.p3.x),node.p4.x),min_x);
       min_y=fmin(fmin(fmin(fmin(node.p1.y,node.p2.y),
                            node.p3.y),node.p4.y),min_y);
-    }
+	}
   fprintf(gpsFile,
           "</coordinates>\n</LineString>\n</Placemark>\n</Document>\n</kml>");
   fclose(gpsFile);
@@ -938,6 +938,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
       ysize=168;
     }
 
+
   float ratio=3;
   float image_size=xsize*ysize*DEFAULT_RATIO*DEFAULT_RATIO;
   if (image_size > (2048.0*2048))
@@ -963,64 +964,107 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
     }
 #endif
 
-  //draw polygons
-  for(int i = 0; i < (int)filtPolys.size(); i++)
-    {
-      poly temp = filtPolys.at(i).GetPolygon();
+	svg::Color blueColor = svg::Color(svg::Color::Blue);
+	svg::Color redColor = svg::Color(svg::Color::Red);
+	svg::Color greenColor = svg::Color(svg::Color::Green);
+	svg::Color cyanColor = svg::Color(svg::Color::Cyan);
+	svg::Color darkGrayColor = svg::Color(64, 64, 64);
 
-      if(!svg_format) {
-        polyImage->addPoly(temp.p1.x-min_x, temp.p2.x-min_x,
-         temp.p3.x-min_x,temp.p4.x-min_x,
-         max_y-temp.p1.y, max_y-temp.p2.y,
-         max_y-temp.p3.y, max_y-temp.p4.y,
-         temp.is_stop,
-         temp.is_transition && !with_trans);
-      }
-      else {
-         if (!(temp.is_transition && !with_trans)) {
-           doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
-                            svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
-                            svg::Stroke(4, svg::Color(0, 0, 255))));
-           doc.operator << (svg::Line(svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
-                            svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
-                            svg::Stroke(4, svg::Color(0, 0, 255))));
-         }
-         if (temp.is_stop) {
-           doc.operator << (svg::Line(svg::Point((temp.p1.x-min_x) * ratio, (max_y-temp.p1.y) * ratio),
-                            svg::Point((temp.p4.x-min_x) * ratio, (max_y-temp.p4.y) * ratio),
-                            svg::Stroke(4, svg::Color(255, 0, 0))));
-           doc.operator << (svg::Line(svg::Point((temp.p2.x-min_x) * ratio, (max_y-temp.p2.y) * ratio),
-                            svg::Point((temp.p3.x-min_x) * ratio, (max_y-temp.p3.y) * ratio),
-                            svg::Stroke(4, svg::Color(255, 0, 0))));
-         }
-      }
-    }
+	svg::Stroke lineStrokeBlue = svg::Stroke(4, blueColor);
+	svg::Stroke lineStrokeRed = svg::Stroke(4, redColor);
+	svg::Stroke lineStrokeGreen = svg::Stroke(4, greenColor);
+	svg::Stroke lineStrokeCyan = svg::Stroke(4, cyanColor);
+	svg::Stroke lineStrokeDarkGray = svg::Stroke(4, darkGrayColor);
+
+	svg::Fill greenFill = svg::Fill(svg::Color::Green);
+	svg::Fill redFill = svg::Fill(svg::Color::Red);
+	svg::Fill blueFill = svg::Fill(svg::Color::Blue);
+	svg::Fill fuchsiaFill = svg::Fill(svg::Color::Fuchsia);
+	svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
+	svg::Fill magentaFill = svg::Fill(svg::Color::Magenta);
+	svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
+
+	//draw polygons
+	for (int i = 0; i < (int)filtPolys.size(); i++)
+	{
+		poly temp = filtPolys.at(i).GetPolygon();
+
+		if (!svg_format) {
+			polyImage->addPoly(temp.p1.x - min_x, temp.p2.x - min_x,
+			                   temp.p3.x - min_x, temp.p4.x - min_x,
+			                   max_y - temp.p1.y, max_y - temp.p2.y,
+			                   max_y - temp.p3.y, max_y - temp.p4.y,
+			                   temp.is_stop,
+			                   temp.is_transition && !with_trans);
+		}
+		else {
+			if (!(temp.is_transition && !with_trans)) {
+				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
+				                           svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
+				                           lineStrokeDarkGray));
+				doc.operator << (svg::Line(svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
+				                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
+				                           lineStrokeDarkGray));
+			}
+			if (temp.is_stop) {
+				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
+				                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
+				                           lineStrokeRed));
+				doc.operator << (svg::Line(svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
+				                           svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
+				                           lineStrokeRed));
+			}
+		}
+	}
+
 
 	// Add Waypoints to WayPointImage
-	for(uint i = 0; i < graph->edges_size; i++)
-	{
-		WayPointNode w1=graph->nodes[graph->edges[i].startnode_index];
-		WayPointNode w2=graph->nodes[graph->edges[i].endnode_index];
 
-		if(!svg_format) {
-		edgeImage->addTrace(w1.map.x-min_x, max_y-w1.map.y,
-		                    w2.map.x-min_x, max_y-w2.map.y);
+	//This cycle adds traces between entry and exit points.
+	for (uint i = 0; i < graph->edges_size; i++)
+	{
+		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
+		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
+
+		if ((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
+			if (!svg_format) {
+				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
+				                    w2.map.x - min_x, max_y - w2.map.y);
+			}
+			else {
+				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+				                           lineStrokeCyan));
+			}
+		}
+	}
+	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
+	for (uint i = 0; i < graph->nodes_size; i++)
+	{
+		WayPointNode w1 = graph->nodes[i];
+
+		if (!svg_format) {
+			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
 		}
 		else {
-		doc.operator << (svg::Line(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio),
-		                  svg::Point((w2.map.x-min_x) * ratio, (max_y-w2.map.y) * ratio),
-		                  svg::Stroke(4, svg::Color(0, 255, 0))));
-		}
-	} 
-	for(uint i = 0; i < graph->nodes_size; i++)
-	{
-		WayPointNode w1=graph->nodes[i];
-
-		if(!svg_format) {
-		polyImage->addWay(w1.map.x-min_x, max_y-w1.map.y);
-		}
-		else {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x-min_x) * ratio, (max_y-w1.map.y) * ratio ), 5 * ratio, svg::Fill(svg::Color::Orange)));
+			if (w1.is_exit) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
+			}
+			else if (w1.is_entry) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
+			}
+			else if (w1.is_stop) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+			}
+			else if (w1.is_perimeter) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+			}
+			else if (w1.checkpoint_id != 0) {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+			}
+			else {
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
+			}
 		}
 	}
 
