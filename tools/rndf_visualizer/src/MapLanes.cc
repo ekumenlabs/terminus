@@ -998,22 +998,22 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			                   temp.is_transition && !with_trans);
 		}
 		else {
-			if (!(temp.is_transition && !with_trans)) {
-				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
-				                           svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
-				                           lineStrokeDarkGray));
-				doc.operator << (svg::Line(svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
-				                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
-				                           lineStrokeDarkGray));
-			}
-			if (temp.is_stop) {
-				doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
-				                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
-				                           lineStrokeRed));
-				doc.operator << (svg::Line(svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
-				                           svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
-				                           lineStrokeRed));
-			}
+			// if (!(temp.is_transition && !with_trans)) {
+			// 	doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
+			// 	                           svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
+			// 	                           lineStrokeDarkGray));
+			// 	doc.operator << (svg::Line(svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
+			// 	                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
+			// 	                           lineStrokeDarkGray));
+			// }
+			// if (temp.is_stop) {
+			// 	doc.operator << (svg::Line(svg::Point((temp.p1.x - min_x) * ratio, (max_y - temp.p1.y) * ratio),
+			// 	                           svg::Point((temp.p4.x - min_x) * ratio, (max_y - temp.p4.y) * ratio),
+			// 	                           lineStrokeRed));
+			// 	doc.operator << (svg::Line(svg::Point((temp.p2.x - min_x) * ratio, (max_y - temp.p2.y) * ratio),
+			// 	                           svg::Point((temp.p3.x - min_x) * ratio, (max_y - temp.p3.y) * ratio),
+			// 	                           lineStrokeRed));
+			// }
 		}
 	}
 
@@ -1036,6 +1036,11 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
 				                           lineStrokeCyan));
 			}
+		}
+		else{
+			doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+			                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+			                           lineStrokeDarkGray));
 		}
 	}
 	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
