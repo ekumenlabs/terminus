@@ -971,11 +971,11 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	svg::Stroke lineStrokeBlue = svg::Stroke(4, blueColor);
 	svg::Stroke lineStrokeRed = svg::Stroke(4, redColor);
 	svg::Stroke lineStrokeGreen = svg::Stroke(4, greenColor);
-
+	
 	svg::Fill greenFill = svg::Fill(svg::Color::Green);
 	svg::Fill redFill = svg::Fill(svg::Color::Red);
 	svg::Fill blueFill = svg::Fill(svg::Color::Blue);
-	svg::Fill &rFill = greenFill;
+	svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
 
 	//draw polygons
 	for (int i = 0; i < (int)filtPolys.size(); i++)
@@ -1035,15 +1035,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		}
 		else {
 			if(w1.is_exit){
-				rFill = redFill;
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
 			}
 			else if(w1.is_entry){
-				rFill = blueFill;
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
 			}
 			else{
-				rFill = greenFill;
+				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
 			}
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, rFill));
 		}
 	}
 
