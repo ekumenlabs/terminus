@@ -27,6 +27,8 @@
 
 #include <simple_svg_1.0.0.hpp>
 
+void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float radius);
+
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
 // applies to both since the RNDF itself doesn't specify. This can
@@ -1062,24 +1064,27 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
 		}
 		else {
-			if (w1.is_exit) {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
-			}
-			else if (w1.is_entry) {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
-			}
-			else if (w1.is_stop) {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
-			}
-			else if (w1.is_perimeter) {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
-			}
-			else if (w1.checkpoint_id != 0) {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
-			}
-			else {
-				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
-			}
+			// if (w1.is_exit) {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));
+			// }
+			// else if (w1.is_entry) {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));
+			// }
+			// else if (w1.is_stop) {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+			// }
+			// else if (w1.is_perimeter) {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+			// }
+			// else if (w1.checkpoint_id != 0) {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+			// }
+			// else {
+			// 	doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, greenFill));
+			// }
+			svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
+			createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+			doc.operator << (triangle);
 		}
 	}
 
@@ -1157,6 +1162,12 @@ void createPerimeterPolygons(svg::Document &doc, std::vector< std::vector<WayPoi
 		//Add the polygon to the doc.
 		doc.operator<<(poly);
 	}
+}
+
+void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float radius){
+	triangle.operator << (svg::Point(x, y + radius));
+	triangle.operator << (svg::Point(x + 0.866 * radius, y - 0.5 * radius));
+	triangle.operator << (svg::Point(x - 0.866 * radius, y - 0.5 * radius));
 }
 
 
