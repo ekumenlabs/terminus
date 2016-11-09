@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <fstream>
 #include <cstdlib>
+#include <cmath>
 
 #include <rndf_visualizer/coordinates.h>
 #include <rndf_visualizer/types.h>
