@@ -27,8 +27,8 @@
 
 #include <simple_svg_1.0.0.hpp>
 
-
 void createArrow(svg::Polygon &triangle, float x, float y, float radius);
+
 
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
