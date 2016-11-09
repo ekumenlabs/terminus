@@ -77,6 +77,8 @@ public:
 
   void UpdatePoly(polyUpdate upPoly, float rX, float rY, float rOri);
 
+  bool waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2);
+  
 private:
   int32_t poly_id_counter;
   std::vector<poly> allPolys;

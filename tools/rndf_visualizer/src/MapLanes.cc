@@ -1026,7 +1026,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
 		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
-		if ((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
+
+		if (waypointConnectionCondition(w1, w2)) {
+			// printWaypoint(w1);
+			// printWaypoint(w2);
+			// std::cout << "YES" << std::endl;
+			// std::cout << "------------------------------------" << std::endl;
+
+
 			if (!svg_format) {
 				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
 				                    w2.map.x - min_x, max_y - w2.map.y);
@@ -1065,6 +1072,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
 			}
 			else if (w1.checkpoint_id != 0) {
+			printWaypoint(w1);
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
 			}
 			else {
@@ -1093,6 +1101,21 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
     printf("Generating SVG file.\n");
     doc.save();
   }
+}
+
+bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
+	if((w1.is_entry && w2.is_exit) || (w1.is_exit && w2.is_entry)) {
+		if ((w1.id.seg != w2.id.seg) || (w1.id.seg == w2.id.seg && w1.id.lane != w2.id.lane)){
+			return true;
+		}
+	}
+	return false;
+	/*
+	|| (w1.id.seg != w2.id.seg && w1.id.lane == w1.id.lane)
+	if((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
+		return true;
+	}
+	return false;*/
 }
 
 
