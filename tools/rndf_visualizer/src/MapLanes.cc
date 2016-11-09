@@ -1026,7 +1026,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
 		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
-
 		if (waypointConnectionCondition(w1, w2)) {
 			if (!svg_format) {
 				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
