@@ -1032,6 +1032,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				                    w2.map.x - min_x, max_y - w2.map.y);
 			}
 			else {
+				//Changle stroke ratio on lane connections
 				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
 				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
 				                           svg::Stroke(w1.lane_width * ratio / 2.0, cyanColor)));
