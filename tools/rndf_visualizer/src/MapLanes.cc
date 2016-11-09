@@ -1028,12 +1028,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 
 
 		if (waypointConnectionCondition(w1, w2)) {
-			// printWaypoint(w1);
-			// printWaypoint(w2);
-			// std::cout << "YES" << std::endl;
-			// std::cout << "------------------------------------" << std::endl;
-
-
 			if (!svg_format) {
 				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
 				                    w2.map.x - min_x, max_y - w2.map.y);
@@ -1072,7 +1066,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
 			}
 			else if (w1.checkpoint_id != 0) {
-			printWaypoint(w1);
 				doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
 			}
 			else {
@@ -1104,18 +1097,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 }
 
 bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
+	//To make a connection between two waypoints, they should be an entry-exit pair as a first
+	//condition, and then they should belong to different segments, or at least, different lanes
 	if((w1.is_entry && w2.is_exit) || (w1.is_exit && w2.is_entry)) {
 		if ((w1.id.seg != w2.id.seg) || (w1.id.seg == w2.id.seg && w1.id.lane != w2.id.lane)){
 			return true;
 		}
 	}
 	return false;
-	/*
-	|| (w1.id.seg != w2.id.seg && w1.id.lane == w1.id.lane)
-	if((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
-		return true;
-	}
-	return false;*/
 }
 
 
