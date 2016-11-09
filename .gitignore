@@ -90,3 +90,4 @@ ENV/
 
 # Generated files
 generated_worlds/*
+/.project

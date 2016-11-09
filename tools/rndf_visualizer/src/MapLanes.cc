@@ -27,6 +27,7 @@
 
 #include <simple_svg_1.0.0.hpp>
 
+
 void createArrow(svg::Polygon &triangle, float x, float y, float radius);
 
 // intial_latlong specifies whether rndf waypoints and initial
@@ -1094,6 +1095,9 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
 				doc.operator << (arrow);
 			}
+			// svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
+			// createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+			// doc.operator << (triangle);
 		}
 	}
 
