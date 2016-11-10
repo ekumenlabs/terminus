@@ -43,5 +43,5 @@ Waypoints:
 5. Checkpoint --> fuchsia
 6. Other kinds --> green
 
-Trunks and lanes are dark grey. Connections between entry and exit waypoints are shown in cyan.
+Trunks and lanes are dark grey. Connections between entry and exit waypoints are shown in cyan. Also, the area enclosed by perimeter waypoints is light blue now. 
 

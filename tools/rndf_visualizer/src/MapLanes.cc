@@ -1021,13 +1021,14 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 
 	//Create some polygons for the permiter zones
 	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
-	std::vector< std::vector<WayPointNode> > perimeterList;
-	getPermitersFromWaypointsList(perimeterList, graph->nodes, graph->nodes_size);
-	createPerimeterPolygons(doc, perimeterList, ratio, min_x, max_y);
-	perimeterList.clear();
+	if(svg_format){
+		std::vector< std::vector<WayPointNode> > perimeterList;
+		getPermitersFromWaypointsList(perimeterList, graph->nodes, graph->nodes_size);
+		createPerimeterPolygons(doc, perimeterList, ratio, min_x, max_y);
+		perimeterList.clear();
+	}
 
 	// Add Waypoints to WayPointImage
-
 	//This cycle adds traces between entry and exit points.
 	for (uint i = 0; i < graph->edges_size; i++)
 	{
@@ -1145,12 +1146,10 @@ void createPerimeterPolygons(svg::Document &doc, std::vector< std::vector<WayPoi
 	svg::Fill polygonFill = svg::Fill(color);
 	svg::Stroke polygonStroke = svg::Stroke(4, color);
 
-	std::cout << "Perimeters: " << perimeterList.size() << std::endl;
 	for(uint i = 0; i < perimeterList.size(); i++){
 		svg::Polygon poly = svg::Polygon(polygonFill, polygonStroke);
 		std::vector<WayPointNode> perimeterNodes = perimeterList.at(i);
 		//Add points to the polygon
-		std::cout << "Nodes: " << perimeterNodes.size() << std::endl;
 		for(uint j = 0; j < perimeterNodes.size(); j++){
 			WayPointNode w = perimeterNodes.at(j);
 			poly.operator<<(svg::Point((w.map.x - baseX) * ratio, (baseY - w.map.y) * ratio ));
