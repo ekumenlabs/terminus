@@ -28,7 +28,8 @@ class City(CityModel):
 
     def accept(self, generator):
         generator.start_city(self)
-        self.ground_plane.accept(generator)
+        if self.ground_plane is not None:
+            self.ground_plane.accept(generator)
         for road in self.roads:
             road.accept(generator)
         for block in self.blocks:
