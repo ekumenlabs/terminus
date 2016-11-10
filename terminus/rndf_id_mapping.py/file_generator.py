@@ -86,3 +86,4 @@ class FileGenerator(CityVisitor):
         new_contents = template.render(**render_params)
         self.document = StringIO()
         self.document.write(new_contents)
+

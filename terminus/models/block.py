@@ -1,5 +1,5 @@
 from city_model import CityModel
-from shapely.geometry import Point
+from geometry.point import Point
 
 
 class Block(CityModel):

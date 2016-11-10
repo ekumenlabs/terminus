@@ -26,6 +26,11 @@ class Road(CityModel):
     def set_width(self, width):
         self.width = width
 
+    # This implementation is temporal and we will soon replace it
+    # with the return of proper street waypoints.
+    def get_waypoints(self):
+        return self.points
+
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
                (self.width == other.width) and \
@@ -35,7 +40,7 @@ class Road(CityModel):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash(tuple(sorted(self.__dict__.items())))
+        return hash((self.width, tuple(self.points)))
 
     def __repr__(self):
         return "%s: " % self.__class__ + reduce(lambda acc, point: acc +

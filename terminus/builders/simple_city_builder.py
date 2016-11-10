@@ -1,4 +1,4 @@
-from shapely.geometry import Point
+from geometry.point import Point
 
 from models.city import City
 from models.street import Street
