@@ -954,6 +954,7 @@ void RNDF::prep_graph(){
     }
   }
   
+  //Goal waypoints, no orientation required
   for(zones_i = zones.begin(); zones_i != zones.end(); zones_i++){
     for(spots_i = zones_i->spots.begin();
 	spots_i != zones_i->spots.end(); spots_i++){
@@ -980,7 +981,7 @@ void RNDF::prep_graph(){
     }
   }
   
-
+  //Perimeter waypoints, no orientation required
   for(zones_i = zones.begin(); zones_i != zones.end(); zones_i++){
     for(peri_i = zones_i->perimeter.perimeterpoints.begin();
 	peri_i != zones_i->perimeter.perimeterpoints.end(); peri_i++){
@@ -997,6 +998,7 @@ void RNDF::prep_graph(){
     }
   }
 
+  //Entry and exit waypoints, no orientation required
   for(zones_i = zones.begin(); zones_i != zones.end(); zones_i++){
     for(exits_i = zones_i->perimeter.exits_from_perimeter.begin();
 	exits_i != zones_i->perimeter.exits_from_perimeter.end(); exits_i++){

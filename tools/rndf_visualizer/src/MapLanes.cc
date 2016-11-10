@@ -1026,21 +1026,22 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
 		WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
-		if ((w1.is_entry || w1.is_exit) && (w2.is_entry || w2.is_exit)) {
+		if (waypointConnectionCondition(w1, w2)) {
 			if (!svg_format) {
 				edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
 				                    w2.map.x - min_x, max_y - w2.map.y);
 			}
 			else {
+				//Changle stroke ratio on lane connections
 				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
 				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-				                           lineStrokeCyan));
+				                           svg::Stroke(w1.lane_width * ratio / 2.0, cyanColor)));
 			}
 		}
 		else{
 			doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
 			                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-			                           lineStrokeDarkGray));
+			                           svg::Stroke(w1.lane_width * ratio, darkGrayColor)));
 		}
 	}
 	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
@@ -1093,6 +1094,17 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
     printf("Generating SVG file.\n");
     doc.save();
   }
+}
+
+bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
+	//To make a connection between two waypoints, they should be an entry-exit pair as a first
+	//condition, and then they should belong to different segments, or at least, different lanes
+	if((w1.is_entry && w2.is_exit) || (w1.is_exit && w2.is_entry)) {
+		if ((w1.id.seg != w2.id.seg) || (w1.id.seg == w2.id.seg && w1.id.lane != w2.id.lane)){
+			return true;
+		}
+	}
+	return false;
 }
 
 
