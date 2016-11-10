@@ -32,3 +32,16 @@ To get a .svg image:
 ./rndf_visualizer -g [RNDF file path]
 ```
 
+### SVG color references
+
+Waypoints:
+
+1. Exit --> red
+2. Entry --> blue
+3. Stop --> orange
+4. Perimeter --> yellow
+5. Checkpoint --> fuchsia
+6. Other kinds --> green
+
+Trunks and lanes are dark grey. Connections between entry and exit waypoints are shown in cyan.
+
