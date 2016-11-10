@@ -41,13 +41,14 @@ class RNDFGenerator(FileGenerator):
         lon = self.origin.x + (point.x / meters_per_degree_lon)
         return (lat, lon)
 
+    # TODO: Put {{inner_contents}} on a different line while keeping RNDF
+    # proper format.
     def city_template(self):
         return """
         RNDF_name\t{{model.name}}
         num_segments\t{{model.roads_count()}}
         num_zones\t0
-        format_version\t1.0
-        {{inner_contents}}
+        format_version\t1.0{{inner_contents}}
         end_file"""
 
     def street_template(self):
