@@ -1059,25 +1059,22 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		}
 	}
 	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints
-	std::vector<WayPointNode> wps;
-	for (uint i = 0; i < graph->nodes_size; i++)
-	{
-		WayPointNode w1 = graph->nodes[i];
+	std::vector< std::vector<WayPointNode> > laneList;
 
-		findListOfWayPointsBySegmentAndLane(wps, w1.id.seg, w1.id.lane);
-		for(uint j = 0; j < wps.size(); j++){
-			printWayPoint(wps.at(j));
-		}
-		std::cout << "-----------------------" << std::endl;
-		wps.clear();
+	//Create a list of list with waypoints related by lane
+	getWaypointsByLanes(laneList, graph->nodes, graph->nodes_size);
+	for(uint i = 0; i < laneList.size(); i++){
+		std::vector<WayPointNode> laneNodes = laneList.at(i);
+		std::vector<float> waypointThetas;
+		//Get the deviation of each waypoint so as to get the theta
+		getWaypointsTheta(laneNodes, waypointThetas);
+		std::cout << waypointThetas.size() << std::endl;
+		//Draw each waypoint with its deviation
+		for(uint j = 0; j < laneNodes.size(); j++){
 
-		//TODO hardcode to test
-		float angle = M_PI/4.0;
+			WayPointNode w1 = laneNodes.at(j);
+			float angle = waypointThetas.at(j);
 
-		if (!svg_format) {
-			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
-		}
-		else {
 			if (w1.is_exit) {
 				svg::Polygon arrow = svg::Polygon(redFill);
 				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
@@ -1108,6 +1105,52 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);
 			}
+		}
+	}
+
+	for (uint i = 0; i < graph->nodes_size; i++)
+	{
+		WayPointNode w1 = graph->nodes[i];
+
+		//TODO hardcode to test
+		float angle = M_PI/4.0;
+
+		if (!svg_format) {
+			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
+		}
+		else {
+
+			// if (w1.is_exit) {
+			// 	svg::Polygon arrow = svg::Polygon(redFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);				
+			// }
+			// else if (w1.is_entry) {
+			// 	svg::Polygon arrow = svg::Polygon(blueFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);		
+			// }
+			// else if (w1.is_stop) {
+			// 	svg::Polygon arrow = svg::Polygon(orangeFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);
+			// }
+			// else if (w1.is_perimeter) {
+			// 	svg::Polygon arrow = svg::Polygon(yellowFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);
+			// }
+			// else if (w1.checkpoint_id != 0) {
+			// 	svg::Polygon arrow = svg::Polygon(fuchsiaFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);
+			// }
+			// else {
+			// 	svg::Polygon arrow = svg::Polygon(greenFill);
+			// 	createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+			// 	doc.operator << (arrow);
+			// }
+
 			// svg::Polygon arrow = svg::Polygon(greenFill);
 			// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, M_PI/2.0);
 			// doc.operator << (arrow);
@@ -1202,7 +1245,6 @@ void createArrow(svg::Polygon &arrow, float xc, float yc, float radius, float an
 
 	x = radius;
 	y = 0.0;
-	std::cout <<  rotateX2DPoint(x, y, angle) << std::endl;
 	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
 	x = -1.0* radius / 6.0;
 	y = radius;
@@ -1238,10 +1280,56 @@ void MapLanes::findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &wa
 		}
 	}
 } 
-
 void MapLanes::getWaypointsByLanes(std::vector< std::vector<WayPointNode> > &lanesList, WayPointNode *nodes, uint nodeSize){
-	for (uint i = 0; i < )
+	segment_id_t lastSegment = -1;
+	lane_id_t lastLane = -1;
+
+	for(uint i = 0; i < nodeSize; i++){
+		WayPointNode w = nodes[i];
+		if(w.id.seg == lastSegment && w.id.lane == lastLane){
+			continue;
+		}
+		lastSegment = w.id.seg;
+		lastLane = w.id.lane; 
+		std::vector<WayPointNode> laneNodes;
+
+		getWaypointsBySegmentAndLane(laneNodes, &(nodes[i]), nodeSize - i, lastSegment, lastLane);
+
+		lanesList.push_back(laneNodes);
+
+		i += laneNodes.size() - 1;
+	}
 }
+void MapLanes::getWaypointsBySegmentAndLane(std::vector<WayPointNode> &laneNodes, WayPointNode *nodes, uint nodeSize, segment_id_t segmentId, lane_id_t laneId){
+	for(uint i = 0; i < nodeSize; i++){
+		WayPointNode w = nodes[i];
+		if(w.id.seg == segmentId && w.id.lane == laneId){
+			laneNodes.push_back(w);
+		}
+	}
+}
+
+void MapLanes::getWaypointsTheta(std::vector<WayPointNode> &laneNodes, std::vector<float> &nodesTheta){
+	std::cout << "laneNodes.size(): " << laneNodes.size() << std::endl;
+	//Some checks
+	if(laneNodes.size() == 0){
+		return;
+	}
+	else if(laneNodes.size() == 1){
+		nodesTheta.push_back(0.0);
+	}
+
+	for(uint i = 0; i < (laneNodes.size() - 1); i++){
+		std::cout << "i: " << i;
+		WayPointNode w1 = laneNodes[i];
+		WayPointNode w2 = laneNodes[i+1];
+		float theta = getAngleBetweenWaypoints(w1, w2);
+		std::cout << " - theta: " << theta << std::endl;
+		nodesTheta.push_back(theta);
+	}
+	nodesTheta.push_back(nodesTheta.back());
+}
+
 
 void printWayPoint(WayPointNode &wp){
 	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt << "\tX:" << wp.map.x << "\tY:" << wp.map.y << std::endl;

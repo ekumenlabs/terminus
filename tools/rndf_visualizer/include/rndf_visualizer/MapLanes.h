@@ -129,6 +129,11 @@ private:
   float rotateX2DPoint(float x, float y, float angle);
   float rotateY2DPoint(float x, float y, float angle);
 
+  void getWaypointsByLanes(std::vector< std::vector<WayPointNode> > &lanesList, WayPointNode *nodes, uint nodeSize);
+
+  void getWaypointsBySegmentAndLane(std::vector<WayPointNode> &laneNodes, WayPointNode *nodes, uint nodeSize, segment_id_t segmentId, lane_id_t laneId);
+  void getWaypointsTheta(std::vector<WayPointNode> &laneNodes, std::vector<float> &nodesTheta);
+
   PolyOps ops;
   
   // File Writing / Reading
