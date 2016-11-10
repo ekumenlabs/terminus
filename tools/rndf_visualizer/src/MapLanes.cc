@@ -32,6 +32,8 @@
 // applies to both since the RNDF itself doesn't specify. This can
 // seperated if getting lat/long inital coordinates is inconvineint.
 
+void createPerimeterPolygons(svg::Document &doc, std::vector< std::vector<WayPointNode> > &perimeterList, float ratio, float baseX, float baseY);
+
 #define way_poly_size 0.5 // half of length of polygon that goes
 			  // around waypoints
 int writecounter=0;
@@ -1017,9 +1019,16 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		}
 	}
 
+	//Create some polygons for the permiter zones
+	//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints.
+	if(svg_format){
+		std::vector< std::vector<WayPointNode> > perimeterList;
+		getPermitersFromWaypointsList(perimeterList, graph->nodes, graph->nodes_size);
+		createPerimeterPolygons(doc, perimeterList, ratio, min_x, max_y);
+		perimeterList.clear();
+	}
 
 	// Add Waypoints to WayPointImage
-
 	//This cycle adds traces between entry and exit points.
 	for (uint i = 0; i < graph->edges_size; i++)
 	{
@@ -1105,6 +1114,49 @@ bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
 		}
 	}
 	return false;
+}
+
+void MapLanes::getPermitersFromWaypointsList(std::vector< std::vector<WayPointNode> > &perimeterList, WayPointNode *nodes, uint nodeListSize){
+	segment_id_t currentSegment = 0;
+	std::vector<WayPointNode> perimeterNodes;
+
+	for(uint i = 0; i < nodeListSize; i++){
+		WayPointNode w = nodes[i];
+
+		if(w.is_perimeter){
+			//Check if we are on the same segment so as to create a new perimeter list of waypoints
+			if(currentSegment != w.id.seg){
+				if(!perimeterList.empty()){
+					perimeterList.push_back(perimeterNodes);
+				}
+				currentSegment = w.id.seg;
+				perimeterNodes.clear();
+			}
+			perimeterNodes.push_back(w);
+		}
+	}
+
+	if(!perimeterNodes.empty()){
+		perimeterList.push_back(perimeterNodes);
+	}
+}
+
+void createPerimeterPolygons(svg::Document &doc, std::vector< std::vector<WayPointNode> > &perimeterList, float ratio, float baseX, float baseY){
+	svg::Color color = svg::Color(182, 208, 249);
+	svg::Fill polygonFill = svg::Fill(color);
+	svg::Stroke polygonStroke = svg::Stroke(4, color);
+
+	for(uint i = 0; i < perimeterList.size(); i++){
+		svg::Polygon poly = svg::Polygon(polygonFill, polygonStroke);
+		std::vector<WayPointNode> perimeterNodes = perimeterList.at(i);
+		//Add points to the polygon
+		for(uint j = 0; j < perimeterNodes.size(); j++){
+			WayPointNode w = perimeterNodes.at(j);
+			poly.operator<<(svg::Point((w.map.x - baseX) * ratio, (baseY - w.map.y) * ratio ));
+		}
+		//Add the polygon to the doc.
+		doc.operator<<(poly);
+	}
 }
 
 

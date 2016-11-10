@@ -1,6 +1,7 @@
 <?xml version="1.0" standalone="no" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="1697px" height="2470px" xmlns="http://www.w3.org/2000/svg" version="1.1" >
+	<polygon points="787.455,886.943 897.064,893.001 997.363,893.847 996.664,973.872 827.031,972.664 787.044,971.961 " fill="rgb(182,208,249)" stroke-width="4" stroke="rgb(182,208,249)" />
 	<line x1="457.585" y1="54.4063" x2="633.451" y2="43.4339" stroke-width="8.64358" stroke="rgb(64,64,64)" />
 	<line x1="633.451" y1="43.4339" x2="961.391" y2="21.436" stroke-width="8.64358" stroke="rgb(64,64,64)" />
 	<line x1="961.391" y1="21.436" x2="1212.08" y2="4.39174" stroke-width="8.64358" stroke="rgb(64,64,64)" />
