@@ -30,7 +30,7 @@
 void createArrow(svg::Polygon &triangle, float x, float y, float radius, float angle);
 float rotateX2DPoint(float x, float y, float angle);
 float rotateY2DPoint(float x, float y, float angle);	
-void printWayPoint(WayPointNode &wp);
+void printWayPoint(WayPointNode &wp, float angle);
 void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1);
 
 // intial_latlong specifies whether rndf waypoints and initial
@@ -1073,7 +1073,6 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			for(uint j = 0; j < laneNodes.size(); j++){
 				WayPointNode w1 = laneNodes.at(j);
 				float angle = waypointThetas.at(j);
-
 				drawWaypoint(doc, ratio, min_x, max_y, angle, w1);
 			}
 		}
@@ -1181,32 +1180,32 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 
 	if (w1.is_exit) {
 		svg::Polygon arrow = svg::Polygon(redFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);				
 	}
 	else if (w1.is_entry) {
 		svg::Polygon arrow = svg::Polygon(blueFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);		
 	}
 	else if (w1.is_stop) {
 		svg::Polygon arrow = svg::Polygon(orangeFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);
 	}
 	else if (w1.is_perimeter) {
 		svg::Polygon arrow = svg::Polygon(yellowFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);
 	}
 	else if (w1.checkpoint_id != 0) {
 		svg::Polygon arrow = svg::Polygon(fuchsiaFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);
 	}
 	else {
 		svg::Polygon arrow = svg::Polygon(greenFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
 		doc.operator << (arrow);
 	}
 }
@@ -1238,10 +1237,10 @@ void createArrow(svg::Polygon &arrow, float xc, float yc, float radius, float an
 }
 
 float rotateX2DPoint(float x, float y, float angle){
-	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::cos(std::atan2(y, x) + angle);
+	return std::sqrt(y*y + x*x) * std::cos(std::atan2(y, x) + angle);
 }
 float rotateY2DPoint(float x, float y, float angle){
-	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::sin(std::atan2(y, x) + angle);
+	return std::sqrt(y*y + x*x) * std::sin(std::atan2(y, x) + angle);
 }
 
 void MapLanes::findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &waypoints, segment_id_t segment, lane_id_t lane){
@@ -1298,9 +1297,8 @@ void MapLanes::getWaypointsTheta(std::vector<WayPointNode> &laneNodes, std::vect
 	nodesTheta.push_back(nodesTheta.back());
 }
 
-
-void printWayPoint(WayPointNode &wp){
-	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt << "\tX:" << wp.map.x << "\tY:" << wp.map.y << std::endl;
+void printWayPoint(WayPointNode &wp, float angle){
+	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt;// << "\t" << wp.map.x << "\t" << wp.map.y << "\t" << angle << std::endl; 
 }
 
 float MapLanes::getAngleBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
