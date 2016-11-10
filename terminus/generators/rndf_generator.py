@@ -13,25 +13,28 @@ class RNDFGenerator(FileGenerator):
 
     def start_document(self):
         self.id_mapper.run()
-        self.segment_id = 0
 
     def end_city(self, city):
         self._wrap_document_with_contents_for(city)
 
-    def start_street(self, road):
-        self.segment_id = self.segment_id + 1
-        street_contents = self._contents_for(road, segment_id=self.segment_id)
+    def start_road(self, road):
+        segment_id = self.id_for(road)
+        street_contents = self._contents_for(road, segment_id=segment_id)
         self._append_to_document(street_contents)
 
-    def start_trunk(self, road):
-        self.segment_id = self.segment_id + 1
-        trunk_contents = self._contents_for(road, segment_id=self.segment_id)
-        self._append_to_document(trunk_contents)
+    def start_street(self, street):
+        self.start_road(street)
+
+    def start_trunk(self, street):
+        self.start_road(street)
+
+    def id_for(self, object):
+        return self.id_mapper.id_for(object)
 
     # Transformation taken from
     # http://gis.stackexchange.com/questions/107992/
     # converting-from-an-x-y-coordinate-system-to-latitude-longitude
-    def translate_point(self, point):
+    def translate_waypoint(self, point):
         meters_per_degree_lat = 111319.9
         meters_per_degree_lon = meters_per_degree_lat * math.cos(self.origin.x)
         lat = self.origin.y + (point.y / meters_per_degree_lat)
@@ -53,13 +56,13 @@ class RNDFGenerator(FileGenerator):
         num_lanes\t1
         segment_name\t{{model.name}}
         lane\t{{segment_id}}.1
-        num_waypoints\t{{model.points_count()}}
+        num_waypoints\t{{model.waypoints_count()}}
         lane_width\t{{model.width}}
-        {% for point in model.points %}
-        {% set latlon = generator.translate_point(point) %}
+        {% for waypoint in model.get_waypoints() %}
+        {% set latlon = generator.translate_waypoint(waypoint) %}
         {% set lat = latlon[0] %}
         {% set lon = latlon[1] %}
-        {{segment_id}}.1.{{loop.index}}\t{{lat|round(6)}}\t{{lon|round(6)}}
+        {{generator.id_for(waypoint)}}\t{{lat|round(6)}}\t{{lon|round(6)}}
         {% endfor %}
         end_lane
         end_segment"""

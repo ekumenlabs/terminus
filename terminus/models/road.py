@@ -31,6 +31,9 @@ class Road(CityModel):
     def get_waypoints(self):
         return self.points
 
+    def waypoints_count(self):
+        return len(self.get_waypoints())
+
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
                (self.width == other.width) and \

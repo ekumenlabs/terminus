@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 from operator import itemgetter
 from models.street import Street
@@ -23,7 +24,7 @@ class VertexGraphToRoadsConverter(object):
                     road = Street(width=4)
                 else:
                     road = Trunk(width=22)
-                road.add_point(vertex.coords)
+                road.add_point(copy.copy(vertex.coords))
                 self._build_road(road, None, vertex)
                 if len(road.points) > 1:
                     roads.append(road)
@@ -40,7 +41,7 @@ class VertexGraphToRoadsConverter(object):
                 return
             if current_vertex in neighbour.neighbours:
                 neighbour.neighbours.remove(current_vertex)
-            road.add_point(neighbour.coords)
+            road.add_point(copy.copy(neighbour.coords))
             self._build_road(road, current_vertex, neighbour)
         else:
             # Since there is a previous vertex, we must select the
@@ -51,7 +52,7 @@ class VertexGraphToRoadsConverter(object):
                 current_vertex.neighbours.remove(best_neighbour)
                 if current_vertex in best_neighbour.neighbours:
                     best_neighbour.neighbours.remove(current_vertex)
-                road.add_point(best_neighbour.coords)
+                road.add_point(copy.copy(best_neighbour.coords))
                 self._build_road(road, current_vertex, best_neighbour)
 
     def _angle_2d(self, point_from, point_to):
