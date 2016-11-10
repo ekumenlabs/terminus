@@ -1198,7 +1198,6 @@ void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float r
 
 
 void createArrow(svg::Polygon &arrow, float xc, float yc, float radius, float angle){
-
 	float x,y;
 
 	x = radius;
@@ -1240,6 +1239,10 @@ void MapLanes::findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &wa
 	}
 } 
 
+void MapLanes::getWaypointsByLanes(std::vector< std::vector<WayPointNode> > &lanesList, WayPointNode *nodes, uint nodeSize){
+	for (uint i = 0; i < )
+}
+
 void printWayPoint(WayPointNode &wp){
 	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt << "\tX:" << wp.map.x << "\tY:" << wp.map.y << std::endl;
 }
@@ -1247,6 +1250,7 @@ void printWayPoint(WayPointNode &wp){
 float MapLanes::getAngleBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
 	return std::atan2(w2.map.y - w1.map.y, w2.map.x - w1.map.x);
 }
+
 float MapLanes::getDistanceBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
 	return std::sqrt(std::pow((w2.map.y - w1.map.y), 2.0) + std::pow((w2.map.x - w1.map.x), 2.0));
 }
