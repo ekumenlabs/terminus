@@ -27,7 +27,9 @@
 
 #include <simple_svg_1.0.0.hpp>
 
-void createArrow(svg::Polygon &triangle, float x, float y, float radius);
+void createArrow(svg::Polygon &triangle, float x, float y, float radius, float angle);
+float rotateX2DPoint(float x, float y, float angle);
+float rotateY2DPoint(float x, float y, float angle);	
 void printWayPoint(WayPointNode &wp);
 
 // intial_latlong specifies whether rndf waypoints and initial
@@ -1069,43 +1071,46 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 		std::cout << "-----------------------" << std::endl;
 		wps.clear();
 
+		//TODO hardcode to test
+		float angle = M_PI/4.0;
+
 		if (!svg_format) {
 			polyImage->addWay(w1.map.x - min_x, max_y - w1.map.y);
 		}
 		else {
 			if (w1.is_exit) {
 				svg::Polygon arrow = svg::Polygon(redFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);				
 			}
 			else if (w1.is_entry) {
 				svg::Polygon arrow = svg::Polygon(blueFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);		
 			}
 			else if (w1.is_stop) {
 				svg::Polygon arrow = svg::Polygon(orangeFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);
 			}
 			else if (w1.is_perimeter) {
 				svg::Polygon arrow = svg::Polygon(yellowFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);
 			}
 			else if (w1.checkpoint_id != 0) {
 				svg::Polygon arrow = svg::Polygon(fuchsiaFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);
 			}
 			else {
 				svg::Polygon arrow = svg::Polygon(greenFill);
-				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
+				createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, angle);
 				doc.operator << (arrow);
 			}
-			// svg::Polygon triangle = svg::Polygon(svg::Fill(svg::Color::Orange));
-			// createEquilateralTriangle(triangle, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio);
-			// doc.operator << (triangle);
+			// svg::Polygon arrow = svg::Polygon(greenFill);
+			// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, M_PI/2.0);
+			// doc.operator << (arrow);
 		}
 	}
 
@@ -1191,22 +1196,40 @@ void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float r
 	triangle.operator << (svg::Point(x - 0.866 * radius, y - 0.5 * radius));
 }
 
-void createArrow(svg::Polygon &arrow, float x, float y, float radius){
-	arrow.operator << (svg::Point(x + radius, y));
-	arrow.operator << (svg::Point(x - radius / 6.0, y + radius));
-	arrow.operator << (svg::Point(x - radius / 6.0, y + radius / 6.0));
-	arrow.operator << (svg::Point(x - radius, y + radius / 6.0));
-	arrow.operator << (svg::Point(x - radius, y - radius / 6.0));
-	arrow.operator << (svg::Point(x - radius / 6.0, y - radius / 6.0));
-	arrow.operator << (svg::Point(x - radius / 6.0, y - radius));
 
-	// arrow.operator << (svg::Point(x, y + radius));
-	// arrow.operator << (svg::Point(x + radius, y - radius / 6.0));
-	// arrow.operator << (svg::Point(x + radius / 6.0, y - radius / 6.0));
-	// arrow.operator << (svg::Point(x + radius / 6.0, y - radius));
-	// arrow.operator << (svg::Point(x - radius / 6.0, y - radius));
-	// arrow.operator << (svg::Point(x - radius / 6.0, y - radius / 6.0));
-	// arrow.operator << (svg::Point(x - radius, y - radius / 6.0));
+void createArrow(svg::Polygon &arrow, float xc, float yc, float radius, float angle){
+
+	float x,y;
+
+	x = radius;
+	y = 0.0;
+	std::cout <<  rotateX2DPoint(x, y, angle) << std::endl;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = -1.0* radius / 6.0;
+	y = radius;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = -1.0* radius / 6.0;
+	y = radius / 6.0;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = - radius;
+	y = radius / 6.0;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = -1.0* radius;
+	y = -1.0*radius / 6.0;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = -1.0* radius/6.0;
+	y = -1.0* radius / 6.0;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));
+	x = -1.0* radius / 6.0;
+	y = -1.0* radius ;
+	arrow.operator << (svg::Point(xc + rotateX2DPoint(x, y, angle), yc + rotateY2DPoint(x, y, angle)));				
+}
+
+float rotateX2DPoint(float x, float y, float angle){
+	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::cos(std::atan2(y, x) + angle);
+}
+float rotateY2DPoint(float x, float y, float angle){
+	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::sin(std::atan2(y, x) + angle);
 }
 
 void MapLanes::findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &waypoints, segment_id_t segment, lane_id_t lane){
@@ -1218,7 +1241,7 @@ void MapLanes::findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &wa
 } 
 
 void printWayPoint(WayPointNode &wp){
-	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt << "\tX:" << wp.map.x << "\tY:" << wp.map.y << std::endl; 
+	std::cout << wp.id.seg << "." << wp.id.lane << "." << wp.id.pt << "\tX:" << wp.map.x << "\tY:" << wp.map.y << std::endl;
 }
 
 float MapLanes::getAngleBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
@@ -1226,12 +1249,6 @@ float MapLanes::getAngleBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
 }
 float MapLanes::getDistanceBetweenWaypoints(WayPointNode &w1, WayPointNode &w2){
 	return std::sqrt(std::pow((w2.map.y - w1.map.y), 2.0) + std::pow((w2.map.x - w1.map.x), 2.0));
-}
-float MapLanes::rotateX2DPoint(float x, float y, float angle){
-	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::cos(angle);
-}
-float MapLanes::rotateY2DPoint(float x, float y, float angle){
-	return std::sqrt(std::pow(y, 2.0) + std::pow(x, 2.0)) * std::sin(angle);
 }
 
 
