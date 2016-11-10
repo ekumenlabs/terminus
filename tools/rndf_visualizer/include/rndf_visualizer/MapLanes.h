@@ -78,7 +78,9 @@ public:
   void UpdatePoly(polyUpdate upPoly, float rX, float rY, float rOri);
 
   bool waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2);
-  
+
+  void getPermitersFromWaypointsList(std::vector< std::vector<WayPointNode> > &perimeterList, WayPointNode *nodes, uint nodeListSize);
+
 private:
   int32_t poly_id_counter;
   std::vector<poly> allPolys;
@@ -98,22 +100,22 @@ private:
   void MakePolygons();
 
   poly build_waypoint_poly(const WayPointNode& w1, const WayPointEdge &e,
-			   const Point2f& _pt,
-			   float time,
-			   SmoothCurve& c);
+         const Point2f& _pt,
+         float time,
+         SmoothCurve& c);
 
   void MakeLanePolygon(WayPointNode w1, WayPointNode w2, WayPointEdge e,
-		       float time1, float time2,
-		       SmoothCurve& c,
-		       bool new_edge,
-		       float ltime1, float ltime2,
-		       SmoothCurve& lc,
-		       float rtime1, float rtime2,
-		       SmoothCurve& rc);
+           float time1, float time2,
+           SmoothCurve& c,
+           bool new_edge,
+           float ltime1, float ltime2,
+           SmoothCurve& lc,
+           float rtime1, float rtime2,
+           SmoothCurve& rc);
 
   void MakeTransitionPolygon(WayPointNode w1, WayPointNode w2, WayPointEdge e, 
-			     float time1, float time2,
-			     SmoothCurve& c);
+           float time1, float time2,
+           SmoothCurve& c);
 
   void SetFilteredPolygons();
 
