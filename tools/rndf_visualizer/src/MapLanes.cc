@@ -1024,7 +1024,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	std::vector< std::vector<WayPointNode> > perimeterList;
 	getPermitersFromWaypointsList(perimeterList, graph->nodes, graph->nodes_size);
 	createPerimeterPolygons(doc, perimeterList, ratio, min_x, max_y);
-
+	perimeterList.clear();
 
 	// Add Waypoints to WayPointImage
 
@@ -1132,7 +1132,6 @@ void MapLanes::getPermitersFromWaypointsList(std::vector< std::vector<WayPointNo
 				perimeterNodes.clear();
 			}
 			perimeterNodes.push_back(w);
-			std::cout << w.id.seg << "." << w.id.lane << "." << w.id.pt << std::endl;
 		}
 	}
 
@@ -1142,8 +1141,8 @@ void MapLanes::getPermitersFromWaypointsList(std::vector< std::vector<WayPointNo
 }
 
 void createPerimeterPolygons(svg::Document &doc, std::vector< std::vector<WayPointNode> > &perimeterList, float ratio, float baseX, float baseY){
-	svg::Color color = svg::Color(78, 142, 244);
-	svg::Fill polygonFill = svg::Fill(svg::Color::Red);
+	svg::Color color = svg::Color(182, 208, 249);
+	svg::Fill polygonFill = svg::Fill(color);
 	svg::Stroke polygonStroke = svg::Stroke(4, color);
 
 	std::cout << "Perimeters: " << perimeterList.size() << std::endl;
