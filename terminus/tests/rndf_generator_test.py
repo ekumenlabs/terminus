@@ -2,6 +2,7 @@ import unittest
 
 from geometry.point import Point
 from models.city import City
+from models.road import *
 from models.street import Street
 from models.trunk import Trunk
 
@@ -9,11 +10,15 @@ from generators.rndf_generator import RNDFGenerator
 
 import textwrap
 
+
 class RNDFGeneratorTest(unittest.TestCase):
 
     def _generate_rndf(self, city):
         self.generator = RNDFGenerator(city, Point(45, 65))
         self.generated_contents = self.generator.generate()
+#        print "###########################################"
+#        print self.generated_contents
+#        print "###########################################"
 
     def _assert_contents_are(self, expected_contents):
         expected = textwrap.dedent(expected_contents)[1:]
@@ -31,10 +36,10 @@ class RNDFGeneratorTest(unittest.TestCase):
 
     def test_simple_street(self):
         city = City("Single street")
-        street = Street.from_points([
-            Point(0, 0),
-            Point(1000, 0),
-            Point(2000, 0)
+        street = Street.from_nodes([
+            SimpleNode.on(0, 0),
+            SimpleNode.on(1000, 0),
+            SimpleNode.on(2000, 0)
         ])
         street.name = "s1"
         city.add_road(street)
@@ -53,6 +58,67 @@ class RNDFGeneratorTest(unittest.TestCase):
         1.1.1\t65.0\t45.0
         1.1.2\t65.0\t45.0171
         1.1.3\t65.0\t45.0342
+        end_lane
+        end_segment
+        end_file""")
+
+
+    def test_cross_junction(self):
+
+        """
+             (0,1)
+        (-1,0) + (1,0)
+             (0,-1)
+        """
+        city = City("Cross")
+        junction = JunctionNode.on(0,0)
+
+        s1 = Street.from_nodes([
+            SimpleNode.on(-1000, 0),
+            junction,
+            SimpleNode.on(1000, 0)
+        ])
+        s1.name = "s1"
+
+        s2 = Street.from_nodes([
+            SimpleNode.on(0, 1000),
+            junction,
+            SimpleNode.on(0, -1000)
+        ])
+        s2.name = "s2"
+        city.add_road(s1)
+        city.add_road(s2)
+
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tCross
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t4
+        lane_width\t5
+        exit\t1.1.2\t2.1.3
+        1.1.1\t65.0\t44.9829
+        1.1.2\t65.0\t44.999914
+        1.1.3\t65.0\t45.000086
+        1.1.4\t65.0\t45.0171
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts2
+        lane\t2.1
+        num_waypoints\t4
+        lane_width\t5
+        exit\t2.1.2\t1.1.3
+        2.1.1\t65.008983\t45.0
+        2.1.2\t65.000045\t45.0
+        2.1.3\t64.999955\t45.0
+        2.1.4\t64.991017\t45.0
         end_lane
         end_segment
         end_file""")

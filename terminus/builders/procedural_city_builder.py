@@ -45,22 +45,24 @@ class ProceduralCityBuilder(object):
         for road in self._build_roads(vertices):
             city.add_road(road)
 
-        polygons = self._parse_polygons_file()
-        for block in self._build_blocks(polygons):
-            city.add_block(block)
+        # polygons = self._parse_polygons_file()
+        # for block in self._build_blocks(polygons):
+        #     city.add_block(block)
 
         city.set_ground_plane(GroundPlane(100, Point(0, 0, 0)))
         return city
 
     def _build_roads(self, vertex_list):
-        # Convert them to Gazebo coordinates. This is definitely ugly, as
-        # we are changing the type in vertex.coords, we should revisit.
+        vertex_mapping = {}
         for vertex in vertex_list:
-            vertex.coords = Point(vertex.coords[0] * self.ratio,
-                                  vertex.coords[1] * self.ratio,
-                                  0)
+            vertex_mapping[vertex] = GraphNode.from_vertex(vertex)
+        for vertex, node in vertex_mapping.iteritems():
+            node_neighbours = map(lambda vertex_neighbour: vertex_mapping[vertex_neighbour],
+                                  vertex.neighbours)
+            node.set_neighbours(node_neighbours)
+
         # 0.79 rad ~ 45 deg
-        converter = VertexGraphToRoadsConverter(0.79, vertex_list)
+        converter = VertexGraphToRoadsConverter(0.79, d.vertex_mapping())
         return converter.get_roads()
 
     def _build_blocks(self, polygon_list):

@@ -7,25 +7,35 @@ from models.trunk import Trunk
 
 class VertexGraphToRoadsConverter(object):
 
-    def __init__(self, angle_threshold, vertex_list):
+    def __init__(self, angle_threshold, graph_node_list):
         self.angle_threshold = angle_threshold
-        self.vertex_list = vertex_list
+        self.graph_node_list = graph_node_list
+
+
 
     def get_roads(self):
         roads = []
-        to_traverse = self.vertex_list
+        to_traverse = self.graph_node_list
+        for node in to_traverse:
+            node.prepare_traversal()
         while to_traverse:
             # Not particularly performant, needs review
             to_traverse = sorted(to_traverse,
-                                 key=lambda vertex: len(vertex.neighbours))
-            vertex = to_traverse.pop(0)
-            while vertex.neighbours:
-                if vertex.minor_road:
+                                 key=lambda node: node.neighbours_to_traverse_count())
+            node = to_traverse.pop(0)
+            while node.get_neighbours_to_traverse():
+                if node.is_minor_road:
                     road = Street(width=4)
                 else:
                     road = Trunk(width=22)
-                road.add_point(copy.copy(vertex.coords))
-                self._build_road(road, None, vertex)
+                if node.neighbours_count() == 1:
+                    origin = SimpleNode(node.location)
+                else:
+                    origin = self.junciton_for(node.location)
+
+                road.add_point(copy.copy(node.coords))
+
+                self._build_road(road, None, node)
                 if len(road.points) > 1:
                     roads.append(road)
         return roads
