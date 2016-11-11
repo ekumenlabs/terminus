@@ -45,9 +45,9 @@ class ProceduralCityBuilder(object):
         for road in self._build_roads(vertices):
             city.add_road(road)
 
-        # polygons = self._parse_polygons_file()
-        # for block in self._build_blocks(polygons):
-        #     city.add_block(block)
+        polygons = self._parse_polygons_file()
+        for block in self._build_blocks(polygons):
+            city.add_block(block)
 
         city.set_ground_plane(GroundPlane(100, Point(0, 0, 0)))
         return city

@@ -3,6 +3,10 @@ from rndf_id_mapper import RNDFIdMapper
 from geometry.point import Point
 import math
 
+
+# TODO: In the near future we should do some benchmarking, as
+# road generation now is taking too long (after adding the new exit waypoint
+# computation)
 class RNDFGenerator(FileGenerator):
 
     def __init__(self, city, origin):

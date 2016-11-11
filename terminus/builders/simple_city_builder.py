@@ -84,6 +84,7 @@ class SimpleCityBuilder(object):
             ring_road_4.add_node(self.junctions[0][size - y - 1])
         city.add_road(ring_road_4)
 
+    # FIX: Make this dependent of the size
     def _create_blocks(self, city, size):
         block = Block.square(Point(150, 50, 0), 95)
         city.add_block(block)
