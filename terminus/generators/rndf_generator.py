@@ -2,9 +2,6 @@ from file_generator import FileGenerator
 from rndf_id_mapper import RNDFIdMapper
 from geometry.point import Point
 import math
-#import pprint
-
-#pp = pprint.PrettyPrinter(indent=4)
 
 class RNDFGenerator(FileGenerator):
 
@@ -15,7 +12,6 @@ class RNDFGenerator(FileGenerator):
 
     def start_document(self):
         self.id_mapper.run()
-#        pp.pprint(self.id_mapper.id_to_object)
 
     def end_city(self, city):
         self._wrap_document_with_contents_for(city)
@@ -51,8 +47,8 @@ class RNDFGenerator(FileGenerator):
         center = waypoint.center
         meters_per_degree_lat = 111319.9
         meters_per_degree_lon = meters_per_degree_lat * math.cos(self.origin.x)
-        lat = self.origin.y + (center.y / meters_per_degree_lat)
-        lon = self.origin.x + (center.x / meters_per_degree_lon)
+        lat = self.origin.x + (center.y / meters_per_degree_lat)
+        lon = self.origin.y - (center.x / meters_per_degree_lon)
         return (lat, lon)
 
     # TODO: Put {{inner_contents}} on a different line while keeping RNDF
@@ -80,7 +76,7 @@ class RNDFGenerator(FileGenerator):
         {% set latlon = generator.translate_waypoint(waypoint) %}
         {% set lat = latlon[0] %}
         {% set lon = latlon[1] %}
-        {{generator.id_for(waypoint)}}\t{{lat|round(6)}}\t{{lon|round(6)}}
+        {{generator.id_for(waypoint)}}\t{{'{0:0.6f}'.format(lat)}}\t{{'{0:0.6f}'.format(lon)}}
         {% endfor %}
         end_lane
         end_segment"""

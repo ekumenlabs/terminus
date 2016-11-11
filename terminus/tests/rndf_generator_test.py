@@ -16,9 +16,9 @@ class RNDFGeneratorTest(unittest.TestCase):
     def _generate_rndf(self, city):
         self.generator = RNDFGenerator(city, Point(45, 65))
         self.generated_contents = self.generator.generate()
-#        print "###########################################"
-#        print self.generated_contents
-#        print "###########################################"
+        # print "###########################################"
+        # print self.generated_contents
+        # print "###########################################"
 
     def _assert_contents_are(self, expected_contents):
         expected = textwrap.dedent(expected_contents)[1:]
@@ -55,9 +55,9 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane\t1.1
         num_waypoints\t3
         lane_width\t5
-        1.1.1\t65.0\t45.0
-        1.1.2\t65.0\t45.0171
-        1.1.3\t65.0\t45.0342
+        1.1.1\t45.000000\t65.000000
+        1.1.2\t45.000000\t64.982900
+        1.1.3\t45.000000\t64.965800
         end_lane
         end_segment
         end_file""")
@@ -102,10 +102,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t5
         exit\t1.1.2\t2.1.3
-        1.1.1\t65.0\t44.9829
-        1.1.2\t65.0\t44.999914
-        1.1.3\t65.0\t45.000086
-        1.1.4\t65.0\t45.0171
+        1.1.1\t45.000000\t65.017100
+        1.1.2\t45.000000\t65.000086
+        1.1.3\t45.000000\t64.999914
+        1.1.4\t45.000000\t64.982900
         end_lane
         end_segment
         segment\t2
@@ -115,10 +115,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t5
         exit\t2.1.2\t1.1.3
-        2.1.1\t65.008983\t45.0
-        2.1.2\t65.000045\t45.0
-        2.1.3\t64.999955\t45.0
-        2.1.4\t64.991017\t45.0
+        2.1.1\t45.008983\t65.000000
+        2.1.2\t45.000045\t65.000000
+        2.1.3\t44.999955\t65.000000
+        2.1.4\t44.991017\t65.000000
         end_lane
         end_segment
         end_file""")

@@ -22,6 +22,14 @@ class Road(CityModel):
         node.added_to(self)
         self.cached_waypoints = None
 
+    def remove_node(self, node):
+        self.nodes.remove(node)
+        node.removed_from(self)
+        self.cached_waypoints = None
+
+    def node_count(self):
+        return len(self.nodes)
+
     def get_width(self):
         return width
 
@@ -52,10 +60,14 @@ class Road(CityModel):
         else:
             return None
 
+    def dispose(self):
+        for node in self.nodes:
+            node.removed_from(self)
+
     def __eq__(self, other):
-        return (self.__class__ == other.__class__) and \
-               (self.width == other.width) and \
-               (self.nodes == other.nodes)
+        return self.__class__ == other.__class__ and \
+               self.width == other.width and \
+               self.nodes == other.nodes
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -64,7 +76,7 @@ class Road(CityModel):
         return hash((self.width, tuple(self.nodes)))
 
     def __repr__(self):
-        return "%s: " % self.__class__ + reduce(lambda acc, node: acc +
+        return "%s: " % self.__class__.__name__ + reduce(lambda acc, node: acc +
                                                 "%s," % str(node),
                                                 self.nodes, '')
 
@@ -82,14 +94,23 @@ class RoadNode(object):
     def added_to(self, road):
         raise NotImplementedError()
 
+    def removed_from(self, road):
+        raise NotImplementedError()
+
     def connected_waypoints_for(self, waypoint):
         raise NotImplementedError()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 class SimpleNode(RoadNode):
 
     def added_to(self, road):
         self.road = road
+
+    def removed_from(self, road):
+        self.road = None
 
     def get_waypoints_for(self, road):
         if (self.road is not road):
@@ -98,6 +119,16 @@ class SimpleNode(RoadNode):
 
     def connected_waypoints_for(self, waypoint):
         return []
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and \
+               self.center == other.center
+
+    def __hash__(self):
+        return hash((self.__class__, self.center))
+
+    def __repr__(self):
+        return "SimpleNode @ " + str(self.center)
 
 class JunctionNode(RoadNode):
 
@@ -110,6 +141,9 @@ class JunctionNode(RoadNode):
 
     def add_road(self, road):
         self.roads.append(road)
+
+    def removed_from(self, road):
+        self.roads.remove(road)
 
     def get_waypoints_for(self, road):
         waypoints = []
@@ -150,6 +184,15 @@ class JunctionNode(RoadNode):
     def get_exit_waypoints_for(self, road):
         return filter(lambda waypoint: waypoint.is_exit(), self.get_waypoints_for(road))
 
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and \
+               self.center == other.center
+
+    def __hash__(self):
+        return hash((self.__class__, self.center))
+
+    def __repr__(self):
+        return "JunctureNode @ " + str(self.center)
 
 class Waypoint(object):
     def __init__(self, road, source_node, center):
