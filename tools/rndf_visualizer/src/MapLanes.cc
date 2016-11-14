@@ -1161,10 +1161,14 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 	static svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
 
 	if (w1.is_exit) {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));				
+		svg::Polygon arrow = svg::Polygon(redFill);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		doc.operator << (arrow);		
 	}
 	else if (w1.is_entry) {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));	
+		svg::Polygon arrow = svg::Polygon(blueFill);
+		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		doc.operator << (arrow);	
 	}
 	else if (w1.is_stop) {
 		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
