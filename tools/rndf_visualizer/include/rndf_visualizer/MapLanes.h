@@ -21,6 +21,7 @@
 #include <math.h>
 #include <vector>
 #include <stdio.h>
+#include <cmath>
 
 #include <UTM.h>
 #include <error.h>
@@ -77,9 +78,13 @@ public:
 
   void UpdatePoly(polyUpdate upPoly, float rX, float rY, float rOri);
 
+
   bool waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2);
 
   void getPermitersFromWaypointsList(std::vector< std::vector<WayPointNode> > &perimeterList, WayPointNode *nodes, uint nodeListSize);
+
+  void findListOfWayPointsBySegmentAndLane(std::vector<WayPointNode> &waypoints, segment_id_t segment, lane_id_t lane);
+
 
 private:
   int32_t poly_id_counter;
@@ -118,6 +123,16 @@ private:
            SmoothCurve& c);
 
   void SetFilteredPolygons();
+
+  float getAngleBetweenWaypoints(WayPointNode &w1, WayPointNode &w2);
+  float getDistanceBetweenWaypoints(WayPointNode &w1, WayPointNode &w2);
+  float rotateX2DPoint(float x, float y, float angle);
+  float rotateY2DPoint(float x, float y, float angle);
+
+  void getWaypointsByLanes(std::vector< std::vector<WayPointNode> > &lanesList, WayPointNode *nodes, uint nodeSize);
+
+  void getWaypointsBySegmentAndLane(std::vector<WayPointNode> &laneNodes, WayPointNode *nodes, uint nodeSize, segment_id_t segmentId, lane_id_t laneId);
+  void getWaypointsTheta(std::vector<WayPointNode> &laneNodes, std::vector<float> &nodesTheta);
 
   PolyOps ops;
   
