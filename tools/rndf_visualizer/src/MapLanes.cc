@@ -1179,29 +1179,35 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 	static svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
 
 	if (w1.is_exit) {
-		svg::Polygon arrow = svg::Polygon(redFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);				
+		// svg::Polygon arrow = svg::Polygon(redFill);
+		// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		// doc.operator << (arrow);
+
+		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, redFill));				
 	}
 	else if (w1.is_entry) {
-		svg::Polygon arrow = svg::Polygon(blueFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);		
+		// svg::Polygon arrow = svg::Polygon(blueFill);
+		// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		// doc.operator << (arrow);	
+		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, blueFill));	
 	}
 	else if (w1.is_stop) {
-		svg::Polygon arrow = svg::Polygon(orangeFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);
+		// svg::Polygon arrow = svg::Polygon(orangeFill);
+		// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		// doc.operator << (arrow);
+		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
 	}
 	else if (w1.is_perimeter) {
-		svg::Polygon arrow = svg::Polygon(yellowFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);
+		// svg::Polygon arrow = svg::Polygon(yellowFill);
+		// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		// doc.operator << (arrow);
+		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
 	}
 	else if (w1.checkpoint_id != 0) {
-		svg::Polygon arrow = svg::Polygon(fuchsiaFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);
+		// svg::Polygon arrow = svg::Polygon(fuchsiaFill);
+		// createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+		// doc.operator << (arrow);
+		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
 	}
 	else {
 		svg::Polygon arrow = svg::Polygon(greenFill);
