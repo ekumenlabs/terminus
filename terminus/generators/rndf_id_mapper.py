@@ -26,8 +26,6 @@ class RNDFIdMapper(CityVisitor):
     def map_road(self, road):
         self.segment_id = self.segment_id + 1
         self.waypoint_id = 0
-        # self.object_to_id[(road, id(road))] = self.segment_id
-        # self.id_to_object[str(self.segment_id)] = road
         self.object_to_id[road] = self.segment_id
         for waypoint in road.get_waypoints():
             self.waypoint_id = self.waypoint_id + 1
