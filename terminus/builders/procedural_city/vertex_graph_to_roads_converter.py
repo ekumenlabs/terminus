@@ -39,8 +39,8 @@ class VertexGraphToRoadsConverter(object):
 
                 if road.node_count() > 1:
                     roads.append(road)
-                #else:
-                #     # Grr, hate this. Should fix and remove this method.
+                # else:
+                #     # TODO: should fix and remove this method.
                 #    road.dispose()
         return roads
 
