@@ -51,8 +51,8 @@ class RNDFGenerator(FileGenerator):
         center = waypoint.center
         meters_per_degree_lat = 111319.9
         meters_per_degree_lon = meters_per_degree_lat * math.cos(self.origin.x)
-        lat = self.origin.x + (center.y / meters_per_degree_lat)
-        lon = self.origin.y - (center.x / meters_per_degree_lon)
+        lat = self.origin.x + (center.x / meters_per_degree_lat)
+        lon = self.origin.y + (center.y / meters_per_degree_lon)
         return (lat, lon)
 
     # TODO: Put {{inner_contents}} on a different line while keeping RNDF
