@@ -8,6 +8,7 @@ from models.building import Building
 from models.ground_plane import GroundPlane
 from models.road import *
 
+
 class SimpleCityBuilder(object):
 
     def get_city(self):
@@ -25,7 +26,8 @@ class SimpleCityBuilder(object):
         return city
 
     def _setup_junctions(self, size):
-        self.junctions = [[JunctionNode.on(self.multiplier*x, self.multiplier*y, 0) for y in range(size)] for x in range(size)]
+        self.junctions = [[JunctionNode.on(self.multiplier * x, self.multiplier * y, 0)
+                           for y in range(size)] for x in range(size)]
 
     def _create_ground_plane(self, city, size):
         ground_plane_size = size * self.multiplier
@@ -39,7 +41,7 @@ class SimpleCityBuilder(object):
     def _create_inner_streets(self, city, size):
 
         # Vertical
-        for x in range(1, size-1):
+        for x in range(1, size - 1):
             road = Street()
             for y in range(size):
                 road.add_node(self.junctions[x][y])
@@ -71,12 +73,12 @@ class SimpleCityBuilder(object):
 
         ring_road_2 = Street(name='RingRoad2')
         for y in range(size):
-            ring_road_2.add_node(self.junctions[size-1][y])
+            ring_road_2.add_node(self.junctions[size - 1][y])
         city.add_road(ring_road_2)
 
         ring_road_3 = Street(name='RingRoad3')
         for x in range(size):
-            ring_road_3.add_node(self.junctions[size - x - 1][size-1])
+            ring_road_3.add_node(self.junctions[size - x - 1][size - 1])
         city.add_road(ring_road_3)
 
         ring_road_4 = Street(name='RingRoad4')

@@ -55,8 +55,7 @@ class VertexGraphToRoadsConverter(object):
                 return
             if current_node in neighbour.get_neighbours_to_traverse():
                 neighbour.remove_neighbour_to_traverse(current_node)
-            if neighbour.neighbours_count() == 1 \
-                or neighbour.neighbours_count() == 2:
+            if neighbour.neighbours_count() == 1 or neighbour.neighbours_count() == 2:
                 road_node = SimpleNode(neighbour.location)
             elif neighbour.neighbours_count() > 2:
                 road_node = self._junction_for(neighbour.location)
@@ -72,8 +71,7 @@ class VertexGraphToRoadsConverter(object):
                 if current_node in best_neighbour.get_neighbours_to_traverse():
                     best_neighbour.remove_neighbour_to_traverse(current_node)
 
-                if best_neighbour.neighbours_count() == 1 \
-                    or best_neighbour.neighbours_count() == 2:
+                if best_neighbour.neighbours_count() == 1 or best_neighbour.neighbours_count() == 2:
                     road_node = SimpleNode(best_neighbour.location)
                 elif best_neighbour.neighbours_count() > 2:
                     road_node = self._junction_for(best_neighbour.location)
@@ -85,9 +83,9 @@ class VertexGraphToRoadsConverter(object):
                 # junction.
                 # PS: This is ugly.
                 if current_node.neighbours_count() == 2:
-                   last_node = road.nodes[-1]
-                   road.remove_node(last_node)
-                   road.add_node(self._junction_for(last_node.center))
+                    last_node = road.nodes[-1]
+                    road.remove_node(last_node)
+                    road.add_node(self._junction_for(last_node.center))
 
     def _angle_2d(self, point_from, point_to):
         alpha = np.arctan2(point_from.x - point_to.x,

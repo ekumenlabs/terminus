@@ -17,7 +17,6 @@ class Vertex(object):
         return "Vertex: " + str(self.coords)
 
 
-
 class GraphNode(object):
     def __init__(self, location, is_minor_road=True):
         self.location = location
@@ -26,9 +25,7 @@ class GraphNode(object):
 
     @classmethod
     def from_vertex(cls, vertex, ratio):
-        location = Point(vertex.coords[0] * ratio,
-                        vertex.coords[1] * ratio,
-                        0)
+        location = Point(vertex.coords[0] * ratio, vertex.coords[1] * ratio, 0)
         return cls(location, vertex.minor_road)
 
     def set_neighbours(self, neighbours):
@@ -54,4 +51,3 @@ class GraphNode(object):
 
     def remove_neighbour_to_traverse(self, node):
         return self.neighbours_to_traverse.remove(node)
-

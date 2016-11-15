@@ -62,7 +62,6 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
-
     def test_cross_junction(self):
 
         """
@@ -71,7 +70,7 @@ class RNDFGeneratorTest(unittest.TestCase):
              (0,-1)
         """
         city = City("Cross")
-        junction = JunctionNode.on(0,0)
+        junction = JunctionNode.on(0, 0)
 
         s1 = Street.from_nodes([
             SimpleNode.on(-1000, 0),

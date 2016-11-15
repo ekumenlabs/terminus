@@ -138,7 +138,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(0,0)
+        junction = JunctionNode.on(0, 0)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(3, -1), junction]),
             Street.from_nodes([SimpleNode.on(3, 1), junction])

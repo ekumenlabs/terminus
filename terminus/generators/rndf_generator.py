@@ -39,9 +39,8 @@ class RNDFGenerator(FileGenerator):
         waypoint_connections = []
         for exit_waypoint in exit_waypoints:
             for entry_waypoint in exit_waypoint.connected_waypoints():
-                waypoint_connections.append(WaypointConnection(self,
-                                                                exit_waypoint,
-                                                                entry_waypoint))
+                connection = WaypointConnection(self, exit_waypoint, entry_waypoint)
+                waypoint_connections.append(connection)
         return waypoint_connections
 
     # Transformation taken from
@@ -88,6 +87,7 @@ class RNDFGenerator(FileGenerator):
     def trunk_template(self):
         """Consider trunks as streets. We need to fix this"""
         return self.street_template()
+
 
 class WaypointConnection(object):
     def __init__(self, generator, exit_waypoint, entry_waypoint):

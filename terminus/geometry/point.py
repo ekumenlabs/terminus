@@ -3,6 +3,7 @@ from monkeypatch import monkeypatch_method
 
 Point = shapely.geometry.Point
 
+
 @monkeypatch_method(Point)
 def __hash__(self):
     if self._ndim == 3:

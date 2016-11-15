@@ -49,14 +49,14 @@ class Road(CityModel):
     def previous_node(self, node):
         index = self.nodes.index(node)
         if index - 1 >= 0:
-            return self.nodes[index-1]
+            return self.nodes[index - 1]
         else:
             return None
 
     def following_node(self, node):
         index = self.nodes.index(node)
         if index + 1 < len(self.nodes):
-            return self.nodes[index+1]
+            return self.nodes[index + 1]
         else:
             return None
 
@@ -66,8 +66,8 @@ class Road(CityModel):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
-               self.width == other.width and \
-               self.nodes == other.nodes
+            self.width == other.width and \
+            self.nodes == other.nodes
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -76,16 +76,16 @@ class Road(CityModel):
         return hash((self.width, tuple(self.nodes)))
 
     def __repr__(self):
-        return "%s: " % self.__class__.__name__ + reduce(lambda acc, node: acc +
-                                                "%s," % str(node),
-                                                self.nodes, '')
+        return "%s: " % self.__class__.__name__ + \
+            reduce(lambda acc, node: acc + "%s," % str(node), self.nodes, '')
+
 
 class RoadNode(object):
     def __init__(self, center):
         self.center = center
 
     @classmethod
-    def on(cls,  *args, **kwargs):
+    def on(cls, *args, **kwargs):
         return cls(Point(*args, **kwargs))
 
     def get_waypoints_for(self, road):
@@ -122,13 +122,14 @@ class SimpleNode(RoadNode):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
-               self.center == other.center
+            self.center == other.center
 
     def __hash__(self):
         return hash((self.__class__, self.center))
 
     def __repr__(self):
         return "SimpleNode @ " + str(self.center)
+
 
 class JunctionNode(RoadNode):
 
@@ -186,13 +187,14 @@ class JunctionNode(RoadNode):
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
-               self.center == other.center
+            self.center == other.center
 
     def __hash__(self):
         return hash((self.__class__, self.center))
 
     def __repr__(self):
         return "JunctureNode @ " + str(self.center)
+
 
 class Waypoint(object):
     def __init__(self, road, source_node, center):
@@ -235,6 +237,7 @@ class Waypoint(object):
     def __repr__(self):
         return str(id(self)) + str(self.type) + "Waypoint at " + str(self.center)
 
+
 class WaypointType(object):
     def is_exit(self):
         raise NotImplementedError()
@@ -251,6 +254,7 @@ class WaypointType(object):
     def __hash__(self):
         return hash(self.__class__)
 
+
 class ReferencePoint(WaypointType):
     def is_exit(self):
         return False
@@ -261,6 +265,7 @@ class ReferencePoint(WaypointType):
     def __repr__(self):
         return ""
 
+
 class EntryPoint(WaypointType):
     def is_exit(self):
         return False
@@ -270,6 +275,7 @@ class EntryPoint(WaypointType):
 
     def __repr__(self):
         return "[ENTRY] "
+
 
 class ExitPoint(WaypointType):
     def is_exit(self):
