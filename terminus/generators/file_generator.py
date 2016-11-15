@@ -1,3 +1,4 @@
+from city_visitor import CityVisitor
 from jinja2 import Template
 import textwrap
 import re
@@ -7,26 +8,27 @@ except:
     from io import StringIO
 
 
-class FileGenerator(object):
+class FileGenerator(CityVisitor):
 
     def __init__(self, city):
-        self.city = city
+        super(FileGenerator, self).__init__(city)
         self.template_cache = {}
 
     def write_to(self, destination_file):
         raw_text = self.generate()
-        raw_text = textwrap.dedent(raw_text)
-        if raw_text[0] == "\n":
-            raw_text = raw_text[1:]
         with open(destination_file, "w") as f:
             f.write(raw_text)
 
     def generate(self):
         self.document = StringIO()
         self.start_document()
-        self.city.accept(self)
+        self.run()
         self.end_document()
-        return self.document.getvalue()
+        text = self.document.getvalue()
+        text = textwrap.dedent(text)
+        if text[0] == "\n":
+            text = text[1:]
+        return text
 
     # Start/End document handling
 
@@ -34,45 +36,6 @@ class FileGenerator(object):
         pass
 
     def end_document(self):
-        pass
-
-    # Double-dispatching methods. By default do nothing. Override in subclasses
-    # to build the required file contents
-
-    def start_city(self, city):
-        pass
-
-    def end_city(self, city):
-        pass
-
-    def start_street(self, city):
-        pass
-
-    def end_street(self, city):
-        pass
-
-    def start_trunk(self, city):
-        pass
-
-    def end_trunk(self, city):
-        pass
-
-    def start_ground_plane(self, city):
-        pass
-
-    def end_ground_plane(self, city):
-        pass
-
-    def start_block(self, city):
-        pass
-
-    def end_block(self, city):
-        pass
-
-    def start_building(self, city):
-        pass
-
-    def end_building(self, city):
         pass
 
     # Private, template management
@@ -113,11 +76,13 @@ class FileGenerator(object):
         params = dict(kwargs)
         params['inner_contents'] = self.document.getvalue()
         new_contents = self._contents_for(model, **params)
-        self.document = StringIO(new_contents)
+        self.document = StringIO()
+        self.document.write(new_contents)
 
     def _wrap_document_with_template(self, key, **kwargs):
         render_params = dict(kwargs)
         render_params['inner_contents'] = self.document.getvalue()
         template = self._get_cached_template(key)
         new_contents = template.render(**render_params)
-        self.document = StringIO(new_contents)
+        self.document = StringIO()
+        self.document.write(new_contents)

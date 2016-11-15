@@ -1,4 +1,4 @@
-from shapely.geometry import Point
+from geometry.point import Point
 
 # Note: These classes are imported from the procedural city generator repo so
 # we can de-serialize the file contents. These classes will likely change in

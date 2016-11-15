@@ -1,4 +1,5 @@
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Polygon
+from geometry.point import Point
 from models.block import Block
 
 

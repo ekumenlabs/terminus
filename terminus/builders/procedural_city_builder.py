@@ -1,4 +1,5 @@
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Polygon
+from geometry.point import Point
 
 from models.city import City
 from models.street import Street
@@ -7,7 +8,7 @@ from models.block import Block
 from models.building import Building
 from models.ground_plane import GroundPlane
 
-from procedural_city.vertex import Vertex
+from procedural_city.vertex import *
 from procedural_city.polygon2d import Polygon2D, Edge
 from procedural_city.vertex_graph_to_roads_converter \
     import VertexGraphToRoadsConverter
@@ -52,14 +53,16 @@ class ProceduralCityBuilder(object):
         return city
 
     def _build_roads(self, vertex_list):
-        # Convert them to Gazebo coordinates. This is definitely ugly, as
-        # we are changing the type in vertex.coords, we should revisit.
+        vertex_mapping = {}
         for vertex in vertex_list:
-            vertex.coords = Point(vertex.coords[0] * self.ratio,
-                                  vertex.coords[1] * self.ratio,
-                                  0)
+            vertex_mapping[vertex] = GraphNode.from_vertex(vertex, self.ratio)
+        for vertex, node in vertex_mapping.iteritems():
+            node_neighbours = map(lambda vertex_neighbour: vertex_mapping[vertex_neighbour],
+                                  vertex.neighbours)
+            node.set_neighbours(node_neighbours)
+
         # 0.79 rad ~ 45 deg
-        converter = VertexGraphToRoadsConverter(0.79, vertex_list)
+        converter = VertexGraphToRoadsConverter(0.79, vertex_mapping.values())
         return converter.get_roads()
 
     def _build_blocks(self, polygon_list):

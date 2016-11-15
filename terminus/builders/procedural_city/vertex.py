@@ -3,6 +3,8 @@
 # the future as we move forward, especially to provide conversion messages
 # to our domain models.
 
+from geometry.point import Point
+
 
 class Vertex(object):
     def __init__(self, coords):
@@ -13,3 +15,39 @@ class Vertex(object):
 
     def __repr__(self):
         return "Vertex: " + str(self.coords)
+
+
+class GraphNode(object):
+    def __init__(self, location, is_minor_road=True):
+        self.location = location
+        self.neighbours = []
+        self.is_minor_road = is_minor_road
+
+    @classmethod
+    def from_vertex(cls, vertex, ratio):
+        location = Point(vertex.coords[0] * ratio, vertex.coords[1] * ratio, 0)
+        return cls(location, vertex.minor_road)
+
+    def set_neighbours(self, neighbours):
+        self.neighbours = neighbours
+
+    def add_neighbour(self, neighbour):
+        self.neighbours.append(neighbour)
+
+    def neighbours_count(self):
+        return len(self.neighbours)
+
+    def prepare_traversal(self):
+        self.neighbours_to_traverse = list(self.neighbours)
+
+    def neighbours_to_traverse_count(self):
+        return len(self.neighbours_to_traverse)
+
+    def get_neighbours_to_traverse(self):
+        return self.neighbours_to_traverse
+
+    def pop_neighbours_to_traverse(self):
+        return self.neighbours_to_traverse.pop()
+
+    def remove_neighbour_to_traverse(self, node):
+        return self.neighbours_to_traverse.remove(node)

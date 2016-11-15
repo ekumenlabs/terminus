@@ -50,8 +50,8 @@ class SDFGenerator(FileGenerator):
               <name>Gazebo/Residential</name>
             </script>
           </material>
-        {% for point in model.points %}
-          <point>{{point.x}} {{point.y}} {{point.z}}</point>
+        {% for node in model.nodes %}
+          <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
         {% endfor %}
         </road>"""
 
@@ -65,8 +65,8 @@ class SDFGenerator(FileGenerator):
               <name>Gazebo/Trunk</name>
             </script>
           </material>
-        {% for point in model.points %}
-          <point>{{point.x}} {{point.y}} {{point.z}}</point>
+        {% for node in model.nodes %}
+          <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
         {% endfor %}
         </road>"""
 
