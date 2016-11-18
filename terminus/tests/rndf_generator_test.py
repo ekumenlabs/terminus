@@ -133,18 +133,12 @@ class RNDFGeneratorTest(unittest.TestCase):
                +  (1,0)
         """
         city = City("LCross")
-        junction = JunctionNode.on(0,0)
+        junction = JunctionNode.on(0, 0)
 
-        s1 = Street.from_nodes([
-            SimpleNode.on(0, 1000),
-            junction
-        ])
+        s1 = Street.from_nodes([SimpleNode.on(0, 1000), junction])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([
-            junction,
-            SimpleNode.on(1000, 0)
-        ])
+        s2 = Street.from_nodes([junction, SimpleNode.on(1000, 0)])
         s2.name = "s2"
         city.add_road(s1)
         city.add_road(s2)
@@ -188,24 +182,15 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        junction = JunctionNode.on(0,0)
+        junction = JunctionNode.on(0, 0)
 
-        s1 = Street.from_nodes([
-            SimpleNode.on(0, 1000),
-            junction
-        ])
+        s1 = Street.from_nodes([SimpleNode.on(0, 1000), junction])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([
-            junction,
-            SimpleNode.on(-1000, -1000)
-        ])
+        s2 = Street.from_nodes([junction, SimpleNode.on(-1000, -1000)])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([
-            junction,
-            SimpleNode.on(1000, -1000)
-        ])
+        s3 = Street.from_nodes([junction, SimpleNode.on(1000, -1000)])
         s3.name = "s3"
 
         city.add_road(s1)
@@ -263,24 +248,15 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        junction = JunctionNode.on(0,0)
+        junction = JunctionNode.on(0, 0)
 
-        s1 = Street.from_nodes([
-            junction,
-            SimpleNode.on(0, 1000)
-        ])
+        s1 = Street.from_nodes([junction, SimpleNode.on(0, 1000)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([
-            SimpleNode.on(-1000, -1000),
-            junction
-        ])
+        s2 = Street.from_nodes([SimpleNode.on(-1000, -1000), junction])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([
-            SimpleNode.on(1000, -1000),
-            junction
-        ])
+        s3 = Street.from_nodes([SimpleNode.on(1000, -1000), junction])
         s3.name = "s3"
 
         city.add_road(s1)
