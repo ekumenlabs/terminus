@@ -4,7 +4,7 @@ DOCKER_ARGS?=
 # DOCKER_ARGS="--no-cache"
 NVIDIA_DRIVER?="nvidia-367"
 # Working branch: vis_on_demand
-GAZEBO_COMMIT="64979ae"
+GAZEBO_COMMIT="2b49dbedff87910898d507c09135e1f078c40f59"
 
 default:
 	# You need to specify a particular target
