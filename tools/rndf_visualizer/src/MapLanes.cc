@@ -32,7 +32,7 @@ float rotateX2DPoint(float x, float y, float angle);
 float rotateY2DPoint(float x, float y, float angle);	
 void printWayPoint(WayPointNode &wp, float angle);
 void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1);
-
+void drawLane(svg::Document &doc, std::vector<WayPointNode> &waypoints, svg::Color &color, float width, float min_x, float max_y, float ratio);
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
 // applies to both since the RNDF itself doesn't specify. This can
@@ -1018,6 +1018,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 
 
 	if(svg_format){
+		/*
 		//This cycle adds traces between entry and exit points.
 		for (uint i = 0; i < graph->edges_size; i++)
 		{
@@ -1042,12 +1043,51 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 				                           svg::Stroke(w1.lane_width * ratio, darkGrayColor)));
 			}
 		}
-		//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints
+		//This cycle adds waypoints in different colors so as to show different functions like entry, exit and common waypoints
 		std::vector< std::vector<WayPointNode> > laneList;
 		//Create a list of list with waypoints related by lane
 		getWaypointsByLanes(laneList, graph->nodes, graph->nodes_size);
 		for(uint i = 0; i < laneList.size(); i++){
 			std::vector<WayPointNode> laneNodes = laneList.at(i);
+			std::vector<float> waypointThetas;
+			//Get the deviation of each waypoint so as to get the theta
+			getWaypointsTheta(laneNodes, waypointThetas);
+			//Draw each waypoint with its deviation
+			for(uint j = 0; j < laneNodes.size(); j++){
+				WayPointNode w1 = laneNodes.at(j);
+				float angle = waypointThetas.at(j);
+				drawWaypoint(doc, ratio, min_x, max_y, angle, w1);
+			}
+		}
+*/
+		//This cycle adds traces between entry and exit points.
+		for (uint i = 0; i < graph->edges_size; i++)
+		{
+			WayPointNode w1 = graph->nodes[graph->edges[i].startnode_index];
+			WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
+
+			if (waypointConnectionCondition(w1, w2)) {
+				//Changle stroke ratio on lane connections
+				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+				                           svg::Stroke(w1.lane_width * ratio / 2.0, cyanColor)));
+			}
+			else{
+				/*
+				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+				                           svg::Stroke(w1.lane_width * ratio, darkGrayColor)));*/
+			}
+		}		
+		//This cycle adds waypoints in different colors so as to show different functions like entry, exit and common waypoints
+		std::vector< std::vector<WayPointNode> > laneList;
+		//Create a list of list with waypoints related by lane
+		getWaypointsByLanes(laneList, graph->nodes, graph->nodes_size);
+		for(uint i = 0; i < laneList.size(); i++){
+			std::vector<WayPointNode> laneNodes = laneList.at(i);
+
+			drawLane(doc, laneNodes, darkGrayColor, 0.0, min_x, max_y, ratio);
+
 			std::vector<float> waypointThetas;
 			//Get the deviation of each waypoint so as to get the theta
 			getWaypointsTheta(laneNodes, waypointThetas);
@@ -1099,6 +1139,19 @@ bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
 		}
 	}
 	return false;
+}
+
+void drawLane(svg::Document &doc, std::vector<WayPointNode> &waypoints, svg::Color &color, float width, float min_x, float max_y, float ratio){
+	for(uint i = 0; i < waypoints.size() - 1; i++){
+		WayPointNode &w1 = waypoints[i];
+		WayPointNode &w2 = waypoints[i + 1];
+		if(w1.is_perimeter || w2.is_perimeter){
+			continue;
+		}
+		doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+		                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+		                           svg::Stroke(w1.lane_width * ratio, color)));	
+	}
 }
 
 void MapLanes::getPermitersFromWaypointsList(std::vector< std::vector<WayPointNode> > &perimeterList, WayPointNode *nodes, uint nodeListSize){
