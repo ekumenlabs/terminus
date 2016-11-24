@@ -14,7 +14,8 @@ DOCKER_MOUNT_ARGS="\
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     -v /dev:/dev \
     -v ${REPO_DIR}:/home/gazebo/ws/src \
-    -v ${REPO_DIR}/docker:/home/gazebo/docker"
+    -v ${REPO_DIR}/docker:/home/gazebo/docker \
+    -v ${REPO_DIR}/../rndf_gazebo_plugin:/home/gazebo/ws/rndf_gazebo_plugin"
 
 xhost +
 docker run --name ${1} --privileged --rm \
