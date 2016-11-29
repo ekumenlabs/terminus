@@ -976,15 +976,23 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 	svg::Color cyanColor = svg::Color(svg::Color::Cyan);
 	svg::Color darkGrayColor = svg::Color(64, 64, 64);
 
-	svg::Color colors[] = {svg::Color::Blue,
-		svg::Color::Red, 
-		svg::Color::Green,
-		svg::Color::Fuchsia,
-		svg::Color::Orange,
-		svg::Color::Yellow,
-		svg::Color::Brown,
-		svg::Color::Purple};
-	uint colorCounter = 8;
+	svg::Color colors[] = {
+        svg::Color::Black,
+        svg::Color::Blue,
+        svg::Color::Brown,
+        svg::Color::Fuchsia,
+        svg::Color::Green,
+        svg::Color::Lime,
+        svg::Color::Magenta,
+        svg::Color::Orange,
+        svg::Color::Purple,
+        svg::Color::Red,
+        svg::Color::White,
+		svg::Color(0, 153, 115),
+        svg::Color(204, 102, 153),
+        svg::Color(51, 166, 204),
+    	svg::Color(204, 153, 0)};
+	uint colorCounter = sizeof(colors) / sizeof(colors[0]);
 
 	//draw polygons
 	for (int i = 0; i < (int)filtPolys.size(); i++)
@@ -1173,23 +1181,7 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 	static svg::Fill flatFill = svg::Fill(svg::Color::Black);
 
 	if(flat) {
-		if (w1.is_exit) {
-			svg::Polygon arrow = svg::Polygon(*defaultColor);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-			doc.operator << (arrow);		
-		}
-		else if (w1.is_entry) {
-			svg::Polygon arrow = svg::Polygon(*defaultColor);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-			doc.operator << (arrow);	
-		}
-		else if (w1.is_stop) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, *defaultColor));
-		}
-		else if (w1.is_perimeter) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, *defaultColor));
-		}
-		else if (w1.checkpoint_id != 0) {
+		if (w1.is_stop || w1.is_perimeter || w1.checkpoint_id != 0) {
 			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, *defaultColor));
 		}
 		else {
