@@ -31,8 +31,8 @@ void createArrow(svg::Polygon &triangle, float x, float y, float radius, float a
 float rotateX2DPoint(float x, float y, float angle);
 float rotateY2DPoint(float x, float y, float angle);	
 void printWayPoint(WayPointNode &wp, float angle);
-void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1);
-
+void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1, bool flat);
+void drawLane(svg::Document &doc, std::vector<WayPointNode> &waypoints, svg::Color &color, float min_x, float max_y, float ratio);
 // intial_latlong specifies whether rndf waypoints and initial
 // coordinates are specified in lat/long or map_XY. The boolean
 // applies to both since the RNDF itself doesn't specify. This can
@@ -972,25 +972,18 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
     }
 #endif
 
-	svg::Color blueColor = svg::Color(svg::Color::Blue);
-	svg::Color redColor = svg::Color(svg::Color::Red);
-	svg::Color greenColor = svg::Color(svg::Color::Green);
 	svg::Color cyanColor = svg::Color(svg::Color::Cyan);
 	svg::Color darkGrayColor = svg::Color(64, 64, 64);
 
-	svg::Stroke lineStrokeBlue = svg::Stroke(4, blueColor);
-	svg::Stroke lineStrokeRed = svg::Stroke(4, redColor);
-	svg::Stroke lineStrokeGreen = svg::Stroke(4, greenColor);
-	svg::Stroke lineStrokeCyan = svg::Stroke(4, cyanColor);
-	svg::Stroke lineStrokeDarkGray = svg::Stroke(4, darkGrayColor);
-
-	svg::Fill greenFill = svg::Fill(svg::Color::Green);
-	svg::Fill redFill = svg::Fill(svg::Color::Red);
-	svg::Fill blueFill = svg::Fill(svg::Color::Blue);
-	svg::Fill fuchsiaFill = svg::Fill(svg::Color::Fuchsia);
-	svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
-	svg::Fill magentaFill = svg::Fill(svg::Color::Magenta);
-	svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
+	svg::Color colors[] = {svg::Color::Blue,
+		svg::Color::Red, 
+		svg::Color::Green,
+		svg::Color::Fuchsia,
+		svg::Color::Orange,
+		svg::Color::Yellow,
+		svg::Color::Brown,
+		svg::Color::Purple};
+	uint colorCounter = 8;
 
 	//draw polygons
 	for (int i = 0; i < (int)filtPolys.size(); i++)
@@ -1025,29 +1018,21 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			WayPointNode w2 = graph->nodes[graph->edges[i].endnode_index];
 
 			if (waypointConnectionCondition(w1, w2)) {
-				if (!svg_format) {
-					edgeImage->addTrace(w1.map.x - min_x, max_y - w1.map.y,
-					                    w2.map.x - min_x, max_y - w2.map.y);
-				}
-				else {
-					//Changle stroke ratio on lane connections
-					doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
-					                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-					                           svg::Stroke(w1.lane_width * ratio / 2.0, cyanColor)));
-				}
-			}
-			else{
+				//Changle stroke ratio on lane connections
 				doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
 				                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
-				                           svg::Stroke(w1.lane_width * ratio, darkGrayColor)));
+				                           svg::Stroke(w1.lane_width * ratio / 2.0, cyanColor)));
 			}
-		}
-		//This cycle adds cycles in different colours so as to show different functions like entry, exit and common waypoints
+		}		
+		//This cycle adds waypoints in different colors so as to show different functions like entry, exit and common waypoints
 		std::vector< std::vector<WayPointNode> > laneList;
 		//Create a list of list with waypoints related by lane
 		getWaypointsByLanes(laneList, graph->nodes, graph->nodes_size);
-		for(uint i = 0; i < laneList.size(); i++){
+		for(uint i = 0, colorIndex = 0; i < laneList.size(); i++, colorIndex++, colorIndex %= colorCounter){
 			std::vector<WayPointNode> laneNodes = laneList.at(i);
+
+			drawLane(doc, laneNodes, colors[colorIndex], min_x, max_y, ratio);
+
 			std::vector<float> waypointThetas;
 			//Get the deviation of each waypoint so as to get the theta
 			getWaypointsTheta(laneNodes, waypointThetas);
@@ -1055,7 +1040,7 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
 			for(uint j = 0; j < laneNodes.size(); j++){
 				WayPointNode w1 = laneNodes.at(j);
 				float angle = waypointThetas.at(j);
-				drawWaypoint(doc, ratio, min_x, max_y, angle, w1);
+				drawWaypoint(doc, ratio, min_x, max_y, angle, w1, true);
 			}
 		}
 	}
@@ -1099,6 +1084,19 @@ bool MapLanes::waypointConnectionCondition(WayPointNode &w1, WayPointNode &w2){
 		}
 	}
 	return false;
+}
+
+void drawLane(svg::Document &doc, std::vector<WayPointNode> &waypoints, svg::Color &color, float min_x, float max_y, float ratio){
+	for(uint i = 0; i < waypoints.size() - 1; i++){
+		WayPointNode &w1 = waypoints[i];
+		WayPointNode &w2 = waypoints[i + 1];
+		if(w1.is_perimeter || w2.is_perimeter){
+			continue;
+		}
+		doc.operator << (svg::Line(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio),
+		                           svg::Point((w2.map.x - min_x) * ratio, (max_y - w2.map.y) * ratio),
+		                           svg::Stroke(w1.lane_width * ratio, color)));	
+	}
 }
 
 void MapLanes::getPermitersFromWaypointsList(std::vector< std::vector<WayPointNode> > &perimeterList, WayPointNode *nodes, uint nodeListSize){
@@ -1151,7 +1149,7 @@ void createEquilateralTriangle(svg::Polygon &triangle, float x, float y, float r
 }
 
 
-void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1){
+void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, float angle, WayPointNode &w1, bool flat){
 	static svg::Fill greenFill = svg::Fill(svg::Color::Green);
 	static svg::Fill redFill = svg::Fill(svg::Color::Red);
 	static svg::Fill blueFill = svg::Fill(svg::Color::Blue);
@@ -1159,30 +1157,59 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 	static svg::Fill orangeFill = svg::Fill(svg::Color::Orange);
 	static svg::Fill magentaFill = svg::Fill(svg::Color::Magenta);
 	static svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
+	static svg::Fill flatFill = svg::Fill(svg::Color::Black);
 
-	if (w1.is_exit) {
-		svg::Polygon arrow = svg::Polygon(redFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);		
-	}
-	else if (w1.is_entry) {
-		svg::Polygon arrow = svg::Polygon(blueFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);	
-	}
-	else if (w1.is_stop) {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
-	}
-	else if (w1.is_perimeter) {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
-	}
-	else if (w1.checkpoint_id != 0) {
-		doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+	if(flat) {
+		if (w1.is_exit) {
+			svg::Polygon arrow = svg::Polygon(flatFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);		
+		}
+		else if (w1.is_entry) {
+			svg::Polygon arrow = svg::Polygon(flatFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);	
+		}
+		else if (w1.is_stop) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, flatFill));
+		}
+		else if (w1.is_perimeter) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, flatFill));
+		}
+		else if (w1.checkpoint_id != 0) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, flatFill));
+		}
+		else {
+			svg::Polygon arrow = svg::Polygon(flatFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);
+		}
 	}
 	else {
-		svg::Polygon arrow = svg::Polygon(greenFill);
-		createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
-		doc.operator << (arrow);
+		if (w1.is_exit) {
+			svg::Polygon arrow = svg::Polygon(redFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);		
+		}
+		else if (w1.is_entry) {
+			svg::Polygon arrow = svg::Polygon(blueFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);	
+		}
+		else if (w1.is_stop) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+		}
+		else if (w1.is_perimeter) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+		}
+		else if (w1.checkpoint_id != 0) {
+			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+		}
+		else {
+			svg::Polygon arrow = svg::Polygon(greenFill);
+			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			doc.operator << (arrow);
+		}		
 	}
 }
 
