@@ -988,10 +988,10 @@ void MapLanes::testDraw(bool with_trans, const ZonePerimeterList &zones, bool sv
         svg::Color::Purple,
         svg::Color::Red,
         svg::Color::White,
-		svg::Color(0, 153, 115),
+        svg::Color(0, 153, 115),
         svg::Color(204, 102, 153),
         svg::Color(51, 166, 204),
-    	svg::Color(204, 153, 0)};
+        svg::Color(204, 153, 0)};
 	uint colorCounter = sizeof(colors) / sizeof(colors[0]);
 
 	//draw polygons
