@@ -73,7 +73,7 @@ public:
 
   //for testing purposes, outputs an image of all polygons
   void testDraw(bool with_trans = false);
-  void testDraw(bool with_trans, const ZonePerimeterList &zones, bool svg_format);
+  void testDraw(bool with_trans, const ZonePerimeterList &zones, bool svg_format, bool debug_mode, bool waypoints_off);
   void UpdateWithCurrent(int i);
 
   void UpdatePoly(polyUpdate upPoly, float rX, float rY, float rOri);

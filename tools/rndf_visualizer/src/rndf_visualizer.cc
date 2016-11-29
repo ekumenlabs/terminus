@@ -39,6 +39,8 @@ bool print_polys = false;
 bool output_polys = false;
 bool make_image = false;
 bool svg_format = false;
+bool debug_mode = false;
+bool waypoints_off = false;
 bool with_trans = false;
 int verbose = 0;
 char *rndf_name;
@@ -163,7 +165,7 @@ bool build_RNDF()
 void parse_args(int argc, char *argv[])
 {
   bool print_usage = false;
-  const char *options = "higops:tx:y:v";
+  const char *options = "higops:tx:y:vdw";
   int opt = 0;
   int option_index = 0;
   struct option long_options[] =
@@ -171,6 +173,8 @@ void parse_args(int argc, char *argv[])
       { "help", 0, 0, 'h' },
       { "image", 0, 0, 'i' },
       { "svg", 0, 0, 'g' },
+      { "debug", 0, 0, 'd' },
+      { "waypoints", 0, 0, 'w' },
       { "latitude", 1, 0, 'x' },
       { "longitude", 1, 0, 'y' },
       { "size", 1, 0, 's' },
@@ -198,9 +202,18 @@ void parse_args(int argc, char *argv[])
 	  make_image = true;
 	  break;
 
+    case 'd':
+      debug_mode = true;
+      break;
+
+    case 'w':
+      waypoints_off = true;
+      break;
+
 	case 'g':
 	  make_image = true;
-    svg_format = true;
+	  svg_format = true;
+	  break;
 
 	case 'v':
 	  ++verbose;
@@ -242,7 +255,9 @@ void parse_args(int argc, char *argv[])
 	      "\t-y, --latitude\tinitial pose latitude\n"
 	      "\t-x, --longitude\tinitial pose longitude\n"
 	      "\t-s, --size\tmax polygon size\n"
-	      "\t-v, --verbose\tprint verbose messages\n",
+	      "\t-v, --verbose\tprint verbose messages\n"
+	      "\t-d, --debug\tprint lanes in different colors and waypoints in black\n"
+	      "\t-w, --waypoints\tturn off waypoint creation\n",
 	      pname);
       exit(9);
     }
@@ -273,7 +288,7 @@ int main(int argc, char *argv[]) {
   if (make_image) {
     ZonePerimeterList zones = ZoneOps::build_zone_list_from_rndf(*rndf, *graph);
     mapl-> SetGPS(centerx,centery);
-	  mapl-> testDraw(with_trans, zones, svg_format);
+	mapl-> testDraw(with_trans, zones, svg_format, debug_mode, waypoints_off);
   }
   return rc;
 }
