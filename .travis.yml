@@ -4,7 +4,9 @@ python:
   - "2.7"
 
 before_install:
+    - sudo apt-get install build-essential protobuf-compiler libprotobuf-dev
     - pip install pep8
+    - pip install imposm.parser
 
 install:
     - python setup.py -q install
