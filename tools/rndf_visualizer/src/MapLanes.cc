@@ -1180,39 +1180,44 @@ void drawWaypoint(svg::Document &doc, float ratio, float min_x, float max_y, flo
 	static svg::Fill yellowFill =  svg::Fill(svg::Color::Yellow);
 	static svg::Fill flatFill = svg::Fill(svg::Color::Black);
 
+	double x = (w1.map.x - min_x) * ratio;
+	double y =  (max_y - w1.map.y) * ratio;
+	double radius = 5 * ratio;
+	angle = -1.0 * angle;
+
 	if(flat) {
 		if (w1.is_stop || w1.is_perimeter || w1.checkpoint_id != 0) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, *defaultColor));
+			doc.operator << (svg::Circle(svg::Point(x, y), radius, *defaultColor));
 		}
 		else {
 			svg::Polygon arrow = svg::Polygon(*defaultColor);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			createArrow(arrow, x, y , radius, angle);
 			doc.operator << (arrow);
 		}
 	}
 	else {
 		if (w1.is_exit) {
 			svg::Polygon arrow = svg::Polygon(redFill);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			createArrow(arrow, x, y , radius, angle);
 			doc.operator << (arrow);		
 		}
 		else if (w1.is_entry) {
 			svg::Polygon arrow = svg::Polygon(blueFill);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			createArrow(arrow, x, y , radius, angle);
 			doc.operator << (arrow);	
 		}
 		else if (w1.is_stop) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, orangeFill));
+			doc.operator << (svg::Circle(svg::Point(x, y), radius, orangeFill));
 		}
 		else if (w1.is_perimeter) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, yellowFill));
+			doc.operator << (svg::Circle(svg::Point(x, y), radius, yellowFill));
 		}
 		else if (w1.checkpoint_id != 0) {
-			doc.operator << (svg::Circle(svg::Point((w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio ), 5 * ratio, fuchsiaFill));
+			doc.operator << (svg::Circle(svg::Point(x, y), radius, fuchsiaFill));
 		}
 		else {
 			svg::Polygon arrow = svg::Polygon(greenFill);
-			createArrow(arrow, (w1.map.x - min_x) * ratio, (max_y - w1.map.y) * ratio , 5 * ratio, -1.0*angle);
+			createArrow(arrow, x, y , radius, angle);
 			doc.operator << (arrow);
 		}		
 	}
