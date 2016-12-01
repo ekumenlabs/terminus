@@ -17,11 +17,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# For now exclude smaller roads, in the future we should draw each
-# type of street with different width/texture
-road_types = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary',
-              'unclassified', 'residential']
-
 
 class OsmCityBuilder(object):
     def __init__(self, osm_map):
@@ -29,21 +24,46 @@ class OsmCityBuilder(object):
         self.osm_coords = {}
         self.osm_nodes = {}
         self.osm_ways = {}
+        self.bounds = {}
         self.map_origin = None
 
     def get_city(self):
         city = City()
 
-        # Ground plane
-        city.set_ground_plane(GroundPlane(100, Point(0, 0, 0)))
-
         # Get origin of the map (we use the center)
         tree = ET.parse(self.osm_map)
         bounds = tree.find('bounds').attrib
-        self.map_origin = ((float(bounds['minlat']) + float(bounds['maxlat'])) / 2,
-                           (float(bounds['minlon']) + float(bounds['maxlon'])) / 2)
+        self.bounds = {'minlat': float(bounds['minlat']),
+                       'maxlat': float(bounds['maxlat']),
+                       'minlon': float(bounds['minlon']),
+                       'maxlon': float(bounds['maxlon'])}
+
+        self.map_origin = Point((self.bounds['minlat'] + self.bounds['maxlat']) / 2,
+                                (self.bounds['minlon'] + self.bounds['maxlon']) / 2,
+                                0)
 
         logger.debug("Map Origin: {0}".format(self.map_origin))
+
+        # Calculate bounding box based on lat/lon
+        min_xy = self._translate_coords(self.bounds['minlat'],
+                                        self.bounds['minlon'])
+        max_xy = self._translate_coords(self.bounds['maxlat'],
+                                        self.bounds['maxlon'])
+        self.bounds['min_xy'] = min_xy
+        self.bounds['max_xy'] = max_xy
+
+        self.bounds['size'] = Point(abs(min_xy.x) + abs(max_xy.x),
+                                    abs(min_xy.y) + abs(max_xy.y),
+                                    0)
+
+        logger.debug("Bound box size {0}".format(self.bounds['size']))
+        logger.debug(
+            "Bound box 'minlat': {0}, 'maxlat': {1}\n\t\t\t\t\t  "
+            "'minlon': {2}, 'maxlon': {3}".format(self.bounds['minlat'],
+                                                  self.bounds['maxlat'],
+                                                  self.bounds['minlon'],
+                                                  self.bounds['maxlon'])
+        )
 
         # Parse OSM map
         self.parser = OSMParser(coords_callback=self._get_coords,
@@ -53,12 +73,22 @@ class OsmCityBuilder(object):
         logger.debug("Number of ways: {}".format(len(self.osm_ways)))
         logger.debug("Number of coords: {}".format(len(self.osm_coords)))
 
+        # Ground plane
+        city.set_ground_plane(GroundPlane(max(self.bounds['size'].x,
+                                              self.bounds['size'].y),
+                                          Point(0, 0, 0)))
+
         self._create_roads(city)
 
         return city
 
     def _get_ways(self, ways):
         ''' OSM parser callback for the ways '''
+        # For now exclude smaller roads, in the future we should draw each
+        # type of street with different width/texture
+        road_types = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary',
+                      'unclassified', 'residential']
+
         for osmid, tags, refs in ways:
             if 'highway' in tags:
                 if tags['highway'] in road_types:
@@ -66,21 +96,27 @@ class OsmCityBuilder(object):
 
     def _get_coords(self, coords):
         ''' OSM parser callback for the coords '''
-        for osmid, lat, lon in coords:
+        for osmid, lon, lat in coords:
             self.osm_coords[osmid] = {'lat': lat, 'lon': lon}
 
     def _create_roads(self, city):
         for key, value in self.osm_ways.iteritems():
             tmp_road = Street()
             for ref in value['refs']:
-                x, y = self._translate_coords(self.osm_coords[ref]['lat'],
-                                              self.osm_coords[ref]['lon'])
-                tmp_road.add_node(JunctionNode.on(x, y, 0))
+                # Check if coord is inside bounding box
+                if self.bounds['minlat'] < self.osm_coords[ref]['lat'] < self.bounds['maxlat'] and \
+                   self.bounds['minlon'] < self.osm_coords[ref]['lon'] < self.bounds['maxlon']:
+                    coord = self._translate_coords(self.osm_coords[ref]['lat'],
+                                                   self.osm_coords[ref]['lon'])
+                    tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
             city.add_road(tmp_road)
+
+    def _check_road_type(self, road_type):
+        pass
 
     def _translate_coords(self, lat, lon):
         meters_per_degree_lat = 111319.9
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(self.map_origin[0])
-        y = (lon - self.map_origin[0]) * meters_per_degree_lon
-        x = (lat - self.map_origin[1]) * meters_per_degree_lat
-        return (x, y)
+        meters_per_degree_lon = meters_per_degree_lat * math.cos(self.map_origin.x)
+        x = (lon - self.map_origin.y) * meters_per_degree_lon
+        y = (lat - self.map_origin.x) * meters_per_degree_lat
+        return Point(x, y, 0)
