@@ -11,7 +11,7 @@ default:
 
 .PHONY: gazebo7
 gazebo7:
-	docker build ${DOCKER_ARGS} --build-arg gazebo_commit=${GAZEBO_COMMIT} -t gazebo7 gazebo7
+	docker build ${DOCKER_ARGS} -t gazebo7 gazebo7
 
 .PHONY: gazebo7-nvidia
 gazebo7-nvidia: gazebo7
