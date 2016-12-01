@@ -9,15 +9,15 @@ GAZEBO_COMMIT="2b49dbedff87910898d507c09135e1f078c40f59"
 default:
 	# You need to specify a particular target
 
-.PHONY: gazebo7
-gazebo7:
-	docker build ${DOCKER_ARGS} --build-arg gazebo_commit=${GAZEBO_COMMIT} -t gazebo7 gazebo7
+.PHONY: gazebo-terminus
+gazebo-terminus:
+	docker build ${DOCKER_ARGS} -t gazebo-terminus gazebo-terminus
 
-.PHONY: gazebo7-nvidia
-gazebo7-nvidia: gazebo7
-	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo7-nvidia gazebo7-nvidia
+.PHONY: gazebo-terminus-nvidia
+gazebo-terminus-nvidia: gazebo-terminus
+	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo-terminus-nvidia gazebo-terminus-nvidia
 
-.PHONY: gazebo7-intel
-gazebo7-intel: gazebo7
-	docker build ${DOCKER_ARGS} -t gazebo7-intel gazebo7-intel
+.PHONY: gazebo-terminus-intel
+gazebo-terminus-intel: gazebo-terminus
+	docker build ${DOCKER_ARGS} -t gazebo-terminus-intel gazebo-terminus-intel
 

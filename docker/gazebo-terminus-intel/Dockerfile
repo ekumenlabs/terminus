@@ -1,4 +1,4 @@
-FROM gazebo7
+FROM gazebo-terminus
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 
