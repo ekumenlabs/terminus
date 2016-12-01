@@ -13,14 +13,14 @@ $ ./run_simulator [CONTAINER_NAME] [CONTAINER_IMAGE]
 
 The image name is the one that you use with the makefile, for now:
 
-* gazebo7-nvidia
-* gazebo7-intel
+* gazebo-terminus-nvidia
+* gazebo-terminus-intel
 
 We recommend to use the same name for the container, so you should run one of these commands:
 
 ```
-$ ./run_simulator gazebo7-nvidia gazebo7-nvidia
-$ ./run_simulator gazebo7-intel gazebo7-intel
+$ ./run_simulator gazebo-terminus-nvidia gazebo-terminus-nvidia
+$ ./run_simulator gazebo-terminus-intel gazebo-terminus-intel
 ```
 
 The script `run_simulator` will mount the repository folder into the docker container. We recommend working outside the container and placing the files in folder of the repositorys. Be aware that the CONTAINER WILL BE DELETED EACH TIME THAT YOU EXIT IT. This is done in order to make sure that you are not modifying the image that you are working with, so all the colaborators are working with the same image.
@@ -48,12 +48,12 @@ We are using the propietary drivers from `ppa:graphics-drivers/ppa`. The default
 
 ```
 cd {REPOSITORY_PATH}/terminus/docker
-make gazebo7-nvidia gazebo7-nvidia
+make gazebo-terminus-nvidia gazebo-terminus-nvidia
 ```
 
 If you are using another one you can use:
 
-`make NVIDIA_DRIVER="nvidia-xxx" gazebo7-nvidia gazebo7-nvidia`
+`make NVIDIA_DRIVER="nvidia-xxx" gazebo-terminus-nvidia gazebo-terminus-nvidia`
 
 Check that your nvidia driver that is going to be downloaded is the same that the one that you have installed.
 
@@ -62,7 +62,7 @@ Check that your nvidia driver that is going to be downloaded is the same that th
 For intel, you need to run the following command:
 ```
 cd {REPOSITORY_PATH}/terminus/docker
-make gazebo7-intel gazebo7-intel
+make gazebo-terminus-intel gazebo-terminus-intel
 ```
 
 Make sure that your host computer has the latest version of the package `xserver-xorg-video-intel` that will be downloaded.
