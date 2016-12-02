@@ -9,7 +9,7 @@ Builds are performed against Python 2.7.9 and pep8 v1.7.0. Follow these steps to
 
 - Install `virtualenv` if you don't have it already
 ```
-$ sudo apt-get install python-virtualenv 
+$ sudo apt-get install python-virtualenv zlib1g-dev libssl-dev
 ```
 - Download and compile Python 2.7.9:
 ```
