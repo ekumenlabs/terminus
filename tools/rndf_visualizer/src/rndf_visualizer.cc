@@ -157,7 +157,7 @@ bool build_RNDF()
       graph->xy_rndf();
     }
 
-    
+
   return true;
 }
 
