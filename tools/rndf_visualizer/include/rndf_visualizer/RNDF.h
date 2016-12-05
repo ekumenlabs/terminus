@@ -80,6 +80,14 @@ class Unique_id{
   bool isvalid(){return (waypoint_id > 0 && lane_id >= 0 && segment_id > 0);};
   void clear();
   void print(){printf("%d.%d.%d", segment_id, lane_id, waypoint_id);};
+  bool operator==(Unique_id &id){
+    if(this->waypoint_id == id.waypoint_id &&
+      this->lane_id == id.lane_id &&
+      this->segment_id == id.segment_id) {
+      return true;
+    }
+    return false;
+  }
 };
 //<exit>
 class Exit {
@@ -269,6 +277,15 @@ class RNDF {
       else return e1.pt < e2.pt;
     }
   };
+  bool alreadyExists(Lane &parentLane, LL_Waypoint &waypoint);
+  bool alreadyExists(Segment &parentSegment, Lane &lane);
+  bool alreadyExists(Segment &segment);
+  bool alreadyExists(Zone &zone, Spot &spot);
+  bool alreadyExists(Zone &zone);
+  bool alreadyExists(Lane &parentLane, Checkpoint &checkpoint);
+  bool alreadyExists(Lane &parentLane, Stop &stop);
+  bool alreadyExists(Lane &parentLane, Exit &exit);
+
   typedef std::map<ElementID, WayPointNode, id_comparator> id_to_waypoint_map;
     
   id_to_waypoint_map id_map;

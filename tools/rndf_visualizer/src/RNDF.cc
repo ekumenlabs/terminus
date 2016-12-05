@@ -72,6 +72,7 @@ RNDF::RNDF(std::string rndfname, bool verbose)
       line_number++;
       uint real_characters=0;
 
+
       for (uint ind=0; ind < lineread.length(); ind++)
 	if (lineread[ind] != '\r' &&
 	    lineread[ind] != '\t' &&
@@ -188,11 +189,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if (!temp_segment.isvalid())
 	    valid = false;
 	  else{
-	    segments.push_back(temp_segment);
-	    if (verbose)
-	      printf("%d: segment has ended\n", line_number);
-	    change_state(previous_state, state, GENERAL);
-	    temp_segment.clear();
+	  	if(alreadyExists(temp_segment)) {
+	  		std::cerr << "Error. Duplicate segment. Id: " << temp_segment.segment_id << std::endl;
+			valid = false;
+	  	}
+	  	else{
+		    segments.push_back(temp_segment);
+		    if (verbose)
+		      printf("%d: segment has ended\n", line_number);
+		    change_state(previous_state, state, GENERAL);
+		    temp_segment.clear();
+	  	}
 	  }
 	}
 	else{
@@ -246,19 +253,37 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	else if(token.compare("checkpoint") == 0){
 	  Checkpoint checkpoint(lineread, temp_segment.segment_id,
 				temp_lane.lane_id, line_number, valid, verbose);
-	  temp_lane.checkpoints.push_back(checkpoint);
+	  if(alreadyExists(temp_lane, checkpoint)) {
+		std::cerr << "Error. Duplicate checkpoint. Id: " << temp_segment.segment_id << temp_lane.lane_id << checkpoint.waypoint_id << std::endl;
+		valid = false;
+	  }
+	  else {
+	  	temp_lane.checkpoints.push_back(checkpoint);
+	  }
 	}
 	//STOP
 	else if(token.compare("stop") == 0){
 	  Stop stop(lineread, temp_segment.segment_id,
 		    temp_lane.lane_id, line_number, valid, verbose);
-	  temp_lane.stops.push_back(stop);
+	  if(alreadyExists(temp_lane, stop)) {
+		std::cerr << "Error. Duplicate stop. Id: " << temp_segment.segment_id << temp_lane.lane_id << stop.waypoint_id << std::endl;
+		valid = false;
+	  }
+	  else{
+	  	temp_lane.stops.push_back(stop);
+	  }
 	}
 	//EXIT
 	else if(token.compare("exit") == 0){
 	  Exit exit(lineread, temp_segment.segment_id,
 		    temp_lane.lane_id, line_number, valid, verbose);
-	  temp_lane.exits.push_back(exit);
+	  if(alreadyExists(temp_lane, exit)) {
+		std::cerr << "Error. Duplicate exit. Id: " << temp_segment.segment_id << temp_lane.lane_id << std::endl;
+		valid = false;
+	  }
+	  else{
+	  	temp_lane.exits.push_back(exit);
+	  }
 	}
 	//END_LANE
 	else if(token.compare("end_lane") == 0){
@@ -267,11 +292,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if (!temp_lane.isvalid())
 	    valid = false;
 	  else{
-	    temp_segment.lanes.push_back(temp_lane);
-	    if (verbose)
-	      printf("%d: lane has ended\n", line_number);
-	    change_state(previous_state, state, SEGMENTS);
-	    temp_lane.clear();
+	  	if(alreadyExists(temp_segment, temp_lane)) {
+	  		std::cerr << "Error. Duplicate lane. Id: " << temp_segment.segment_id << "." << temp_lane.lane_id << std::endl;
+			valid = false;
+	  	}
+	  	else {
+		    temp_segment.lanes.push_back(temp_lane);
+		    if (verbose)
+		      printf("%d: lane has ended\n", line_number);
+		    change_state(previous_state, state, SEGMENTS);
+		    temp_lane.clear();
+	  	}
 	  }
 	}
 	
@@ -283,7 +314,13 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if(token.find(temp_char) != std::string::npos ){
 	    LL_Waypoint wp(lineread, temp_segment.segment_id,
 			   temp_lane.lane_id, line_number, valid, verbose);
-	    temp_lane.waypoints.push_back(wp);
+	    if(alreadyExists(temp_lane, wp)){
+	  		std::cerr << "Error. Duplicate waypoint. Id: " << temp_segment.segment_id << "." << temp_lane.lane_id << "." << wp.waypoint_id << std::endl;
+			valid = false;
+	    }
+	    else {
+	    	temp_lane.waypoints.push_back(wp);
+	    }
 	  }
 	  else{
 	    printf("%d: Unexpected token\n", line_number);
@@ -317,11 +354,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if(!temp_zone.isvalid())
 	    valid = false;
 	  else{
-	    zones.push_back(temp_zone);
-	    if (verbose)
-	      printf("%d: zone has ended\n", line_number);
-	    change_state(previous_state, state, GENERAL);
-	    temp_zone.clear();
+	  	if(alreadyExists(temp_zone)) {
+	  		std::cerr << "Duplicate zone. Id: " << temp_zone.zone_id << std::endl;
+	  		valid = false;
+	  	}
+	  	else {
+		    zones.push_back(temp_zone);
+		    if (verbose)
+		      printf("%d: zone has ended\n", line_number);
+		    change_state(previous_state, state, GENERAL);
+		    temp_zone.clear();
+	  	}
 	  }
 	}
 	else {
@@ -408,11 +451,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if(!temp_spot.isvalid())
 	    valid = false;
 	  else{
-	    temp_zone.spots.push_back(temp_spot);
-	    if (verbose)
-	      printf("%d: spot has ended\n", line_number);
-	    change_state(previous_state, state, ZONES);
-	    temp_spot.clear();
+	  	if(alreadyExists(temp_zone, temp_spot)) {
+	  		std::cerr << "Error. Duplicate Spot. Id: " << temp_zone.zone_id << "." << temp_spot.spot_id << std::endl;
+	  		valid = false;
+	  	}
+	  	else {
+		    temp_zone.spots.push_back(temp_spot);
+		    if (verbose)
+		      printf("%d: spot has ended\n", line_number);
+		    change_state(previous_state, state, ZONES);
+		    temp_spot.clear();
+	  	}
 	  }
 	}
 	else{
@@ -441,6 +490,80 @@ RNDF::RNDF(std::string rndfname, bool verbose)
     }
   prep_graph();
   if (verbose) printf("Parser Finishes\n");
+}
+
+bool RNDF::alreadyExists(Segment &segment) {
+	for(uint i = 0; i < segments.size(); i++) {
+		Segment &seg = segments[i];
+		if(seg.segment_id == segment.segment_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Segment &parentSegment, Lane &lane) {
+	for(uint i = 0; i < parentSegment.lanes.size(); i ++) {
+		Lane &ln = parentSegment.lanes[i];
+		if(ln.lane_id == lane.lane_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Lane &parentLane, LL_Waypoint &waypoint) {
+	for(uint i = 0; i < parentLane.waypoints.size(); i ++) {
+		LL_Waypoint &wp = parentLane.waypoints[i];
+		if(wp.waypoint_id == waypoint.waypoint_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Zone &zone, Spot &spot) {
+	for(uint i = 0; i < zone.spots.size(); i ++) {
+		Spot &sp = zone.spots[i];
+		if(sp.spot_id == spot.spot_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Zone &zone) {
+	for(uint i = 0; i < zones.size(); i ++) {
+		Zone &zn = zones[i];
+		if(zn.zone_id == zone.zone_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Lane &parentLane, Checkpoint &checkpoint) {
+	for(uint i = 0; i < parentLane.checkpoints.size(); i ++) {
+		Checkpoint &cp = parentLane.checkpoints[i];
+		if(cp.waypoint_id == checkpoint.waypoint_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Lane &parentLane, Stop &stop) {
+	for(uint i = 0; i < parentLane.stops.size(); i ++) {
+		Stop &sp = parentLane.stops[i];
+		if(sp.waypoint_id == stop.waypoint_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Lane &parentLane, Exit &exit) {
+	for(uint i = 0; i < parentLane.exits.size(); i ++) {
+		Exit &ex = parentLane.exits[i];
+		if(ex.start_point == exit.start_point &&
+			ex.end_point == exit.end_point) {
+			return true;
+		}
+	}
+	return false;
 }
 
 MDF::MDF(std::string mdfname, bool verbose)
@@ -1031,6 +1154,7 @@ void RNDF::prep_graph(){
 	id_map[id].checkpoint_id = ci->checkpoint_id;
 	id_map[id].is_goal = false;
       }
+
       for(stops_i = li->stops.begin(); stops_i != li->stops.end(); stops_i++){
 	ElementID id (si->segment_id, li->lane_id, stops_i->waypoint_id);
 	if (id_map.find(id) == id_map.end()) {
@@ -1040,6 +1164,7 @@ void RNDF::prep_graph(){
 	}
 	id_map[id].is_stop = true;
       }
+
       for(exits_i = li->exits.begin(); exits_i != li->exits.end(); exits_i++){
 	ElementID id_start (exits_i->start_point.segment_id,
 			    exits_i->start_point.lane_id,
@@ -1172,6 +1297,7 @@ void RNDF::prep_graph(){
 		    (WayPointEdge(node_itr->second, node_itr2->second,
 				  UNDEFINED, UNDEFINED, false));
 	      }
+
       } 
   }
   

@@ -4,6 +4,9 @@
 //Defines methods on the Graph Data Structure
 
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <stdexcept>
 #include <float.h>
 
 #include <UTM.h>
@@ -338,11 +341,18 @@ void Graph::xy_rndf() {
     nodes[i].map.x = nodes[i].ll.latitude;
     nodes[i].map.y = nodes[i].ll.longitude;
   }
-  
+
   for(uint i = 0; i < edges_size; i++){
     WayPointNode* start=get_node_by_index(edges[i].startnode_index);
+    if(start == NULL) {
+      std::cerr << "Error getting start edge. Start Edge node index: " << edges[i].startnode_index << std::endl;
+      throw std::exception();
+    }
     WayPointNode* end=get_node_by_index(edges[i].endnode_index);
-    
+    if(end == NULL) {
+      std::cerr << "Error getting end edge. End Edge node index: " << edges[i].startnode_index << std::endl;
+      throw std::exception();
+    }
     edges[i].distance=Euclidean::DistanceTo(start->map,end->map);
   }
 }
