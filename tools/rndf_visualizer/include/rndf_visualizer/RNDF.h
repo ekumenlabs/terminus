@@ -269,6 +269,10 @@ class RNDF {
       else return e1.pt < e2.pt;
     }
   };
+  bool alreadyExists(Lane &parentLane, LL_Waypoint &waypoint);
+  bool alreadyExists(Segment &parentSegment, Lane &lane);
+  bool alreadyExists(Segment &segment);
+
   typedef std::map<ElementID, WayPointNode, id_comparator> id_to_waypoint_map;
     
   id_to_waypoint_map id_map;

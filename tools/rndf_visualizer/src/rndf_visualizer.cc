@@ -157,7 +157,6 @@ bool build_RNDF()
       graph->xy_rndf();
     }
 
-
   return true;
 }
 
@@ -271,7 +270,6 @@ int main(int argc, char *argv[]) {
   int rc;
 
   parse_args(argc, argv);
-
   if (!build_RNDF()) {
       std::cerr << "RNDF not valid\n";
       return 1;

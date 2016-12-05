@@ -72,6 +72,7 @@ RNDF::RNDF(std::string rndfname, bool verbose)
       line_number++;
       uint real_characters=0;
 
+
       for (uint ind=0; ind < lineread.length(); ind++)
 	if (lineread[ind] != '\r' &&
 	    lineread[ind] != '\t' &&
@@ -188,11 +189,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if (!temp_segment.isvalid())
 	    valid = false;
 	  else{
-	    segments.push_back(temp_segment);
-	    if (verbose)
-	      printf("%d: segment has ended\n", line_number);
-	    change_state(previous_state, state, GENERAL);
-	    temp_segment.clear();
+	  	if(alreadyExists(temp_segment)) {
+	  		std::cerr << "Error. Duplicate segment. Id: " << temp_segment.segment_id << std::endl;
+			valid = false;
+	  	}
+	  	else{
+		    segments.push_back(temp_segment);
+		    if (verbose)
+		      printf("%d: segment has ended\n", line_number);
+		    change_state(previous_state, state, GENERAL);
+		    temp_segment.clear();
+	  	}
 	  }
 	}
 	else{
@@ -267,11 +274,17 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if (!temp_lane.isvalid())
 	    valid = false;
 	  else{
-	    temp_segment.lanes.push_back(temp_lane);
-	    if (verbose)
-	      printf("%d: lane has ended\n", line_number);
-	    change_state(previous_state, state, SEGMENTS);
-	    temp_lane.clear();
+	  	if(alreadyExists(temp_segment, temp_lane)) {
+	  		std::cerr << "Error. Duplicate lane. Id: " << temp_segment.segment_id << "." << temp_lane.lane_id << std::endl;
+			valid = false;
+	  	}
+	  	else {
+		    temp_segment.lanes.push_back(temp_lane);
+		    if (verbose)
+		      printf("%d: lane has ended\n", line_number);
+		    change_state(previous_state, state, SEGMENTS);
+		    temp_lane.clear();
+	  	}
 	  }
 	}
 	
@@ -283,7 +296,14 @@ RNDF::RNDF(std::string rndfname, bool verbose)
 	  if(token.find(temp_char) != std::string::npos ){
 	    LL_Waypoint wp(lineread, temp_segment.segment_id,
 			   temp_lane.lane_id, line_number, valid, verbose);
-	    temp_lane.waypoints.push_back(wp);
+	    if(alreadyExists(temp_lane, wp)){
+	  		std::cerr << "Error. Duplicate waypoint. Id: " << temp_segment.segment_id << "." << temp_lane.lane_id << "." << wp.waypoint_id << std::endl;
+			std::cerr << line_number << ":" << lineread << std::endl;
+			valid = false;
+	    }
+	    else {
+	    	temp_lane.waypoints.push_back(wp);
+	    }
 	  }
 	  else{
 	    printf("%d: Unexpected token\n", line_number);
@@ -441,6 +461,34 @@ RNDF::RNDF(std::string rndfname, bool verbose)
     }
   prep_graph();
   if (verbose) printf("Parser Finishes\n");
+}
+
+bool RNDF::alreadyExists(Segment &segment) {
+	for(uint i = 0; i < segments.size(); i++) {
+		Segment &seg = segments[i];
+		if(seg.segment_id == segment.segment_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Segment &parentSegment, Lane &lane) {
+	for(uint i = 0; i < parentSegment.lanes.size(); i ++) {
+		Lane &ln = parentSegment.lanes[i];
+		if(ln.lane_id == lane.lane_id) {
+			return true;
+		}
+	}
+	return false;
+}
+bool RNDF::alreadyExists(Lane &parentLane, LL_Waypoint &waypoint) {
+	for(uint i = 0; i < parentLane.waypoints.size(); i ++) {
+		LL_Waypoint &wp = parentLane.waypoints[i];
+		if(wp.waypoint_id == waypoint.waypoint_id) {
+			return true;
+		}
+	}
+	return false;
 }
 
 MDF::MDF(std::string mdfname, bool verbose)
@@ -1031,6 +1079,7 @@ void RNDF::prep_graph(){
 	id_map[id].checkpoint_id = ci->checkpoint_id;
 	id_map[id].is_goal = false;
       }
+
       for(stops_i = li->stops.begin(); stops_i != li->stops.end(); stops_i++){
 	ElementID id (si->segment_id, li->lane_id, stops_i->waypoint_id);
 	if (id_map.find(id) == id_map.end()) {
@@ -1040,6 +1089,7 @@ void RNDF::prep_graph(){
 	}
 	id_map[id].is_stop = true;
       }
+
       for(exits_i = li->exits.begin(); exits_i != li->exits.end(); exits_i++){
 	ElementID id_start (exits_i->start_point.segment_id,
 			    exits_i->start_point.lane_id,
@@ -1164,14 +1214,18 @@ void RNDF::prep_graph(){
 		 node_itr2->second.id.seg) &&
 		(node_itr2->second.id.pt==1))
 	      {
-		if (node_itr->second.is_exit)
+		if (node_itr->second.is_exit){
 		  edges.push_back( WayPointEdge(node_itr2->second, node_itr->second,
 						UNDEFINED, UNDEFINED, false));
-		if (node_itr->second.is_entry)
+		}
+		if (node_itr->second.is_entry){
 		  edges.push_back
 		    (WayPointEdge(node_itr->second, node_itr2->second,
 				  UNDEFINED, UNDEFINED, false));
+		}
+
 	      }
+
       } 
   }
   
