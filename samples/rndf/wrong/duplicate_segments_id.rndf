@@ -1,0 +1,28 @@
+RNDF_name	city_1
+num_segments	2
+num_zones	0
+format_version	1.0
+segment	1
+num_lanes	1
+segment_name	trunk_1
+lane	1.1
+num_waypoints	4
+lane_width	10
+1.1.1	10.001797	65.000000
+1.1.2	10.002695	65.000000
+1.1.3	10.003548	65.000000
+1.1.4	10.003593	65.000000
+end_lane
+end_segment
+segment	1
+num_lanes	1
+segment_name	trunk_2
+lane	1.1
+num_waypoints	3
+lane_width	10
+1.1.1	9.998203	65.000000
+1.1.2	9.997350	65.000000
+1.1.3	9.997305	65.000000
+end_lane
+end_segment
+end_file
