@@ -1,0 +1,112 @@
+/* Duplicate segment */
+RNDF_name	city_1
+num_segments	9
+num_zones	0
+format_version	1.0
+segment	1
+num_lanes	1
+segment_name	trunk_2
+lane	1.1
+num_waypoints	3
+lane_width	10
+exit	1.1.2	5.1.2
+1.1.1	10.001797	65.000000
+1.1.2	10.002650	65.000000
+1.1.3	10.002695	65.000000
+end_lane
+end_segment
+segment	2
+num_lanes	1
+segment_name	trunk_3
+lane	2.1
+num_waypoints	4
+lane_width	10
+exit	2.1.3	6.1.2
+2.1.1	9.998203	65.000000
+2.1.2	9.997305	65.000000
+2.1.3	9.996452	65.000000
+2.1.4	9.996407	65.000000
+end_lane
+end_segment
+segment	3
+num_lanes	1
+segment_name	trunk_4
+lane	3.1
+num_waypoints	4
+lane_width	10
+exit	3.1.3	8.1.2
+3.1.1	10.000000	65.002141
+3.1.2	10.000000	65.003212
+3.1.3	10.000000	65.004229
+3.1.4	10.000000	65.004282
+end_lane
+end_segment
+segment	4
+num_lanes	1
+segment_name	trunk_5
+lane	4.1
+num_waypoints	4
+lane_width	10
+exit	4.1.3	9.1.2
+4.1.1	10.000000	64.997859
+4.1.2	10.000000	64.996788
+4.1.3	10.000000	64.995771
+4.1.4	10.000000	64.995718
+end_lane
+end_segment
+segment	5
+num_lanes	1
+segment_name	street_6
+lane	5.1
+num_waypoints	3
+lane_width	5
+5.1.1	10.002695	65.000000
+5.1.2	10.002695	65.000054
+5.1.3	10.002695	65.001071
+end_lane
+end_segment
+segment	6
+num_lanes	1
+segment_name	street_7
+lane	6.1
+num_waypoints	3
+lane_width	5
+6.1.1	9.996407	65.000000
+6.1.2	9.996407	65.000054
+6.1.3	9.996407	65.001071
+end_lane
+end_segment
+segment	8
+num_lanes	1
+segment_name	street_8
+lane	8.1
+num_waypoints	3
+lane_width	5
+8.1.1	10.000000	65.004282
+8.1.2	10.000045	65.004282
+8.1.3	10.000898	65.004282
+end_lane
+end_segment
+segment	8
+num_lanes	1
+segment_name	street_9
+lane	8.1
+num_waypoints	3
+lane_width	5
+8.1.1	10.000000	65.004282
+8.1.2	10.000045	65.004282
+8.1.3	10.000898	65.004282
+end_lane
+end_segment
+segment	9
+num_lanes	1
+segment_name	street_10
+lane	9.1
+num_waypoints	3
+lane_width	5
+9.1.1	10.000000	64.995718
+9.1.2	9.999955	64.995718
+9.1.3	9.999102	64.995718
+end_lane
+end_segment
+end_file
