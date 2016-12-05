@@ -1214,16 +1214,13 @@ void RNDF::prep_graph(){
 		 node_itr2->second.id.seg) &&
 		(node_itr2->second.id.pt==1))
 	      {
-		if (node_itr->second.is_exit){
+		if (node_itr->second.is_exit)
 		  edges.push_back( WayPointEdge(node_itr2->second, node_itr->second,
 						UNDEFINED, UNDEFINED, false));
-		}
-		if (node_itr->second.is_entry){
+		if (node_itr->second.is_entry)
 		  edges.push_back
 		    (WayPointEdge(node_itr->second, node_itr2->second,
 				  UNDEFINED, UNDEFINED, false));
-		}
-
 	      }
 
       } 
