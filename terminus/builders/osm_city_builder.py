@@ -102,14 +102,44 @@ class OsmCityBuilder(object):
     def _create_roads(self, city):
         for key, value in self.osm_ways.iteritems():
             tmp_road = Street()
+            coords_outside_box = []
+            road_in_and_out = False
+            coord_inside_bounds = False
             for ref in value['refs']:
                 # Check if coord is inside bounding box
-                if self.bounds['minlat'] < self.osm_coords[ref]['lat'] < self.bounds['maxlat'] and \
-                   self.bounds['minlon'] < self.osm_coords[ref]['lon'] < self.bounds['maxlon']:
-                    coord = self._translate_coords(self.osm_coords[ref]['lat'],
-                                                   self.osm_coords[ref]['lon'])
+                ref_lat = self.osm_coords[ref]['lat']
+                ref_lon = self.osm_coords[ref]['lon']
+                coord = self._translate_coords(ref_lat, ref_lon)
+
+                if self._is_coord_inside_bounds(ref_lat, ref_lon):
+                    # If list is empty, use the node
+                    if not coords_outside_box:
+                        tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
+                        coord_inside_bounds = True
+                    else:
+                        # In this case, the road goes out of the bounding box
+                        # and comes basck again
+                        road_in_and_out = True
+                        coords_outside_box.append(coord)
+                else:
+                    if coord_inside_bounds:
+                        coords_outside_box.append(coord)
+
+            # Add nodes if way runs in and out the bounding box
+            if road_in_and_out:
+                for coord in coords_outside_box:
                     tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
+
+            # Checck that road has at least two nodes
+            if tmp_road.node_count() < 2:
+                continue
+
             city.add_road(tmp_road)
+
+    def _is_coord_inside_bounds(self, lat, lon):
+        if self.bounds['minlat'] < lat < self.bounds['maxlat'] and \
+           self.bounds['minlon'] < lon < self.bounds['maxlon']:
+            return True
 
     def _check_road_type(self, road_type):
         pass
