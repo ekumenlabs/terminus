@@ -69,7 +69,7 @@ RUN apt-get update && apt-get install -y cmake pkg-config python ruby-ronn
 USER gazebo
 
 # Select Manifold commit
-ENV manifold_commit 9990d57
+ENV manifold_commit 5a095e0
 
 #Clone and install Manifold
 RUN hg clone https://bitbucket.org/osrf/manifold /tmp/manifold
