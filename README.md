@@ -46,7 +46,7 @@ New python executable in env/bin/python2.7
 Also creating executable in env/bin/python
 Installing setuptools, pip...done.
 ```
-- Activate the new virtual environment:
+- Activate the new virtual environment (important: each time you start a new terminal session you must execute this line to load the proper environment):
 ```
 $ source env/bin/activate
 ```
