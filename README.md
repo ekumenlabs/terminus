@@ -5,7 +5,7 @@ Library to procedurally create cities and terrains
 
 ## Install with virtualenv
 
-Builds are performed against Python 2.7.9 and pep8 v1.7.0. Follow these steps to get such a setup in a separate virtual environment:
+Builds are performed against Ubuntu 14.04, Python 2.7.9 and pep8 v1.7.0. Follow these steps to get such a setup in a separate virtual environment:
 
 - Install `virtualenv` if you don't have it already
 ```
