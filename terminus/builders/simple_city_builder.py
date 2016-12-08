@@ -26,7 +26,7 @@ class SimpleCityBuilder(object):
         return city
 
     def _setup_junctions(self, size):
-        self.junctions = [[JunctionNode.on(self.multiplier * x, self.multiplier * y, 0)
+        self.junctions = [[IntersectionNode.on(self.multiplier * x, self.multiplier * y, 0)
                            for y in range(size)] for x in range(size)]
 
     def _create_ground_plane(self, city, size):

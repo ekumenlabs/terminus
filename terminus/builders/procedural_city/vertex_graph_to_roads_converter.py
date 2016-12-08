@@ -14,7 +14,7 @@ class VertexGraphToRoadsConverter(object):
 
     def get_roads(self):
         roads = []
-        self.junctions = {}
+        self.intersections = {}
         to_traverse = self.graph_node_list
         for node in to_traverse:
             node.prepare_traversal()
@@ -136,6 +136,6 @@ class VertexGraphToRoadsConverter(object):
         return best_neighbour
 
     def _junction_for(self, location):
-        if location not in self.junctions:
-            self.junctions[location] = JunctionNode(location)
-        return self.junctions[location]
+        if location not in self.intersections:
+            self.intersections[location] = IntersectionNode(location)
+        return self.intersections[location]

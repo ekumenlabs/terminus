@@ -66,7 +66,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
-    def test_cross_junction(self):
+    def test_cross_intersection(self):
 
         """
              (0,1)
@@ -74,18 +74,18 @@ class RNDFGeneratorTest(unittest.TestCase):
              (0,-1)
         """
         city = City("Cross")
-        junction = JunctionNode.on(0, 0)
+        intersection = IntersectionNode.on(0, 0)
 
         s1 = Street.from_nodes([
             SimpleNode.on(-1000, 0),
-            junction,
+            intersection,
             SimpleNode.on(1000, 0)
         ])
         s1.name = "s1"
 
         s2 = Street.from_nodes([
             SimpleNode.on(0, 1000),
-            junction,
+            intersection,
             SimpleNode.on(0, -1000)
         ])
         s2.name = "s2"
@@ -126,19 +126,19 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
-    def test_L_junction(self):
+    def test_L_intersection(self):
 
         """
              (0,1)
                +  (1,0)
         """
         city = City("LCross")
-        junction = JunctionNode.on(0, 0)
+        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([SimpleNode.on(0, 1000), junction])
+        s1 = Street.from_nodes([SimpleNode.on(0, 1000), intersection])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([junction, SimpleNode.on(1000, 0)])
+        s2 = Street.from_nodes([intersection, SimpleNode.on(1000, 0)])
         s2.name = "s2"
         city.add_road(s1)
         city.add_road(s2)
@@ -174,7 +174,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
-    def test_Y_junction_one_to_many(self):
+    def test_Y_intersection_one_to_many(self):
 
         """
                   (0,1)
@@ -182,15 +182,15 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        junction = JunctionNode.on(0, 0)
+        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([SimpleNode.on(0, 1000), junction])
+        s1 = Street.from_nodes([SimpleNode.on(0, 1000), intersection])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([junction, SimpleNode.on(-1000, -1000)])
+        s2 = Street.from_nodes([intersection, SimpleNode.on(-1000, -1000)])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([junction, SimpleNode.on(1000, -1000)])
+        s3 = Street.from_nodes([intersection, SimpleNode.on(1000, -1000)])
         s3.name = "s3"
 
         city.add_road(s1)
@@ -240,7 +240,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
-    def test_Y_junction_many_to_one(self):
+    def test_Y_intersection_many_to_one(self):
 
         """
                   (0,1)
@@ -248,15 +248,15 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        junction = JunctionNode.on(0, 0)
+        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([junction, SimpleNode.on(0, 1000)])
+        s1 = Street.from_nodes([intersection, SimpleNode.on(0, 1000)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([SimpleNode.on(-1000, -1000), junction])
+        s2 = Street.from_nodes([SimpleNode.on(-1000, -1000), intersection])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([SimpleNode.on(1000, -1000), junction])
+        s3 = Street.from_nodes([SimpleNode.on(1000, -1000), intersection])
         s3.name = "s3"
 
         city.add_road(s1)

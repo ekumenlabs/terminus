@@ -131,10 +131,10 @@ class SimpleNode(RoadNode):
         return "SimpleNode @ " + str(self.center)
 
 
-class JunctionNode(RoadNode):
+class IntersectionNode(RoadNode):
 
     def __init__(self, center):
-        super(JunctionNode, self).__init__(center)
+        super(IntersectionNode, self).__init__(center)
         self.roads = []
 
     def added_to(self, road):
