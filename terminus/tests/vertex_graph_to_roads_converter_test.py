@@ -91,10 +91,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(5, 1)
+        intersection = IntersectionNode.on(5, 1)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0), junction]),
-            Street.from_nodes([SimpleNode.on(6, 2), junction])
+            Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0), intersection]),
+            Street.from_nodes([SimpleNode.on(6, 2), intersection])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -138,10 +138,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(0, 0)
+        intersection = IntersectionNode.on(0, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(3, -1), junction]),
-            Street.from_nodes([SimpleNode.on(3, 1), junction])
+            Street.from_nodes([SimpleNode.on(3, -1), intersection]),
+            Street.from_nodes([SimpleNode.on(3, 1), intersection])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -163,10 +163,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(1, 0)
+        intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(0, 0), junction, SimpleNode.on(6, 1)]),
-            Street.from_nodes([SimpleNode.on(6, 6), junction])
+            Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, 1)]),
+            Street.from_nodes([SimpleNode.on(6, 6), intersection])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -189,10 +189,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(1, 0)
+        intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(0, 0), junction, SimpleNode.on(6, -0.8)]),
-            Street.from_nodes([SimpleNode.on(6, 1), junction])
+            Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, -0.8)]),
+            Street.from_nodes([SimpleNode.on(6, 1), intersection])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -233,15 +233,15 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self.converter = VertexGraphToRoadsConverter(
             0.25, [n1, n2, n3, n4, n5, n6, n7, n8, n9])
         roads = self.converter.get_roads()
-        j1 = JunctionNode.on(0, 0)
-        j2 = JunctionNode.on(1, 0)
-        j3 = JunctionNode.on(2, 0)
-        j4 = JunctionNode.on(0, 1)
-        j5 = JunctionNode.on(1, 1)
-        j6 = JunctionNode.on(2, 1)
-        j7 = JunctionNode.on(0, 2)
-        j8 = JunctionNode.on(1, 2)
-        j9 = JunctionNode.on(2, 2)
+        j1 = IntersectionNode.on(0, 0)
+        j2 = IntersectionNode.on(1, 0)
+        j3 = IntersectionNode.on(2, 0)
+        j4 = IntersectionNode.on(0, 1)
+        j5 = IntersectionNode.on(1, 1)
+        j6 = IntersectionNode.on(2, 1)
+        j7 = IntersectionNode.on(0, 2)
+        j8 = IntersectionNode.on(1, 2)
+        j9 = IntersectionNode.on(2, 2)
         expected_roads = [
             Street.from_nodes([j1, j4, j7]),
             Street.from_nodes([j2, j5, j8]),
@@ -272,10 +272,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, v3, n4])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(1, 0)
+        intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(0, 0), junction, SimpleNode.on(6, 1)]),
-            Street.from_nodes([junction, SimpleNode.on(6, -0.8)])
+            Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, 1)]),
+            Street.from_nodes([intersection, SimpleNode.on(6, -0.8)])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -299,10 +299,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(1, 0)
+        intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(0, 0), junction, SimpleNode.on(6, -0.8)]),
-            Street.from_nodes([junction, SimpleNode.on(6, 1)])
+            Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, -0.8)]),
+            Street.from_nodes([intersection, SimpleNode.on(6, 1)])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)
@@ -345,10 +345,10 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
         roads = self.converter.get_roads()
-        junction = JunctionNode.on(1, 0)
+        intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Trunk.from_nodes([SimpleNode.on(0, 0), junction]),
-            Street.from_nodes([SimpleNode.on(6, 0), junction])
+            Trunk.from_nodes([SimpleNode.on(0, 0), intersection]),
+            Street.from_nodes([SimpleNode.on(6, 0), intersection])
         ]
         self._set_roads_width(expected_roads)
         self.assertItemsEqual(roads, expected_roads)

@@ -71,7 +71,7 @@ class RNDFGenerator(FileGenerator):
         segment_name\t{{model.name}}
         lane\t{{segment_id}}.1
         num_waypoints\t{{model.waypoints_count()}}
-        lane_width\t{{model.width}}
+        lane_width\t{{5}}
         {% for waypoint_connection in generator.waypoint_connections_for(model) %}
         exit\t{{waypoint_connection.exit_id()}}\t{{waypoint_connection.entry_id()}}
         {% endfor %}

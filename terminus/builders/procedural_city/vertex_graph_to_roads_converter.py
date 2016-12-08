@@ -14,7 +14,7 @@ class VertexGraphToRoadsConverter(object):
 
     def get_roads(self):
         roads = []
-        self.junctions = {}
+        self.intersections = {}
         to_traverse = self.graph_node_list
         for node in to_traverse:
             node.prepare_traversal()
@@ -31,7 +31,7 @@ class VertexGraphToRoadsConverter(object):
                 if node.neighbours_count() == 1:
                     origin = SimpleNode(node.location)
                 else:
-                    origin = self._junction_for(node.location)
+                    origin = self._intersection_for(node.location)
 
                 road.add_node(origin)
 
@@ -58,7 +58,7 @@ class VertexGraphToRoadsConverter(object):
             if neighbour.neighbours_count() == 1 or neighbour.neighbours_count() == 2:
                 road_node = SimpleNode(neighbour.location)
             elif neighbour.neighbours_count() > 2:
-                road_node = self._junction_for(neighbour.location)
+                road_node = self._intersection_for(neighbour.location)
             road.add_node(road_node)
             self._build_road(road, current_node, neighbour)
         else:
@@ -74,18 +74,18 @@ class VertexGraphToRoadsConverter(object):
                 if best_neighbour.neighbours_count() == 1 or best_neighbour.neighbours_count() == 2:
                     road_node = SimpleNode(best_neighbour.location)
                 elif best_neighbour.neighbours_count() > 2:
-                    road_node = self._junction_for(best_neighbour.location)
+                    road_node = self._intersection_for(best_neighbour.location)
                 road.add_node(road_node)
                 self._build_road(road, current_node, best_neighbour)
             else:
                 # Go to the last point and fix if it was originally a simple
                 # node but had 2 neighbours, since it should be flagged as
-                # junction.
+                # an intersection.
                 # PS: This is ugly.
                 if current_node.neighbours_count() == 2:
                     last_node = road.nodes[-1]
                     road.remove_node(last_node)
-                    road.add_node(self._junction_for(last_node.center))
+                    road.add_node(self._intersection_for(last_node.center))
 
     def _angle_2d(self, point_from, point_to):
         alpha = np.arctan2(point_from.x - point_to.x,
@@ -135,7 +135,7 @@ class VertexGraphToRoadsConverter(object):
                 best_neighbour = second_option
         return best_neighbour
 
-    def _junction_for(self, location):
-        if location not in self.junctions:
-            self.junctions[location] = JunctionNode(location)
-        return self.junctions[location]
+    def _intersection_for(self, location):
+        if location not in self.intersections:
+            self.intersections[location] = IntersectionNode(location)
+        return self.intersections[location]
