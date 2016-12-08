@@ -9,6 +9,7 @@ setup(name='terminus',
       install_requires=[
           'jinja2',
           'shapely',
-          'numpy'
+          'numpy',
+          'imposm.parser'
       ],
       zip_safe=False)
