@@ -32,7 +32,9 @@ Python 2.7.9
 - Clone the repo in your machine and `cd` into it:
 ```
 $ cd ~
-$ git clone git@github.com:ekumenlabs/terminus.git
+```
+`$ git clone git@github.com:ekumenlabs/terminus.git` or `$ git clone https://github.com/ekumenlabs/terminus.git`
+```
 $ cd terminus
 ```
 - Setup submodule:
