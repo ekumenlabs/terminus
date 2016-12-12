@@ -1,10 +1,8 @@
 FROM ubuntu:xenial
 MAINTAINER Javier Choclin jchoclin@ekumenlabs.com
 
-# Select Gazeo 7 commit
-ENV gazebo_commit 2b49dbedff87910898d507c09135e1f078c40f59
-
 # setup environment
+ENV DEBIAN_FRONTEND noninteractive
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
@@ -14,7 +12,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install development packages
-RUN apt-get update && apt-get install -y sudo git build-essential mercurial vim tmux openssh-server software-properties-common bash-completion
+RUN apt-get update && apt-get install -y sudo git build-essential mercurial vim tmux openssh-server software-properties-common bash-completion debian-keyring debian-archive-keyring
 
 # Add gazebo repository
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -48,6 +46,9 @@ RUN apt-get install -y libflann-dev libgtest-dev libeigen3-dev libassimp-dev fre
 # Create workspace directory
 RUN mkdir -p /home/gazebo/ws/
 
+# Select Gazebo commit
+ARG gazebo_commit=2b49dbedff87910898d507c09135e1f078c40f59
+
 # Download and compile Ignition package
 RUN hg clone https://bitbucket.org/ignitionrobotics/ign-math /home/gazebo/ws/ign-math
 RUN cd /home/gazebo/ws/ign-math; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
@@ -59,21 +60,21 @@ RUN cd /home/gazebo/ws/sdformat; mkdir build; cd build; cmake .. -DCMAKE_INSTALL
 # Download and compile Gazebo
 RUN hg clone https://bitbucket.org/osrf/gazebo /home/gazebo/ws/gazebo
 # Use branch visualization on demand
-RUN cd /home/gazebo/ws/gazebo; hg up -r ${gazebo_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_TESTS_COMPILATION=FALSE ../; make -j4; make install
+RUN cd /home/gazebo/ws/gazebo; hg up -r ${gazebo_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_TESTS_COMPILATION=FALSE ../; make -j1; make install
 
 RUN mkdir -p /home/gazebo/ws/src
 
 #Install Manifold dependencies
 RUN apt-get update && apt-get install -y cmake pkg-config python ruby-ronn
 
-USER gazebo
-
 # Select Manifold commit
-ENV manifold_commit 5a095e0
+ARG manifold_commit=5a095e0
 
 #Clone and install Manifold
 RUN hg clone https://bitbucket.org/osrf/manifold /tmp/manifold
-RUN cd /tmp/manifold; hg up -r ${manifold_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/home/gazebo/manifold ../; cmake -DCMAKE_BUILD_TYPE=Debug ../; make -j4; sudo make install
+RUN cd /tmp/manifold; hg up -r ${manifold_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/home/gazebo/manifold ../; cmake -DCMAKE_BUILD_TYPE=Debug ../; make -j1; make install
+
+USER gazebo
 
 WORKDIR /home/gazebo/ws
 CMD ["tmux"]
