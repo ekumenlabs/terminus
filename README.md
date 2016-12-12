@@ -7,9 +7,9 @@ Library to procedurally create cities and terrains
 
 Builds are performed against Ubuntu 14.04, Python 2.7.9 and pep8 v1.7.0. Follow these steps to get such a setup in a separate virtual environment:
 
-- Install `virtualenv` if you don't have it already
+- Install dependencies:
 ```
-$ sudo apt-get install python-virtualenv zlib1g-dev libssl-dev
+$ sudo apt-get install python-virtualenv zlib1g-dev libssl-dev build-essential protobuf-compiler libprotobuf-dev libgeos-dev python-matplotlib python-scipy
 ```
 - Download and compile Python 2.7.9:
 ```
@@ -28,15 +28,13 @@ $ make install
 $ /usr/local/lib/python2.7.9/bin/python -V
 Python 2.7.9
 ```
-- Install protobuff, as we need it as a dependency:
-```
-$ sudo apt-get install build-essential protobuf-compiler libprotobuf-dev
 
-```
 - Clone the repo in your machine and `cd` into it:
 ```
 $ cd ~
-$ git clone git@github.com:ekumenlabs/terminus.git
+```
+`$ git clone git@github.com:ekumenlabs/terminus.git` or `$ git clone https://github.com/ekumenlabs/terminus.git`
+```
 $ cd terminus
 ```
 - Setup submodule:
@@ -90,11 +88,26 @@ $ ln -s ../../pre-commit.sh .git/hooks/pre-commit
 - Execute `$ python terminus/run_generator.py` to create a new city. In order for the generator to run you **must** specify the builder to use (and its required constructor values). You can optionally specify the output file (if none specified the output will be written to `generated_worlds/city.world`).
 Some examples:
 
-    * Get help: `$ python terminus/run_generator.py -h`
-    * Generate using the simple city builder `$ python terminus/run_generator.py --builder=SimpleCityBuilder`
-    * Specify the output file `$ python terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world`
-    * Generate the city using the `procedural_city_generation` package `$ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters size=1500`
-    * Alternatively, if you want to generate the files using the existing 10km sq sample, do `$ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters verticesFilename=../sample_city_10km_squared/mycity polygonsFilename=../sample_city_10km_squared/mycity_polygons.txt`
+    * Get help:
+    ```
+    $ python terminus/run_generator.py -h
+    ```
+    * Generate using the simple city builder:
+    ```
+    $ python terminus/run_generator.py --builder=SimpleCityBuilder
+    ```
+    * Specify the output file:
+    ```
+    $ python terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world
+    ```
+    * Generate the city using the `procedural_city_generation` package:
+    ```
+    $ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters size=1500
+    ```
+    * Alternatively, if you want to generate the files using the existing 10km sq sample, do:
+    ```
+    $ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters verticesFilename=samples/sample_city_10km_squared/mycity polygonsFilename=samples/sample_city_10km_squared/mycity_polygons.txt
+    ```
 
 - Open using `$ gazebo generated_worlds/city.world`
 
