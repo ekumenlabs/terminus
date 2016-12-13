@@ -90,6 +90,9 @@ class OsmCityBuilder(object):
         road_types = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary',
                       'unclassified', 'residential']
 
+        # osmid: OSM id for the way/street
+        # tags: tag dictionary with various information about the way (name, type, etc)
+        # refs: nodes that are part of the way/street
         for osmid, tags, refs in ways:
             if 'highway' in tags:
                 if tags['highway'] in road_types:
@@ -104,6 +107,8 @@ class OsmCityBuilder(object):
 
     def _get_coords(self, coords):
         ''' OSM parser callback for the coords '''
+        # osmid: OSM id for the node
+        # lat, lon: latitude and longitude of the node
         for osmid, lon, lat in coords:
             self.osm_coords[osmid] = {'lat': lat, 'lon': lon}
 
