@@ -30,7 +30,7 @@ The script `run_simulator` is configured to mount 2 directories:
 
 In case the `rndf_gazebo_plugin` repository is not at the same level of the current repository, you should change the mount path in the `run_simulator` script (check `DOCKER_MOUNT_ARGS` variable).
 
-We recommend working outside the container and placing the files in folder of the repositories. BEWARE THE CONTAINER WILL BE DELETED EACH TIME THAT YOU EXIT IT. This is done in order to make sure that you are not modifying the image that you are working with, so all the colaborators are working with the same image.
+We recommend working outside the container and placing the files in folder of the repositories. BEWARE THAT THE CONTAINER WILL BE DELETED EACH TIME THAT YOU EXIT IT. This is done in order to make sure that you are not modifying the image that you are working with, so all the colaborators are working with the same image.
 
 
 ## Gazebo 7 version
