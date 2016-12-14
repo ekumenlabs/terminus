@@ -23,19 +23,44 @@ $ ./run_simulator gazebo-terminus-nvidia gazebo-terminus-nvidia
 $ ./run_simulator gazebo-terminus-intel gazebo-terminus-intel
 ```
 
-The script `run_simulator` will mount the repository folder into the docker container. We recommend working outside the container and placing the files in folder of the repositorys. Be aware that the CONTAINER WILL BE DELETED EACH TIME THAT YOU EXIT IT. This is done in order to make sure that you are not modifying the image that you are working with, so all the colaborators are working with the same image.
+The script `run_simulator` is configured to mount 2 directories:
+
+* Current repository folder (from docker folder, its parent directory)
+* [rndf_gazebo_plugin](https://bitbucket.org/JChoclin/rndf_gazebo_plugin) repository which is supposed to be at the same level of the current repository.
+
+In case the `rndf_gazebo_plugin` repository is not at the same level of the current repository, you should change the mount path in the `run_simulator` script (check `DOCKER_MOUNT_ARGS` variable).
+
+We recommend working outside the container and placing the files in folder of the repositories. Be aware that the CONTAINER WILL BE DELETED EACH TIME THAT YOU EXIT IT. This is done in order to make sure that you are not modifying the image that you are working with, so all the colaborators are working with the same image.
 
 
 ## Gazebo 7 version
 
-This docker compiles Gazebo7 on a previusly declared commit. Please make sure that you are compiling the right commit and branch. You can always check what commit it is using by doing:
+This docker compiles [Gazebo](https://bitbucket.org/osrf/gazebo) on a previusly declared commit. Please make sure that you are compiling the right commit and branch. You can always check what commit it is using by doing the following inside the image:
 
 ```
 $ cd /home/gazebo/ws/gazebo
 $ hg --debug id -i
 ```
 
-The commit hash is set on the makefile under the variable `GAZEBO_COMMIT`. Don't change it without consulting with the development team.
+The commit hash is set on the makefile under the argument `gazebo_commit`. Don't change it without consulting with the development team.
+
+## Manifold version
+
+This docker compiles [Manifold](https://bitbucket.org/osrf/manifold) on a previusly declared commit. Please make sure that you are compiling the right commit and branch. You can always check what commit it is using by doing the following inside the image:
+
+```
+$ cd /tmp/manifold
+$ hg --debug id -i
+```
+
+The commit hash is set on the makefile under the argument `manifold_commit`. Don't change it without consulting with the development team.
+
+## Other repositories
+
+This docker compiles downloads and compiles, on the default branch, the following repositories:
+
+* [Ignition Math](https://bitbucket.org/ignitionrobotics/ign-math)
+* [SDF Format](https://bitbucket.org/osrf/sdformat)
 
 ## Special considerations regarding the graphic card usage
 
