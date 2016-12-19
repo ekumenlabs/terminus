@@ -108,6 +108,10 @@ Some examples:
     ```
     $ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters verticesFilename=samples/sample_city_10km_squared/mycity polygonsFilename=samples/sample_city_10km_squared/mycity_polygons.txt
     ```
+    * Generate the city using an OSM file:
+    ```
+    $ python terminus/run_generator.py --builder=OsmCityBuilder --parameters osm_map=samples/osm_sample/osrf.osm
+    ```
 
 - Open using `$ gazebo generated_worlds/city.world`
 
@@ -117,6 +121,7 @@ Currently the idea is to have a single, unified City model that knows how to con
 
 - `SimpleCityBuilder`, which generates a squared city based on a configurable size.
 - `ProceduralCityBuilder`, which takes the output file(s) produced by https://github.com/josauder/procedural_city_generation and uses that to build the city model.
+- `OsmCityBuilder`, which takes the a Open Street Map file and builds the city model based on that.
 
 ## About street and trunk generation
 
