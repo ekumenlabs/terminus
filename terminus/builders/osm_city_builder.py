@@ -171,7 +171,7 @@ class OsmCityBuilder(object):
 
     def _translate_coords(self, lat, lon):
         meters_per_degree_lat = 111319.9
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(self.map_origin.x)
+        meters_per_degree_lon = meters_per_degree_lat * math.cos(math.radians(self.map_origin.x))
         x = (lon - self.map_origin.y) * meters_per_degree_lon
         y = (lat - self.map_origin.x) * meters_per_degree_lat
         return Point(x, y, 0)
