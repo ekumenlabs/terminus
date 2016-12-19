@@ -49,7 +49,7 @@ class RNDFGenerator(FileGenerator):
     def translate_waypoint(self, waypoint):
         center = waypoint.center
         meters_per_degree_lat = 111319.9
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(self.origin.x)
+        meters_per_degree_lon = meters_per_degree_lat * math.cos(math.radians(self.origin.x))
         lat = self.origin.x + (center.y / meters_per_degree_lat)
         lon = self.origin.y - (center.x / meters_per_degree_lon)
         return (lat, lon)
