@@ -10,6 +10,9 @@ setup(name='terminus',
           'jinja2',
           'shapely',
           'numpy',
-          'imposm.parser'
+          'imposm.parser',
+          'scipy',
+          'matplotlib',
+          'Pillow'
       ],
       zip_safe=False)

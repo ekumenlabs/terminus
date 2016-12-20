@@ -4,8 +4,9 @@ python:
   - "2.7"
 
 before_install:
-    - sudo apt-get install build-essential protobuf-compiler libprotobuf-dev
+    - sudo apt-get install python-virtualenv pkg-config zlib1g-dev libssl-dev build-essential protobuf-compiler libprotobuf-dev libgeos-dev python-matplotlib python-scipy gfortran libblas-dev liblapack-dev libatlas-base-dev libjpeg-dev libfreetype6-dev
     - pip install pep8
+    - pip install numpy
     - pip install imposm.parser
 
 install:

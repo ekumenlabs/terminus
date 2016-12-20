@@ -9,7 +9,7 @@ Builds are performed against Ubuntu 14.04, Python 2.7.9 and pep8 v1.7.0. Follow 
 
 - Install dependencies:
 ```
-$ sudo apt-get install python-virtualenv zlib1g-dev libssl-dev build-essential protobuf-compiler libprotobuf-dev libgeos-dev python-matplotlib python-scipy
+$ sudo apt-get install git wget libfreetype6-dev python-virtualenv pkg-config zlib1g-dev libssl-dev build-essential protobuf-compiler libprotobuf-dev libgeos-dev python-matplotlib python-scipy gfortran libblas-dev liblapack-dev libatlas-base-dev libjpeg-dev
 ```
 - Download and compile Python 2.7.9:
 ```
