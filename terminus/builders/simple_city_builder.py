@@ -157,5 +157,5 @@ class SimpleCityBuilder(object):
                                     y * 100 + block_y * 15 + 12, 0)
                         if abs(pos.y + pos.x - 300.0) > 12.0 and\
                                 abs(pos.y - pos.x) > 12.0:
-                            building = Building(pos, 10, 40)
+                            building = Building.square(pos, 10, 40)
                             city.add_building(building)

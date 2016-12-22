@@ -121,16 +121,17 @@ class SDFGenerator(FileGenerator):
              <static>1</static>
              <link name="{{model.name}}_link">
                 <pose frame="">
-                  {{model.origin.x}} {{model.origin.y}} {{model.box_base()}}
+                  {{model.origin.x}} {{model.origin.y}} {{model.origin.z}}
                   0 0 0
                 </pose>
                 <collision name="{{model.name}}_collision">
                    <geometry>
-                      <box>
-                        <size>
-                          {{model.size}} {{model.size}} {{model.height}}
-                        </size>
-                      </box>
+                        <polyline>
+                        {% for vertex in model.vertices %}
+                          <point>{{vertex.x}} {{vertex.y}}</point>
+                        {% endfor %}
+                        <height>{{model.height}}</height>
+                        </polyline>
                    </geometry>
                 </collision>
                 <visual name="{{model.name}}_visual">
@@ -147,11 +148,12 @@ class SDFGenerator(FileGenerator):
                       <layer>0</layer>
                    </meta>
                    <geometry>
-                      <box>
-                        <size>
-                          {{model.size}} {{model.size}} {{model.height}}
-                        </size>
-                      </box>
+                        <polyline>
+                        {% for vertex in model.vertices %}
+                          <point>{{vertex.x}} {{vertex.y}}</point>
+                        {% endfor %}
+                        <height>{{model.height}}</height>
+                        </polyline>
                    </geometry>
                 </visual>
              </link>
