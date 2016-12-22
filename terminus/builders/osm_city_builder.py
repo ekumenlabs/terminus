@@ -152,6 +152,19 @@ class OsmCityBuilder(object):
                 # Check that road has at least two nodes
                 if tmp_road.node_count() < 2:
                     continue
+                # Check if street is one or two ways
+                oneway = False
+                if 'oneway' in value['tags']:
+                    oneway = value['tags']['oneway'] in ['true', '1', 'yes', 'reverse', '-1']
+
+                if oneway:
+                    # Check if the street should be reversed
+                    if value['tags']['oneway'] in ['-1', 'reverse']:
+                        tmp_road.reverse()
+                else:
+                    # Make roads two ways
+                    tmp_road.be_two_way()
+
                 city.add_road(tmp_road)
             # Create intersections from simple nodes
             for key, node in self.nodes.iteritems():

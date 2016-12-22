@@ -79,6 +79,9 @@ class Road(CityModel):
         other_node = other_road.node_at(point)
         IntersectionNode.merge(self_node, other_node)
 
+    def reverse(self):
+        self.nodes.reverse()
+
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
             self.width == other.width and \
