@@ -82,6 +82,9 @@ class Road(CityModel):
     def reverse(self):
         self.nodes.reverse()
 
+    def be_two_way(self):
+        pass
+
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
             self.width == other.width and \
