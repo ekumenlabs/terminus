@@ -21,3 +21,10 @@ gazebo-terminus-nvidia: gazebo-terminus
 gazebo-terminus-intel: gazebo-terminus
 	docker build ${DOCKER_ARGS} -t gazebo-terminus-intel gazebo-terminus-intel
 
+.PHONY: ekumenlabs-terminus-intel
+ekumenlabs-terminus-intel:
+	docker build ${DOCKER_ARGS} -t ekumenlabs-terminus-intel ekumenlabs-terminus-intel
+
+.PHONY: ekumenlabs-terminus-nvidia
+ekumenlabs-terminus-intel:
+	docker build ${DOCKER_ARGS} -t ekumenlabs-terminus-nvidia ekumenlabs-terminus-nvidia
