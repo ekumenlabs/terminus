@@ -26,5 +26,5 @@ ekumenlabs-terminus-intel:
 	docker build ${DOCKER_ARGS} -t ekumenlabs-terminus-intel ekumenlabs-terminus-intel
 
 .PHONY: ekumenlabs-terminus-nvidia
-ekumenlabs-terminus-intel:
+ekumenlabs-terminus-nvidia:
 	docker build ${DOCKER_ARGS} -t ekumenlabs-terminus-nvidia ekumenlabs-terminus-nvidia
