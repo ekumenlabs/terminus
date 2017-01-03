@@ -27,6 +27,8 @@ class OsmCityBuilder(object):
         self.bounds = {}
         self.map_origin = None
         self.nodes = {}
+        self.road_types = ['motorway', 'trunk', 'primary', 'secondary',
+                           'tertiary', 'unclassified', 'residential']
 
     def get_city(self):
         city = City()
@@ -91,13 +93,14 @@ class OsmCityBuilder(object):
         # refs: nodes that are part of the way/street
         for osmid, tags, refs in ways:
             self.osm_ways[osmid] = {'tags': tags, 'refs': refs}
-            for ref in refs:
-                if ref not in self.nodes:
-                    self.nodes[ref] = {}
+            if 'highway' in tags and tags['highway'] in self.road_types:
+                for ref in refs:
+                    if ref not in self.nodes:
+                        self.nodes[ref] = {}
 
-                # Only include way if it doesn't exist
-                if osmid not in self.nodes[ref]:
-                    self.nodes[ref][osmid] = None
+                    # Only include way if it doesn't exist
+                    if osmid not in self.nodes[ref]:
+                        self.nodes[ref][osmid] = None
 
     def _get_coords(self, coords):
         ''' OSM parser callback for the coords '''
@@ -113,13 +116,11 @@ class OsmCityBuilder(object):
         '''
         # For now exclude smaller roads, in the future we should draw each
         # type of street with different width/texture
-        road_types = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary',
-                      'unclassified', 'residential']
-        for key, value in self.osm_ways.iteritems():
+        for osmid, value in self.osm_ways.iteritems():
             tags = value['tags']
             # Filter highways
-            if 'highway' in tags and tags['highway'] in road_types:
-                tmp_road = Street(name=key)
+            if 'highway' in tags and tags['highway'] in self.road_types:
+                tmp_road = Street(name=osmid)
                 coords_outside_box = []
                 road_in_and_out = False
                 coord_inside_bounds = False
@@ -135,6 +136,8 @@ class OsmCityBuilder(object):
                         if not coords_outside_box:
                             tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
                             coord_inside_bounds = True
+                            if self.nodes[ref][osmid] is None:
+                                self.nodes[ref][osmid] = tmp_road
                         else:
                             # In this case, the road goes out of the bounding box
                             # and comes basck again
@@ -147,8 +150,8 @@ class OsmCityBuilder(object):
                 if road_in_and_out:
                     for coord in coords_outside_box:
                         tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
-                    if self.nodes[ref][key] is None:
-                        self.nodes[ref][key] = tmp_road
+                    if self.nodes[ref][osmid] is None:
+                        self.nodes[ref][osmid] = tmp_road
                 # Check that road has at least two nodes
                 if tmp_road.node_count() < 2:
                     continue
@@ -166,12 +169,13 @@ class OsmCityBuilder(object):
                     tmp_road.be_two_way()
 
                 city.add_road(tmp_road)
-            # Create intersections from simple nodes
-            for key, node in self.nodes.iteritems():
-                roads = node.values()
-                for index in range(len(roads)):
-                    if roads[index] is not None and index < len(roads) - 1:
-                        roads[index].create_intersection(roads[index + 1], self.osm_coords[key]['point'])
+
+        # Create intersections from simple nodes
+        for key, node in self.nodes.iteritems():
+            roads = node.values()
+            for index in range(len(roads)):
+                if roads[index] is not None and index < len(roads) - 1:
+                    roads[index].create_intersection(roads[index + 1], self.osm_coords[key]['point'])
 
     def _create_buildings(self, city):
         '''
