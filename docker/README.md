@@ -11,16 +11,20 @@ cd {REPOSITORY_PATH}/terminus/docker
 $ ./run_simulator [CONTAINER_NAME] [CONTAINER_IMAGE]
 ```
 
-The image name is the one that you use with the makefile, for now:
+The image name is the one that you use with the Makefile, for now:
 
-* gazebo-terminus-nvidia
-* gazebo-terminus-intel
+* gazebo-terminus-nvidia      --> compiles everything from source 
+* gazebo-terminus-intel       --> compiles everything from source
+* ekumenlabs-terminus-intel   --> only compiles the drivers, the rest is downloaded
+* ekumenlabs-terminus-nvidia  --> only compiles the drivers, the rest is downloaded
 
 We recommend to use the same name for the container, so you should run one of these commands:
 
 ```
 $ ./run_simulator gazebo-terminus-nvidia gazebo-terminus-nvidia
 $ ./run_simulator gazebo-terminus-intel gazebo-terminus-intel
+$ ./run_simulator ekumenlabs-terminus-nvidia ekumenlabs-terminus-nvidia
+$ ./run_simulator ekumenlabs-terminus-intel ekumenlabs-terminus-intel
 ```
 
 The script `run_simulator` is configured to mount 2 directories:
