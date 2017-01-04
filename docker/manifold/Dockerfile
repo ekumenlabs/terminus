@@ -1,4 +1,4 @@
-FROM gazebo-subprojects
+FROM agalbachicar/terminus:subproject
 MAINTAINER Javier Choclin jchoclin@ekumenlabs.com
 
 #Install Manifold dependencies

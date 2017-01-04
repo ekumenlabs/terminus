@@ -1,4 +1,4 @@
-FROM gazebo-terminus-dev
+FROM agalbachicar/terminus:manifold
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 
