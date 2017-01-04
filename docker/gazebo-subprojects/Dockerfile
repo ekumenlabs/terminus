@@ -1,4 +1,4 @@
-FROM agalbachicar/terminus/docker/gazebo-env
+FROM agalbachicar/terminus:env
 MAINTAINER Javier Choclin jchoclin@ekumenlabs.com
 
 # Install DART dependencies
