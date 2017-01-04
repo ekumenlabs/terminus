@@ -1,4 +1,4 @@
-FROM agalbachicar/terminus:manifold
+FROM agalbachicar/terminus:latest
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 

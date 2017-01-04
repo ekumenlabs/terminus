@@ -1,4 +1,4 @@
-FROM manifold
+FROM agalbachicar/terminus:manifold
 MAINTAINER Javier Choclin jchoclin@ekumenlabs.com
 
 # Select Gazebo commit
