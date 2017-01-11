@@ -1,7 +1,10 @@
 from file_generator import FileGenerator
 
 
-class SDFGenerator(FileGenerator):
+class SDFGeneratorGazebo7(FileGenerator):
+    """This class generates an sdf file that can be loaded using a vanilla
+    Gazebo 7 install. The file is self-contained and to model streets it uses
+    the built-in <road> tag"""
 
     def end_document(self):
         self._wrap_document_with_template('document')

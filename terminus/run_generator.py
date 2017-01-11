@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 from generators.rndf_generator import RNDFGenerator
-from generators.sdf_generator import SDFGenerator
+from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
+from generators.street_plot_generator import StreetPlotGenerator
 from builders import *
 
 import argparse
@@ -27,6 +28,11 @@ parser.add_argument('-p',
                     default='',
                     help='extra parameters to pass to the builder. Must be \
                     formatted as <key>=<value> pairs')
+# Extra named parameters passed to the builder when creating it
+parser.add_argument('-x',
+                    '--debug',
+                    action='store_true',
+                    help='Generates more output files, useful for debugging')
 
 arguments = parser.parse_args()
 
@@ -37,6 +43,8 @@ destination_sdf_file = arguments.destination
 base_path = os.path.splitext(destination_sdf_file)[0]
 
 destination_rndf_file = base_path + '.rndf'
+
+destination_street_plot_file = base_path + '_streets.png'
 
 # Get the class of the builder to use
 builder_class = getattr(sys.modules[__name__], arguments.builder)
@@ -55,8 +63,12 @@ builder = builder_class(**builder_parameters)
 
 city = builder.get_city()
 
-sdf_generator = SDFGenerator(city)
+sdf_generator = SDFGeneratorGazebo7(city)
 sdf_generator.write_to(destination_sdf_file)
+
+if arguments.debug:
+    street_plot_generator = StreetPlotGenerator(city)
+    street_plot_generator.write_to(destination_street_plot_file)
 
 # For the time being we use an arbitrary (lat,lon) pair as the origin
 rndf_generator = RNDFGenerator(city, Point(10, 65))
