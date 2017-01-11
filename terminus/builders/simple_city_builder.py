@@ -86,76 +86,55 @@ class SimpleCityBuilder(object):
             ring_road_4.add_node(self.intersections[0][size - y - 1])
         city.add_road(ring_road_4)
 
-    # FIX: Make this dependent of the size
     def _create_blocks(self, city, size):
-        block = Block.square(Point(150, 50, 0), 95)
-        city.add_block(block)
+        blocks_count = size - 1
+        block_size = 95
+        inital_offset = 50
+        street_width = 5
+        half_street_width = street_width / 2.0
 
-        block = Block.square(Point(150, 250, 0), 95)
-        city.add_block(block)
+        for x in range(blocks_count):
+            for y in range(blocks_count):
+                if x == y:
+                    origin = Point(street_width + 1 + x * self.multiplier,
+                                   half_street_width + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, 91.5, 0)]
+                    block = Block(origin, vertices)
+                    city.add_block(block)
 
-        block = Block.square(Point(50, 150, 0), 95)
-        city.add_block(block)
+                    origin = Point(half_street_width + x * self.multiplier,
+                                   street_width + 1 + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(91.5, 91.5, 0)]
+                    block = Block(origin, vertices)
+                    city.add_block(block)
+                elif x + y == blocks_count - 1:
+                    origin = Point(half_street_width + x * self.multiplier,
+                                   half_street_width + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, 91.5, 0)]
+                    block = Block(origin, vertices)
+                    city.add_block(block)
 
-        block = Block.square(Point(250, 150, 0), 95)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, 91.5, 0)]
-        block = Block(Point(6, 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, -91.5, 0)]
-        block = Block(Point(2.5, 97.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, 91.5, 0)]
-        block = Block(Point(200 + 6, 200 + 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, -91.5, 0)]
-        block = Block(Point(200 + 2.5, 200 + 97.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, -91.5, 0)]
-        block = Block(Point(200 + 6, 95 + 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, 91.5, 0)]
-        block = Block(Point(200 + 2.5, 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, -91.5, 0)]
-        block = Block(Point(6, 200 + 95 + 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, 91.5, 0)]
-        block = Block(Point(2.5, 200 + 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(88, 0, 0), Point(88 / 2, -44, 0)]
-        block = Block(Point(self.multiplier + 6, 200 - 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(88, 0, 0), Point(88 / 2, 44, 0)]
-        block = Block(Point(self.multiplier + 6, self.multiplier + 2.5, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(0, 88, 0), Point(44, 88 / 2, 0)]
-        block = Block(Point(self.multiplier + 2.5, self.multiplier + 6, 0), vertices)
-        city.add_block(block)
-
-        vertices = [Point(0, 0, 0), Point(0, 88, 0), Point(-44, 88 / 2, 0)]
-        block = Block(Point(200 - 2.5, self.multiplier + 6, 0), vertices)
-        city.add_block(block)
+                    origin = Point((x + 1) * self.multiplier - half_street_width,
+                                   street_width + 1 + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(-91.5, 91.5, 0)]
+                    block = Block(origin, vertices)
+                    city.add_block(block)
+                else:
+                    origin = Point(inital_offset + x * self.multiplier,
+                                   inital_offset + y * self.multiplier, 0)
+                    block = Block.square(origin, block_size)
+                    city.add_block(block)
 
     def _create_buildings(self, city, size):
-        for x in range(size):
-            for y in range(size):
-                for block_x in range(6):
-                    for block_y in range(6):
-                        pos = Point(x * self.multiplier + block_x * 15 + 12,
-                                    y * 100 + block_y * 15 + 12, 0)
-                        if abs(pos.y + pos.x - 300.0) > 12.0 and\
-                                abs(pos.y - pos.x) > 12.0:
-                            building = Building.square(pos, 10, 40)
+        blocks_count = size - 1
+        building_spacing = 18
+        for x in range(blocks_count):
+            for y in range(blocks_count):
+                for block_x in range(3):
+                    for block_y in range(3):
+                        pos = Point(x * self.multiplier + block_x * 30 + building_spacing,
+                                    y * self.multiplier + block_y * 30 + building_spacing, 0)
+                        if abs(pos.y - pos.x) > building_spacing and \
+                           abs(pos.y + pos.x - self.multiplier * blocks_count) > building_spacing:
+                            building = Building.square(pos, 20, 40)
                             city.add_building(building)
