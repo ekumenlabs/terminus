@@ -10,6 +10,9 @@ import argparse
 import sys
 import os
 
+# For the time being we use an arbitrary (lat,lon) pair as the origin
+RNDF_ORIGIN = (10, 65)
+
 parser = argparse.ArgumentParser()
 
 # The builder class
@@ -68,14 +71,15 @@ sdf_generator.write_to(destination_sdf_7_file)
 # We are using a path that suits the Gazebo 8 plugin. This will change once
 # https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/53/rndf-file-path-in-world-file
 # is fixed
+# There is also an offset issue with RNDF vs Gazebo coordinates that will be fixed
+# in https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/54/add-origin-node-to-world-description
 rndf_file_name = os.path.split(destination_rndf_file)[1]
-sdf_generator = SDFGeneratorGazebo8(city, '../example/' + rndf_file_name)
+sdf_generator = SDFGeneratorGazebo8(city, RNDF_ORIGIN, '../example/' + rndf_file_name)
 sdf_generator.write_to(destination_sdf_8_file)
 
 if arguments.debug:
     street_plot_generator = StreetPlotGenerator(city)
     street_plot_generator.write_to(destination_street_plot_file)
 
-# For the time being we use an arbitrary (lat,lon) pair as the origin
-rndf_generator = RNDFGenerator(city, Point(10, 65))
+rndf_generator = RNDFGenerator(city, Point(RNDF_ORIGIN[0], RNDF_ORIGIN[1]))
 rndf_generator.write_to(destination_rndf_file)
