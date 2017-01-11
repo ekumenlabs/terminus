@@ -2,6 +2,7 @@
 
 from generators.rndf_generator import RNDFGenerator
 from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
+from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
 from generators.street_plot_generator import StreetPlotGenerator
 from builders import *
 
@@ -19,7 +20,7 @@ parser.add_argument('-b',
 # The output file
 parser.add_argument('-d',
                     '--destination',
-                    default='generated_worlds/city.sdf',
+                    default='generated_worlds/city',
                     help='destination file name')
 # Extra named parameters passed to the builder when creating it
 parser.add_argument('-p',
@@ -36,14 +37,12 @@ parser.add_argument('-x',
 
 arguments = parser.parse_args()
 
-# Get the file name to write to
-destination_sdf_file = arguments.destination
-
-# Get the base file name + path to also generate the rndf
-base_path = os.path.splitext(destination_sdf_file)[0]
+# Get the base file name + path to generate the different files
+base_path = arguments.destination
 
 destination_rndf_file = base_path + '.rndf'
-
+destination_sdf_7_file = base_path + '_gazebo_7.sdf'
+destination_sdf_8_file = base_path + '_gazebo_8.sdf'
 destination_street_plot_file = base_path + '_streets.png'
 
 # Get the class of the builder to use
@@ -64,7 +63,14 @@ builder = builder_class(**builder_parameters)
 city = builder.get_city()
 
 sdf_generator = SDFGeneratorGazebo7(city)
-sdf_generator.write_to(destination_sdf_file)
+sdf_generator.write_to(destination_sdf_7_file)
+
+# We are using a path that suits the Gazebo 8 plugin. This will change once
+# https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/53/rndf-file-path-in-world-file
+# is fixed
+rndf_file_name = os.path.split(destination_rndf_file)[1]
+sdf_generator = SDFGeneratorGazebo8(city, '../example/' + rndf_file_name)
+sdf_generator.write_to(destination_sdf_8_file)
 
 if arguments.debug:
     street_plot_generator = StreetPlotGenerator(city)
