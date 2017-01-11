@@ -100,6 +100,10 @@ Some examples:
     ```
     $ python terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world
     ```
+    * Use the debug flag to generate additional files for debugging purposes
+    ```
+    $ python terminus/run_generator.py --builder=SimpleCityBuilder --debug
+    ```
     * Generate the city using the `procedural_city_generation` package:
     ```
     $ python terminus/run_generator.py --builder=ProceduralCityBuilder --parameters size=1500
