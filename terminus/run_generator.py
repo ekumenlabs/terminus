@@ -1,12 +1,17 @@
 #!/usr/bin/python
 
 from generators.rndf_generator import RNDFGenerator
-from generators.sdf_generator import SDFGenerator
+from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
+from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
+from generators.street_plot_generator import StreetPlotGenerator
 from builders import *
 
 import argparse
 import sys
 import os
+
+# For the time being we use an arbitrary (lat,lon) pair as the origin
+RNDF_ORIGIN = (10, 65)
 
 parser = argparse.ArgumentParser()
 
@@ -18,7 +23,7 @@ parser.add_argument('-b',
 # The output file
 parser.add_argument('-d',
                     '--destination',
-                    default='generated_worlds/city.sdf',
+                    default='generated_worlds/city',
                     help='destination file name')
 # Extra named parameters passed to the builder when creating it
 parser.add_argument('-p',
@@ -27,16 +32,21 @@ parser.add_argument('-p',
                     default='',
                     help='extra parameters to pass to the builder. Must be \
                     formatted as <key>=<value> pairs')
+# Extra named parameters passed to the builder when creating it
+parser.add_argument('-x',
+                    '--debug',
+                    action='store_true',
+                    help='Generates more output files, useful for debugging')
 
 arguments = parser.parse_args()
 
-# Get the file name to write to
-destination_sdf_file = arguments.destination
-
-# Get the base file name + path to also generate the rndf
-base_path = os.path.splitext(destination_sdf_file)[0]
+# Get the base file name + path to generate the different files
+base_path = arguments.destination
 
 destination_rndf_file = base_path + '.rndf'
+destination_sdf_7_file = base_path + '_gazebo_7.sdf'
+destination_sdf_8_file = base_path + '_gazebo_8.sdf'
+destination_street_plot_file = base_path + '_streets.png'
 
 # Get the class of the builder to use
 builder_class = getattr(sys.modules[__name__], arguments.builder)
@@ -55,9 +65,21 @@ builder = builder_class(**builder_parameters)
 
 city = builder.get_city()
 
-sdf_generator = SDFGenerator(city)
-sdf_generator.write_to(destination_sdf_file)
+sdf_generator = SDFGeneratorGazebo7(city)
+sdf_generator.write_to(destination_sdf_7_file)
 
-# For the time being we use an arbitrary (lat,lon) pair as the origin
-rndf_generator = RNDFGenerator(city, Point(10, 65))
+# We are using a path that suits the Gazebo 8 plugin. This will change once
+# https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/53/rndf-file-path-in-world-file
+# is fixed
+# There is also an offset issue with RNDF vs Gazebo coordinates that will be fixed
+# in https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/54/add-origin-node-to-world-description
+rndf_file_name = os.path.split(destination_rndf_file)[1]
+sdf_generator = SDFGeneratorGazebo8(city, RNDF_ORIGIN, '../example/' + rndf_file_name)
+sdf_generator.write_to(destination_sdf_8_file)
+
+if arguments.debug:
+    street_plot_generator = StreetPlotGenerator(city)
+    street_plot_generator.write_to(destination_street_plot_file)
+
+rndf_generator = RNDFGenerator(city, Point(RNDF_ORIGIN[0], RNDF_ORIGIN[1]))
 rndf_generator.write_to(destination_rndf_file)

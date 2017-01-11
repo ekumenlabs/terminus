@@ -1,19 +1,13 @@
 from file_generator import FileGenerator
 
 
-class SDFGenerator(FileGenerator):
+class AbstractSDFGenerator(FileGenerator):
 
     def end_document(self):
         self._wrap_document_with_template('document')
 
     def end_city(self, city):
         self._wrap_document_with_contents_for(city)
-
-    def end_street(self, street):
-        self._append_to_document(self._contents_for(street))
-
-    def end_trunk(self, trunk):
-        self._append_to_document(self._contents_for(trunk))
 
     def end_block(self, block):
         self._append_to_document(self._contents_for(block))
@@ -38,37 +32,8 @@ class SDFGenerator(FileGenerator):
           <uri>model://sun</uri>
         </include>
           {{inner_contents}}
-        </world>"""
-
-    def street_template(self):
-        return """
-        <road name="{{model.name}}">
-          <width>{{model.width}}</width>
-          <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Residential</name>
-            </script>
-          </material>
-        {% for node in model.nodes %}
-          <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
-        {% endfor %}
-        </road>"""
-
-    def trunk_template(self):
-        return """
-        <road name="{{model.name}}">
-          <width>{{model.width}}</width>
-          <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Trunk</name>
-            </script>
-          </material>
-        {% for node in model.nodes %}
-          <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
-        {% endfor %}
-        </road>"""
+        </world>
+        """
 
     def block_template(self):
         return """

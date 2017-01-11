@@ -85,7 +85,7 @@ $ ln -s ../../pre-commit.sh .git/hooks/pre-commit
 
 ## Run generators
 
-- Execute `$ python terminus/run_generator.py` to create a new city. In order for the generator to run you **must** specify the builder to use (and its required constructor values). You can optionally specify the output file (if none specified the output will be written to `generated_worlds/city.world`).
+- Execute `$ python terminus/run_generator.py` to create a new city. In order for the generator to run you **must** specify the builder to use (and its required constructor values). You can optionally specify the output files name (if none specified the output will be written to `generated_worlds/city.*`).
 Some examples:
 
     * Get help:
@@ -98,7 +98,11 @@ Some examples:
     ```
     * Specify the output file:
     ```
-    $ python terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city.world
+    $ python terminus/run_generator.py --builder=SimpleCityBuilder --destination=demo_city
+    ```
+    * Use the debug flag to generate additional files for debugging purposes
+    ```
+    $ python terminus/run_generator.py --builder=SimpleCityBuilder --debug
     ```
     * Generate the city using the `procedural_city_generation` package:
     ```
