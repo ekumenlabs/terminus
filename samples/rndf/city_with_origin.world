@@ -1,0 +1,6255 @@
+<sdf version='1.6'>
+  <world name="city_1">
+<gui fullscreen='0'>
+  <camera name='city_camera'>
+    <pose frame=''>
+      -0.065965 0.276379 1005.72 2e-06 1.5538 1.5962
+    </pose>
+  </camera>
+</gui>
+<include>
+  <uri>model://sun</uri>
+</include>
+<plugin name='rndf_gazebo_plugin0' filename='librndf_gazebo_plugin0.so.0.0.1'>
+  <rndf>../example/city_with_origin.rndf</rndf>
+  <lanes>true</lanes>
+  <waypoints>true</waypoints>
+  <junctions>true</junctions>
+  <waypoints_material>Gazebo/White</waypoints_material>
+  <origin>10.000000 64.996351 0.0</origin>
+</plugin>
+  <model name="ground_plane">
+    <static>1</static>
+    <pose frame=''>250.0 250.0 0 0 0 0</pose>
+    <link name='ground_plane_link'>
+      <collision name='ground_plane'>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>500 500</size>
+          </plane>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+            <torsional>
+              <ode/>
+            </torsional>
+          </friction>
+          <contact>
+            <ode/>
+          </contact>
+          <bounce/>
+        </surface>
+        <max_contacts>10</max_contacts>
+      </collision>
+      <visual name='ground_plane'>
+        <cast_shadows>0</cast_shadows>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>500 500</size>
+          </plane>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+        <transparency>1</transparency>
+      </visual>
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+    </link>
+  </model>
+<model name="block_10">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_10_link">
+    <pose frame="">
+      6.0 2.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_10_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_10_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_11">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_11_link">
+    <pose frame="">
+      2.5 6.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_11_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_11_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_12">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_12_link">
+    <pose frame="">
+      50.0 150.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_12_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_12_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_13">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_13_link">
+    <pose frame="">
+      50.0 250.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_13_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_13_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_14">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_14_link">
+    <pose frame="">
+      2.5 302.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_14_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_14_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_15">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_15_link">
+    <pose frame="">
+      97.5 306.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_15_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_15_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_16">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_16_link">
+    <pose frame="">
+      150.0 50.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_16_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_16_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_17">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_17_link">
+    <pose frame="">
+      106.0 102.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_17_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_17_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_18">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_18_link">
+    <pose frame="">
+      102.5 106.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_18_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_18_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_19">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_19_link">
+    <pose frame="">
+      102.5 202.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_19_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_19_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_20">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_20_link">
+    <pose frame="">
+      197.5 206.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_20_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_20_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_21">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_21_link">
+    <pose frame="">
+      150.0 350.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_21_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_21_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_22">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_22_link">
+    <pose frame="">
+      250.0 50.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_22_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_22_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_23">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_23_link">
+    <pose frame="">
+      202.5 102.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_23_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_23_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_24">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_24_link">
+    <pose frame="">
+      297.5 106.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_24_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_24_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_25">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_25_link">
+    <pose frame="">
+      206.0 202.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_25_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_25_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_26">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_26_link">
+    <pose frame="">
+      202.5 206.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_26_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_26_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_27">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_27_link">
+    <pose frame="">
+      250.0 350.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_27_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_27_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_28">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_28_link">
+    <pose frame="">
+      302.5 2.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_28_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_28_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>0.0 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_29">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_29_link">
+    <pose frame="">
+      397.5 6.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_29_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_29_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>-91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_30">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_30_link">
+    <pose frame="">
+      350.0 150.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_30_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_30_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_31">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_31_link">
+    <pose frame="">
+      350.0 250.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_31_collision">
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_31_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>47.5 47.5</point>
+          <point>-47.5 47.5</point>
+          <point>-47.5 -47.5</point>
+          <point>47.5 -47.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_32">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_32_link">
+    <pose frame="">
+      306.0 302.5 0.0
+      0 0 0
+    </pose>
+    <collision name="block_32_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_32_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>91.5 0.0</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+<model name="block_33">
+  <static>1</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <link name="block_33_link">
+    <pose frame="">
+      302.5 306.0 0.0
+      0 0 0
+    </pose>
+    <collision name="block_33_collision">
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </collision>
+    <visual name="block_33_visual">
+      <material>
+        <script>
+          <uri>
+            file://media/materials/scripts/gazebo.material
+          </uri>
+          <name>Gazebo/Grey</name>
+        </script>
+        <ambient>1 1 1 1</ambient>
+      </material>
+      <meta>
+        <layer>0</layer>
+      </meta>
+      <geometry>
+        <polyline>
+          <point>0.0 0.0</point>
+          <point>0.0 91.5</point>
+          <point>91.5 91.5</point>
+        <height>0.15</height>
+        </polyline>
+      </geometry>
+    </visual>
+  </link>
+</model>
+  <model name="building_34">
+     <static>1</static>
+     <link name="building_34_link">
+        <pose frame="">
+          18.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_34_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_34_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_35">
+     <static>1</static>
+     <link name="building_35_link">
+        <pose frame="">
+          18.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_35_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_35_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_36">
+     <static>1</static>
+     <link name="building_36_link">
+        <pose frame="">
+          48.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_36_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_36_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_37">
+     <static>1</static>
+     <link name="building_37_link">
+        <pose frame="">
+          48.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_37_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_37_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_38">
+     <static>1</static>
+     <link name="building_38_link">
+        <pose frame="">
+          78.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_38_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_38_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_39">
+     <static>1</static>
+     <link name="building_39_link">
+        <pose frame="">
+          78.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_39_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_39_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_40">
+     <static>1</static>
+     <link name="building_40_link">
+        <pose frame="">
+          18.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_40_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_40_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_41">
+     <static>1</static>
+     <link name="building_41_link">
+        <pose frame="">
+          18.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_41_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_41_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_42">
+     <static>1</static>
+     <link name="building_42_link">
+        <pose frame="">
+          18.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_42_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_42_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_43">
+     <static>1</static>
+     <link name="building_43_link">
+        <pose frame="">
+          48.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_43_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_43_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_44">
+     <static>1</static>
+     <link name="building_44_link">
+        <pose frame="">
+          48.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_44_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_44_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_45">
+     <static>1</static>
+     <link name="building_45_link">
+        <pose frame="">
+          48.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_45_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_45_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_46">
+     <static>1</static>
+     <link name="building_46_link">
+        <pose frame="">
+          78.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_46_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_46_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_47">
+     <static>1</static>
+     <link name="building_47_link">
+        <pose frame="">
+          78.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_47_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_47_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_48">
+     <static>1</static>
+     <link name="building_48_link">
+        <pose frame="">
+          78.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_48_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_48_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_49">
+     <static>1</static>
+     <link name="building_49_link">
+        <pose frame="">
+          18.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_49_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_49_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_50">
+     <static>1</static>
+     <link name="building_50_link">
+        <pose frame="">
+          18.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_50_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_50_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_51">
+     <static>1</static>
+     <link name="building_51_link">
+        <pose frame="">
+          18.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_51_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_51_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_52">
+     <static>1</static>
+     <link name="building_52_link">
+        <pose frame="">
+          48.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_52_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_52_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_53">
+     <static>1</static>
+     <link name="building_53_link">
+        <pose frame="">
+          48.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_53_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_53_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_54">
+     <static>1</static>
+     <link name="building_54_link">
+        <pose frame="">
+          48.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_54_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_54_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_55">
+     <static>1</static>
+     <link name="building_55_link">
+        <pose frame="">
+          78.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_55_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_55_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_56">
+     <static>1</static>
+     <link name="building_56_link">
+        <pose frame="">
+          78.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_56_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_56_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_57">
+     <static>1</static>
+     <link name="building_57_link">
+        <pose frame="">
+          78.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_57_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_57_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_58">
+     <static>1</static>
+     <link name="building_58_link">
+        <pose frame="">
+          18.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_58_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_58_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_59">
+     <static>1</static>
+     <link name="building_59_link">
+        <pose frame="">
+          18.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_59_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_59_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_60">
+     <static>1</static>
+     <link name="building_60_link">
+        <pose frame="">
+          48.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_60_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_60_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_61">
+     <static>1</static>
+     <link name="building_61_link">
+        <pose frame="">
+          48.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_61_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_61_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_62">
+     <static>1</static>
+     <link name="building_62_link">
+        <pose frame="">
+          78.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_62_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_62_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_63">
+     <static>1</static>
+     <link name="building_63_link">
+        <pose frame="">
+          78.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_63_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_63_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_64">
+     <static>1</static>
+     <link name="building_64_link">
+        <pose frame="">
+          118.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_64_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_64_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_65">
+     <static>1</static>
+     <link name="building_65_link">
+        <pose frame="">
+          118.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_65_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_65_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_66">
+     <static>1</static>
+     <link name="building_66_link">
+        <pose frame="">
+          118.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_66_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_66_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_67">
+     <static>1</static>
+     <link name="building_67_link">
+        <pose frame="">
+          148.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_67_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_67_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_68">
+     <static>1</static>
+     <link name="building_68_link">
+        <pose frame="">
+          148.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_68_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_68_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_69">
+     <static>1</static>
+     <link name="building_69_link">
+        <pose frame="">
+          148.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_69_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_69_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_70">
+     <static>1</static>
+     <link name="building_70_link">
+        <pose frame="">
+          178.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_70_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_70_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_71">
+     <static>1</static>
+     <link name="building_71_link">
+        <pose frame="">
+          178.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_71_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_71_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_72">
+     <static>1</static>
+     <link name="building_72_link">
+        <pose frame="">
+          178.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_72_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_72_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_73">
+     <static>1</static>
+     <link name="building_73_link">
+        <pose frame="">
+          118.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_73_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_73_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_74">
+     <static>1</static>
+     <link name="building_74_link">
+        <pose frame="">
+          118.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_74_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_74_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_75">
+     <static>1</static>
+     <link name="building_75_link">
+        <pose frame="">
+          148.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_75_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_75_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_76">
+     <static>1</static>
+     <link name="building_76_link">
+        <pose frame="">
+          148.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_76_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_76_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_77">
+     <static>1</static>
+     <link name="building_77_link">
+        <pose frame="">
+          178.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_77_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_77_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_78">
+     <static>1</static>
+     <link name="building_78_link">
+        <pose frame="">
+          178.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_78_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_78_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_79">
+     <static>1</static>
+     <link name="building_79_link">
+        <pose frame="">
+          118.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_79_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_79_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_80">
+     <static>1</static>
+     <link name="building_80_link">
+        <pose frame="">
+          118.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_80_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_80_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_81">
+     <static>1</static>
+     <link name="building_81_link">
+        <pose frame="">
+          148.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_81_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_81_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_82">
+     <static>1</static>
+     <link name="building_82_link">
+        <pose frame="">
+          148.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_82_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_82_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_83">
+     <static>1</static>
+     <link name="building_83_link">
+        <pose frame="">
+          178.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_83_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_83_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_84">
+     <static>1</static>
+     <link name="building_84_link">
+        <pose frame="">
+          178.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_84_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_84_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_85">
+     <static>1</static>
+     <link name="building_85_link">
+        <pose frame="">
+          118.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_85_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_85_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_86">
+     <static>1</static>
+     <link name="building_86_link">
+        <pose frame="">
+          118.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_86_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_86_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_87">
+     <static>1</static>
+     <link name="building_87_link">
+        <pose frame="">
+          118.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_87_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_87_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_88">
+     <static>1</static>
+     <link name="building_88_link">
+        <pose frame="">
+          148.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_88_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_88_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_89">
+     <static>1</static>
+     <link name="building_89_link">
+        <pose frame="">
+          148.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_89_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_89_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_90">
+     <static>1</static>
+     <link name="building_90_link">
+        <pose frame="">
+          148.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_90_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_90_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_91">
+     <static>1</static>
+     <link name="building_91_link">
+        <pose frame="">
+          178.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_91_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_91_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_92">
+     <static>1</static>
+     <link name="building_92_link">
+        <pose frame="">
+          178.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_92_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_92_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_93">
+     <static>1</static>
+     <link name="building_93_link">
+        <pose frame="">
+          178.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_93_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_93_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_94">
+     <static>1</static>
+     <link name="building_94_link">
+        <pose frame="">
+          218.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_94_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_94_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_95">
+     <static>1</static>
+     <link name="building_95_link">
+        <pose frame="">
+          218.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_95_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_95_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_96">
+     <static>1</static>
+     <link name="building_96_link">
+        <pose frame="">
+          218.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_96_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_96_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_97">
+     <static>1</static>
+     <link name="building_97_link">
+        <pose frame="">
+          248.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_97_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_97_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_98">
+     <static>1</static>
+     <link name="building_98_link">
+        <pose frame="">
+          248.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_98_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_98_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_99">
+     <static>1</static>
+     <link name="building_99_link">
+        <pose frame="">
+          248.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_99_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_99_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_100">
+     <static>1</static>
+     <link name="building_100_link">
+        <pose frame="">
+          278.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_100_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_100_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_101">
+     <static>1</static>
+     <link name="building_101_link">
+        <pose frame="">
+          278.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_101_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_101_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_102">
+     <static>1</static>
+     <link name="building_102_link">
+        <pose frame="">
+          278.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_102_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_102_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_103">
+     <static>1</static>
+     <link name="building_103_link">
+        <pose frame="">
+          218.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_103_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_103_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_104">
+     <static>1</static>
+     <link name="building_104_link">
+        <pose frame="">
+          218.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_104_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_104_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_105">
+     <static>1</static>
+     <link name="building_105_link">
+        <pose frame="">
+          248.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_105_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_105_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_106">
+     <static>1</static>
+     <link name="building_106_link">
+        <pose frame="">
+          248.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_106_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_106_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_107">
+     <static>1</static>
+     <link name="building_107_link">
+        <pose frame="">
+          278.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_107_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_107_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_108">
+     <static>1</static>
+     <link name="building_108_link">
+        <pose frame="">
+          278.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_108_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_108_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_109">
+     <static>1</static>
+     <link name="building_109_link">
+        <pose frame="">
+          218.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_109_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_109_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_110">
+     <static>1</static>
+     <link name="building_110_link">
+        <pose frame="">
+          218.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_110_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_110_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_111">
+     <static>1</static>
+     <link name="building_111_link">
+        <pose frame="">
+          248.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_111_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_111_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_112">
+     <static>1</static>
+     <link name="building_112_link">
+        <pose frame="">
+          248.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_112_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_112_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_113">
+     <static>1</static>
+     <link name="building_113_link">
+        <pose frame="">
+          278.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_113_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_113_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_114">
+     <static>1</static>
+     <link name="building_114_link">
+        <pose frame="">
+          278.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_114_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_114_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_115">
+     <static>1</static>
+     <link name="building_115_link">
+        <pose frame="">
+          218.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_115_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_115_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_116">
+     <static>1</static>
+     <link name="building_116_link">
+        <pose frame="">
+          218.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_116_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_116_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_117">
+     <static>1</static>
+     <link name="building_117_link">
+        <pose frame="">
+          218.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_117_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_117_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_118">
+     <static>1</static>
+     <link name="building_118_link">
+        <pose frame="">
+          248.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_118_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_118_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_119">
+     <static>1</static>
+     <link name="building_119_link">
+        <pose frame="">
+          248.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_119_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_119_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_120">
+     <static>1</static>
+     <link name="building_120_link">
+        <pose frame="">
+          248.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_120_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_120_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_121">
+     <static>1</static>
+     <link name="building_121_link">
+        <pose frame="">
+          278.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_121_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_121_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_122">
+     <static>1</static>
+     <link name="building_122_link">
+        <pose frame="">
+          278.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_122_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_122_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_123">
+     <static>1</static>
+     <link name="building_123_link">
+        <pose frame="">
+          278.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_123_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_123_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_124">
+     <static>1</static>
+     <link name="building_124_link">
+        <pose frame="">
+          318.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_124_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_124_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_125">
+     <static>1</static>
+     <link name="building_125_link">
+        <pose frame="">
+          318.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_125_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_125_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_126">
+     <static>1</static>
+     <link name="building_126_link">
+        <pose frame="">
+          348.0 18.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_126_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_126_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_127">
+     <static>1</static>
+     <link name="building_127_link">
+        <pose frame="">
+          348.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_127_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_127_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_128">
+     <static>1</static>
+     <link name="building_128_link">
+        <pose frame="">
+          378.0 48.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_128_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_128_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_129">
+     <static>1</static>
+     <link name="building_129_link">
+        <pose frame="">
+          378.0 78.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_129_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_129_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_130">
+     <static>1</static>
+     <link name="building_130_link">
+        <pose frame="">
+          318.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_130_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_130_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_131">
+     <static>1</static>
+     <link name="building_131_link">
+        <pose frame="">
+          318.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_131_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_131_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_132">
+     <static>1</static>
+     <link name="building_132_link">
+        <pose frame="">
+          318.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_132_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_132_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_133">
+     <static>1</static>
+     <link name="building_133_link">
+        <pose frame="">
+          348.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_133_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_133_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_134">
+     <static>1</static>
+     <link name="building_134_link">
+        <pose frame="">
+          348.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_134_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_134_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_135">
+     <static>1</static>
+     <link name="building_135_link">
+        <pose frame="">
+          348.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_135_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_135_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_136">
+     <static>1</static>
+     <link name="building_136_link">
+        <pose frame="">
+          378.0 118.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_136_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_136_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_137">
+     <static>1</static>
+     <link name="building_137_link">
+        <pose frame="">
+          378.0 148.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_137_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_137_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_138">
+     <static>1</static>
+     <link name="building_138_link">
+        <pose frame="">
+          378.0 178.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_138_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_138_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_139">
+     <static>1</static>
+     <link name="building_139_link">
+        <pose frame="">
+          318.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_139_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_139_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_140">
+     <static>1</static>
+     <link name="building_140_link">
+        <pose frame="">
+          318.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_140_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_140_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_141">
+     <static>1</static>
+     <link name="building_141_link">
+        <pose frame="">
+          318.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_141_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_141_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_142">
+     <static>1</static>
+     <link name="building_142_link">
+        <pose frame="">
+          348.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_142_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_142_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_143">
+     <static>1</static>
+     <link name="building_143_link">
+        <pose frame="">
+          348.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_143_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_143_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_144">
+     <static>1</static>
+     <link name="building_144_link">
+        <pose frame="">
+          348.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_144_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_144_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_145">
+     <static>1</static>
+     <link name="building_145_link">
+        <pose frame="">
+          378.0 218.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_145_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_145_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_146">
+     <static>1</static>
+     <link name="building_146_link">
+        <pose frame="">
+          378.0 248.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_146_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_146_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_147">
+     <static>1</static>
+     <link name="building_147_link">
+        <pose frame="">
+          378.0 278.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_147_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_147_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_148">
+     <static>1</static>
+     <link name="building_148_link">
+        <pose frame="">
+          318.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_148_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_148_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_149">
+     <static>1</static>
+     <link name="building_149_link">
+        <pose frame="">
+          318.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_149_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_149_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_150">
+     <static>1</static>
+     <link name="building_150_link">
+        <pose frame="">
+          348.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_150_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_150_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_151">
+     <static>1</static>
+     <link name="building_151_link">
+        <pose frame="">
+          348.0 378.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_151_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_151_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_152">
+     <static>1</static>
+     <link name="building_152_link">
+        <pose frame="">
+          378.0 318.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_152_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_152_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+  <model name="building_153">
+     <static>1</static>
+     <link name="building_153_link">
+        <pose frame="">
+          378.0 348.0 0.0
+          0 0 0
+        </pose>
+        <collision name="building_153_collision">
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </collision>
+        <visual name="building_153_visual">
+           <material>
+              <script>
+                <uri>
+                  file://media/materials/scripts/gazebo.material
+                </uri>
+                <name>Gazebo/Grey</name>
+              </script>
+              <ambient>1 1 1 1</ambient>
+           </material>
+           <meta>
+              <layer>0</layer>
+           </meta>
+           <geometry>
+                <polyline>
+                  <point>10.0 10.0</point>
+                  <point>-10.0 10.0</point>
+                  <point>-10.0 -10.0</point>
+                  <point>10.0 -10.0</point>
+                <height>40</height>
+                </polyline>
+           </geometry>
+        </visual>
+     </link>
+  </model>
+</world>
+
+</sdf>
