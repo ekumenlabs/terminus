@@ -1,4 +1,4 @@
-FROM agalbachicar/terminus:latest
+FROM gazebo-terminus:latest
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 

@@ -46,18 +46,19 @@ RUN apt-get install -y libflann-dev libgtest-dev libeigen3-dev libassimp-dev fre
 # Create workspace directory
 RUN mkdir -p /home/gazebo/ws/
 
-# Select Gazebo commit
-ARG gazebo_commit=2b49dbedff87910898d507c09135e1f078c40f59
-
 # Download and compile Ignition package
 ARG ign_math_commit=05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23
 RUN hg clone https://bitbucket.org/ignitionrobotics/ign-math /home/gazebo/ws/ign-math 
 RUN cd /home/gazebo/ws/ign-math;hg up -r ${ign_math_commit}; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
+# Download and compile SDFormat
+ARG sdformat_commit=a3fa3d1163cc
 # Download and compile SDFormat package
 RUN hg clone https://bitbucket.org/osrf/sdformat /home/gazebo/ws/sdformat
-RUN cd /home/gazebo/ws/sdformat; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
+RUN cd /home/gazebo/ws/sdformat; hg up -r ${sdformat_commit}; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
+# Select Gazebo commit
+ARG gazebo_commit=2b49dbedff87910898d507c09135e1f078c40f59
 # Download and compile Gazebo
 RUN hg clone https://bitbucket.org/osrf/gazebo /home/gazebo/ws/gazebo
 # Use branch visualization on demand
@@ -69,7 +70,6 @@ RUN mkdir -p /home/gazebo/ws/src
 RUN apt-get update && apt-get install -y cmake pkg-config python ruby-ronn
 
 # Select Manifold commit
-#ARG manifold_commit=5a095e0
 ARG manifold_commit=d17f711f060559033426b560c23bbe3ba2334fd3
 #Clone and install Manifold
 RUN hg clone https://bitbucket.org/osrf/manifold /tmp/manifold

@@ -1,4 +1,4 @@
-FROM ekumenlabs/gazebo-terminus
+FROM ekumenlabs/gazebo-terminus:latest
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 
