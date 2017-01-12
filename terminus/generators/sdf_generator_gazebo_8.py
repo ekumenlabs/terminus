@@ -30,7 +30,7 @@ class SDFGeneratorGazebo8(AbstractSDFGenerator):
           <waypoints>true</waypoints>
           <junctions>true</junctions>
           <waypoints_material>Gazebo/White</waypoints_material>
-          <origin>{{generator.rndf_origin[0]}} {{generator.rndf_origin[1]}} 0.0</origin>
+          <origin>{{generator.rndf_origin.lat}} {{generator.rndf_origin.lon}} 0.0</origin>
         </plugin>
           {{inner_contents}}
         </world>

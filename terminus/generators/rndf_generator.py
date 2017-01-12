@@ -44,13 +44,9 @@ class RNDFGenerator(FileGenerator):
                 waypoint_connections.append(connection)
         return waypoint_connections
 
-    # Transformation taken from
-    # http://gis.stackexchange.com/questions/107992/
-    # converting-from-an-x-y-coordinate-system-to-latitude-longitude
     def translate_waypoint(self, waypoint):
-        center = (waypoint.center.x, waypoint.center.y)
+        center = (waypoint.center.y, waypoint.center.x)
         return self.origin.translate(center)
-        
 
     # TODO: Put {{inner_contents}} on a different line while keeping RNDF
     # proper format.
