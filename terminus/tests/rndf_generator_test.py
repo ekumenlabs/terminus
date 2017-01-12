@@ -1,6 +1,7 @@
 import unittest
 
 from geometry.point import Point
+from geometry.latlon import LatLon
 from models.city import City
 from models.road import *
 from models.street import Street
@@ -18,7 +19,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         self.maxDiff = None
 
     def _generate_rndf(self, city):
-        self.generator = RNDFGenerator(city, Point(45, 65))
+        self.generator = RNDFGenerator(city, LatLon(45, 65))
         self.generated_contents = self.generator.generate()
         # print "###########################################"
         # print self.generated_contents
