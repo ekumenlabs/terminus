@@ -6,25 +6,27 @@ NVIDIA_DRIVER?="nvidia-367"
 # Working branch: vis_on_demand
 GAZEBO_COMMIT="2b49dbedff87910898d507c09135e1f078c40f59"
 
-default:
+default: gazebo-terminus
 	# You need to specify a particular target
-
+#--------------------------------------------------------------------------
+# Targets for docker hub
 .PHONY: gazebo-terminus-dev
-gazebo-terminus-dev: manifold
+gazebo-terminus-dev:
 	docker build ${DOCKER_ARGS} -t gazebo-terminus-dev gazebo-terminus-dev
 
 .PHONY: manifold
-manifold: gazebo-subprojects
+manifold:
 	docker build ${DOCKER_ARGS} -t manifold manifold
 
 .PHONY: gazebo-subprojects
-gazebo-subprojects: gazebo-env
+gazebo-subprojects:
 	docker build ${DOCKER_ARGS} -t gazebo-subprojects gazebo-subprojects
 
 .PHONY: gazebo-env
 gazebo-env:
 	docker build ${DOCKER_ARGS} -t gazebo-env gazebo-env
-
+#--------------------------------------------------------------------------
+# Base targets
 .PHONY: gazebo-terminus
 gazebo-terminus:
 	docker build ${DOCKER_ARGS} -t gazebo-terminus gazebo-terminus
@@ -36,7 +38,7 @@ gazebo-terminus-nvidia: gazebo-terminus
 .PHONY: gazebo-terminus-intel
 gazebo-terminus-intel: gazebo-terminus
 	docker build ${DOCKER_ARGS} -t gazebo-terminus-intel gazebo-terminus-intel
-
+#--------------------------------------------------------------------------
 .PHONY: gazebo-terminus-intel-dev
 gazebo-terminus-intel-dev: gazebo-terminus-dev
 	docker build ${DOCKER_ARGS} -t gazebo-terminus-intel-dev gazebo-terminus-intel-dev

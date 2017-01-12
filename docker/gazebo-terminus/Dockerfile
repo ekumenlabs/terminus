@@ -50,8 +50,9 @@ RUN mkdir -p /home/gazebo/ws/
 ARG gazebo_commit=2b49dbedff87910898d507c09135e1f078c40f59
 
 # Download and compile Ignition package
-RUN hg clone https://bitbucket.org/ignitionrobotics/ign-math /home/gazebo/ws/ign-math
-RUN cd /home/gazebo/ws/ign-math; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
+ARG ign_math_commit=05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23
+RUN hg clone https://bitbucket.org/ignitionrobotics/ign-math /home/gazebo/ws/ign-math 
+RUN cd /home/gazebo/ws/ign-math;hg up -r ${ign_math_commit}; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
 # Download and compile SDFormat package
 RUN hg clone https://bitbucket.org/osrf/sdformat /home/gazebo/ws/sdformat
@@ -69,7 +70,7 @@ RUN apt-get update && apt-get install -y cmake pkg-config python ruby-ronn
 
 # Select Manifold commit
 #ARG manifold_commit=5a095e0
-ARG manifold_commit=e1933d6d7df9297e9f0862df30672575c6c5435f
+ARG manifold_commit=d17f711f060559033426b560c23bbe3ba2334fd3
 #Clone and install Manifold
 RUN hg clone https://bitbucket.org/osrf/manifold /tmp/manifold
 RUN cd /tmp/manifold; hg up -r ${manifold_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/home/gazebo/manifold ../; cmake -DCMAKE_BUILD_TYPE=Debug ../; make -j4; make install
