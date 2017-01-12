@@ -11,7 +11,7 @@
   <uri>model://sun</uri>
 </include>
 <plugin name='rndf_gazebo_plugin0' filename='librndf_gazebo_plugin0.so.0.0.1'>
-  <rndf>../example/city_with_origin.rndf</rndf>
+  <rndf>city_with_origin.rndf</rndf>
   <lanes>true</lanes>
   <waypoints>true</waypoints>
   <junctions>true</junctions>
