@@ -1,4 +1,5 @@
 from geometry.point import Point
+from geometry.latlon import LatLon
 
 from imposm.parser import OSMParser
 import math
@@ -41,9 +42,8 @@ class OsmCityBuilder(object):
                        'minlon': float(bounds['minlon']),
                        'maxlon': float(bounds['maxlon'])}
 
-        self.map_origin = Point((self.bounds['minlat'] + self.bounds['maxlat']) / 2,
-                                (self.bounds['minlon'] + self.bounds['maxlon']) / 2,
-                                0)
+        self.map_origin = LatLon((self.bounds['minlat'] + self.bounds['maxlat']) / 2,
+                                 (self.bounds['minlon'] + self.bounds['maxlon']) / 2)
 
         logger.debug("Map Origin: {0}".format(self.map_origin))
 
@@ -207,8 +207,6 @@ class OsmCityBuilder(object):
         pass
 
     def _translate_coords(self, lat, lon):
-        meters_per_degree_lat = 111319.9
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(math.radians(self.map_origin.x))
-        x = (self.map_origin.y - lon) * meters_per_degree_lon
-        y = (lat - self.map_origin.x) * meters_per_degree_lat
-        return Point(x, y, 0)
+        coords = LatLon(lat, lon)
+        (delta_lat, delta_lon) = self.map_origin.delta_in_meters(coords)
+        return Point(delta_lon, delta_lat, 0)

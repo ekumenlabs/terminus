@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from geometry.latlon import LatLon
 from generators.rndf_generator import RNDFGenerator
 from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
 from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
@@ -20,8 +21,8 @@ handler.setFormatter(formatter)
 logger.handlers = []
 logger.addHandler(handler)
 
-# For the time being we use an arbitrary (lat,lon) pair as the origin
-RNDF_ORIGIN = (10, 65)
+# For the time being we use an arbitrary (lat, lon) as the origin
+RNDF_ORIGIN = LatLon(10, 65)
 
 parser = argparse.ArgumentParser()
 
@@ -97,5 +98,5 @@ if arguments.debug:
     street_plot_generator.write_to(destination_street_plot_file)
 
 logger.info("Generating RNDF file")
-rndf_generator = RNDFGenerator(city, Point(RNDF_ORIGIN[0], RNDF_ORIGIN[1]))
+rndf_generator = RNDFGenerator(city, RNDF_ORIGIN)
 rndf_generator.write_to(destination_rndf_file)

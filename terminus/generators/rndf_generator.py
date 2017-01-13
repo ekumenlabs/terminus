@@ -1,6 +1,7 @@
 from file_generator import FileGenerator
 from rndf_id_mapper import RNDFIdMapper
 from geometry.point import Point
+from geometry.latlon import LatLon
 import math
 
 
@@ -43,16 +44,9 @@ class RNDFGenerator(FileGenerator):
                 waypoint_connections.append(connection)
         return waypoint_connections
 
-    # Transformation taken from
-    # http://gis.stackexchange.com/questions/107992/
-    # converting-from-an-x-y-coordinate-system-to-latitude-longitude
     def translate_waypoint(self, waypoint):
-        center = waypoint.center
-        meters_per_degree_lat = 111319.9
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(math.radians(self.origin.x))
-        lat = self.origin.x + (center.y / meters_per_degree_lat)
-        lon = self.origin.y - (center.x / meters_per_degree_lon)
-        return (lat, lon)
+        center = (waypoint.center.y, waypoint.center.x)
+        return self.origin.translate(center)
 
     # TODO: Put {{inner_contents}} on a different line while keeping RNDF
     # proper format.
@@ -77,8 +71,8 @@ class RNDFGenerator(FileGenerator):
         {% endfor %}
         {% for waypoint in model.get_waypoints() %}
         {% set latlon = generator.translate_waypoint(waypoint) %}
-        {% set lat = latlon[0] %}
-        {% set lon = latlon[1] %}
+        {% set lat = latlon.lat %}
+        {% set lon = latlon.lon %}
         {{generator.id_for(waypoint)}}\t{{'{0:0.6f}'.format(lat)}}\t{{'{0:0.6f}'.format(lon)}}
         {% endfor %}
         end_lane
