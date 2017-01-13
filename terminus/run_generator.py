@@ -54,8 +54,8 @@ arguments = parser.parse_args()
 base_path = arguments.destination
 
 destination_rndf_file = base_path + '.rndf'
-destination_sdf_7_file = base_path + '_gazebo_7.sdf'
-destination_sdf_8_file = base_path + '_gazebo_8.sdf'
+destination_sdf_7_file = base_path + '_gazebo_7.world'
+destination_sdf_8_file = base_path + '_gazebo_8.world'
 destination_street_plot_file = base_path + '_streets.png'
 
 # Get the class of the builder to use
