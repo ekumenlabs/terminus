@@ -208,5 +208,5 @@ class OsmCityBuilder(object):
 
     def _translate_coords(self, lat, lon):
         coords = LatLon(lat, lon)
-        delta = self.map_origin.delta_in_meters(coords)
-        return Point(delta[1], delta[0], 0)
+        (delta_lat, delta_lon) = self.map_origin.delta_in_meters(coords)
+        return Point(delta_lon, delta_lat, 0)
