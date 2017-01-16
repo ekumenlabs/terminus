@@ -18,16 +18,19 @@ class SimpleCityBuilder(object):
         self.multiplier = 100
 
         self._create_ground_plane(city, size)
-        self._setup_intersections(size)
+        self._setup_intersections(city, size)
         self._create_inner_streets(city, size)
         self._create_surrounding_ring_road(city, size)
         self._create_blocks(city, size)
         self._create_buildings(city, size)
         return city
 
-    def _setup_intersections(self, size):
-        self.intersections = [[IntersectionNode.on(self.multiplier * x, self.multiplier * y, 0)
+    def _setup_intersections(self, city, size):
+        self.intersections = [[Point(self.multiplier * x, self.multiplier * y, 0)
                               for y in range(size)] for x in range(size)]
+        for x in range(size):
+            for y in range(size):
+                city.add_intersection_at(self.intersections[x][y])
 
     def _create_ground_plane(self, city, size):
         ground_plane_size = size * self.multiplier
@@ -44,46 +47,46 @@ class SimpleCityBuilder(object):
         for x in range(1, size - 1):
             road = Street()
             for y in range(size):
-                road.add_node(self.intersections[x][y])
+                road.add_point(self.intersections[x][y])
             city.add_road(road)
 
         # Horizontal
         for y in range(1, size - 1):
             road = Street()
             for x in range(size):
-                road.add_node(self.intersections[x][y])
+                road.add_point(self.intersections[x][y])
             city.add_road(road)
 
         # Diagonals
         road = Street()
         for i in range(size):
-            road.add_node(self.intersections[i][i])
+            road.add_point(self.intersections[i][i])
         city.add_road(road)
 
         road = Street()
         for i in range(size):
-            road.add_node(self.intersections[i][size - i - 1])
+            road.add_point(self.intersections[i][size - i - 1])
         city.add_road(road)
 
     def _create_surrounding_ring_road(self, city, size):
         ring_road_1 = Street(name='RingRoad1')
         for x in range(size):
-            ring_road_1.add_node(self.intersections[x][0])
+            ring_road_1.add_point(self.intersections[x][0])
         city.add_road(ring_road_1)
 
         ring_road_2 = Street(name='RingRoad2')
         for y in range(size):
-            ring_road_2.add_node(self.intersections[size - 1][y])
+            ring_road_2.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_2)
 
         ring_road_3 = Street(name='RingRoad3')
         for x in range(size):
-            ring_road_3.add_node(self.intersections[size - x - 1][size - 1])
+            ring_road_3.add_point(self.intersections[size - x - 1][size - 1])
         city.add_road(ring_road_3)
 
         ring_road_4 = Street(name='RingRoad4')
         for y in range(size):
-            ring_road_4.add_node(self.intersections[0][size - y - 1])
+            ring_road_4.add_point(self.intersections[0][size - y - 1])
         city.add_road(ring_road_4)
 
     def _create_blocks(self, city, size):

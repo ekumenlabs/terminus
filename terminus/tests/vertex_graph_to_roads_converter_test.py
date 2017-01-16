@@ -6,12 +6,16 @@ from geometry.point import Point
 from models.road import *
 from models.street import Street
 from models.trunk import Trunk
+from models.city import City
 
 STREET_WIDTH = 4
 TRUNK_WIDTH = 22
 
 
 class VertexGraphToRoadsConverterTest(unittest.TestCase):
+
+    def setUp(self):
+        self.city = City()
 
     def test_get_roads_one_aligned_segment(self):
         """
@@ -22,13 +26,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self._connect(n1, n2)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2]).run()
+
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_one_not_aligned_segment(self):
         """
@@ -41,13 +45,13 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
 
         self._connect(n1, n2)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2]).run()
+
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 1)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_multiple_aligned_segments(self):
         """
@@ -62,8 +66,8 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n3, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4]).run()
+
         expected_roads = [
             Street.from_nodes([
                 SimpleNode.on(0, 0),
@@ -73,7 +77,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
             ])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_multiple_non_aligned_segments(self):
         """
@@ -89,15 +93,15 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n3, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4]).run()
+
         intersection = IntersectionNode.on(5, 1)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0), intersection]),
             Street.from_nodes([SimpleNode.on(6, 2), intersection])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_multiple_independent_segments(self):
         """
@@ -114,15 +118,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n4, n5)
 
-        self.converter = VertexGraphToRoadsConverter(
-            0.25, [n1, n2, n3, n4, n5])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4, n5]).run()
+
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0), SimpleNode.on(6, 1)]),
             Street.from_nodes([SimpleNode.on(2, 5), SimpleNode.on(3, 4)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_V_type(self):
         """
@@ -136,15 +139,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n1, n2)
         self._connect(n1, n3)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3]).run()
         intersection = IntersectionNode.on(0, 0)
         expected_roads = [
-            Street.from_nodes([SimpleNode.on(3, -1), intersection]),
-            Street.from_nodes([SimpleNode.on(3, 1), intersection])
+            Street.from_nodes([SimpleNode.on(3, 1), intersection]),
+            Street.from_nodes([SimpleNode.on(3, -1), intersection])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_L_type(self):
         """
@@ -161,15 +163,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n2, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4]).run()
         intersection = IntersectionNode.on(1, 0)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, 1)]),
             Street.from_nodes([SimpleNode.on(6, 6), intersection])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_Y_type(self):
         """
@@ -187,15 +188,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n2, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4]).run()
         intersection = IntersectionNode.on(1, 0)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, -0.8)]),
             Street.from_nodes([SimpleNode.on(6, 1), intersection])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_matrix_distribution(self):
         """
@@ -230,9 +230,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n7, n8)
         self._connect(n8, n9)
 
-        self.converter = VertexGraphToRoadsConverter(
-            0.25, [n1, n2, n3, n4, n5, n6, n7, n8, n9])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4, n5, n6, n7, n8, n9]).run()
         j1 = IntersectionNode.on(0, 0)
         j2 = IntersectionNode.on(1, 0)
         j3 = IntersectionNode.on(2, 0)
@@ -251,7 +249,7 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
             Street.from_nodes([j7, j8, j9])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_Y_street_best_neighbour_trunk(self):
         """
@@ -270,15 +268,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, v3)
         self._connect(n2, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, v3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, v3, n4]).run()
         intersection = IntersectionNode.on(1, 0)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, 1)]),
             Street.from_nodes([intersection, SimpleNode.on(6, -0.8)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_Y_street_best_neighbour_street(self):
         """
@@ -297,15 +294,14 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n2, n3)
         self._connect(n2, n4)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3, n4])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3, n4]).run()
         intersection = IntersectionNode.on(1, 0)
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), intersection, SimpleNode.on(6, -0.8)]),
             Street.from_nodes([intersection, SimpleNode.on(6, 1)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_pipe_street_into_trunk(self):
         """
@@ -320,13 +316,12 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n1, n2)
         self._connect(n2, n3)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3]).run()
         expected_roads = [
             Street.from_nodes([SimpleNode.on(0, 0), SimpleNode.on(1, 0), SimpleNode.on(6, 0)])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def test_get_roads_pipe_trunk_into_street(self):
         """
@@ -343,15 +338,15 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         self._connect(n1, n2)
         self._connect(n2, n3)
 
-        self.converter = VertexGraphToRoadsConverter(0.25, [n1, n2, n3])
-        roads = self.converter.get_roads()
+        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3]).run()
+
         intersection = IntersectionNode.on(1, 0)
         expected_roads = [
-            Trunk.from_nodes([SimpleNode.on(0, 0), intersection]),
-            Street.from_nodes([SimpleNode.on(6, 0), intersection])
+            Street.from_nodes([SimpleNode.on(6, 0), intersection]),
+            Trunk.from_nodes([SimpleNode.on(0, 0), intersection])
         ]
         self._set_roads_width(expected_roads)
-        self.assertItemsEqual(roads, expected_roads)
+        self.assertItemsEqual(self.city.roads, expected_roads)
 
     def _connect(self, n1, n2):
         """Make a bidirectional connection between two nodes"""

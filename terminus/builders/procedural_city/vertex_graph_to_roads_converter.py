@@ -8,13 +8,12 @@ from models.trunk import Trunk
 
 class VertexGraphToRoadsConverter(object):
 
-    def __init__(self, angle_threshold, graph_node_list):
+    def __init__(self, city, angle_threshold, graph_node_list):
+        self.city = city
         self.angle_threshold = angle_threshold
         self.graph_node_list = graph_node_list
 
-    def get_roads(self):
-        roads = []
-        self.intersections = {}
+    def run(self):
         to_traverse = self.graph_node_list
         for node in to_traverse:
             node.prepare_traversal()
@@ -28,21 +27,15 @@ class VertexGraphToRoadsConverter(object):
                     road = Street(width=4)
                 else:
                     road = Trunk(width=22)
-                if node.neighbours_count() == 1:
-                    origin = SimpleNode(node.location)
-                else:
-                    origin = self._intersection_for(node.location)
+                if node.neighbours_count() > 1:
+                    self.city.add_intersection_at(node.location)
 
-                road.add_node(origin)
+                road.add_point(node.location)
 
                 self._build_road(road, None, node)
 
                 if road.node_count() > 1:
-                    roads.append(road)
-                # else:
-                #     # TODO: should fix and remove this method.
-                #    road.dispose()
-        return roads
+                    self.city.add_road(road)
 
     def _build_road(self, road, previous_node, current_node):
         # If there is no previous vertex we don't care about the angle between
@@ -55,11 +48,9 @@ class VertexGraphToRoadsConverter(object):
                 return
             if current_node in neighbour.get_neighbours_to_traverse():
                 neighbour.remove_neighbour_to_traverse(current_node)
-            if neighbour.neighbours_count() == 1 or neighbour.neighbours_count() == 2:
-                road_node = SimpleNode(neighbour.location)
-            elif neighbour.neighbours_count() > 2:
-                road_node = self._intersection_for(neighbour.location)
-            road.add_node(road_node)
+            if neighbour.neighbours_count() > 2:
+                self.city.add_intersection_at(neighbour.location)
+            road.add_point(neighbour.location)
             self._build_road(road, current_node, neighbour)
         else:
             # Since there is a previous vertex, we must select the
@@ -70,22 +61,17 @@ class VertexGraphToRoadsConverter(object):
                 current_node.remove_neighbour_to_traverse(best_neighbour)
                 if current_node in best_neighbour.get_neighbours_to_traverse():
                     best_neighbour.remove_neighbour_to_traverse(current_node)
-
-                if best_neighbour.neighbours_count() == 1 or best_neighbour.neighbours_count() == 2:
-                    road_node = SimpleNode(best_neighbour.location)
-                elif best_neighbour.neighbours_count() > 2:
-                    road_node = self._intersection_for(best_neighbour.location)
-                road.add_node(road_node)
+                if best_neighbour.neighbours_count() > 2:
+                    self.city.add_intersection_at(best_neighbour.location)
+                road.add_point(best_neighbour.location)
                 self._build_road(road, current_node, best_neighbour)
             else:
                 # Go to the last point and fix if it was originally a simple
                 # node but had 2 neighbours, since it should be flagged as
                 # an intersection.
-                # PS: This is ugly.
                 if current_node.neighbours_count() == 2:
                     last_node = road.nodes[-1]
-                    road.remove_node(last_node)
-                    road.add_node(self._intersection_for(last_node.center))
+                    self.city.add_intersection_at(last_node.center)
 
     def _angle_2d(self, point_from, point_to):
         alpha = np.arctan2(point_from.x - point_to.x,
@@ -134,8 +120,3 @@ class VertexGraphToRoadsConverter(object):
             if second_option is not None:
                 best_neighbour = second_option
         return best_neighbour
-
-    def _intersection_for(self, location):
-        if location not in self.intersections:
-            self.intersections[location] = IntersectionNode(location)
-        return self.intersections[location]

@@ -12,12 +12,22 @@ class Road(CityModel):
 
     @classmethod
     def from_nodes(cls, array_of_nodes):
+        '''Please use the `from_points` class method if possible. This method
+        will be deprecated in the future'''
         road = cls()
         for node in array_of_nodes:
-            road.add_node(node)
+            road._add_node(node)
         return road
 
-    def add_node(self, node):
+    @classmethod
+    def from_points(cls, array_of_points):
+        road = cls()
+        for point in array_of_points:
+            road.add_point(point)
+        return road
+
+    def add_point(self, point):
+        node = SimpleNode(point)
         self.nodes.append(node)
         node.added_to(self)
         self.cached_waypoints = None
@@ -64,26 +74,33 @@ class Road(CityModel):
         for node in self.nodes:
             node.removed_from(self)
 
-    def replace_node(self, old_node, new_node):
-        index = self.nodes.index(old_node)
+    def replace_node_at(self, point, new_node):
+        index = self._index_of_node_at(point)
+        old_node = self.nodes[index]
         self.nodes[index] = new_node
         new_node.added_to(self)
         old_node.removed_from(self)
         self.cached_waypoints = None
 
+    def includes_point(self, point):
+        return self._index_of_node_at(point) is not None
+
     def node_at(self, point):
         return next(node for node in self.nodes if node.center == point)
-
-    def create_intersection(self, other_road, point):
-        self_node = self.node_at(point)
-        other_node = other_road.node_at(point)
-        IntersectionNode.merge(self_node, other_node)
 
     def reverse(self):
         self.nodes.reverse()
 
     def be_two_way(self):
         pass
+
+    def _index_of_node_at(self, point):
+        return next((index for index, node in enumerate(self.nodes) if node.center == point), None)
+
+    def _add_node(self, node):
+        self.nodes.append(node)
+        node.added_to(self)
+        self.cached_waypoints = None
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
@@ -213,15 +230,6 @@ class IntersectionNode(RoadNode):
     def get_exit_waypoints_for(self, road):
         return filter(lambda waypoint: waypoint.is_exit(), self.get_waypoints_for(road))
 
-    @classmethod
-    def merge(cls, node_1, node_2):
-        new_node = cls(node_1.center)
-        for road in node_1.involved_roads():
-            road.replace_node(node_1, new_node)
-        for road in node_2.involved_roads():
-            road.replace_node(node_2, new_node)
-        return new_node
-
     def involved_roads(self):
         return self.roads
 
@@ -233,7 +241,7 @@ class IntersectionNode(RoadNode):
         return hash((self.__class__, self.center))
 
     def __repr__(self):
-        return "JunctureNode @ " + str(self.center)
+        return "IntersectionNode @ " + str(self.center)
 
 
 class Waypoint(object):
