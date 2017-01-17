@@ -42,8 +42,7 @@ class ProceduralCityBuilder(object):
             self._generate_procedural_city()
 
         vertices = self._parse_vertices_file()
-        for road in self._build_roads(vertices):
-            city.add_road(road)
+        self._build_roads(city, vertices)
 
         polygons = self._parse_polygons_file()
         for block in self._build_blocks(polygons):
@@ -52,7 +51,7 @@ class ProceduralCityBuilder(object):
         city.set_ground_plane(GroundPlane(100, Point(0, 0, 0)))
         return city
 
-    def _build_roads(self, vertex_list):
+    def _build_roads(self, city, vertex_list):
         vertex_mapping = {}
         for vertex in vertex_list:
             vertex_mapping[vertex] = GraphNode.from_vertex(vertex, self.ratio)
@@ -62,8 +61,8 @@ class ProceduralCityBuilder(object):
             node.set_neighbours(node_neighbours)
 
         # 0.79 rad ~ 45 deg
-        converter = VertexGraphToRoadsConverter(0.79, vertex_mapping.values())
-        return converter.get_roads()
+        converter = VertexGraphToRoadsConverter(city, 0.79, vertex_mapping.values())
+        converter.run()
 
     def _build_blocks(self, polygon_list):
         lot_polygons = filter(lambda polygon: polygon.is_lot(), polygon_list)

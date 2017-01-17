@@ -41,10 +41,10 @@ class RNDFGeneratorTest(unittest.TestCase):
 
     def test_simple_street(self):
         city = City("Single street")
-        street = Street.from_nodes([
-            SimpleNode.on(0, 0),
-            SimpleNode.on(1000, 0),
-            SimpleNode.on(2000, 0)
+        street = Street.from_points([
+            Point(0, 0),
+            Point(1000, 0),
+            Point(2000, 0)
         ])
         street.name = "s1"
         city.add_road(street)
@@ -75,21 +75,15 @@ class RNDFGeneratorTest(unittest.TestCase):
              (0,-1)
         """
         city = City("Cross")
-        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([
-            SimpleNode.on(-1000, 0),
-            intersection,
-            SimpleNode.on(1000, 0)
-        ])
+        s1 = Street.from_points([Point(-1000, 0), Point(0, 0), Point(1000, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([
-            SimpleNode.on(0, 1000),
-            intersection,
-            SimpleNode.on(0, -1000)
-        ])
+        s2 = Street.from_points([Point(0, 1000), Point(0, 0), Point(0, -1000)])
         s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
         city.add_road(s1)
         city.add_road(s2)
 
@@ -134,13 +128,15 @@ class RNDFGeneratorTest(unittest.TestCase):
                +  (1,0)
         """
         city = City("LCross")
-        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([SimpleNode.on(0, 1000), intersection])
+        s1 = Street.from_points([Point(0, 1000), Point(0, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([intersection, SimpleNode.on(1000, 0)])
+        s2 = Street.from_points([Point(0, 0), Point(1000, 0)])
         s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
         city.add_road(s1)
         city.add_road(s2)
 
@@ -183,16 +179,17 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([SimpleNode.on(0, 1000), intersection])
+        s1 = Street.from_points([Point(0, 1000), Point(0, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([intersection, SimpleNode.on(-1000, -1000)])
+        s2 = Street.from_points([Point(0, 0), Point(-1000, -1000)])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([intersection, SimpleNode.on(1000, -1000)])
+        s3 = Street.from_points([Point(0, 0), Point(1000, -1000)])
         s3.name = "s3"
+
+        city.add_intersection_at(Point(0, 0))
 
         city.add_road(s1)
         city.add_road(s2)
@@ -249,20 +246,21 @@ class RNDFGeneratorTest(unittest.TestCase):
             (-1,-1)   (1,-1)
         """
         city = City("YCross")
-        intersection = IntersectionNode.on(0, 0)
 
-        s1 = Street.from_nodes([intersection, SimpleNode.on(0, 1000)])
+        s1 = Street.from_points([Point(0, 0), Point(0, 1000)])
         s1.name = "s1"
 
-        s2 = Street.from_nodes([SimpleNode.on(-1000, -1000), intersection])
+        s2 = Street.from_points([Point(-1000, -1000), Point(0, 0)])
         s2.name = "s2"
 
-        s3 = Street.from_nodes([SimpleNode.on(1000, -1000), intersection])
+        s3 = Street.from_points([Point(1000, -1000), Point(0, 0)])
         s3.name = "s3"
 
         city.add_road(s1)
         city.add_road(s2)
         city.add_road(s3)
+
+        city.add_intersection_at(Point(0, 0))
 
         self._generate_rndf(city)
         self._assert_contents_are("""

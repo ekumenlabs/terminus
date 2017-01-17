@@ -8,23 +8,30 @@ class Road(CityModel):
         super(Road, self).__init__(name)
         self.width = width
         self.nodes = []
+        self.point_to_node = {}
         self.cached_waypoints = None
 
     @classmethod
     def from_nodes(cls, array_of_nodes):
+        '''Please use the `from_points` class method if possible. This method
+        will be deprecated in the future'''
         road = cls()
         for node in array_of_nodes:
-            road.add_node(node)
+            road._add_node(node)
         return road
 
-    def add_node(self, node):
+    @classmethod
+    def from_points(cls, array_of_points):
+        road = cls()
+        for point in array_of_points:
+            road.add_point(point)
+        return road
+
+    def add_point(self, point):
+        node = SimpleNode(point)
         self.nodes.append(node)
         node.added_to(self)
-        self.cached_waypoints = None
-
-    def remove_node(self, node):
-        self.nodes.remove(node)
-        node.removed_from(self)
+        self.point_to_node[point] = node
         self.cached_waypoints = None
 
     def node_count(self):
@@ -64,26 +71,33 @@ class Road(CityModel):
         for node in self.nodes:
             node.removed_from(self)
 
-    def replace_node(self, old_node, new_node):
-        index = self.nodes.index(old_node)
+    def replace_node_at(self, point, new_node):
+        index = self._index_of_node_at(point)
+        old_node = self.nodes[index]
         self.nodes[index] = new_node
         new_node.added_to(self)
         old_node.removed_from(self)
         self.cached_waypoints = None
 
-    def node_at(self, point):
-        return next(node for node in self.nodes if node.center == point)
+    def includes_point(self, point):
+        return point in self.point_to_node
 
-    def create_intersection(self, other_road, point):
-        self_node = self.node_at(point)
-        other_node = other_road.node_at(point)
-        IntersectionNode.merge(self_node, other_node)
+    def node_at(self, point):
+        return self.point_to_node[point]
 
     def reverse(self):
         self.nodes.reverse()
 
     def be_two_way(self):
         pass
+
+    def _index_of_node_at(self, point):
+        return next((index for index, node in enumerate(self.nodes) if node.center == point), None)
+
+    def _add_node(self, node):
+        self.nodes.append(node)
+        node.added_to(self)
+        self.cached_waypoints = None
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
@@ -182,8 +196,8 @@ class IntersectionNode(RoadNode):
         has_successor = successor is not None
 
         if has_predecessor:
-            point = LineString([self.center, predecessor.center]).interpolate(5)
-            waypoint = Waypoint(road, self, point)
+            point = LineString([self.center.to_shapely_point(), predecessor.center.to_shapely_point()]).interpolate(5)
+            waypoint = Waypoint(road, self, Point.from_shapely(point))
             waypoint.be_exit()
             waypoints.append(waypoint)
 
@@ -191,8 +205,8 @@ class IntersectionNode(RoadNode):
             waypoints.append(Waypoint(road, self, self.center))
 
         if has_successor:
-            point = LineString([self.center, successor.center]).interpolate(5)
-            waypoint = Waypoint(road, self, point)
+            point = LineString([self.center.to_shapely_point(), successor.center.to_shapely_point()]).interpolate(5)
+            waypoint = Waypoint(road, self, Point.from_shapely(point))
             waypoint.be_entry()
             waypoints.append(waypoint)
 
@@ -213,15 +227,6 @@ class IntersectionNode(RoadNode):
     def get_exit_waypoints_for(self, road):
         return filter(lambda waypoint: waypoint.is_exit(), self.get_waypoints_for(road))
 
-    @classmethod
-    def merge(cls, node_1, node_2):
-        new_node = cls(node_1.center)
-        for road in node_1.involved_roads():
-            road.replace_node(node_1, new_node)
-        for road in node_2.involved_roads():
-            road.replace_node(node_2, new_node)
-        return new_node
-
     def involved_roads(self):
         return self.roads
 
@@ -233,7 +238,7 @@ class IntersectionNode(RoadNode):
         return hash((self.__class__, self.center))
 
     def __repr__(self):
-        return "JunctureNode @ " + str(self.center)
+        return "IntersectionNode @ " + str(self.center)
 
 
 class Waypoint(object):

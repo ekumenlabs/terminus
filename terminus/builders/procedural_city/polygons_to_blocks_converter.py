@@ -15,7 +15,7 @@ class PolygonsToBlocksConverter(object):
 
     def _polygon_to_block(self, polygon):
         """Create a Block based on a Shapely polygon"""
-        points = list(Point(c) for c in polygon.exterior.coords)
+        points = list(Point(c[0], c[1]) for c in polygon.exterior.coords)
         return Block(Point(0, 0, 0), points)
 
     def _reduce_adjacent_polygons(self, polygons):

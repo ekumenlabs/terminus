@@ -134,7 +134,7 @@ class OsmCityBuilder(object):
                     if self._is_coord_inside_bounds(ref_lat, ref_lon):
                         # If list is empty, use the node
                         if not coords_outside_box:
-                            tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
+                            tmp_road.add_point(Point(coord.x, coord.y, 0))
                             coord_inside_bounds = True
                             if self.nodes[ref][osmid] is None:
                                 self.nodes[ref][osmid] = tmp_road
@@ -149,7 +149,7 @@ class OsmCityBuilder(object):
                 # Add nodes if way runs in and out the bounding box
                 if road_in_and_out:
                     for coord in coords_outside_box:
-                        tmp_road.add_node(SimpleNode.on(coord.x, coord.y, 0))
+                        tmp_road.add_point(Point(coord.x, coord.y, 0))
                     if self.nodes[ref][osmid] is None:
                         self.nodes[ref][osmid] = tmp_road
                 # Check that road has at least two nodes
@@ -175,7 +175,7 @@ class OsmCityBuilder(object):
             roads = node.values()
             for index in range(len(roads)):
                 if roads[index] is not None and index < len(roads) - 1:
-                    roads[index].create_intersection(roads[index + 1], self.osm_coords[key]['point'])
+                    city.add_intersection_at(self.osm_coords[key]['point'])
 
     def _create_buildings(self, city):
         '''
