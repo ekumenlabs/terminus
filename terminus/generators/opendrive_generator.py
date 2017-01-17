@@ -17,9 +17,9 @@ class OpenDriveGenerator(FileGenerator):
     def start_document(self):
         self.id_mapper.run()
 
-    def end_document(self):
+    def end_city(self, city):
         print "Finishing doc"
-        self._wrap_document_with_template('document')
+        self._wrap_document_with_contents_for(city)
 
     def start_street(self, street):
         self.start_road(street)
@@ -35,11 +35,11 @@ class OpenDriveGenerator(FileGenerator):
     def id_for(self, object):
         return self.id_mapper.id_for(object)
 
-    def document_template(self):
+    def city_template(self):
         return """
         <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="" maxJunc="0" maxPrg="0">
+            <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{model.roads_count()}}" maxJunc="0" maxPrg="0">
             </header>
             {{inner_contents}}
         </OpenDRIVE>"""
@@ -50,15 +50,14 @@ class OpenDriveGenerator(FileGenerator):
             {% set distances = generator._get_distances(points) %}
             {% set total_length = generator._road_length(distances) %}
             {% set angles = generator._yaws(points) %}
-            {% set last_distance = 0.0 %}
             <road name="{{model.name}}" length="{{total_length}}" id="{{segment_id}}">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
               {% for i in range(generator._collection_size(points) - 1)    %}
                 <geometry s="{{generator._road_length(distances[:i])}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
                   <line/>
+                </geometry>
               {% endfor %}
-                  </geometry>
               </planView>
               <elevationProfile>
                   <elevation s="0.0000000000000000e+00" a="0.0000000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
