@@ -39,18 +39,23 @@ class OpenDriveGenerator(FileGenerator):
         return """
         <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00">
+            <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="" maxJunc="0" maxPrg="0">
             </header>
             {{inner_contents}}
         </OpenDRIVE>"""
 
     def street_template(self):
         return """
-            <road name="{{segment_id}}" length="10.0" id="500">
+            {% set points = generator._get_waypoint_positions(model.get_waypoints()) %}
+            {% set distances = generator._get_distances(points) %}
+            {% set total_length = generator._road_length(distances) %}
+            <road name="{{model.name}}" length="{{total_length}}" id="{{segment_id}}">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
-                  <geometry s="0.0000000000000000e+00" x="-7.0710678117841717e+00" y="7.0710678119660715e+00" hdg="5.4977871437752235e+00" length="10.0">
-                      <line/>
+              {% for i in range(generator._collection_size(points) - 1)    %}
+                <geometry s="0.0000000000000000e+00" x="{{points[i].x}}" y="{{points[i].y}}" hdg="5.4977871437752235e+00" length="{{distances[i]}}">
+                  <line/>
+              {% endfor %}
                   </geometry>
               </planView>
               <elevationProfile>
@@ -78,3 +83,24 @@ class OpenDriveGenerator(FileGenerator):
 
     def trunk_template(self):
         return self.street_template()
+
+    def _distance(self, pA, pB):
+        return math.sqrt(math.pow(pA.x - pB.x, 2.0) + math.pow(pA.y - pB.y, 2.0))
+
+    def _road_length(self, distances):
+        return math.fsum(distances)
+
+    def _get_distances(self, points):
+        distances = []
+        for i in range(len(points) - 1):
+            distances.append(self._distance(points[i], points[i + 1]))
+        return distances
+
+    def _get_waypoint_positions(self, waypoints):
+        points = []
+        for waypoint in waypoints:
+            points.append(waypoint.center)
+        return points
+
+    def _collection_size(self, collection):
+        return len(collection)
