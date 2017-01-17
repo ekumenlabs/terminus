@@ -8,6 +8,7 @@ class Road(CityModel):
         super(Road, self).__init__(name)
         self.width = width
         self.nodes = []
+        self.point_to_node = {}
         self.cached_waypoints = None
 
     @classmethod
@@ -30,11 +31,7 @@ class Road(CityModel):
         node = SimpleNode(point)
         self.nodes.append(node)
         node.added_to(self)
-        self.cached_waypoints = None
-
-    def remove_node(self, node):
-        self.nodes.remove(node)
-        node.removed_from(self)
+        self.point_to_node[point] = node
         self.cached_waypoints = None
 
     def node_count(self):
@@ -83,10 +80,10 @@ class Road(CityModel):
         self.cached_waypoints = None
 
     def includes_point(self, point):
-        return self._index_of_node_at(point) is not None
+        return point in self.point_to_node
 
     def node_at(self, point):
-        return next(node for node in self.nodes if node.center == point)
+        return self.point_to_node[point]
 
     def reverse(self):
         self.nodes.reverse()
@@ -199,8 +196,8 @@ class IntersectionNode(RoadNode):
         has_successor = successor is not None
 
         if has_predecessor:
-            point = LineString([self.center, predecessor.center]).interpolate(5)
-            waypoint = Waypoint(road, self, point)
+            point = LineString([self.center.to_shapely_point(), predecessor.center.to_shapely_point()]).interpolate(5)
+            waypoint = Waypoint(road, self, Point.from_shapely(point))
             waypoint.be_exit()
             waypoints.append(waypoint)
 
@@ -208,8 +205,8 @@ class IntersectionNode(RoadNode):
             waypoints.append(Waypoint(road, self, self.center))
 
         if has_successor:
-            point = LineString([self.center, successor.center]).interpolate(5)
-            waypoint = Waypoint(road, self, point)
+            point = LineString([self.center.to_shapely_point(), successor.center.to_shapely_point()]).interpolate(5)
+            waypoint = Waypoint(road, self, Point.from_shapely(point))
             waypoint.be_entry()
             waypoints.append(waypoint)
 
