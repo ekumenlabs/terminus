@@ -46,7 +46,7 @@ class OpenDriveGenerator(FileGenerator):
 
     def street_template(self):
         return """
-            <road name="" length="10.0" id="500">
+            <road name="{{segment_id}}" length="10.0" id="500">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
                   <geometry s="0.0000000000000000e+00" x="-7.0710678117841717e+00" y="7.0710678119660715e+00" hdg="5.4977871437752235e+00" length="10.0">
