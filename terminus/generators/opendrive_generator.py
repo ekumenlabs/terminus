@@ -49,11 +49,13 @@ class OpenDriveGenerator(FileGenerator):
             {% set points = generator._get_waypoint_positions(model.get_waypoints()) %}
             {% set distances = generator._get_distances(points) %}
             {% set total_length = generator._road_length(distances) %}
+            {% set angles = generator._yaws(points) %}
+            {% set last_distance = 0.0 %}
             <road name="{{model.name}}" length="{{total_length}}" id="{{segment_id}}">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
               {% for i in range(generator._collection_size(points) - 1)    %}
-                <geometry s="0.0000000000000000e+00" x="{{points[i].x}}" y="{{points[i].y}}" hdg="5.4977871437752235e+00" length="{{distances[i]}}">
+                <geometry s="{{generator._road_length(distances[:i])}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
                   <line/>
               {% endfor %}
                   </geometry>
@@ -104,3 +106,15 @@ class OpenDriveGenerator(FileGenerator):
 
     def _collection_size(self, collection):
         return len(collection)
+
+    def _yaw(self, pA, pB):
+        dX = pB.x - pA.x
+        dY = pB.y - pA.y
+        return math.atan2(dY, dX)
+
+    def _yaws(self, points):
+        yaws = []
+        for i in range(len(points) - 1):
+            yaws.append(self._yaw(points[i], points[i + 1]))
+        yaws.append(yaws[-1])
+        return yaws
