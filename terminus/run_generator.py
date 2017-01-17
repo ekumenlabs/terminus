@@ -5,6 +5,7 @@ from generators.rndf_generator import RNDFGenerator
 from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
 from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
 from generators.street_plot_generator import StreetPlotGenerator
+from generators.opendrive_generator import OpenDriveGenerator
 from builders import *
 
 import argparse
@@ -58,6 +59,7 @@ destination_rndf_file = base_path + '.rndf'
 destination_sdf_7_file = base_path + '_gazebo_7.sdf'
 destination_sdf_8_file = base_path + '_gazebo_8.sdf'
 destination_street_plot_file = base_path + '_streets.png'
+destination_opendrive_file = base_path + '.xodr'
 
 # Get the class of the builder to use
 builder_class = getattr(sys.modules[__name__], arguments.builder)
@@ -100,3 +102,7 @@ if arguments.debug:
 logger.info("Generating RNDF file")
 rndf_generator = RNDFGenerator(city, RNDF_ORIGIN)
 rndf_generator.write_to(destination_rndf_file)
+
+logger.info("Generating OpenDrive file")
+opendrive_generator = OpenDriveGenerator(city, RNDF_ORIGIN)
+opendrive_generator.write_to(destination_opendrive_file)
