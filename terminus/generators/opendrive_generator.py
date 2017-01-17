@@ -46,15 +46,30 @@ class OpenDriveGenerator(FileGenerator):
 
     def street_template(self):
         return """
-            <road id={{road_id}} length="">
+            <road name="" length="10.0" id="500">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
+                  <geometry s="0.0000000000000000e+00" x="-7.0710678117841717e+00" y="7.0710678119660715e+00" hdg="5.4977871437752235e+00" length="10.0">
+                      <line/>
+                  </geometry>
               </planView>
               <elevationProfile>
-                <elevation s="0.0000000000000000e+00" a="0.0000000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                  <elevation s="0.0000000000000000e+00" a="0.0000000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
               </elevationProfile>
               <lateralProfile>
               </lateralProfile>
+              <lanes>
+                  <laneSection s="0.0000000000000000e+00">
+                      <center>
+                          <lane id="0" type="driving" level= "0">
+                              <link>
+                              </link>
+                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
+                              <width sOffset="0.0000000000000000e+00" a="3.7500000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                          </lane>
+                      </center>
+                  </laneSection>
+              </lanes>
               <objects>
               </objects>
               <signals>
