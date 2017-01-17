@@ -29,7 +29,7 @@ class Point(object):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash(self.x) ^ hash(self.y) ^ hash(self.z)
+        return hash((hash(self.x) << 4) + hash(self.y) + (hash(self.z) ^ 0xFFFFFF))
 
     def __repr__(self):
         return "Point({0}, {1}, {2})".format(self.x, self.y, self.z)
