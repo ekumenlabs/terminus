@@ -37,30 +37,29 @@ class OpenDriveGenerator(FileGenerator):
 
     def document_template(self):
         return """
-          <?xml version="1.0" standalone="yes"?>
+        <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-          <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00">
-          </header>
-          {{inner_contents}}
-          </OpenDRIVE>"""
+            <header revMajor="1" revMinor="1" name="" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00">
+            </header>
+            {{inner_contents}}
+        </OpenDRIVE>"""
 
-    def road_template(self):
+    def street_template(self):
         return """
-        <road id={{road_id}} length="">
-            <type s="0.0000000000000000e+00" type="town"/>
-            <planView>
-            </planView>
-            <elevationProfile>
+            <road id={{road_id}} length="">
+              <type s="0.0000000000000000e+00" type="town"/>
+              <planView>
+              </planView>
+              <elevationProfile>
                 <elevation s="0.0000000000000000e+00" a="0.0000000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
-            </elevationProfile>
-            <lateralProfile>
-            </lateralProfile>
-            <objects>
-            </objects>
-            <signals>
-            </signals>
-        </road>
-        """
+              </elevationProfile>
+              <lateralProfile>
+              </lateralProfile>
+              <objects>
+              </objects>
+              <signals>
+              </signals>
+            </road>"""
 
     def trunk_template(self):
-        return self.road_template()
+        return self.street_template()
