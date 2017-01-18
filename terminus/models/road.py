@@ -103,11 +103,15 @@ class Road(CityModel):
 
     def get_waypoint_distances(self):
         points = self.get_waypoint_positions()
+        if len(points) == 1:
+            return [0.0]
         point_pairs = zip(points, points[1:])
         return map(lambda point_pair: point_pair[0].distance_to(point_pair[1]), point_pairs)
 
     def get_waypoints_yaws(self):
         points = self.get_waypoint_positions()
+        if len(points) == 1:
+            return [0.0]
         point_pairs = zip(points, points[1:])
         return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
 
