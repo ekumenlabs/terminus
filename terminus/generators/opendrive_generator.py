@@ -44,15 +44,14 @@ class OpenDriveGenerator(FileGenerator):
 
     def road_template(self):
         return """
-            {% set points = generator._get_waypoint_positions(model.get_waypoints()) %}
-            {% set distances = generator._get_distances(points) %}
-            {% set total_length = generator._road_length(distances) %}
-            {% set angles = generator._yaws(points) %}
-            <road name="{{model.name}}" length="{{total_length}}" id="{{segment_id}}">
+            {% set points = model.get_waypoint_positions() %}
+            {% set distances = model.get_waypoint_distances() %}
+            {% set angles = model.get_waypoints_yaws() %}
+            <road name="{{model.name}}" length="{{model.length()}}" id="{{segment_id}}">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
-              {% for i in range(generator._collection_size(points) - 1)    %}
-                <geometry s="{{generator._road_length(distances[:i])}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
+              {% for i in range(model.waypoints_count() - 1)    %}
+                <geometry s="{{model.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
                   <line/>
                 </geometry>
               {% endfor %}
@@ -100,35 +99,3 @@ class OpenDriveGenerator(FileGenerator):
 
     def trunk_template(self):
         return self.road_template()
-
-    def _distance(self, pA, pB):
-        return math.sqrt(math.pow(pA.x - pB.x, 2.0) + math.pow(pA.y - pB.y, 2.0))
-
-    def _road_length(self, distances):
-        return math.fsum(distances)
-
-    def _get_distances(self, points):
-        distances = []
-        for i in range(len(points) - 1):
-            distances.append(self._distance(points[i], points[i + 1]))
-        return distances
-
-    def _get_waypoint_positions(self, waypoints):
-        points = []
-        for waypoint in waypoints:
-            points.append(waypoint.center)
-        return points
-
-    def _collection_size(self, collection):
-        return len(collection)
-
-    def _yaw(self, pA, pB):
-        dX = pB.x - pA.x
-        dY = pB.y - pA.y
-        return math.atan2(dY, dX)
-
-    def _yaws(self, points):
-        yaws = []
-        for i in range(len(points) - 1):
-            yaws.append(self._yaw(points[i], points[i + 1]))
-        return yaws
