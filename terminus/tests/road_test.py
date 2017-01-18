@@ -9,6 +9,15 @@ import math
 
 class RoadTest(unittest.TestCase):
 
+    def test_get_waypoint_positions_empty(self):
+        road = Street.from_points([])
+        self.assertEqual(road.get_waypoint_positions(), [])
+
+    def test_get_waypoint_positions(self):
+        points = [Point(0.0, 1.0)]
+        road = Street.from_points(points)
+        self.assertEqual(road.get_waypoint_positions(), [])
+
     def test_get_waypoint_positions(self):
         points = [Point(0.0, 1.0), Point(1.0, 1.0), Point(2.0, 1.0)]
         road = Street.from_points(points)
