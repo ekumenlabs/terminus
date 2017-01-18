@@ -58,11 +58,3 @@ class Point(object):
     def yaw(self, other):
         diff = other - self
         return math.atan2(diff.y, diff.x)
-
-    def roll(self, other):
-        diff = other - self
-        return math.atan2(diff.y, diff.z)
-
-    def pitch(self, other):
-        diff = other - self
-        return math.atan2(diff.x, diff.z)
