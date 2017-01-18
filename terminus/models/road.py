@@ -1,6 +1,7 @@
 from geometry.point import Point
 from shapely.geometry import LineString
 from city_model import CityModel
+import math
 
 
 class Road(CityModel):
@@ -90,6 +91,29 @@ class Road(CityModel):
 
     def be_two_way(self):
         pass
+
+    def length(self, initial=0, final=None):
+        distances = self.get_waypoint_distances()
+        if final is None:
+            return math.fsum(distances[initial:])
+        return math.fsum(distances[initial:final])
+
+    def get_waypoint_positions(self):
+        return map(lambda waypoint: waypoint.center, self.get_waypoints())
+
+    def get_waypoint_distances(self):
+        points = self.get_waypoint_positions()
+        if len(points) == 1:
+            return [0.0]
+        point_pairs = zip(points, points[1:])
+        return map(lambda point_pair: point_pair[0].distance_to(point_pair[1]), point_pairs)
+
+    def get_waypoints_yaws(self):
+        points = self.get_waypoint_positions()
+        if len(points) == 1:
+            return [0.0]
+        point_pairs = zip(points, points[1:])
+        return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
 
     def _index_of_node_at(self, point):
         return next((index for index, node in enumerate(self.nodes) if node.center == point), None)

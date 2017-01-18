@@ -51,3 +51,10 @@ class Point(object):
             return Point(self.x / other, self.y / other, self.z / other)
         else:
             return Point(self.x / other.x, self.y / other.y, self.z / other.z)
+
+    def distance_to(self, other):
+        return math.sqrt(math.pow(self.x - other.x, 2.0) + math.pow(self.y - other.y, 2.0) + math.pow(self.z - other.z, 2.0))
+
+    def yaw(self, other):
+        diff = other - self
+        return math.atan2(diff.y, diff.x)
