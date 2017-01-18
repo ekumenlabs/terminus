@@ -13,12 +13,10 @@ class OpenDriveGenerator(FileGenerator):
         self.origin = origin
         self.id_mapper = OpenDriveIdMapper(city)
 
-    # # Start/End document handling
     def start_document(self):
         self.id_mapper.run()
 
     def end_city(self, city):
-        print "Finishing doc"
         self._wrap_document_with_contents_for(city)
 
     def start_street(self, street):
@@ -44,7 +42,7 @@ class OpenDriveGenerator(FileGenerator):
             {{inner_contents}}
         </OpenDRIVE>"""
 
-    def street_template(self):
+    def road_template(self):
         return """
             {% set points = generator._get_waypoint_positions(model.get_waypoints()) %}
             {% set distances = generator._get_distances(points) %}
@@ -97,8 +95,11 @@ class OpenDriveGenerator(FileGenerator):
               </signals>
             </road>"""
 
+    def street_template(self):
+        return self.road_template()
+
     def trunk_template(self):
-        return self.street_template()
+        return self.road_template()
 
     def _distance(self, pA, pB):
         return math.sqrt(math.pow(pA.x - pB.x, 2.0) + math.pow(pA.y - pB.y, 2.0))
