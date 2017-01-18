@@ -43,7 +43,7 @@ class OpenDriveGenerator(FileGenerator):
         </OpenDRIVE>"""
 
     # We don't have support for multilane roads, so we should
-    # correct the lane creation for roads. We are creating only on lane to the
+    # correct the lane creation for roads. We are creating only one lane to the
     # right of the base line and no offset is set.
     def road_template(self):
         return """
