@@ -115,5 +115,4 @@ class OpenDriveGenerator(FileGenerator):
         yaws = []
         for i in range(len(points) - 1):
             yaws.append(self._yaw(points[i], points[i + 1]))
-        yaws.append(yaws[-1])
         return yaws
