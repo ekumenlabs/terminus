@@ -2,7 +2,8 @@ from city_model import CityModel
 import math
 from simple_node import SimpleNode
 from intersection_node import IntersectionNode
-
+from lane import Lane
+from shapely.geometry import LineString
 
 class Road(CityModel):
     def __init__(self, width, name=None):
@@ -10,6 +11,7 @@ class Road(CityModel):
         self.width = width
         self.nodes = []
         self.point_to_node = {}
+        self.lanes = []
         self.cached_waypoints = None
 
     @classmethod
@@ -28,12 +30,18 @@ class Road(CityModel):
             road.add_point(point)
         return road
 
+    def add_lane(self, offset, width=5):
+        self.lanes.append(Lane(self, width, offset))
+
     def add_point(self, point):
         node = SimpleNode(point)
         self.nodes.append(node)
         node.added_to(self)
         self.point_to_node[point] = node
         self.cached_waypoints = None
+
+    def points_count(self):
+        return len(self.nodes)
 
     def node_count(self):
         return len(self.nodes)
@@ -92,6 +100,7 @@ class Road(CityModel):
     def be_two_way(self):
         pass
 
+<<<<<<< HEAD
     def length(self, initial=0, final=None):
         distances = self.get_waypoint_distances()
         if final is None:
@@ -114,6 +123,13 @@ class Road(CityModel):
             return [0.0]
         point_pairs = zip(points, points[1:])
         return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
+
+    def geometry(self):
+        return map(lambda node: node.center, self.nodes)
+
+    def geometry_as_line_string(self):
+        coords = map(lambda node: (node.center.x, node.center.y), self.nodes)
+        return LineString(coords)
 
     def _index_of_node_at(self, point):
         return next((index for index, node in enumerate(self.nodes) if node.center == point), None)
