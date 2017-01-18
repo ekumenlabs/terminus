@@ -5,6 +5,7 @@ from intersection_node import IntersectionNode
 from lane import Lane
 from shapely.geometry import LineString
 
+
 class Road(CityModel):
     def __init__(self, width, name=None):
         super(Road, self).__init__(name)

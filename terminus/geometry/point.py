@@ -31,8 +31,8 @@ class Point(object):
 
     def cross_product(self, other):
         return Point(self.y * other.z - self.z * other.y,
-              self.z * other.x - self.x * other.z,
-              self.x * other.y - self.y * other.x)
+                     self.z * other.x - self.x * other.z,
+                     self.x * other.y - self.y * other.x)
 
     def dot_product(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z

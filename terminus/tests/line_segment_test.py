@@ -82,4 +82,3 @@ class LineSegmentTest(unittest.TestCase):
         non_orthogonal_segment = LineSegment(Point(5.01, 3), Point(3.9, 3.9))
         self.assertTrue(target_segment.is_orthogonal_to(orthogonal_segment))
         self.assertFalse(target_segment.is_orthogonal_to(non_orthogonal_segment))
-

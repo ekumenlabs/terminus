@@ -4,13 +4,14 @@ from shapely.geometry import LineString, LinearRing, Polygon
 from shapely.geometry import Point as ShapelyPoint
 from city_model import CityModel
 
+
 class Lane(object):
     def __init__(self, road, width, offset):
         self.road = road
         self.width = width
         self.offset = offset
         self.nodes = []
-        #self.cached_waypoints = None
+        # self.cached_waypoints = None
 
     def waypoints(self):
         pass
@@ -28,8 +29,8 @@ class Lane(object):
         road_coords = road_center.coords
 
         if not road_center.is_simple or \
-            road_coords[0] == road_coords[-1] or \
-            Polygon(road_coords).area > 0.0 and not LinearRing(road_coords).is_valid:
+           road_coords[0] == road_coords[-1] or \
+           Polygon(road_coords).area > 0.0 and not LinearRing(road_coords).is_valid:
             raise ValueError("Can't derive lanes from self-touching streets")
 
         if delta > 0:
@@ -57,16 +58,15 @@ class Lane(object):
         initial_lane_segment = LineSegment(Point.from_tuple(lane_coords[0]),
                                            Point.from_tuple(lane_coords[1]))
         if initial_lane_segment.includes_point(Point.from_tuple(road_coords[0])) and \
-            initial_lane_segment.is_orthogonal_to(initial_road_segment):
+           initial_lane_segment.is_orthogonal_to(initial_road_segment):
             lane_coords.pop(0)
 
-
         final_road_segment = LineSegment(Point.from_tuple(road_coords[-1]),
-                                           Point.from_tuple(road_coords[-2]))
+                                         Point.from_tuple(road_coords[-2]))
         final_lane_segment = LineSegment(Point.from_tuple(lane_coords[-1]),
-                                           Point.from_tuple( lane_coords[-2]))
+                                         Point.from_tuple(lane_coords[-2]))
         if final_lane_segment.includes_point(Point.from_tuple(road_coords[-1])) and \
-            final_lane_segment.is_orthogonal_to(initial_road_segment):
+           final_lane_segment.is_orthogonal_to(initial_road_segment):
             lane_coords.pop()
 
         # Re-create to accomodate both reversed lookup and removed items

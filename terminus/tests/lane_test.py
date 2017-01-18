@@ -5,6 +5,7 @@ from models.road import *
 from models.street import Street
 from models.lane import Lane
 
+
 class LaneTest(unittest.TestCase):
     def setUp(self):
         self.horizontal_points = [Point(-1000, 0), Point(0, 0), Point(1000, 0)]
