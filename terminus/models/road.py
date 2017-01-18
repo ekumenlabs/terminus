@@ -99,11 +99,7 @@ class Road(CityModel):
         return math.fsum(distances[initial:final])
 
     def get_waypoint_positions(self):
-        waypoints = self.get_waypoints()
-        points = []
-        for waypoint in waypoints:
-            points.append(waypoint.center)
-        return points
+        return map(lambda waypoint: waypoint.center, self.get_waypoints())
 
     def get_waypoint_distances(self):
         points = self.get_waypoint_positions()

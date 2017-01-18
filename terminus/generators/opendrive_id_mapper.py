@@ -1,6 +1,10 @@
 from city_visitor import CityVisitor
 
 
+# This class is inteded to handle ids of junctions and roads.
+# All the ids should be unique, so this class will handle that, and the
+# reference to the objects it gives the new id. This class will have
+# development further.
 class OpenDriveIdMapper(CityVisitor):
 
     def run(self):
