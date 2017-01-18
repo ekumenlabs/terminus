@@ -42,6 +42,9 @@ class OpenDriveGenerator(FileGenerator):
             {{inner_contents}}
         </OpenDRIVE>"""
 
+    # We don't have support for multilane roads, so we should
+    # correct the lane creation for roads. We are creating only on lane to the
+    # right of the base line and no offset is set.
     def road_template(self):
         return """
             {% set points = model.get_waypoint_positions() %}
@@ -70,20 +73,12 @@ class OpenDriveGenerator(FileGenerator):
                               <roadMark sOffset="0.0000000000000000e+00" type="none" weight="standard" color="standard" width="1.3000000000000000e-01"/>
                           </lane>
                       </center>
-                      <left>
-                          <lane id="1" type="driving" level= "0">
-                              <link>
-                              </link>
-                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()/2.0}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
-                          </lane>
-                      </left>
                       <right>
                           <lane id="-1" type="driving" level= "0">
                               <link>
                               </link>
                               <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()/2.0}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
                           </lane>
                       </right>
                   </laneSection>
