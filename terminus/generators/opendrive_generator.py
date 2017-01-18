@@ -70,10 +70,25 @@ class OpenDriveGenerator(FileGenerator):
                           <lane id="0" type="driving" level= "0">
                               <link>
                               </link>
-                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="3.7500000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                              <roadMark sOffset="0.0000000000000000e+00" type="none" weight="standard" color="standard" width="1.3000000000000000e-01"/>
                           </lane>
                       </center>
+                      <left>
+                          <lane id="1" type="driving" level= "0">
+                              <link>
+                              </link>
+                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
+                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()/2.0}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                          </lane>
+                      </left>
+                      <right>
+                          <lane id="-1" type="driving" level= "0">
+                              <link>
+                              </link>
+                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
+                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()/2.0}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                          </lane>
+                      </right>
                   </laneSection>
               </lanes>
               <objects>
