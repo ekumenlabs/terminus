@@ -128,8 +128,12 @@ class Road(CityModel):
     def geometry(self):
         return map(lambda node: node.center, self.nodes)
 
-    def geometry_as_line_string(self):
-        coords = map(lambda node: (node.center.x, node.center.y), self.nodes)
+    def geometry_as_line_string(self, decimal_places=5):
+        # Shapely behaves weirdly with very precise coordinates sometimes,
+        # so we round to 5 decimals by default
+        # http://gis.stackexchange.com/questions/50399/how-best-to-fix-a-non-noded-intersection-problem-in-postgis
+        # http://freigeist.devmag.net/r/691-rgeos-topologyexception-found-non-noded-intersection-between.html
+        coords = map(lambda node: (round(node.center.x, decimal_places), round(node.center.y, decimal_places)), self.nodes)
         return LineString(coords)
 
     def _index_of_node_at(self, point):

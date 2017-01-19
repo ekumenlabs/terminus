@@ -28,10 +28,12 @@ class Lane(object):
         road_center = self.road.geometry_as_line_string()
         road_coords = road_center.coords
 
-        if not road_center.is_simple or \
-           road_coords[0] == road_coords[-1] or \
-           Polygon(road_coords).area > 0.0 and not LinearRing(road_coords).is_valid:
-            raise ValueError("Can't derive lanes from self-touching streets")
+        if not road_center.is_simple:
+            raise ValueError("""Can't derive lanes from self-touching streets.
+                             Road is not a simple line string""", list(road_coords))
+        if road_coords[0] == road_coords[-1]:
+            raise ValueError("""Can't derive lanes from self-touching streets.
+                             First and last point overlap""", list(road_coords))
 
         if delta > 0:
             side = 'right'
