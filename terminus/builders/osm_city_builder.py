@@ -1,8 +1,8 @@
 from geometry.point import Point
 from geometry.latlon import LatLon
+from geometry.line_segment import LineSegment
 
 from imposm.parser import OSMParser
-import math
 
 from models.city import City
 from models.street import Street
@@ -29,7 +29,8 @@ class OsmCityBuilder(object):
         self.map_origin = None
         self.nodes = {}
         self.road_types = ['motorway', 'trunk', 'primary', 'secondary',
-                           'tertiary', 'unclassified', 'residential']
+                           'tertiary', 'unclassified', 'residential',
+                           'living_street']
 
     def get_city(self):
         city = City()
@@ -54,6 +55,20 @@ class OsmCityBuilder(object):
                                         self.bounds['maxlon'])
         self.bounds['min_xy'] = min_xy
         self.bounds['max_xy'] = max_xy
+        self.bounds['min_x_max_y'] = Point(min_xy.x, max_xy.y)
+        self.bounds['max_x_min_y'] = Point(max_xy.x, min_xy.y)
+
+        self.bounds['bottom'] = LineSegment(self.bounds['min_xy'],
+                                            self.bounds['max_x_min_y'])
+
+        self.bounds['top'] = LineSegment(self.bounds['min_x_max_y'],
+                                         self.bounds['max_xy'])
+
+        self.bounds['left'] = LineSegment(self.bounds['min_x_max_y'],
+                                          self.bounds['min_xy'])
+
+        self.bounds['right'] = LineSegment(self.bounds['max_xy'],
+                                           self.bounds['max_x_min_y'])
 
         self.bounds['size'] = Point(abs(min_xy.x) + abs(max_xy.x),
                                     abs(min_xy.y) + abs(max_xy.y),
@@ -124,6 +139,9 @@ class OsmCityBuilder(object):
                 coords_outside_box = []
                 road_in_and_out = False
                 coord_inside_bounds = False
+                already_intersected = False
+                prev_coord_outside = False
+                prev_coord = None
                 for ref in value['refs']:
                     # Check if coord is inside bounding box
                     ref_lat = self.osm_coords[ref]['lat']
@@ -132,9 +150,16 @@ class OsmCityBuilder(object):
                     self.osm_coords[ref]['point'] = coord
 
                     if self._is_coord_inside_bounds(ref_lat, ref_lon):
+                        # If previous coord were outisde the bounding box,
+                        # add the interscting point with it to the road
+                        if prev_coord_outside:
+                            for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
+                                tmp_road.add_point(intersection)
+
                         # If list is empty, use the node
                         if not coords_outside_box:
-                            tmp_road.add_point(Point(coord.x, coord.y, 0))
+                            tmp_road.add_point(coord)
+                            prev_coord = coord
                             coord_inside_bounds = True
                             if self.nodes[ref][osmid] is None:
                                 self.nodes[ref][osmid] = tmp_road
@@ -143,18 +168,34 @@ class OsmCityBuilder(object):
                             # and comes basck again
                             road_in_and_out = True
                             coords_outside_box.append(coord)
+                        prev_coord_outside = False
                     else:
+                        # If there is already a node inside the bounding box,
+                        # add the interscting point with it to the road
+                        if tmp_road.node_count() >= 1 and not already_intersected:
+                            for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
+                                tmp_road.add_point(intersection)
+                                prev_coord = intersection
+                                already_intersected = True
+
                         if coord_inside_bounds:
                             coords_outside_box.append(coord)
+                        else:
+                            # We should remember the previous coordinates
+                            prev_coord_outside = True
+                            prev_coord = coord
+
                 # Add nodes if way runs in and out the bounding box
                 if road_in_and_out:
                     for coord in coords_outside_box:
                         tmp_road.add_point(Point(coord.x, coord.y, 0))
                     if self.nodes[ref][osmid] is None:
                         self.nodes[ref][osmid] = tmp_road
+
                 # Check that road has at least two nodes
                 if tmp_road.node_count() < 2:
                     continue
+
                 # Check if street is one or two ways
                 oneway = False
                 if 'oneway' in value['tags']:
@@ -210,3 +251,19 @@ class OsmCityBuilder(object):
         coords = LatLon(lat, lon)
         (delta_lat, delta_lon) = self.map_origin.delta_in_meters(coords)
         return Point(delta_lon, delta_lat, 0)
+
+    def _check_intersection_with_bounding_box(self, prev_coord, coord):
+        '''
+        Checks if a road segment (provided 2 coordinates for the nodes)
+        intersects the bounding box
+        '''
+        segment = LineSegment(prev_coord, coord)
+
+        # Check if segment intersects with bounding box
+        intersections = [
+            segment.find_intersection(self.bounds['top']),
+            segment.find_intersection(self.bounds['right']),
+            segment.find_intersection(self.bounds['bottom']),
+            segment.find_intersection(self.bounds['left'])
+        ]
+        return [intersection for intersection in intersections if intersection is not None]
