@@ -40,15 +40,8 @@ class OsmCityBuilder(object):
         bounds = tree.find('bounds').attrib
         self.bounds = {'origin': LatLon(float(bounds['minlat']), float(bounds['minlon'])),
                        'corner': LatLon(float(bounds['maxlat']), float(bounds['maxlon']))}
-        """
-        self.bounds = {'minlat': float(bounds['minlat']),
-                       'maxlat': float(bounds['maxlat']),
-                       'minlon': float(bounds['minlon']),
-                       'maxlon': float(bounds['maxlon'])}
-        """
 
-        self.map_origin = LatLon((self.bounds['origin'].lat + self.bounds['corner'].lat) / 2,
-                                 (self.bounds['origin'].lon + self.bounds['corner'].lon) / 2)
+        self.map_origin = self.bounds['origin'].middle_point(self.bounds['corner'])
 
         logger.debug("Map Origin: {0}".format(self.map_origin))
 
@@ -244,11 +237,7 @@ class OsmCityBuilder(object):
                 city.add_building(building)
 
     def _is_coord_inside_bounds(self, latlon):
-        if (self.bounds['origin'].lat < latlon.lat < self.bounds['corner'].lat or
-            self.bounds['origin'].lat > latlon.lat > self.bounds['corner'].lat) and \
-            (self.bounds['origin'].lon < latlon.lon < self.bounds['corner'].lon or
-                self.bounds['origin'].lon > latlon.lon > self.bounds['corner'].lon):
-            return True
+        return latlon.is_inside(self.bounds['origin'], self.bounds['corner'])
 
     def _check_road_type(self, road_type):
         pass

@@ -43,9 +43,6 @@ class LatLon(object):
     def sum(self, other):
         return LatLon(self.lat + other.lat, self.lon + other.lon)
 
-    def middle_point(self, other):
-        pass
-
     def translate(self, delta_lat_lon):
         """
         Given LatLon point, returns a LatLon point corresponding to the place where an object would be after starting at the LatLon point
@@ -92,3 +89,28 @@ class LatLon(object):
             return (delta_lat_in_meters, 0)
         else:
             return (delta_lat_in_meters, delta_lon_in_meters)
+
+    def middle_point(self, other):
+        # This method gives an approximation of the middle point between two LatLon objects, but it is not the 'real' midpoint.
+        # It works pretty well when the distance between the two points is realtively small.
+        # We are nor considering the possibility of the South pole lying in the city (and North Pole lies in the water)
+        if abs(self.lon - other.lon) < 180:
+            mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2)
+        else:
+            # in case the city intersects the 180 meridian.
+            if self.lon + other.lon <= 0:
+                mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2 + 180)
+            else:
+                mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2 - 180)
+        return mid_point
+
+    def is_inside(self, origin, corner):
+        if abs(origin.lon - corner.lon) < 180:
+            if (self.lat - origin.lat) * (self.lat - corner.lat) <= 0 and \
+               (self.lon - origin.lon) * (self.lon - corner.lon) <= 0:
+                return True
+        else:
+            # in case the city intersects the 180 meridian.
+            if (self.lat - origin.lat) * (self.lat - corner.lat) <= 0 and \
+               (self.lon - origin.lon) * (self.lon - corner.lon) >= 0:
+                return True
