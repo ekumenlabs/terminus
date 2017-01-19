@@ -101,7 +101,6 @@ class Road(CityModel):
     def be_two_way(self):
         pass
 
-<<<<<<< HEAD
     def length(self, initial=0, final=None):
         distances = self.get_waypoint_distances()
         if final is None:
