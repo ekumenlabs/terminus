@@ -43,6 +43,9 @@ class LatLon(object):
     def sum(self, other):
         return LatLon(self.lat + other.lat, self.lon + other.lon)
 
+    def middle_point(self, other):
+        pass
+
     def translate(self, delta_lat_lon):
         """
         Given LatLon point, returns a LatLon point corresponding to the place where an object would be after starting at the LatLon point
