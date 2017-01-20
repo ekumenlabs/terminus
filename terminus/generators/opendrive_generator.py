@@ -3,6 +3,8 @@ from geometry.point import Point
 from geometry.latlon import LatLon
 from city_visitor import CityVisitor
 from opendrive_id_mapper import OpenDriveIdMapper
+from opendrive_id_mapper import Junction
+from opendrive_id_mapper import Connection
 import math
 
 
@@ -37,9 +39,19 @@ class OpenDriveGenerator(FileGenerator):
         return """
         <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{model.roads_count()}}" maxJunc="0" maxPrg="0">
+            <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{generator.get_last_road_id()}}" maxJunc="{{generator.get_last_junction_id()}}" maxPrg="0">
             </header>
             {{inner_contents}}
+            {% for junction in generator.id_mapper.junctions %}
+            <junction name="" id="{{junction.id}}">
+            {%     for i in range(0, junction.connection_size()) %}
+            {%         set connection = junction.connections[i]  %}
+              <connection id="{{i}}" incomingRoad="{{generator.id_for(connection.entry.road)}}" connectingRoad="{{generator.id_for(connection.exit.road)}}" contactPoint="start">
+                <laneLink from="-1" to="-1"/>
+              </connection>
+            {%     endfor %}
+            </junction>
+            {% endfor %}
         </OpenDRIVE>"""
 
     # We don't have support for multilane roads, so we should
@@ -94,3 +106,14 @@ class OpenDriveGenerator(FileGenerator):
 
     def trunk_template(self):
         return self.road_template()
+
+    def get_last_junction_id(self):
+        if self.id_mapper.junctions:
+            junction = self.id_mapper.junctions[-1]
+            return junction.id
+        return 0
+
+    def get_last_road_id(self):
+        if self.city.roads:
+            return self.id_mapper.id_for(self.city.roads[-1])
+        return 0
