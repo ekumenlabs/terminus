@@ -1,10 +1,12 @@
 from city_visitor import CityVisitor
+from models.road import Road
 
 
 # This class is inteded to handle ids of junctions and roads.
 # All the ids should be unique, so this class will handle that, and the
 # reference to the objects it gives the new id. This class will have
 # development further.
+
 class OpenDriveIdMapper(CityVisitor):
 
     def __init__(self, city):
@@ -14,6 +16,7 @@ class OpenDriveIdMapper(CityVisitor):
         self.id_counter = 0
         self.roads_to_id = {}
         self.create_junctions()
+        self.create_roads()
         self.map_roads()
 
     def get_new_id(self):
@@ -27,7 +30,7 @@ class OpenDriveIdMapper(CityVisitor):
         return None
 
     def create_junctions(self):
-        entry_exits = self.create_extryexits()
+        entry_exits = self.create_connections()
         self.junctions = []
         for entry_exit in entry_exits:
             _junctions = filter(
@@ -41,7 +44,7 @@ class OpenDriveIdMapper(CityVisitor):
                 self.junctions.append(_junction)
             _junction.add_connection(entry_exit)
 
-    def create_extryexits(self):
+    def create_connections(self):
         connections = []
         for road in self.city.roads:
             exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), road.get_waypoints())
@@ -52,9 +55,35 @@ class OpenDriveIdMapper(CityVisitor):
                     connections.append(connection)
         return connections
 
+    def create_roads(self):
+        self.roads = map(
+            lambda r:
+                OpenDriveRoad.from_base_road(r, 0, len(r.get_waypoints())),
+            self.city.roads)
+
     def map_roads(self):
         for road in self.city.roads:
             self.roads_to_id[hash(road)] = self.get_new_id()
+
+
+class OpenDriveRoad(Road):
+
+    def __init__(self, width, name=None, id=None):
+        super(OpenDriveRoad, self).__init__(width, name)
+        self.id = id
+        self.predecessor = None
+        self.sucessor = None
+
+    @classmethod
+    def from_base_road(cls, road, initPoint, endPoint):
+        r = OpenDriveRoad(road.width, road.name)
+        wps = road.get_waypoints()
+        for i in range(initPoint, endPoint):
+            r.add_point(r.add_point(wps[i].center))
+
+    def add_points(self, points):
+        for point in points:
+            self.add_point(point)
 
 
 class Junction:
@@ -93,3 +122,6 @@ class Connection:
 
     def __str__(self):
         return 'entry_' + str(hash(self.entry)) + '_exit_' + str(hash(self.exit))
+
+    def __eq__(self, other):
+        return self.entry == other.entry and self.exit == other.exit
