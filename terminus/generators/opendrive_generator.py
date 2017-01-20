@@ -39,34 +39,17 @@ class OpenDriveGenerator(FileGenerator):
         return """
         <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{generator.get_last_road_id()}}" maxJunc="{{generator.get_last_junction_id()}}" maxPrg="0">
+            <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{generator.get_last_road_id()}}" maxJunc="0" maxPrg="0">
             </header>
-            {{inner_contents}}
-            {% for junction in generator.id_mapper.junctions %}
-            <junction name="" id="{{junction.id}}">
-            {%     for i in range(0, junction.connection_size()) %}
-            {%         set connection = junction.connections[i]  %}
-              <connection id="{{i}}" incomingRoad="{{generator.id_for(connection.entry.road)}}" connectingRoad="{{generator.id_for(connection.exit.road)}}" contactPoint="start">
-                <laneLink from="-1" to="-1"/>
-              </connection>
-            {%     endfor %}
-            </junction>
-            {% endfor %}
-        </OpenDRIVE>"""
-
-    # We don't have support for multilane roads, so we should
-    # correct the lane creation for roads. We are creating only one lane to the
-    # right of the base line and no offset is set.
-    def road_template(self):
-        return """
-            {% set points = model.get_waypoint_positions() %}
-            {% set distances = model.get_waypoint_distances() %}
-            {% set angles = model.get_waypoints_yaws() %}
-            <road name="{{model.name}}" length="{{model.length()}}" id="{{segment_id}}">
+            {% for road in generator.id_mapper.roads %}
+            {%     set points = road.get_waypoint_positions() %}
+            {%     set distances = road.get_waypoint_distances() %}
+            {%     set angles = road.get_waypoints_yaws() %}
+            <road name="{{road.name}}" length="{{road.length()}}" id="{{road.id}}">
               <type s="0.0000000000000000e+00" type="town"/>
               <planView>
-              {% for i in range(model.waypoints_count() - 1)    %}
-                <geometry s="{{model.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
+              {% for i in range(road.waypoints_count() - 1)    %}
+                <geometry s="{{road.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
                   <line/>
                 </geometry>
               {% endfor %}
@@ -90,7 +73,7 @@ class OpenDriveGenerator(FileGenerator):
                               <link>
                               </link>
                               <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                              <width sOffset="0.0000000000000000e+00" a="{{road.get_width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
                           </lane>
                       </right>
                   </laneSection>
@@ -99,7 +82,15 @@ class OpenDriveGenerator(FileGenerator):
               </objects>
               <signals>
               </signals>
-            </road>"""
+            </road>
+            {% endfor %}
+        </OpenDRIVE>"""
+
+    # We don't have support for multilane roads, so we should
+    # correct the lane creation for roads. We are creating only one lane to the
+    # right of the base line and no offset is set.
+    def road_template(self):
+        return """"""
 
     def street_template(self):
         return self.road_template()
@@ -114,6 +105,4 @@ class OpenDriveGenerator(FileGenerator):
         return 0
 
     def get_last_road_id(self):
-        if self.city.roads:
-            return self.id_mapper.id_for(self.city.roads[-1])
-        return 0
+        return self.id_mapper.get_current_id()

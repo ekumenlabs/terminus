@@ -15,12 +15,16 @@ class OpenDriveIdMapper(CityVisitor):
     def run(self):
         self.id_counter = 0
         self.roads_to_id = {}
+        self.roads = []
+        self.junctions = []
         self.create_junctions()
         self.create_roads()
-        self.map_roads()
 
     def get_new_id(self):
         self.id_counter = self.id_counter + 1
+        return self.id_counter
+
+    def get_current_id(self):
         return self.id_counter
 
     def id_for(self, road):
@@ -48,7 +52,6 @@ class OpenDriveIdMapper(CityVisitor):
         connections = []
         for road in self.city.roads:
             exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), road.get_waypoints())
-            waypoint_connections = []
             for exit_waypoint in exit_waypoints:
                 for entry_waypoint in exit_waypoint.connected_waypoints():
                     connection = Connection(exit_waypoint, entry_waypoint)
@@ -56,10 +59,48 @@ class OpenDriveIdMapper(CityVisitor):
         return connections
 
     def create_roads(self):
-        self.roads = map(
-            lambda r:
-                OpenDriveRoad.from_base_road(r, 0, len(r.get_waypoints())),
-            self.city.roads)
+        self.roads = []
+        for road in self.city.roads:
+            cutting_waypoint_ids = self.get_cutting_waypoints(road)
+            cut_roads = self.cut_road(road, cutting_waypoint_ids)
+            self.roads.extend(cut_roads)
+        for junction in self.junctions:
+            self.roads.extend(
+                map(lambda conn:
+                    self.create_road_from_connection(conn),
+                    junction.connections))
+        for road in self.roads:
+            road.id = self.get_new_id()
+
+    def cut_road(self, road, cutting_waypoint_ids):
+        cut_roads = []
+        for i in range(0, len(cutting_waypoint_ids) - 1):
+            cut_roads.append(OpenDriveRoad.from_base_road(road, cutting_waypoint_ids[i], cutting_waypoint_ids[i + 1]))
+        return cut_roads
+
+    def create_road_from_connection(self, connection):
+        width = min(connection.entry.road.width, connection.exit.road.width)
+        road = OpenDriveRoad(width)
+        road.add_point(connection.exit.center)
+        road.add_point(connection.entry.center)
+        return road
+
+    def _cut_road_condition(self, waypoint, waypoints):
+        return (waypoint.is_exit() or
+                waypoint.is_entry() or
+                waypoint == waypoints[-1] or
+                waypoint == waypoints[0])
+
+    def get_cutting_waypoints(self, road):
+        waypoints = road.get_waypoints()
+        # Got all the junctions that have a waypoint whose road
+        # is the current road in the iteration
+        connection_waypoints_ids = map(
+            lambda waypoint:
+                waypoints.index(waypoint) if self._cut_road_condition(waypoint, waypoints) else None,
+            road.get_waypoints())
+        connection_waypoints_ids = filter(lambda id: id is not None, connection_waypoints_ids)
+        return connection_waypoints_ids
 
     def map_roads(self):
         for road in self.city.roads:
@@ -78,8 +119,9 @@ class OpenDriveRoad(Road):
     def from_base_road(cls, road, initPoint, endPoint):
         r = OpenDriveRoad(road.width, road.name)
         wps = road.get_waypoints()
-        for i in range(initPoint, endPoint):
-            r.add_point(r.add_point(wps[i].center))
+        for i in range(initPoint, endPoint + 1):
+            r.add_point(wps[i].center)
+        return r
 
     def add_points(self, points):
         for point in points:
@@ -90,10 +132,15 @@ class Junction:
 
     def __init__(self, _id):
         self.connections = []
+        self.roads = {}
         self.id = _id
 
     def add_connection(self, connection):
         self.connections.append(connection)
+        road_hash = hash(connection.entry.road)
+        self.roads[road_hash] = connection.entry.road
+        road_hash = hash(connection.exit.road)
+        self.roads[road_hash] = connection.exit.road
 
     def contains_waypoint(self, waypoint):
         connections = filter(
@@ -112,6 +159,10 @@ class Junction:
         for connection in self.connections:
             hashes = hashes + '_' + str(connection)
         return "junction: " + hashes
+
+    def contains_road(self, road):
+        road_hash = hash(road)
+        return road_hash in self.roads
 
 
 class Connection:
