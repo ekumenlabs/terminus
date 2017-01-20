@@ -1,13 +1,20 @@
 import unittest
+import mock
 
 from geometry.point import Point
-
 from geometry.bounding_box import BoundingBox
-
 from models.block import Block
 
 
 class BlockTest(unittest.TestCase):
+
+   def test_block(self):
+        vertices = [Point(0, 0, 0), Point(0, 1, 0), Point(1, 0, 0)]
+        block = Block(Point(0, 0, 0), vertices)
+        generator_mock = mock.Mock()
+        block.accept(generator_mock)
+        calls = [mock.call.start_block(block), mock.call.end_block(block)]
+        generator_mock.assert_has_calls(calls)
 
     def test_bounding_box(self):
         block = Block(Point(10, 20),
