@@ -16,11 +16,39 @@ class Point(object):
         else:
             return cls(shapely_point.x, shapely_point.y)
 
+    @classmethod
+    def from_tuple(cls, tuple):
+        if len(tuple) == 3:
+            return cls(tuple[0], tuple[1], tuple[2])
+        else:
+            return cls(tuple[0], tuple[1])
+
     def to_shapely_point(self):
         return shapely.geometry.Point(self.x, self.y, self.z)
 
     def to_tuple(self):
         return (self.x, self.y, self.z)
+
+    def cross_product(self, other):
+        return Point(self.y * other.z - self.z * other.y,
+                     self.z * other.x - self.x * other.z,
+                     self.x * other.y - self.y * other.x)
+
+    def dot_product(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    def norm(self):
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    def squared_distance_to(self, other):
+        return (self.x - other.x)**2 + (self.y - other.y)**2 + (self.z - other.z)**2
+
+    def distance_to(self, other):
+        return math.sqrt(self.squared_distance_to(other))
+
+    def yaw(self, other):
+        diff = other - self
+        return math.atan2(diff.y, diff.x)
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
@@ -51,10 +79,3 @@ class Point(object):
             return Point(self.x / other, self.y / other, self.z / other)
         else:
             return Point(self.x / other.x, self.y / other.y, self.z / other.z)
-
-    def distance_to(self, other):
-        return math.sqrt(math.pow(self.x - other.x, 2.0) + math.pow(self.y - other.y, 2.0) + math.pow(self.z - other.z, 2.0))
-
-    def yaw(self, other):
-        diff = other - self
-        return math.atan2(diff.y, diff.x)

@@ -1,7 +1,9 @@
-from geometry.point import Point
-from shapely.geometry import LineString
 from city_model import CityModel
 import math
+from simple_node import SimpleNode
+from intersection_node import IntersectionNode
+from lane import Lane
+from shapely.geometry import LineString
 
 
 class Road(CityModel):
@@ -10,6 +12,7 @@ class Road(CityModel):
         self.width = width
         self.nodes = []
         self.point_to_node = {}
+        self.lanes = []
         self.cached_waypoints = None
 
     @classmethod
@@ -28,12 +31,18 @@ class Road(CityModel):
             road.add_point(point)
         return road
 
+    def add_lane(self, offset, width=5):
+        self.lanes.append(Lane(self, width, offset))
+
     def add_point(self, point):
         node = SimpleNode(point)
         self.nodes.append(node)
         node.added_to(self)
         self.point_to_node[point] = node
         self.cached_waypoints = None
+
+    def points_count(self):
+        return len(self.nodes)
 
     def node_count(self):
         return len(self.nodes)
@@ -115,6 +124,17 @@ class Road(CityModel):
         point_pairs = zip(points, points[1:])
         return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
 
+    def geometry(self):
+        return map(lambda node: node.center, self.nodes)
+
+    def geometry_as_line_string(self, decimal_places=5):
+        # Shapely behaves weirdly with very precise coordinates sometimes,
+        # so we round to 5 decimals by default
+        # http://gis.stackexchange.com/questions/50399/how-best-to-fix-a-non-noded-intersection-problem-in-postgis
+        # http://freigeist.devmag.net/r/691-rgeos-topologyexception-found-non-noded-intersection-between.html
+        coords = map(lambda node: (round(node.center.x, decimal_places), round(node.center.y, decimal_places)), self.nodes)
+        return LineString(coords)
+
     def _index_of_node_at(self, point):
         return next((index for index, node in enumerate(self.nodes) if node.center == point), None)
 
@@ -137,221 +157,3 @@ class Road(CityModel):
     def __repr__(self):
         return "%s: " % self.__class__.__name__ + \
             reduce(lambda acc, node: acc + "%s," % str(node), self.nodes, '')
-
-
-class RoadNode(object):
-    def __init__(self, center, name=None):
-        self.center = center
-        self.name = name
-
-    @classmethod
-    def on(cls, *args, **kwargs):
-        return cls(Point(*args, **kwargs))
-
-    def get_waypoints_for(self, road):
-        raise NotImplementedError()
-
-    def added_to(self, road):
-        raise NotImplementedError()
-
-    def removed_from(self, road):
-        raise NotImplementedError()
-
-    def connected_waypoints_for(self, waypoint):
-        raise NotImplementedError()
-
-    def involved_roads(self):
-        raise NotImplementedError()
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-
-class SimpleNode(RoadNode):
-
-    def added_to(self, road):
-        self.road = road
-
-    def removed_from(self, road):
-        self.road = None
-
-    def get_waypoints_for(self, road):
-        if (self.road is not road):
-            return None
-        return [Waypoint(road, self, self.center)]
-
-    def connected_waypoints_for(self, waypoint):
-        return []
-
-    def involved_roads(self):
-        return [self.road]
-
-    def __eq__(self, other):
-        return self.__class__ == other.__class__ and \
-            self.center == other.center
-
-    def __hash__(self):
-        return hash((self.__class__, self.center))
-
-    def __repr__(self):
-        return "SimpleNode @ " + str(self.center)
-
-
-class IntersectionNode(RoadNode):
-
-    def __init__(self, center, name=None):
-        super(IntersectionNode, self).__init__(center, name)
-        self.roads = []
-
-    def added_to(self, road):
-        self.add_road(road)
-
-    def add_road(self, road):
-        self.roads.append(road)
-
-    def removed_from(self, road):
-        self.roads.remove(road)
-
-    def get_waypoints_for(self, road):
-        waypoints = []
-        predecessor = road.previous_node(self)
-        successor = road.following_node(self)
-        has_predecessor = predecessor is not None
-        has_successor = successor is not None
-
-        if has_predecessor:
-            point = LineString([self.center.to_shapely_point(), predecessor.center.to_shapely_point()]).interpolate(5)
-            waypoint = Waypoint(road, self, Point.from_shapely(point))
-            waypoint.be_exit()
-            waypoints.append(waypoint)
-
-        if not has_predecessor or not has_successor:
-            waypoints.append(Waypoint(road, self, self.center))
-
-        if has_successor:
-            point = LineString([self.center.to_shapely_point(), successor.center.to_shapely_point()]).interpolate(5)
-            waypoint = Waypoint(road, self, Point.from_shapely(point))
-            waypoint.be_entry()
-            waypoints.append(waypoint)
-
-        return waypoints
-
-    def connected_waypoints_for(self, source_waypoint):
-        roads = filter(lambda r: r is not source_waypoint.road, self.roads)
-        connections = []
-        for road in roads:
-            for waypoint in self.get_entry_waypoints_for(road):
-                if source_waypoint is not waypoint:
-                    connections.append(waypoint)
-        return connections
-
-    def get_entry_waypoints_for(self, road):
-        return filter(lambda waypoint: waypoint.is_entry(), self.get_waypoints_for(road))
-
-    def get_exit_waypoints_for(self, road):
-        return filter(lambda waypoint: waypoint.is_exit(), self.get_waypoints_for(road))
-
-    def involved_roads(self):
-        return self.roads
-
-    def __eq__(self, other):
-        return self.__class__ == other.__class__ and \
-            self.center == other.center
-
-    def __hash__(self):
-        return hash((self.__class__, self.center))
-
-    def __repr__(self):
-        return "IntersectionNode @ " + str(self.center)
-
-
-class Waypoint(object):
-    def __init__(self, road, source_node, center):
-        self.road = road
-        self.source_node = source_node
-        self.center = center
-        self.be_reference()
-
-    def is_exit(self):
-        return self.type.is_exit()
-
-    def is_entry(self):
-        return self.type.is_entry()
-
-    def be_entry(self):
-        self.type = EntryPoint()
-
-    def be_exit(self):
-        self.type = ExitPoint()
-
-    def be_reference(self):
-        self.type = ReferencePoint()
-
-    def connected_waypoints(self):
-        return self.source_node.connected_waypoints_for(self)
-
-    def __eq__(self, other):
-        return (self.__class__ == other.__class__) and \
-               (self.type == other.type) and \
-               (self.center == other.center) and \
-               (self.source_node == other.source_node) and \
-               (self.road == other.road)
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash((self.type, self.center, self.road, self.source_node))
-
-    def __repr__(self):
-        return str(id(self)) + str(self.type) + "Waypoint at " + str(self.center)
-
-
-class WaypointType(object):
-    def is_exit(self):
-        raise NotImplementedError()
-
-    def is_entry(self):
-        raise NotImplementedError()
-
-    def __eq__(self, other):
-        return self.__class__ == other.__class__
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash(self.__class__)
-
-
-class ReferencePoint(WaypointType):
-    def is_exit(self):
-        return False
-
-    def is_entry(self):
-        return False
-
-    def __repr__(self):
-        return ""
-
-
-class EntryPoint(WaypointType):
-    def is_exit(self):
-        return False
-
-    def is_entry(self):
-        return True
-
-    def __repr__(self):
-        return "[ENTRY] "
-
-
-class ExitPoint(WaypointType):
-    def is_exit(self):
-        return True
-
-    def is_entry(self):
-        return False
-
-    def __repr__(self):
-        return "[EXIT] "
