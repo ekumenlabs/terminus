@@ -16,24 +16,19 @@ from procedural_city.vertex_graph_to_roads_converter \
     import VertexGraphToRoadsConverter
 from procedural_city.polygons_to_blocks_converter \
     import PolygonsToBlocksConverter
+from procedural_city.pcg_runner import PcgRunner
+
 
 import pickle
 
-import os
-import sys
-import subprocess
-
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 
 class ProceduralCityBuilder(AbstractCityBuilder):
-    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500):
+    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500, pcg_runner=PcgRunner()):
+        self.pcg_runner = pcg_runner
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)
-        self.size = size
+        self.pcg_runner.set_size(size / self.ratio)
 
     def get_city(self):
         city = City()
@@ -41,7 +36,7 @@ class ProceduralCityBuilder(AbstractCityBuilder):
         # If no verticesFilename or polygonsFilename is specified,
         # generate new ones using procedural_city_generation
         if self.verticesFilename is None or self.polygonsFilename is None:
-            self._generate_procedural_city()
+            self.pcg_runner.run()
 
         vertices = self._parse_vertices_file()
         self._build_roads(city, vertices)
@@ -87,12 +82,12 @@ class ProceduralCityBuilder(AbstractCityBuilder):
     def _parse_vertices_file(self):
         original = 'procedural_city_generation.roadmap.Vertex'
         replace = 'builders.procedural_city.vertex'
-        return self._parse_replacing(self.verticesFilename, original, replace)
+        return self._parse_replacing(self.pcg_runner.get_vertices_filename(), original, replace)
 
     def _parse_polygons_file(self):
         original = 'procedural_city_generation.polygons.Polygon2D'
         replace = 'builders.procedural_city.polygon2d'
-        return self._parse_replacing(self.polygonsFilename, original, replace)
+        return self._parse_replacing(self.pcg_runner.get_polygonsFilename(), original, replace)
 
     def _parse_replacing(self, filename, original_name, replace_name):
         with open(filename, 'rb') as f:
@@ -103,50 +98,3 @@ class ProceduralCityBuilder(AbstractCityBuilder):
             # this builder.
             contents = f.read().replace(original_name, replace_name)
             return pickle.loads(contents)
-
-    def _generate_procedural_city(self):
-        ''' Generate city using the procedural_city_generation library '''
-        this_path = os.path.realpath(__file__)
-        pcg_path = os.path.join(os.path.dirname(os.path.dirname(this_path)),
-                                'procedural_city_generation')
-
-        pcg_run = 'python {0}/UI.py'.format(pcg_path)
-
-        # Configure roadmap parameters
-        command_string = '{0} roadmap --configure plot False '\
-            'border_x {1} border_y {1}'
-        command = command_string.format(pcg_run, int(self.size / self.ratio))
-
-        self._pcg_run_command(command)
-
-        # Generate roadmap
-        command = '{0} roadmap run'.format(pcg_run)
-        self._pcg_run_command(command)
-
-        # Configure polygons parameters
-        command = '{0} polygons --configure plotbool False'.format(pcg_run)
-        self._pcg_run_command(command)
-
-        # Generate polygons
-        command = '{0} polygons run'.format(pcg_run)
-        self._pcg_run_command(command)
-
-        self.temp_path = os.path.join(pcg_path,
-                                      'procedural_city_generation/temp/')
-
-        self.verticesFilename = os.path.join(self.temp_path, 'mycity')
-        self.polygonsFilename = os.path.join(self.temp_path,
-                                             'mycity_polygons.txt')
-
-    def _pcg_run_command(self, command):
-
-        with open(os.devnull, "w") as f:
-            result = subprocess.call(command.split(),
-                                     stdout=f,
-                                     stderr=subprocess.STDOUT)
-
-        if result == 0:
-            logger.debug("Command '{0}' executed succesfully".format(command))
-        else:
-            logger.fatal("Command '{0}' failed to execute".format(command))
-            sys.exit(1)
