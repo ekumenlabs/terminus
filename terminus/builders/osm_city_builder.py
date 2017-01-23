@@ -38,10 +38,12 @@ class OsmCityBuilder(object):
         # Get origin of the map (we use the center)
         tree = ET.parse(self.osm_map)
         bounds = tree.find('bounds').attrib
-        self.bounds = {'origin': LatLon(float(bounds['minlat']), float(bounds['minlon'])),
-                       'corner': LatLon(float(bounds['maxlat']), float(bounds['maxlon']))}
+        self.bounds = {'origin': LatLon(float(bounds['minlat']),
+                                        float(bounds['minlon'])),
+                       'corner': LatLon(float(bounds['maxlat']),
+                                        float(bounds['maxlon']))}
 
-        self.map_origin = self.bounds['origin'].middle_point(self.bounds['corner'])
+        self.map_origin = self.bounds['origin'].midpoint(self.bounds['corner'])
 
         logger.debug("Map Origin: {0}".format(self.map_origin))
 
@@ -65,18 +67,11 @@ class OsmCityBuilder(object):
         self.bounds['right'] = LineSegment(self.bounds['max_xy'],
                                            self.bounds['max_x_min_y'])
 
-        self.bounds['size'] = Point(2 * abs(min_xy.x),
-                                    2 * abs(min_xy.y),
-                                    0)
+        self.bounds['size'] = abs(min_xy) * 2
 
         logger.debug("Bound box size {0}".format(self.bounds['size']))
-        logger.debug(
-            "Bound box 'minlat': {0}, 'maxlat': {1}\n\t\t\t\t\t  "
-            "'minlon': {2}, 'maxlon': {3}".format(self.bounds['origin'].lat,
-                                                  self.bounds['corner'].lat,
-                                                  self.bounds['origin'].lon,
-                                                  self.bounds['corner'].lon)
-        )
+        logger.debug("Bounding box from {0} to {1}".format(self.bounds['origin'],
+                                                           self.bounds['corner']))
 
         # Parse OSM map
         self.parser = OSMParser(coords_callback=self._get_coords,
@@ -141,11 +136,11 @@ class OsmCityBuilder(object):
                     # Check if coord is inside bounding box
                     ref_lat = self.osm_coords[ref]['lat']
                     ref_lon = self.osm_coords[ref]['lon']
-                    ref_point = LatLon(ref_lat, ref_lon)
-                    coord = self._translate_coords(ref_point)
+                    ref_pair = LatLon(ref_lat, ref_lon)
+                    coord = self._translate_coords(ref_pair)
                     self.osm_coords[ref]['point'] = coord
 
-                    if self._is_coord_inside_bounds(ref_point):
+                    if self._is_coord_inside_bounds(ref_pair):
                         # If previous coord were outisde the bounding box,
                         # add the interscting point with it to the road
                         if prev_coord_outside:
@@ -226,8 +221,8 @@ class OsmCityBuilder(object):
                 for ref in value['refs']:
                     ref_lat = self.osm_coords[ref]['lat']
                     ref_lon = self.osm_coords[ref]['lon']
-                    ref_point = LatLon(ref_lat, ref_lon)
-                    vertex = self._translate_coords(ref_point)
+                    ref_pair = LatLon(ref_lat, ref_lon)
+                    vertex = self._translate_coords(ref_pair)
                     vertices.append(vertex)
                 if 'height' in value:
                     height = value['height']

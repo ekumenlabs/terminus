@@ -38,15 +38,22 @@ class LatLon(object):
         if self.lat != other.lat:
             return False
         else:
-            return (self.lon == other.lon) or (abs(self.lon) == 180 and abs(other.lon) == 180) or abs(self.lat) == 90
+            return (self.lon == other.lon) or \
+                   (abs(self.lon) == 180 and abs(other.lon) == 180) or \
+                abs(self.lat) == 90
+
+    def __repr__(self):
+        return '(lat, lon) = (%s, %s)' % (self.lat, self.lon)
 
     def sum(self, other):
         return LatLon(self.lat + other.lat, self.lon + other.lon)
 
     def translate(self, delta_lat_lon):
         """
-        Given LatLon point, returns a LatLon point corresponding to the place where an object would be after starting at the LatLon point
-        and moving first meters_long meters in the longitudinal direction, and then meterslat meters in the latitudinal direction.
+        Given LatLon point, returns a LatLon point corresponding to the place
+        where an object would be after starting at the LatLon point and moving
+        first meters_long meters in the longitudinal direction, and then
+        meterslat meters in the latitudinal direction.
 
         """
 
@@ -90,27 +97,43 @@ class LatLon(object):
         else:
             return (delta_lat_in_meters, delta_lon_in_meters)
 
-    def middle_point(self, other):
-        # This method gives an approximation of the middle point between two LatLon objects, but it is not the 'real' midpoint.
-        # It works pretty well when the distance between the two points is realtively small.
-        # We are nor considering the possibility of the South pole lying in the city (and North Pole lies in the water)
+    def midpoint(self, other):
+        '''
+        This method gives an approximation of the midpoint between two LatLon
+        objects, but it is not the 'real' midpoint. It works pretty well when the
+        distance between the two points is realtively small.
+        We are not considering the possibility of a pole lying in the part of the
+        city that has this LatLon points as corners (The South Pole is in
+        Antarctica, and the North Pole lies in the water)
+        '''
         if abs(self.lon - other.lon) < 180:
-            mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2)
+            mid_point = LatLon((self.lat + other.lat) / 2,
+                               (self.lon + other.lon) / 2)
         else:
             # in case the city intersects the 180 meridian.
             if self.lon + other.lon <= 0:
-                mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2 + 180)
+                mid_point = LatLon((self.lat + other.lat) / 2,
+                                   (self.lon + other.lon) / 2 + 180)
             else:
-                mid_point = LatLon((self.lat + other.lat) / 2, (self.lon + other.lon) / 2 - 180)
+                mid_point = LatLon((self.lat + other.lat) / 2,
+                                   (self.lon + other.lon) / 2 - 180)
         return mid_point
 
     def is_inside(self, origin, corner):
+        '''
+        Given three LatLon objects, it returns True if the first one is inside
+        a 'rectangular' region that has the second and the third one as opposite
+        corners. There are many possible 'rectangular' regions on a sphere with
+        the the same two points as opposite corners. We are considering the
+        smallest one (except a pole lies inside it. In that case, we consider
+        the second smallest).
+        '''
         if abs(origin.lon - corner.lon) < 180:
             if (self.lat - origin.lat) * (self.lat - corner.lat) <= 0 and \
                (self.lon - origin.lon) * (self.lon - corner.lon) <= 0:
                 return True
         else:
-            # in case the city intersects the 180 meridian.
+            # in case the region intersects the 180 meridian.
             if (self.lat - origin.lat) * (self.lat - corner.lat) <= 0 and \
                (self.lon - origin.lon) * (self.lon - corner.lon) >= 0:
                 return True
