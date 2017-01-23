@@ -42,6 +42,14 @@ class OpenDriveGenerator(FileGenerator):
             {%     set angles = road.get_waypoints_yaws() %}
             <road name="{{road.name}}" length="{{road.length()}}" id="{{road.id}}">
               <type s="0.0000000000000000e+00" type="town"/>
+              <link>
+            {%     if road.predecessor: %}
+                <predecessor elementType="{{road.predecessor_type}}" elementId="{{road.predecessor}}" contactPoint="start" />
+            {%     endif %}
+            {%     if road.successor: %}
+                <successor elementType="{{road.successor_type}}" elementId="{{road.successor}}" contactPoint="end" />
+            {%     endif %}
+              </link>
               <planView>
               {% for i in range(road.waypoints_count() - 1)    %}
                 <geometry s="{{road.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">

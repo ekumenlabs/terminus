@@ -94,16 +94,16 @@ class OpenDriveIdMapper(CityVisitor):
                 exit_road_cut = self.get_road_cut(exit_hash, conn.exit)
                 if entry_road_cut is not None:
                     entry_road_cut.junction_id = junction.id
-                    entry_road_cut.sucessor = junction.id
-                    entry_road_cut.sucessor_type = "junction"
+                    entry_road_cut.successor = junction.id
+                    entry_road_cut.successor_type = "junction"
                     road.predecessor = entry_road_cut.id
                     road.predecessor_type = "road"
                 if exit_road_cut is not None:
                     exit_road_cut.junction_id = junction.id
                     exit_road_cut.predecessor = junction.id
                     exit_road_cut.predecessor_type = "junction"
-                    road.sucessor = exit_road_cut.id
-                    road.sucessor_type = "road"
+                    road.successor = exit_road_cut.id
+                    road.successor_type = "road"
                 self.od_roads[hash(road)] = [road]
 
     def road_cut_contains_waypoint(self, road_cut, waypoint):
@@ -118,14 +118,14 @@ class OpenDriveIdMapper(CityVisitor):
             if cutting_waypoint_ids[i][1] is 'exit' or cutting_waypoint_ids[i][1] is 'entry':
                 cut_road.predecessor = cut_roads[-1].id
                 cut_road.predecessor_type = 'road'
-                cut_roads[-1].sucessor = cut_road.id
-                cut_roads[-1].sucessor_type = 'road'
+                cut_roads[-1].successor = cut_road.id
+                cut_roads[-1].successor_type = 'road'
             cut_roads.append(cut_road)
         if cutting_waypoint_ids[-2][1] is 'exit' or cutting_waypoint_ids[-2][1] is 'entry':
             cut_roads[-1].predecessor = cut_roads[-2].id
             cut_roads[-1].predecessor_type = 'road'
-            cut_roads[-2].sucessor = cut_roads[-1].id
-            cut_roads[-2].sucessor_type = 'road'
+            cut_roads[-2].successor = cut_roads[-1].id
+            cut_roads[-2].successor_type = 'road'
         return cut_roads
 
     def create_road_cuts(self):
@@ -178,8 +178,8 @@ class OpenDriveRoad(Road):
         self.junction_id = None
         self.predecessor = None
         self.predecessor_type = None
-        self.sucessor = None
-        self.sucessor_type = None
+        self.successor = None
+        self.successor_type = None
 
     @classmethod
     def from_base_road(cls, road, initPoint, endPoint):
