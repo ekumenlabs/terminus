@@ -32,32 +32,27 @@ class OpenDriveIdMapper(CityVisitor):
         self.junction_id_max = self.id_counter
         return self.id_counter
 
-    def get_current_id(self):
-        return self.id_counter
-
     def create_junctions(self):
         entry_exits = self.create_connections()
         self.junctions = []
         for entry_exit in entry_exits:
-            _junctions = filter(
+            junctions = filter(
                 lambda junction:
                     junction.contains_waypoint(entry_exit.entry) or junction.contains_waypoint(entry_exit.exit),
                 self.junctions)
-            if _junctions:
-                _junction = _junctions[0]
+            if junctions:
+                junction = junctions[0]
             else:
-                _junction = Junction(self.get_new_junction_id())
-                self.junctions.append(_junction)
-            _junction.add_connection(entry_exit)
+                junction = Junction(self.get_new_junction_id())
+                self.junctions.append(junction)
+            junction.add_connection(entry_exit)
 
     def create_connections(self):
         connections = []
         for road in self.city.roads:
             exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), road.get_waypoints())
             for exit_waypoint in exit_waypoints:
-                for entry_waypoint in exit_waypoint.connected_waypoints():
-                    connection = Connection(exit_waypoint, entry_waypoint)
-                    connections.append(connection)
+                connections.extend(map(lambda entry_wp: Connection(exit_waypoint, entry_wp), exit_waypoint.connected_waypoints()))
         return connections
 
     def create_roads(self):
@@ -72,7 +67,7 @@ class OpenDriveIdMapper(CityVisitor):
         od_roads = self.od_roads.items()
         if not od_roads:
             return []
-        hashes, roads = zip(*od_roads)
+        _, roads = zip(*od_roads)
         return reduce(operator.add, roads)
 
     def get_road_cut(self, road_hash, waypoint):
@@ -201,7 +196,6 @@ class Junction(object):
 
     def __init__(self, _id):
         self.connections = []
-        self.roads = {}
         self.id = _id
         self.links = []
 
@@ -210,10 +204,6 @@ class Junction(object):
 
     def add_connection(self, connection):
         self.connections.append(connection)
-        road_hash = hash(connection.entry.road)
-        self.roads[road_hash] = connection.entry.road
-        road_hash = hash(connection.exit.road)
-        self.roads[road_hash] = connection.exit.road
 
     def contains_waypoint(self, waypoint):
         connections = filter(
@@ -232,10 +222,6 @@ class Junction(object):
         for connection in self.connections:
             hashes = hashes + '_' + str(connection)
         return "junction: " + hashes
-
-    def contains_road(self, road):
-        road_hash = hash(road)
-        return road_hash in self.roads
 
 
 class Link(object):
