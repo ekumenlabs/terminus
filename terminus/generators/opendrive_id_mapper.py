@@ -89,6 +89,7 @@ class OpenDriveIdMapper(CityVisitor):
             for conn in junction.connections:
                 road = self.create_road_from_connection(conn)
                 road.id = self.get_new_road_id()
+                road.junction_id = junction.id
                 (entry_hash, exit_hash) = conn.get_road_hashes()
                 entry_road_cut = self.get_road_cut(entry_hash, conn.entry)
                 exit_road_cut = self.get_road_cut(exit_hash, conn.exit)
@@ -98,12 +99,14 @@ class OpenDriveIdMapper(CityVisitor):
                     entry_road_cut.successor_type = "junction"
                     road.predecessor = entry_road_cut.id
                     road.predecessor_type = "road"
+                    junction.add_link(Link(entry_road_cut.id, road.id))
                 if exit_road_cut is not None:
                     exit_road_cut.junction_id = junction.id
                     exit_road_cut.predecessor = junction.id
                     exit_road_cut.predecessor_type = "junction"
                     road.successor = exit_road_cut.id
                     road.successor_type = "road"
+                    junction.add_link(Link(exit_road_cut.id, road.id))
                 self.od_roads[hash(road)] = [road]
 
     def road_cut_contains_waypoint(self, road_cut, waypoint):
@@ -175,7 +178,7 @@ class OpenDriveRoad(Road):
     def __init__(self, width, name=None, id=None):
         super(OpenDriveRoad, self).__init__(width, name)
         self.id = id
-        self.junction_id = None
+        self.junction_id = -1
         self.predecessor = None
         self.predecessor_type = None
         self.successor = None
@@ -200,6 +203,10 @@ class Junction(object):
         self.connections = []
         self.roads = {}
         self.id = _id
+        self.links = []
+
+    def add_link(self, link):
+        self.links.append(link)
 
     def add_connection(self, connection):
         self.connections.append(connection)
@@ -229,6 +236,13 @@ class Junction(object):
     def contains_road(self, road):
         road_hash = hash(road)
         return road_hash in self.roads
+
+
+class Link(object):
+
+    def __init__(self, incomming_road=None, connecting_road=None):
+        self.incomming_road = incomming_road
+        self.connecting_road = connecting_road
 
 
 class Connection(object):
