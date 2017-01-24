@@ -43,17 +43,18 @@ class LatLon(object):
                 abs(self.lat) == 90
 
     def __repr__(self):
-        return '(lat, lon) = (%s, %s)' % (self.lat, self.lon)
+        return 'LatLon(%s, %s)' % (self.lat, self.lon)
 
     def sum(self, other):
         return LatLon(self.lat + other.lat, self.lon + other.lon)
 
     def translate(self, delta_lat_lon):
         """
-        Given LatLon point, returns a LatLon point corresponding to the place
-        where an object would be after starting at the LatLon point and moving
-        first meters_long meters in the longitudinal direction, and then
-        meterslat meters in the latitudinal direction.
+        Given LatLon point and a delt_lat_lon tuple, returns a LatLon point
+        corresponding to the place where an object would be after starting at
+        the LatLon point and moving first delta_lat_lon[1] meters in the
+        longitudinal direction, and then delta_lat_lon[0] meters in the
+        latitudinal direction.
 
         """
 
@@ -100,11 +101,10 @@ class LatLon(object):
     def midpoint(self, other):
         '''
         This method gives an approximation of the midpoint between two LatLon
-        objects, but it is not the 'real' midpoint. It works pretty well when the
-        distance between the two points is realtively small.
-        We are not considering the possibility of a pole lying in the part of the
-        city that has this LatLon points as corners (The South Pole is in
-        Antarctica, and the North Pole lies in the water)
+        objects (we assume a plane instead of a sphere for point calculations).
+        We are not considering the possibility of a pole lying in the part of
+        the city that has this LatLon points as opposite corners (The South Pole
+        is in Antarctica, and the North Pole lies in the water)
         '''
         if abs(self.lon - other.lon) < 180:
             mid_point = LatLon((self.lat + other.lat) / 2,
