@@ -82,3 +82,20 @@ class LineSegmentTest(unittest.TestCase):
         non_orthogonal_segment = LineSegment(Point(5.01, 3), Point(3.9, 3.9))
         self.assertTrue(target_segment.is_orthogonal_to(orthogonal_segment))
         self.assertFalse(target_segment.is_orthogonal_to(non_orthogonal_segment))
+
+    def test_two_segments_intersect(self):
+        first_segment = LineSegment(Point(1, 0), Point(3, 4))
+        second_segment = LineSegment(Point(1, 4), Point(3, 0))
+        non_intersect_segment = LineSegment(Point(3, 1), Point(3, 2))
+        self.assertEqual(first_segment.find_intersection(second_segment), Point(2, 2, 0))
+        self.assertEqual(first_segment.find_intersection(non_intersect_segment), None)
+
+        first_segment = LineSegment(Point(28.5299698219, 160.06688421), Point(-48.1969708416, -28.3309145497))
+        second_segment = LineSegment(Point(-193.740103155, 132.470681), Point(193.740103155, 132.470681))
+        non_intersect_segment = LineSegment(Point(193.740103155, 132.470681), Point(193.740103155, -132.470681))
+        self.assertPointAlmostEqual(first_segment.find_intersection(second_segment), Point(17.2911323186, 132.470681, 0))
+        self.assertEqual(first_segment.find_intersection(non_intersect_segment), None)
+
+    def assertPointAlmostEqual(self, point1, point2):
+        self.assertAlmostEqual(point1.x, point2.x)
+        self.assertAlmostEqual(point1.y, point2.y)
