@@ -38,10 +38,10 @@ class Point(object):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
     def norm(self):
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def squared_distance_to(self, other):
-        return (self.x - other.x)**2 + (self.y - other.y)**2 + (self.z - other.z)**2
+        return (self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2
 
     def distance_to(self, other):
         return math.sqrt(self.squared_distance_to(other))
