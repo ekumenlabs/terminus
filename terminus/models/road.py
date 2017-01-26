@@ -7,7 +7,7 @@ from shapely.geometry import LineString
 
 
 class Road(CityModel):
-    def __init__(self, width, name=None):
+    def __init__(self, width=5, name=None):
         super(Road, self).__init__(name)
         self.width = width
         self.nodes = []
@@ -31,7 +31,7 @@ class Road(CityModel):
             road.add_point(point)
         return road
 
-    def add_lane(self, offset, width=5):
+    def add_lane(self, offset, width=4):
         self.lanes.append(Lane(self, width, offset))
 
     def add_point(self, point):
@@ -46,6 +46,18 @@ class Road(CityModel):
 
     def node_count(self):
         return len(self.nodes)
+
+    def first_node(self):
+        return self.nodes[0]
+
+    def last_node(self):
+        return self.nodes[-1]
+
+    def is_first_node(self, node):
+        return self.first_node() is node
+
+    def is_last_node(self, node):
+        return self.last_node() is node
 
     def get_width(self):
         return self.width

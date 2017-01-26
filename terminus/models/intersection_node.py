@@ -19,25 +19,28 @@ class IntersectionNode(RoadNode):
     def removed_from(self, road):
         self.roads.remove(road)
 
-    def get_waypoints_for(self, road):
+    # Converted to Lane
+    def get_waypoints_for(self, lane):
         waypoints = []
-        predecessor = road.previous_node(self)
-        successor = road.following_node(self)
-        has_predecessor = predecessor is not None
-        has_successor = successor is not None
+        predecessor = lane.previous_node(self)
+        successor = lane.following_node(self)
+        add_exit_waypoint = predecessor is not None and \
+            any(lane.following_node(self) is not None for lane in self.involved_roads_except(lane))
+        add_entry_waypoint = successor is not None and \
+            any(lane.previous_node(self) is not None for lane in self.involved_roads_except(lane))
 
-        if has_predecessor:
+        if add_exit_waypoint:
             point = LineString([self.center.to_shapely_point(), predecessor.center.to_shapely_point()]).interpolate(5)
-            waypoint = Waypoint(road, self, Point.from_shapely(point))
+            waypoint = Waypoint(lane, self, Point.from_shapely(point))
             waypoint.be_exit()
             waypoints.append(waypoint)
 
-        if not has_predecessor or not has_successor:
-            waypoints.append(Waypoint(road, self, self.center))
+        if not add_entry_waypoint or not add_exit_waypoint:
+            waypoints.append(Waypoint(lane, self, self.center))
 
-        if has_successor:
+        if add_entry_waypoint:
             point = LineString([self.center.to_shapely_point(), successor.center.to_shapely_point()]).interpolate(5)
-            waypoint = Waypoint(road, self, Point.from_shapely(point))
+            waypoint = Waypoint(lane, self, Point.from_shapely(point))
             waypoint.be_entry()
             waypoints.append(waypoint)
 

@@ -25,5 +25,8 @@ class RoadNode(object):
     def involved_roads(self):
         raise NotImplementedError()
 
+    def involved_roads_except(self, target_road):
+        return filter(lambda road: road is not target_road, self.involved_roads())
+
     def __ne__(self, other):
         return not self.__eq__(other)

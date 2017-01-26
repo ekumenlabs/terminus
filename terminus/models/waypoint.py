@@ -5,6 +5,18 @@ class Waypoint(object):
         self.center = center
         self.be_reference()
 
+    @classmethod
+    def entry(cls, road, source_node, center):
+        waypoint = cls(road, source_node, center)
+        waypoint.be_entry()
+        return waypoint
+
+    @classmethod
+    def exit(cls, road, source_node, center):
+        waypoint = cls(road, source_node, center)
+        waypoint.be_exit()
+        return waypoint
+
     def is_exit(self):
         return self.type.is_exit()
 
@@ -27,17 +39,17 @@ class Waypoint(object):
         return (self.__class__ == other.__class__) and \
                (self.type == other.type) and \
                (self.center == other.center) and \
-               (self.source_node == other.source_node) and \
                (self.road == other.road)
+        # Also was  (self.source_node == other.source_node)
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash((self.type, self.center, self.road, self.source_node))
+        return hash((self.type, self.center, self.road))
 
     def __repr__(self):
-        return str(id(self)) + str(self.type) + "Waypoint at " + str(self.center)
+        return str(self.type) + "Waypoint at " + str(self.center)
 
 
 class WaypointType(object):
