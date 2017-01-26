@@ -27,6 +27,12 @@ class CityVisitor(object):
     def end_trunk(self, trunk):
         pass
 
+    def start_lane(self, lane):
+        pass
+
+    def end_lane(self, lane):
+        pass
+
     def start_ground_plane(self, plane):
         pass
 

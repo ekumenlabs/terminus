@@ -4,7 +4,7 @@ from geometry.line_segment import LineSegment
 from geometry.line import Line
 from shapely.geometry import LineString, LinearRing, Polygon
 from shapely.geometry.collection import GeometryCollection
-from shapely.geometry import Point as ShapelyPoint
+from shapely.geometry import Point as ShapelyPoint, MultiPoint
 from city_model import CityModel
 from simple_node import SimpleNode
 from intersection_node import IntersectionNode
@@ -28,6 +28,10 @@ class Lane(object):
     def distance_to_road(self):
         return abs(self.offset) + (self.width / 2.0)
 
+    def accept(self, generator):
+        generator.start_lane(self)
+        generator.end_lane(self)
+
     def get_nodes(self):
         return self._build_nodes()
 
@@ -46,6 +50,9 @@ class Lane(object):
             return nodes[index + 1]
         else:
             return None
+
+    def waypoints_count(self):
+        return len(self.get_waypoints())
 
     def get_waypoints(self):
         waypoints = []
@@ -323,6 +330,17 @@ class Lane(object):
 
                     if isinstance(intersection, ShapelyPoint):
                         point = Point.from_shapely(intersection)
+                        if point not in intersections:
+                            node = IntersectionNode(point)
+                            node.added_to(self)
+                            node.added_to(lane)
+                            nodes.append(node)
+                            intersections[point] = node
+                        else:
+                            intersections[point].added_to(lane)
+                    elif isinstance(intersection, MultiPoint):
+                        points = map(lambda shapely_point: Point.from_shapely(shapely_point), intersection)
+                        point = sorted(points, key=lambda point: point.squared_distance_to(node.center))[0]
                         if point not in intersections:
                             node = IntersectionNode(point)
                             node.added_to(self)

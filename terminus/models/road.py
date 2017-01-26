@@ -34,6 +34,12 @@ class Road(CityModel):
     def add_lane(self, offset, width=4):
         self.lanes.append(Lane(self, width, offset))
 
+    def lane_count(self):
+        return len(self.lanes)
+
+    def get_lanes(self):
+        return self.lanes
+
     def add_point(self, point):
         node = SimpleNode(point)
         self.nodes.append(node)

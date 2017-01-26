@@ -9,4 +9,6 @@ class Trunk(Road):
 
     def accept(self, generator):
         generator.start_trunk(self)
+        for lane in self.get_lanes():
+            lane.accept(generator)
         generator.end_trunk(self)

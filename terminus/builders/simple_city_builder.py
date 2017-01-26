@@ -58,33 +58,30 @@ class SimpleCityBuilder(object):
             city.add_road(road)
 
         # Diagonals
-        road = Street()
+        road = Trunk()
         for i in range(size):
             road.add_point(self.intersections[i][i])
         city.add_road(road)
 
-        road = Street()
+        road = Trunk()
         for i in range(size):
             road.add_point(self.intersections[i][size - i - 1])
         city.add_road(road)
 
     def _create_surrounding_ring_road(self, city, size):
-        ring_road = Trunk(name='RingRoad')
+        ring_road_1 = Trunk(name='RingRoad1')
         for x in range(size):
-            ring_road.add_point(self.intersections[x][0])
+            ring_road_1.add_point(self.intersections[x][0])
         for y in range(1, size):
-            ring_road.add_point(self.intersections[size - 1][y])
-        for x in range(1, size):
-            ring_road.add_point(self.intersections[size - x - 1][size - 1])
-        for y in range(1, size - 1):
-            ring_road.add_point(self.intersections[0][size - y - 1])
+            ring_road_1.add_point(self.intersections[size - 1][y])
+        city.add_road(ring_road_1)
 
-        # We don't support self-touching streets yet, so avoid it by using
-        # a slightly changed point
-        closing_point = self.intersections[0][0]
-        ring_road.add_point(closing_point + Point(0, 0.0001, 0))
-
-        city.add_road(ring_road)
+        ring_road_2 = Trunk(name='RingRoad2')
+        for x in range(size):
+            ring_road_2.add_point(self.intersections[size - x - 1][size - 1])
+        for y in range(1, size):
+            ring_road_2.add_point(self.intersections[0][size - y - 1])
+        city.add_road(ring_road_2)
 
     def _create_blocks(self, city, size):
         blocks_count = size - 1

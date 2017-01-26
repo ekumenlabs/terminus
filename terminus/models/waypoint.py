@@ -40,7 +40,7 @@ class Waypoint(object):
                (self.type == other.type) and \
                (self.center == other.center) and \
                (self.road == other.road)
-        # Also was  (self.source_node == other.source_node)
+        # (self.source_node == other.source_node)
 
     def __ne__(self, other):
         return not self.__eq__(other)
