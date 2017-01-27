@@ -1,4 +1,4 @@
-from math import hypot
+from math import hypot, copysign
 from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.line import Line
@@ -25,8 +25,8 @@ class Lane(object):
     def width(self):
         return self._width
 
-    def distance_to_road(self):
-        return abs(self.offset) + (self.width / 2.0)
+    def external_offset(self):
+        return copysign(abs(self.offset()) + (self.width() / 2.0), self.offset())
 
     def accept(self, generator):
         generator.start_lane(self)
@@ -186,7 +186,7 @@ class Lane(object):
         intersecting_roads = my_first_node.involved_roads_except(self._road)
         intersecting_lanes = []
         for road in intersecting_roads:
-            intersecting_lanes.extend(road.lanes)
+            intersecting_lanes.extend(road.get_lanes())
 
         for lane in intersecting_lanes:
             my_geometry_as_line_string = self.geometry_as_line_string()
@@ -248,7 +248,7 @@ class Lane(object):
         intersecting_roads = my_last_node.involved_roads_except(self._road)
         intersecting_lanes = []
         for road in intersecting_roads:
-            intersecting_lanes.extend(road.lanes)
+            intersecting_lanes.extend(road.get_lanes())
         for lane in intersecting_lanes:
             my_geometry_as_line_string = self.geometry_as_line_string()
             derived_lane_geometry_as_line_string = lane.derived_geometry_as_line_string()
@@ -311,7 +311,7 @@ class Lane(object):
         nodes = []
         needs_sorting = False
         intersections = {}
-        for index, node in enumerate(self._road.nodes):
+        for index, node in enumerate(self._road.get_nodes()):
             # Lets hack this for now
             if isinstance(node, SimpleNode):
                 point = geometry[index]
@@ -323,7 +323,7 @@ class Lane(object):
                 intersecting_roads = node.involved_roads_except(self._road)
                 intersecting_lanes = []
                 for road in intersecting_roads:
-                    intersecting_lanes.extend(road.lanes)
+                    intersecting_lanes.extend(road.get_lanes())
                 for lane in intersecting_lanes:
                     lane_geometry_as_line_string = lane.geometry_as_line_string()
                     intersection = geometry_as_line_string.intersection(lane_geometry_as_line_string)

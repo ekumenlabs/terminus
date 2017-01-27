@@ -2,8 +2,8 @@ from road import Road
 
 
 class Trunk(Road):
-    def __init__(self, width=10, name=None):
-        super(Trunk, self).__init__(width, name)
+    def __init__(self, name=None):
+        super(Trunk, self).__init__(name)
         self.add_lane(2)
         self.add_lane(-2)
 

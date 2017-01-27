@@ -85,34 +85,35 @@ class SimpleCityBuilder(object):
 
     def _create_blocks(self, city, size):
         blocks_count = size - 1
-        block_size = 95
+        block_size = 96
         inital_offset = 50
-        street_width = 5
-        half_street_width = street_width / 2.0
+        street_width = 4
+        trunk_width = 8
+        half_trunk_width = trunk_width / 2.0
 
         for x in range(blocks_count):
             for y in range(blocks_count):
                 if x == y:
-                    origin = Point(street_width + 1 + x * self.multiplier,
-                                   half_street_width + y * self.multiplier, 0)
+                    origin = Point(trunk_width + 1 + x * self.multiplier,
+                                   half_trunk_width + y * self.multiplier, 0)
                     vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, 91.5, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
 
-                    origin = Point(half_street_width + x * self.multiplier,
-                                   street_width + 1 + y * self.multiplier, 0)
+                    origin = Point(half_trunk_width + x * self.multiplier,
+                                   trunk_width + 1 + y * self.multiplier, 0)
                     vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(91.5, 91.5, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
                 elif x + y == blocks_count - 1:
-                    origin = Point(half_street_width + x * self.multiplier,
-                                   half_street_width + y * self.multiplier, 0)
+                    origin = Point(half_trunk_width + x * self.multiplier,
+                                   half_trunk_width + y * self.multiplier, 0)
                     vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, 91.5, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
 
-                    origin = Point((x + 1) * self.multiplier - half_street_width,
-                                   street_width + 1 + y * self.multiplier, 0)
+                    origin = Point((x + 1) * self.multiplier - half_trunk_width,
+                                   trunk_width + 1 + y * self.multiplier, 0)
                     vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(-91.5, 91.5, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)

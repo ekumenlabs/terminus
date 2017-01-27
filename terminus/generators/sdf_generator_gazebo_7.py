@@ -15,7 +15,7 @@ class SDFGeneratorGazebo7(AbstractSDFGenerator):
     def street_template(self):
         return """
         <road name="{{model.name}}">
-          <width>{{model.width}}</width>
+          <width>{{model.width()}}</width>
           <material>
             <script>
               <uri>file://media/materials/scripts/gazebo.material</uri>
@@ -30,11 +30,11 @@ class SDFGeneratorGazebo7(AbstractSDFGenerator):
     def trunk_template(self):
         return """
         <road name="{{model.name}}">
-          <width>{{model.width}}</width>
+          <width>{{model.width()}}</width>
           <material>
             <script>
               <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Trunk</name>
+              <name>Gazebo/Primary</name>
             </script>
           </material>
         {% for node in model.nodes %}

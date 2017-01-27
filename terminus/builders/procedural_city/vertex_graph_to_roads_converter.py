@@ -24,9 +24,9 @@ class VertexGraphToRoadsConverter(object):
             node = to_traverse.pop(0)
             while node.get_neighbours_to_traverse():
                 if node.is_minor_road:
-                    road = Street(width=4)
+                    road = Street()
                 else:
-                    road = Trunk(width=22)
+                    road = Trunk()
                 if node.neighbours_count() > 1:
                     self.city.add_intersection_at(node.location)
 
@@ -70,7 +70,7 @@ class VertexGraphToRoadsConverter(object):
                 # node but had 2 neighbours, since it should be flagged as
                 # an intersection.
                 if current_node.neighbours_count() == 2:
-                    last_node = road.nodes[-1]
+                    last_node = road.get_nodes()[-1]
                     self.city.add_intersection_at(last_node.center)
 
     def _angle_2d(self, point_from, point_to):

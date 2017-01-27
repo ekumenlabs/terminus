@@ -20,7 +20,7 @@ class City(CityModel):
         self.roads.append(road)
         # We assume there will be globally way more intersections than nodes
         # in a street
-        for node in road.nodes:
+        for node in road.get_nodes():
             if node.center in self.intersections:
                 intersection = self.intersections[node.center]
                 road.replace_node_at(node.center, intersection)
