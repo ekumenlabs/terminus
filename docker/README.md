@@ -2,16 +2,30 @@
 
 In order to guarantee that we are all using the same gazebo configuration we have created a docker image that downloads and compiles Gazebo 8.
 
-## Usage
+## Docker image build
 
-To start the container just execute the script `run_simulator`:
+The available container names are the following:
+
+| Container Target             | Description |
+|------------------------------|-------------|
+| gazebo-terminus              | It builds the local, base and stable container. |
+| gazebo-terminus-dev          | It builds the local, base and development container. |
+| gazebo-terminus-intel-local  | It builds the local, base and stable container. |
+| gazebo-terminus-intel-dev    | It builds the local, base and development container. |
+| gazebo-terminus-nvidia-local | It builds the local, base and stable container. |
+| gazebo-terminus-nvidia-local | It builds the local, base and development container. |
+| gazebo-terminus-intel        | It pulls the ekumenlabs/gazebo-terminus container (stable) and compiles the Intel drivers part. |
+| gazebo-terminus-nvidia       | It pulls the ekumenlabs/gazebo-terminus container (stable) and compiles the NVidia drivers part. |
+
+To build them, just call make:
 
 ```
 cd {REPOSITORY_PATH}/terminus/docker
-$ ./run_simulator [CONTAINER_NAME:TAG] [IMAGE_NAME]
+$ ./make [CONTAINER_TARGET]
 ```
 
-The available image names are the following:
+## Usage
+
 
 | Name                         | Tag    | Function                                                                                                                                  |
 |------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
@@ -24,12 +38,31 @@ The available image names are the following:
 | gazebo-terminus-intel        | latest | It is based on the ekumenlabs/gazebo-terminus:latest and includes Intel graphic card drivers.                                             |
 | gazebo-terminus-nvidia       | latest | It is based on the ekumenlabs/gazebo-terminus:latest and includes Intel graphic card drivers.                                             |
 
-We recommend to use the same name for the container, so you should run one of these commands for example:
+To start the container just execute the script `run_simulator`:
 
 ```
-$ ./run_simulator gazebo-terminus-nvidia gazebo-terminus-nvidia
-$ ./run_simulator gazebo-terminus-intel gazebo-terminus-intel
+cd {REPOSITORY_PATH}/terminus/docker
+$ ./run_simulator [CONTAINER_NAME:TAG] [IMAGE_NAME]
+```
+
+We recommend to use the same name for the container, so you should run one of these commands for example:
+
+_ Run one of these for the Docker Hub based containers: _
+
+```
+$ ./run_simulator gazebo-terminus-nvidia ekumenlabs-terminus-nvidia
+$ ./run_simulator gazebo-terminus-intel ekumenlabs-terminus-intel
+```
+
+_ Run this for the a local and stable container: _
+
+```
 $ ./run_simulator gazebo-terminus-intel-local:latest gazebo-terminus-intel-local
+```
+
+_ Run this for the a local and development container: _
+
+```
 $ ./run_simulator gazebo-terminus-nvidia-local:dev gazebo-terminus-nvidia-local
 ```
 

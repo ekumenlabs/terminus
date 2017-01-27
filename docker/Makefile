@@ -5,7 +5,7 @@ DOCKER_ARGS?=
 NVIDIA_DRIVER?="nvidia-367"
 
 default: gazebo-terminus
-	# You need to specify a particular target
+# You need to specify a particular target
 #--------------------------------------------------------------------------
 # Stable and local targets
 .PHONY: gazebo-terminus
@@ -40,5 +40,5 @@ gazebo-terminus-intel-dev: gazebo-terminus-dev
 
 .PHONY: ekumenlabs-terminus-nvidia
 gazebo-terminus-nvidia-dev: gazebo-terminus-dev
-	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t ekumenlabs-terminus-nvidia-local:dev ekumenlabs-terminus-nvidia-dev
+	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo-terminus-nvidia-local:dev gazebo-terminus-nvidia-dev
 
