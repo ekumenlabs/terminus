@@ -33,6 +33,6 @@ class OpenDriveGeneratorTest(unittest.TestCase):
         self._assert_contents_are("""
         <?xml version="1.0" standalone="yes"?>
           <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="Empty" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="0" maxJunc="0" maxPrg="0">
-            </header>\n
+            <header revMajor="1" revMinor="1" name="Empty" version="1.00" north="0.0" south="0.0" east="0.0" west="0.0" maxRoad="0" maxJunc="0" maxPrg="0">
+            </header>
         </OpenDRIVE>""")
