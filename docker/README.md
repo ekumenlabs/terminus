@@ -47,20 +47,20 @@ $ ./run_simulator [CONTAINER_NAME:TAG] [IMAGE_NAME]
 
 We recommend to use the same name for the container, so you should run one of these commands for example:
 
-_ Run one of these for the Docker Hub based containers: _
+_Run one of these for the Docker Hub based containers:_
 
 ```
 $ ./run_simulator gazebo-terminus-nvidia ekumenlabs-terminus-nvidia
 $ ./run_simulator gazebo-terminus-intel ekumenlabs-terminus-intel
 ```
 
-_ Run this for the a local and stable container: _
+_Run this for the a local and stable container:_
 
 ```
 $ ./run_simulator gazebo-terminus-intel-local:latest gazebo-terminus-intel-local
 ```
 
-_ Run this for the a local and development container: _
+_Run this for the a local and development container:_
 
 ```
 $ ./run_simulator gazebo-terminus-nvidia-local:dev gazebo-terminus-nvidia-local
