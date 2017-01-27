@@ -56,10 +56,11 @@ class RNDFGenerator(FileGenerator):
         for exit_waypoint in exit_waypoints:
             for entry_waypoint in exit_waypoint.connected_waypoints():
                 connection = WaypointConnection(self, exit_waypoint, entry_waypoint)
-                waypoint_connections.append(connection)
-        # TODO: Don't know why we sometimes get repeated entry-exit connections
-        # Need to understand and fix this.
-        return set(waypoint_connections)
+                # TODO: Don't know why we sometimes get repeated entry-exit
+                # connections. Need to understand and fix this.
+                if connection not in waypoint_connections:
+                    waypoint_connections.append(connection)
+        return waypoint_connections
 
     def translate_waypoint(self, waypoint):
         center = (waypoint.center.y, waypoint.center.x)
