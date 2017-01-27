@@ -1,5 +1,5 @@
 from geometry.point import Point
-
+import numpy as np
 # Note: These classes are imported from the procedural city generator repo so
 # we can de-serialize the file contents. These classes will likely change in
 # the future as we move forward, especially to provide conversion messages
