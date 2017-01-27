@@ -16,7 +16,7 @@ from geometry.bounding_box import BoundingBox
 
 class CityTest(unittest.TestCase):
 
-    def test_city(self):
+    def test_accept_with_ground_plane(self):
      	city = self.city
         road = mock.Mock()
         ground_plane = mock.Mock()
@@ -27,11 +27,27 @@ class CityTest(unittest.TestCase):
         city.set_ground_plane(ground_plane)
         city.add_block(block)
         generator_mock = mock.Mock()
-        city.accept(generator_mock)
         city_calls = [mock.call.start_city(city), mock.call.end_city(city)]
+        city.accept(generator_mock)
         generator_mock.assert_has_calls(city_calls)
         road.accept.assert_called()
         ground_plane.accept.assert_called()
+        building.accept.assert_called()
+        block.accept.assert_called()
+
+    def test_accept_without_ground_plane(self):
+        city = City()
+        road = mock.Mock()
+        building = mock.Mock()
+        block = mock.Mock()
+        city.add_road(road)
+        city.add_building(building)
+        city.add_block(block)
+        generator_mock = mock.Mock()
+        city_calls = [mock.call.start_city(city), mock.call.end_city(city)]
+        city.accept(generator_mock)
+        generator_mock.assert_has_calls(city_calls)
+        road.accept.assert_called()
         building.accept.assert_called()
         block.accept.assert_called()
 

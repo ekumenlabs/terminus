@@ -8,12 +8,12 @@ from models.block import Block
 
 class BlockTest(unittest.TestCase):
 
-   def test_block(self):
+    def test_accept(self):
         vertices = [Point(0, 0, 0), Point(0, 1, 0), Point(1, 0, 0)]
         block = Block(Point(0, 0, 0), vertices)
         generator_mock = mock.Mock()
-        block.accept(generator_mock)
         calls = [mock.call.start_block(block), mock.call.end_block(block)]
+        block.accept(generator_mock)
         generator_mock.assert_has_calls(calls)
 
     def test_bounding_box(self):

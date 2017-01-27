@@ -19,7 +19,7 @@ class PcgRunner(object):
     def get_vertices_filename(self):
         return self.verticesFilename
 
-    def get_polygonsFilename(self):
+    def get_polygons_filename(self):
         return self.polygonsFilename
 
     def run(self):

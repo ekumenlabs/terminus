@@ -8,12 +8,12 @@ from models.building import Building
 
 class BuildingTest(unittest.TestCase):
 
-   def test_building(self):
+    def test_accept(self):
         vertices = [Point(0, 0, 0), Point(0, 1, 0), Point(1, 0, 0)]
         building = Building(Point(0, 0, 0), vertices)
         generator_mock = mock.Mock()
-        building.accept(generator_mock)
         calls = [mock.call.start_building(building), mock.call.end_building(building)]
+        building.accept(generator_mock)
         generator_mock.assert_has_calls(calls)
 
     def test_bounding_box(self):

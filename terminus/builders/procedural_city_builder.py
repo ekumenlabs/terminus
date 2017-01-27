@@ -23,8 +23,12 @@ import pickle
 
 
 class ProceduralCityBuilder(AbstractCityBuilder):
-    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500, pcg_runner=PcgRunner()):
-        self.pcg_runner = pcg_runner
+    def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500, pcg_runner=None):
+        if pcg_runner == None:
+            # Default runner
+            self.pcg_runner = PcgRunner()
+        else:
+            self.pcg_runner = pcg_runner
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)
@@ -37,6 +41,8 @@ class ProceduralCityBuilder(AbstractCityBuilder):
         # generate new ones using procedural_city_generation
         if self.verticesFilename is None or self.polygonsFilename is None:
             self.pcg_runner.run()
+            self.verticesFilename = self.pcg_runner.get_vertices_filename()
+            self.polygonsFilename = self.pcg_runner.get_polygons_filename()
 
         vertices = self._parse_vertices_file()
         self._build_roads(city, vertices)
@@ -82,12 +88,12 @@ class ProceduralCityBuilder(AbstractCityBuilder):
     def _parse_vertices_file(self):
         original = 'procedural_city_generation.roadmap.Vertex'
         replace = 'builders.procedural_city.vertex'
-        return self._parse_replacing(self.pcg_runner.get_vertices_filename(), original, replace)
+        return self._parse_replacing(self.verticesFilename, original, replace)
 
     def _parse_polygons_file(self):
         original = 'procedural_city_generation.polygons.Polygon2D'
         replace = 'builders.procedural_city.polygon2d'
-        return self._parse_replacing(self.pcg_runner.get_polygonsFilename(), original, replace)
+        return self._parse_replacing(self.polygonsFilename, original, replace)
 
     def _parse_replacing(self, filename, original_name, replace_name):
         with open(filename, 'rb') as f:
