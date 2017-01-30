@@ -303,49 +303,95 @@ class LaneTest(unittest.TestCase):
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, outer_horizontal_lane.geometry())
 
-        outer_vertical_lane = vertical_trunk.get_lanes()[0]
+
+    def test_geometry_extension_for_L_shaped_intersection_and_diagoal_two_lanes(self):
+        '''
+            |   /
+            |  /
+            | /
+            |/
+            --------
+        '''
+        vertical_trunk = Road.from_points([Point(0, 1000), Point(0, 0)])
+        vertical_trunk.add_lane(7)
+        vertical_trunk.add_lane(-7)
+
+        horizontal_trunk = Road.from_points([Point(0, 0), Point(1000, 0)])
+        horizontal_trunk.add_lane(7)
+        horizontal_trunk.add_lane(-7)
+
+        # diagonal_trunk = Road.from_points([Point(0, 0), Point(1000, 1000)])
+        # diagonal_trunk.add_lane(7)
+        # diagonal_trunk.add_lane(-7)
+
+        city = City()
+        city.add_intersection_at(Point(0, 0))
+        city.add_road(horizontal_trunk)
+        city.add_road(vertical_trunk)
+        # city.add_road(diagonal_trunk)
+
+        inner_horizontal_lane = horizontal_trunk.get_lanes()[0]
         expected_points = [
-            Point(-2, 2),
-            Point(-2, -1000)
+            Point(-7, -7),
+            Point(1000, -7)
+        ]
+        self.assertPointCollectionsAreAlmostEquals(expected_points, inner_horizontal_lane.geometry())
+
+        outer_horizontal_lane = horizontal_trunk.get_lanes()[1]
+        expected_points = [
+            Point(-7, 7),
+            Point(1000, 7)
+        ]
+        self.assertPointCollectionsAreAlmostEquals(expected_points, outer_horizontal_lane.geometry())
+
+        inner_vertical_lane = vertical_trunk.get_lanes()[0]
+        expected_points = [
+            Point(-7, 1000),
+            Point(-7, -7)
+        ]
+        self.assertPointCollectionsAreAlmostEquals(expected_points, inner_vertical_lane.geometry())
+        outer_vertical_lane = vertical_trunk.get_lanes()[1]
+        expected_points = [
+            Point(7, 1000),
+            Point(7, -7)
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, outer_vertical_lane.geometry())
 
-        inner_vertical_lane = vertical_trunk.get_lanes()[1]
-        expected_points = [
-            Point(2, 2),
-            Point(2, -1000)
-        ]
-        self.assertPointCollectionsAreAlmostEquals(expected_points, inner_vertical_lane.geometry())
-
     def test_get_waypoints_no_intersection(self):
+        '''
+        There are no intersections, so the waypoints should match the lane geometry
+        '''
 
-        # No offset
         street = Street.from_points(self.horizontal_points)
 
+        # No offset
         lane = Lane(street, 5, 0)
         expected_points = lane.geometry()
-        expected_waypoints = map(lambda point: Waypoint(lane, lane, point), expected_points)
+        points_and_nodes = zip(expected_points, lane.get_nodes())
+        expected_waypoints = map(lambda (point, node): Waypoint(lane, node, point), points_and_nodes)
         self.assertEquals(expected_waypoints, lane.get_waypoints())
 
-        # Positive offset
+        #Positive offset
         lane = Lane(street, 5, 5)
         expected_points = lane.geometry()
-        expected_waypoints = map(lambda point: Waypoint(lane, lane, point), expected_points)
+        points_and_nodes = zip(expected_points, lane.get_nodes())
+        expected_waypoints = map(lambda (point, node): Waypoint(lane, node, point), points_and_nodes)
         self.assertEquals(expected_waypoints, lane.get_waypoints())
 
         # Negative offset
         lane = Lane(street, 5, 5)
         expected_points = lane.geometry()
-        expected_waypoints = map(lambda point: Waypoint(lane, lane, point), expected_points)
+        points_and_nodes = zip(expected_points, lane.get_nodes())
+        expected_waypoints = map(lambda (point, node): Waypoint(lane, node, point), points_and_nodes)
         self.assertEquals(expected_waypoints, lane.get_waypoints())
 
     def test_get_waypoints_single_intersection_no_offset(self):
         '''
-                 |
-                 |
-            --*--+--*--
-                 |
-                 |
+                     |
+                     |
+            W-->--O--+--I-->--W
+                     |
+                     |
         '''
         horizontal_street = Street.from_points(self.horizontal_points)
         vertical_street = Street.from_points(self.vertical_points)
@@ -356,23 +402,24 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_street)
 
         lane = horizontal_street.get_lanes()[0]
+        lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
-            Waypoint(lane, None, Point(-1000, 0)),
-            Waypoint.exit(lane, None, Point(-5, 0)),
-            Waypoint.entry(lane, None, Point(5, 0)),
-            Waypoint(lane, None, Point(1000, 0))
+            Waypoint(lane, lane_nodes[0], Point(-1000, 0)),
+            Waypoint.exit(lane, lane_nodes[1], Point(-5, 0)),
+            Waypoint.entry(lane, lane_nodes[1], Point(5, 0)),
+            Waypoint(lane, lane_nodes[2], Point(1000, 0))
         ]
 
         self.assertEquals(expected_waypoints, lane.get_waypoints())
 
     def test_get_waypoints_single_intersection_45_deg_no_offset(self):
         '''
+                       /
+                      /
+            W-->--O--/--I-->--O
+                    /
                    /
-                  /
-            --*--+--*--
-                /
-               /
         '''
         horizontal_street = Street.from_points(self.horizontal_points)
         diagonal_street = Street.from_points(self.diagonal_points)
@@ -383,12 +430,13 @@ class LaneTest(unittest.TestCase):
         city.add_road(diagonal_street)
 
         lane = horizontal_street.get_lanes()[0]
+        lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
-            Waypoint(lane, None, Point(-1000, 0)),
-            Waypoint.exit(lane, None, Point(-5, 0)),
-            Waypoint.entry(lane, None, Point(5, 0)),
-            Waypoint(lane, None, Point(1000, 0))
+            Waypoint(lane, lane_nodes[0], Point(-1000, 0)),
+            Waypoint.exit(lane, lane_nodes[1], Point(-5, 0)),
+            Waypoint.entry(lane, lane_nodes[1], Point(5, 0)),
+            Waypoint(lane, lane_nodes[2], Point(1000, 0))
         ]
 
         self.assertEquals(expected_waypoints, lane.get_waypoints())
@@ -399,11 +447,11 @@ class LaneTest(unittest.TestCase):
         we get just two wayponints, as the relative distance to the intersection
         point is the same (and we shouldn't get two waypoints at the same point)
 
-                 | /
-                 |/
-            --*--+--*--
-                /|
-               / |
+                     | /
+                     |/
+            W-->--O--+--I-->--W
+                    /|
+                   / |
         '''
         horizontal_street = Street.from_points(self.horizontal_points)
         vertical_street = Street.from_points(self.vertical_points)
@@ -416,12 +464,13 @@ class LaneTest(unittest.TestCase):
         city.add_road(diagonal_street)
 
         lane = horizontal_street.get_lanes()[0]
+        lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
-            Waypoint(lane, None, Point(-1000, 0)),
-            Waypoint.exit(lane, None, Point(-5, 0)),
-            Waypoint.entry(lane, None, Point(5, 0)),
-            Waypoint(lane, None, Point(1000, 0))
+            Waypoint(lane, lane_nodes[0], Point(-1000, 0)),
+            Waypoint.exit(lane, lane_nodes[1], Point(-5, 0)),
+            Waypoint.entry(lane, lane_nodes[1], Point(5, 0)),
+            Waypoint(lane, lane_nodes[2], Point(1000, 0))
         ]
 
         self.assertEquals(expected_waypoints, lane.get_waypoints())
@@ -431,15 +480,15 @@ class LaneTest(unittest.TestCase):
         Note that since the default lane width is 4 meters and we use 5 meters
         distance to define the crossing waypoints we will get first the two exit
         ones and then the two entry ones
-                    |        |
-                    ^        ^
-                    |        |
-            -->--O--+--O--I--+--I-->--
-                    |        |
-            -->--O--+--O--I--+--I-->--
-                    |        |
-                    ^        ^
-                    |        |
+                     |        |
+                     ^        ^
+                     |        |
+            W-->--O--+--O--I--+--I-->--W
+                     |        |
+            W-->--O--+--O--I--+--I-->--W
+                     |        |
+                     ^        ^
+                     |        |
         '''
         horizontal_trunk = Trunk.from_points(self.horizontal_points)
         vertical_trunk = Trunk.from_points(self.vertical_points)
@@ -450,24 +499,27 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
 
         horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
+
         horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
-            Waypoint(horizontal_lane_1, None, Point(-1000, -2)),
-            Waypoint.exit(horizontal_lane_1, None, Point(-7, -2)),
-            Waypoint.exit(horizontal_lane_1, None, Point(-2, -2)),
-            Waypoint.entry(horizontal_lane_1, None, Point(2, -2)),
-            Waypoint.entry(horizontal_lane_1, None, Point(7, -2)),
-            Waypoint(horizontal_lane_1, None, Point(1000, -2))
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, -2)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-7, -2)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(-2, -2)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(2, -2)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(7, -2)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, -2))
         ]
 
         expected_waypoints_lane_2 = [
-            Waypoint(horizontal_lane_2, None, Point(-1000, 2)),
-            Waypoint.exit(horizontal_lane_2, None, Point(-7, 2)),
-            Waypoint.exit(horizontal_lane_2, None, Point(-2, 2)),
-            Waypoint.entry(horizontal_lane_2, None, Point(2, 2)),
-            Waypoint.entry(horizontal_lane_2, None, Point(7, 2)),
-            Waypoint(horizontal_lane_2, None, Point(1000, 2))
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, 2)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-7, 2)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(-2, 2)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(2, 2)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(7, 2)),
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, 2))
         ]
 
         self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
@@ -478,15 +530,15 @@ class LaneTest(unittest.TestCase):
         Make the lane be separated by using a 5 meters offset. With this value,
         the entry and exit waypoint should overlap.
 
-                    |       |
-                    ^       ^
-                    |       |
-            -->--O--+--I/O--+--I-->--
-                    |       |
-            -->--O--+--I/O--+--I-->--
-                    |       |
-                    ^       ^
-                    |       |
+                     |       |
+                     ^       ^
+                     |       |
+            W-->--O--+--I/O--+--I-->--W
+                     |       |
+            W-->--O--+--I/O--+--I-->--W
+                     |       |
+                     ^       ^
+                     |       |
         '''
         horizontal_trunk = Road.from_points(self.horizontal_points)
         horizontal_trunk.add_lane(5)
@@ -501,24 +553,27 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
 
         horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
+
         horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
-            Waypoint(horizontal_lane_1, None, Point(-1000, -5)),
-            Waypoint.exit(horizontal_lane_1, None, Point(-10, -5)),
-            Waypoint.entry(horizontal_lane_1, None, Point(0, -5)),
-            Waypoint.exit(horizontal_lane_1, None, Point(0, -5)),
-            Waypoint.entry(horizontal_lane_1, None, Point(10, -5)),
-            Waypoint(horizontal_lane_1, None, Point(1000, -5))
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, -5)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-10, -5)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(0, -5)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(0, -5)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(10, -5)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, -5))
         ]
 
         expected_waypoints_lane_2 = [
-            Waypoint(horizontal_lane_2, None, Point(-1000, 5)),
-            Waypoint.exit(horizontal_lane_2, None, Point(-10, 5)),
-            Waypoint.entry(horizontal_lane_2, None, Point(0, 5)),
-            Waypoint.exit(horizontal_lane_2, None, Point(0, 5)),
-            Waypoint.entry(horizontal_lane_2, None, Point(10, 5)),
-            Waypoint(horizontal_lane_2, None, Point(1000, 5))
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, 5)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-10, 5)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(0, 5)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(0, 5)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(10, 5)),
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, 5))
         ]
 
         self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
@@ -529,15 +584,15 @@ class LaneTest(unittest.TestCase):
         Finally, separate the lanes more than 5 meters. Then we should get the
         O-I-O-I sequence in the waypoints.
 
-                    |        |
-                    ^        ^
-                    |        |
-            -->--O--+--I--O--+--I-->--
-                    |        |
-            -->--O--+--I--O--+--I-->--
-                    |        |
-                    ^        ^
-                    |        |
+                     |        |
+                     ^        ^
+                     |        |
+            W-->--O--+--I--O--+--I-->--W
+                     |        |
+            W-->--O--+--I--O--+--I-->--W
+                     |        |
+                     ^        ^
+                     |        |
         '''
         horizontal_trunk = Road.from_points(self.horizontal_points)
         horizontal_trunk.add_lane(7)
@@ -552,24 +607,27 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
 
         horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
+
         horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
-            Waypoint(horizontal_lane_1, None, Point(-1000, -7)),
-            Waypoint.exit(horizontal_lane_1, None, Point(-12, -7)),
-            Waypoint.entry(horizontal_lane_1, None, Point(-2, -7)),
-            Waypoint.exit(horizontal_lane_1, None, Point(2, -7)),
-            Waypoint.entry(horizontal_lane_1, None, Point(12, -7)),
-            Waypoint(horizontal_lane_1, None, Point(1000, -7))
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, -7)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-12, -7)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-2, -7)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(2, -7)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(12, -7)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, -7))
         ]
 
         expected_waypoints_lane_2 = [
-            Waypoint(horizontal_lane_2, None, Point(-1000, 7)),
-            Waypoint.exit(horizontal_lane_2, None, Point(-12, 7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(-2, 7)),
-            Waypoint.exit(horizontal_lane_2, None, Point(2, 7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(12, 7)),
-            Waypoint(horizontal_lane_2, None, Point(1000, 7))
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, 7)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-12, 7)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-2, 7)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(2, 7)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(12, 7)),
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, 7))
         ]
 
         self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
@@ -578,12 +636,12 @@ class LaneTest(unittest.TestCase):
     def test_get_waypoints_T_shaped_intersection_two_lanes_exit_only(self):
         '''
 
-            -->--O--W---O--W---->--
-                    |      |
-            -->--O--W--IO--W--I-->--
-                    |      |
-                    v      v
-                    |      |
+            W-->--O--W---O--W----->--W
+                     |      |
+            W-->--O--+--IO--+--I-->--W
+                     |      |
+                     v      v
+                     |      |
         '''
         horizontal_trunk = Road.from_points(self.horizontal_points)
         horizontal_trunk.add_lane(-7)
@@ -598,24 +656,27 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
 
         horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
+
         horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
-            Waypoint(horizontal_lane_1, None, Point(-1000, 7)),
-            Waypoint.exit(horizontal_lane_1, None, Point(-12, 7)),
-            Waypoint(horizontal_lane_1, None, Point(-7, 7)),
-            Waypoint.exit(horizontal_lane_1, None, Point(2, 7)),
-            Waypoint(horizontal_lane_1, None, Point(7, 7)),
-            Waypoint(horizontal_lane_1, None, Point(1000, 7))
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, 7)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-12, 7)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-7, 7)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(2, 7)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(7, 7)),
+            Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, 7))
         ]
 
         expected_waypoints_lane_2 = [
-            Waypoint(horizontal_lane_2, None, Point(-1000, -7)),
-            Waypoint.exit(horizontal_lane_2, None, Point(-12, -7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(-2, -7)),
-            Waypoint.exit(horizontal_lane_2, None, Point(2, -7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(12, -7)),
-            Waypoint(horizontal_lane_2, None, Point(1000, -7))
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, -7)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-12, -7)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-2, -7)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(2, -7)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(12, -7)),
+            Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, -7))
         ]
 
         self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
@@ -623,18 +684,19 @@ class LaneTest(unittest.TestCase):
 
     def test_get_waypoints_L_shaped_intersection_two_lanes_exit_only(self):
         '''
+            W     W
             |     |
             v     v
             |     |
             O     O
             |\    |\
-            |-I-O---I-------->----
+            W-I-O---I-------->----W
             |    \|
-            |    I/O
+            |     I
             |     |
             O     O
             |\    |\
-            --I-----I--------->----
+            W-I---W-I-------->----W
         '''
         vertical_trunk = Road.from_points([Point(0, 1000), Point(0, 0)])
         vertical_trunk.add_lane(7)
@@ -649,46 +711,50 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
 
         vertical_lane_1 = vertical_trunk.get_lanes()[0]
+        lane_nodes = vertical_lane_1.get_nodes()
 
         expected_waypoints = [
-            Waypoint(vertical_lane_1, None, Point(-7, 1000)),
-            Waypoint.exit(vertical_lane_1, None, Point(-7, 12)),
-            Waypoint(vertical_lane_1, None, Point(-7, 7)),
-            Waypoint.exit(vertical_lane_1, None, Point(-7, -2)),
-            Waypoint(vertical_lane_1, None, Point(-7, -7)),
+            Waypoint(vertical_lane_1, lane_nodes[0], Point(-7, 1000)),
+            Waypoint.exit(vertical_lane_1, lane_nodes[1], Point(-7, 12)),
+            Waypoint(vertical_lane_1, lane_nodes[1], Point(-7, 7)),
+            Waypoint.exit(vertical_lane_1, lane_nodes[2], Point(-7, -2)),
+            Waypoint(vertical_lane_1, lane_nodes[2], Point(-7, -7)),
         ]
         self.assertEquals(expected_waypoints, vertical_lane_1.get_waypoints())
 
         vertical_lane_2 = vertical_trunk.get_lanes()[1]
+        lane_nodes = vertical_lane_2.get_nodes()
 
         expected_waypoints = [
-            Waypoint(vertical_lane_2, None, Point(7, 1000)),
-            Waypoint.exit(vertical_lane_2, None, Point(7, 12)),
-            Waypoint.entry(vertical_lane_2, None, Point(7, 2)),
-            Waypoint.exit(vertical_lane_2, None, Point(7, -2)),
-            Waypoint(vertical_lane_2, None, Point(7, -7)),
+            Waypoint(vertical_lane_2, lane_nodes[0], Point(7, 1000)),
+            Waypoint.exit(vertical_lane_2, lane_nodes[1], Point(7, 12)),
+            Waypoint.entry(vertical_lane_2, lane_nodes[1], Point(7, 2)),
+            Waypoint.exit(vertical_lane_2, lane_nodes[2], Point(7, -2)),
+            Waypoint(vertical_lane_2, lane_nodes[2], Point(7, -7)),
         ]
         self.assertEquals(expected_waypoints, vertical_lane_2.get_waypoints())
 
         horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        lane_nodes = horizontal_lane_1.get_nodes()
 
         expected_waypoints = [
-            Waypoint(horizontal_lane_1, None, Point(-7, -7)),
-            Waypoint.entry(horizontal_lane_1, None, Point(-2, -7)),
-            Waypoint(horizontal_lane_1, None, Point(7, -7)),
-            Waypoint.entry(horizontal_lane_1, None, Point(12, -7)),
-            Waypoint(horizontal_lane_1, None, Point(1000, -7)),
+            Waypoint(horizontal_lane_1, lane_nodes[0], Point(-7, -7)),
+            Waypoint.entry(horizontal_lane_1, lane_nodes[0], Point(-2, -7)),
+            Waypoint(horizontal_lane_1, lane_nodes[1], Point(7, -7)),
+            Waypoint.entry(horizontal_lane_1, lane_nodes[1], Point(12, -7)),
+            Waypoint(horizontal_lane_1, lane_nodes[2], Point(1000, -7)),
         ]
         self.assertEquals(expected_waypoints, horizontal_lane_1.get_waypoints())
 
         horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        lane_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints = [
-            Waypoint(horizontal_lane_2, None, Point(-7, 7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(-2, 7)),
-            Waypoint.exit(horizontal_lane_2, None, Point(2, 7)),
-            Waypoint.entry(horizontal_lane_2, None, Point(12, 7)),
-            Waypoint(horizontal_lane_2, None, Point(1000, 7)),
+            Waypoint(horizontal_lane_2, lane_nodes[0], Point(-7, 7)),
+            Waypoint.entry(horizontal_lane_2, lane_nodes[0], Point(-2, 7)),
+            Waypoint.exit(horizontal_lane_2, lane_nodes[1], Point(2, 7)),
+            Waypoint.entry(horizontal_lane_2, lane_nodes[1], Point(12, 7)),
+            Waypoint(horizontal_lane_2, lane_nodes[2], Point(1000, 7)),
         ]
         self.assertEquals(expected_waypoints, horizontal_lane_2.get_waypoints())
 

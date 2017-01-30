@@ -1,9 +1,12 @@
-from city_model import CityModel
 import math
-from simple_node import SimpleNode
-from intersection_node import IntersectionNode
-from lane import Lane
 from shapely.geometry import LineString
+from geometry.point import Point
+
+from city_model import CityModel
+from road_simple_node import RoadSimpleNode
+from road_intersection_node import RoadIntersectionNode
+from lane_intersection_node import LaneIntersectionNode
+from lane import Lane
 
 
 class Road(CityModel):
@@ -43,7 +46,7 @@ class Road(CityModel):
         return self._lanes
 
     def add_point(self, point):
-        node = SimpleNode(point)
+        node = RoadSimpleNode(point)
         self._add_node(node)
         self._point_to_node[point] = node
 
@@ -52,6 +55,9 @@ class Road(CityModel):
 
     def get_nodes(self):
         return self._nodes
+
+    def get_node_at(self, index):
+        return self._nodes[index]
 
     def node_count(self):
         return len(self._nodes)
@@ -68,24 +74,6 @@ class Road(CityModel):
     def is_last_node(self, node):
         return self.last_node() is node
 
-    def previous_node(self, node):
-        index = self._nodes.index(node)
-        if index - 1 >= 0:
-            return self._nodes[index - 1]
-        else:
-            return None
-
-    def following_node(self, node):
-        index = self._nodes.index(node)
-        if index + 1 < len(self._nodes):
-            return self._nodes[index + 1]
-        else:
-            return None
-
-    def dispose(self):
-        for node in self._nodes:
-            node.removed_from(self)
-
     def replace_node_at(self, point, new_node):
         index = self._index_of_node_at(point)
         old_node = self._nodes[index]
@@ -95,9 +83,6 @@ class Road(CityModel):
 
     def includes_point(self, point):
         return point in self._point_to_node
-
-    def node_at(self, point):
-        return self._point_to_node[point]
 
     def reverse(self):
         self._nodes.reverse()
@@ -110,6 +95,9 @@ class Road(CityModel):
         if final is None:
             return math.fsum(distances[initial:])
         return math.fsum(distances[initial:final])
+
+    def waypoints_count(self):
+        return len(self.get_nodes())
 
     def get_waypoint_positions(self):
         return map(lambda waypoint: waypoint.center, self._nodes)
@@ -131,12 +119,8 @@ class Road(CityModel):
     def geometry(self):
         return map(lambda node: node.center, self._nodes)
 
-    def geometry_as_line_string(self, decimal_places=5):
-        # Shapely behaves weirdly with very precise coordinates sometimes,
-        # so we round to 5 decimals by default
-        # http://gis.stackexchange.com/questions/50399/how-best-to-fix-a-non-noded-intersection-problem-in-postgis
-        # http://freigeist.devmag.net/r/691-rgeos-topologyexception-found-non-noded-intersection-between.html
-        coords = map(lambda node: (round(node.center.x, decimal_places), round(node.center.y, decimal_places)), self._nodes)
+    def geometry_as_line_string(self):
+        coords = map(lambda node: node.center.to_tuple(), self._nodes)
         return LineString(coords)
 
     def _index_of_node_at(self, point):

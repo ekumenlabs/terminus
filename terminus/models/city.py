@@ -1,6 +1,6 @@
 from city_model import CityModel
 from datetime import date
-from models.road import *
+from road_intersection_node import RoadIntersectionNode
 
 
 # For the time being, the city will be our Gazebo world
@@ -36,7 +36,7 @@ class City(CityModel):
 
     def add_intersection_at(self, point):
         if point not in self.intersections:
-            intersection = IntersectionNode(point)
+            intersection = RoadIntersectionNode(point)
             # Register intersection
             self.intersections[point] = intersection
             # Add to it existing roads that include that point

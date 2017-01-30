@@ -33,6 +33,9 @@ class LineSegment(object):
 
         return True
 
+    def length(self):
+        return (self.a - self.b).norm()
+
     def is_orthogonal_to(self, line_segment, buffer=0.001):
         return abs((self.b - self.a).dot_product(line_segment.b - line_segment.a)) < buffer
 

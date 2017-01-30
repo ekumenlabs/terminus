@@ -22,7 +22,7 @@ class SDFGeneratorGazebo7(AbstractSDFGenerator):
               <name>Gazebo/Residential</name>
             </script>
           </material>
-        {% for node in model.nodes %}
+        {% for node in model._nodes %}
           <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
         {% endfor %}
         </road>"""
@@ -37,7 +37,7 @@ class SDFGeneratorGazebo7(AbstractSDFGenerator):
               <name>Gazebo/Primary</name>
             </script>
           </material>
-        {% for node in model.nodes %}
+        {% for node in model._nodes %}
           <point>{{node.center.x}} {{node.center.y}} {{node.center.z}}</point>
         {% endfor %}
         </road>"""

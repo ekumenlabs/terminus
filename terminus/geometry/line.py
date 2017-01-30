@@ -28,3 +28,6 @@ class Line(object):
             return Point(dx / d, dy / d)
         else:
             return None
+
+    def __repr__(self):
+        return "Line({0}, {1}, {2})".format(self.a, self.b, self.c)

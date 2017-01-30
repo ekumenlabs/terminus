@@ -28,6 +28,8 @@ class GraphNode(object):
         '''
         Shapely has issues with too-detailed floating points, so we round them
         to 7 decimals (which is just a 0.0000001 meter precision lost)
+        http://gis.stackexchange.com/questions/50399/how-best-to-fix-a-non-noded-intersection-problem-in-postgis
+        http://freigeist.devmag.net/r/691-rgeos-topologyexception-found-non-noded-intersection-between.html
         '''
         location = Point(vertex.coords[0] * ratio, vertex.coords[1] * ratio, 0).rounded_to(7)
         return cls(location, vertex.minor_road)

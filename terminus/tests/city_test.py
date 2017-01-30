@@ -2,8 +2,9 @@ import unittest
 
 from geometry.point import Point
 from models.city import City
-from models.road import *
 from models.street import Street
+from models.road_simple_node import RoadSimpleNode
+from models.road_intersection_node import RoadIntersectionNode
 
 
 class CityTest(unittest.TestCase):
@@ -18,8 +19,8 @@ class CityTest(unittest.TestCase):
         self.city.add_intersection_at(Point(0, 0))
         street = Street.from_points([Point(0, 0), Point(100, 0)])
         self.city.add_road(street)
-        self.assertEquals(street.get_nodes()[0], IntersectionNode.on(0, 0))
-        self.assertEquals(street.get_nodes()[1], SimpleNode.on(100, 0))
+        self.assertEquals(street.get_nodes()[0], RoadIntersectionNode.on(0, 0))
+        self.assertEquals(street.get_nodes()[1], RoadSimpleNode.on(100, 0))
 
     def test_add_intersection_at_is_order_independent(self):
         '''No matter if we create the intersection before or after adding the
@@ -29,8 +30,8 @@ class CityTest(unittest.TestCase):
         street = Street.from_points([Point(0, 0), Point(100, 0)])
         self.city.add_road(street)
         self.city.add_intersection_at(Point(100, 0))
-        self.assertEquals(street.get_nodes()[0], IntersectionNode.on(0, 0))
-        self.assertEquals(street.get_nodes()[1], IntersectionNode.on(100, 0))
+        self.assertEquals(street.get_nodes()[0], RoadIntersectionNode.on(0, 0))
+        self.assertEquals(street.get_nodes()[1], RoadIntersectionNode.on(100, 0))
 
     def test_add_intersection_at_on_two_streets(self):
         '''Check that both streets get the intersection node and that
@@ -41,7 +42,7 @@ class CityTest(unittest.TestCase):
         street2 = Street.from_points([Point(0, 0), Point(100, 100)])
         self.city.add_road(street1)
         self.city.add_road(street2)
-        expected_node = IntersectionNode.on(0, 0)
+        expected_node = RoadIntersectionNode.on(0, 0)
         self.assertEquals(street1.get_nodes()[0], expected_node)
         self.assertEquals(street2.get_nodes()[0], expected_node)
         self.assertTrue(street1.get_nodes()[0] is street2.get_nodes()[0])
@@ -54,5 +55,5 @@ class CityTest(unittest.TestCase):
         street2 = Street.from_points([Point(0, 0, 1), Point(100, 100)])
         self.city.add_road(street1)
         self.city.add_road(street2)
-        self.assertEquals(street1.get_nodes()[0], IntersectionNode.on(0, 0))
-        self.assertEquals(street2.get_nodes()[0], SimpleNode.on(0, 0, 1))
+        self.assertEquals(street1.get_nodes()[0], RoadIntersectionNode.on(0, 0))
+        self.assertEquals(street2.get_nodes()[0], RoadSimpleNode.on(0, 0, 1))
