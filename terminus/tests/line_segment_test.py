@@ -112,4 +112,3 @@ class LineSegmentTest(unittest.TestCase):
     def assertPointAlmostEqual(self, point1, point2):
         self.assertAlmostEqual(point1.x, point2.x)
         self.assertAlmostEqual(point1.y, point2.y)
-
