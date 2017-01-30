@@ -25,7 +25,11 @@ class GraphNode(object):
 
     @classmethod
     def from_vertex(cls, vertex, ratio):
-        location = Point(vertex.coords[0] * ratio, vertex.coords[1] * ratio, 0)
+        '''
+        Shapely has issues with too-detailed floating points, so we round them
+        to 7 decimals (which is just a 0.0000001 meter precision lost)
+        '''
+        location = Point(vertex.coords[0] * ratio, vertex.coords[1] * ratio, 0).rounded_to(7)
         return cls(location, vertex.minor_road)
 
     def set_neighbours(self, neighbours):
