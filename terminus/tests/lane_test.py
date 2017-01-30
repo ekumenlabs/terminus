@@ -303,7 +303,6 @@ class LaneTest(unittest.TestCase):
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, outer_horizontal_lane.geometry())
 
-
     def test_geometry_extension_for_L_shaped_intersection_and_diagoal_two_lanes(self):
         '''
             |   /
@@ -371,7 +370,7 @@ class LaneTest(unittest.TestCase):
         expected_waypoints = map(lambda (point, node): Waypoint(lane, node, point), points_and_nodes)
         self.assertEquals(expected_waypoints, lane.get_waypoints())
 
-        #Positive offset
+        # Positive offset
         lane = Lane(street, 5, 5)
         expected_points = lane.geometry()
         points_and_nodes = zip(expected_points, lane.get_nodes())

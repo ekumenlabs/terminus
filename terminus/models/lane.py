@@ -80,7 +80,7 @@ class Lane(object):
                         self._waypoints.append(waypoint)
             geometry_as_line_string = self.geometry_as_line_string()
             self._waypoints = sorted(self._waypoints,
-                               key=lambda waypoint: geometry_as_line_string.project(waypoint.center.to_shapely_point()))
+                                     key=lambda waypoint: geometry_as_line_string.project(waypoint.center.to_shapely_point()))
         return self._waypoints
 
     def geometry_as_line_string(self):
@@ -231,10 +231,9 @@ class Lane(object):
 
         candidate_segments = map(lambda point: LineSegment(geometry[1], point), points)
         candidate_segments.append(first_segment)
-        candidate_segments.sort(key = lambda segment: segment.length())
+        candidate_segments.sort(key=lambda segment: segment.length())
         new_first_point = candidate_segments[-1].b
         geometry[0] = new_first_point
-
 
         # The first segment of the polyline, pointing outwards
         last_segment = LineSegment(geometry[-2], geometry[-1])
@@ -278,7 +277,7 @@ class Lane(object):
 
         candidate_segments = map(lambda point: LineSegment(geometry[-2], point), points)
         candidate_segments.append(last_segment)
-        candidate_segments.sort(key = lambda segment: segment.length())
+        candidate_segments.sort(key=lambda segment: segment.length())
         new_last_point = candidate_segments[-1].b
         geometry[-1] = new_last_point
 
@@ -329,7 +328,6 @@ class Lane(object):
             nodes = sorted(nodes,
                            key=lambda node: geometry_as_line_string.project(node.center.to_shapely_point()))
         return nodes
-
 
     def _find_index_and_node_matching(self, target_node):
         nodes = self.get_nodes()

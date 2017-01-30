@@ -55,6 +55,7 @@ class Waypoint(object):
         return str(self.type) + "Waypoint at " + str(self.center) + \
             ". Source node " + str(self.source_node)
 
+
 class WaypointType(object):
     def is_exit(self):
         raise NotImplementedError()

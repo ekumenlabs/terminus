@@ -3,6 +3,7 @@ from lane_node import LaneNode
 from shapely.geometry import LineString
 from waypoint import Waypoint
 
+
 class LaneIntersectionNode(LaneNode):
 
     def __init__(self, center, main_lane, road_node):

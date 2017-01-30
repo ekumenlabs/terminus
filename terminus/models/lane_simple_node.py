@@ -24,12 +24,3 @@ class LaneSimpleNode(LaneNode):
 
     def __repr__(self):
         return "LaneSimpleNode @ " + str(self.center)
-
-
-    # def removed_from(self, road):
-    #     self.road = None
-
-
-
-
-
