@@ -1,19 +1,20 @@
-from city_model import CityModel
 import math
-from simple_node import SimpleNode
-from intersection_node import IntersectionNode
-from lane import Lane
 from shapely.geometry import LineString
+from geometry.point import Point
+
+from city_model import CityModel
+from road_simple_node import RoadSimpleNode
+from road_intersection_node import RoadIntersectionNode
+from lane_intersection_node import LaneIntersectionNode
+from lane import Lane
 
 
 class Road(CityModel):
-    def __init__(self, width, name=None):
+    def __init__(self, name=None):
         super(Road, self).__init__(name)
-        self.width = width
-        self.nodes = []
-        self.point_to_node = {}
-        self.lanes = []
-        self.cached_waypoints = None
+        self._nodes = []
+        self._point_to_node = {}
+        self._lanes = []
 
     @classmethod
     def from_nodes(cls, array_of_nodes):
@@ -31,72 +32,60 @@ class Road(CityModel):
             road.add_point(point)
         return road
 
-    def add_lane(self, offset, width=5):
-        self.lanes.append(Lane(self, width, offset))
+    def width(self):
+        external_offsets = map(lambda lane: lane.external_offset(), self.get_lanes())
+        return abs(min(external_offsets)) + abs(max(external_offsets))
+
+    def add_lane(self, offset, width=4):
+        self._lanes.append(Lane(self, width, offset))
+
+    def lane_count(self):
+        return len(self._lanes)
+
+    def get_lanes(self):
+        return self._lanes
 
     def add_point(self, point):
-        node = SimpleNode(point)
-        self.nodes.append(node)
-        node.added_to(self)
-        self.point_to_node[point] = node
-        self.cached_waypoints = None
+        node = RoadSimpleNode(point)
+        self._add_node(node)
+        self._point_to_node[point] = node
 
     def points_count(self):
-        return len(self.nodes)
+        return len(self._nodes)
+
+    def get_nodes(self):
+        return self._nodes
+
+    def get_node_at(self, index):
+        return self._nodes[index]
 
     def node_count(self):
-        return len(self.nodes)
+        return len(self._nodes)
 
-    def get_width(self):
-        return self.width
+    def first_node(self):
+        return self._nodes[0]
 
-    def set_width(self, width):
-        self.width = width
+    def last_node(self):
+        return self._nodes[-1]
 
-    def get_waypoints(self):
-        if self.cached_waypoints is None:
-            self.cached_waypoints = []
-            for node in self.nodes:
-                self.cached_waypoints.extend(node.get_waypoints_for(self))
-        return self.cached_waypoints
+    def is_first_node(self, node):
+        return self.first_node() is node
 
-    def waypoints_count(self):
-        return len(self.get_waypoints())
-
-    def previous_node(self, node):
-        index = self.nodes.index(node)
-        if index - 1 >= 0:
-            return self.nodes[index - 1]
-        else:
-            return None
-
-    def following_node(self, node):
-        index = self.nodes.index(node)
-        if index + 1 < len(self.nodes):
-            return self.nodes[index + 1]
-        else:
-            return None
-
-    def dispose(self):
-        for node in self.nodes:
-            node.removed_from(self)
+    def is_last_node(self, node):
+        return self.last_node() is node
 
     def replace_node_at(self, point, new_node):
         index = self._index_of_node_at(point)
-        old_node = self.nodes[index]
-        self.nodes[index] = new_node
+        old_node = self._nodes[index]
+        self._nodes[index] = new_node
         new_node.added_to(self)
         old_node.removed_from(self)
-        self.cached_waypoints = None
 
     def includes_point(self, point):
-        return point in self.point_to_node
-
-    def node_at(self, point):
-        return self.point_to_node[point]
+        return point in self._point_to_node
 
     def reverse(self):
-        self.nodes.reverse()
+        self._nodes.reverse()
 
     def be_two_way(self):
         pass
@@ -107,8 +96,11 @@ class Road(CityModel):
             return math.fsum(distances[initial:])
         return math.fsum(distances[initial:final])
 
+    def waypoints_count(self):
+        return len(self.get_nodes())
+
     def get_waypoint_positions(self):
-        return map(lambda waypoint: waypoint.center, self.get_waypoints())
+        return map(lambda waypoint: waypoint.center, self._nodes)
 
     def get_waypoint_distances(self):
         points = self.get_waypoint_positions()
@@ -125,35 +117,30 @@ class Road(CityModel):
         return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
 
     def geometry(self):
-        return map(lambda node: node.center, self.nodes)
+        return map(lambda node: node.center, self._nodes)
 
-    def geometry_as_line_string(self, decimal_places=5):
-        # Shapely behaves weirdly with very precise coordinates sometimes,
-        # so we round to 5 decimals by default
-        # http://gis.stackexchange.com/questions/50399/how-best-to-fix-a-non-noded-intersection-problem-in-postgis
-        # http://freigeist.devmag.net/r/691-rgeos-topologyexception-found-non-noded-intersection-between.html
-        coords = map(lambda node: (round(node.center.x, decimal_places), round(node.center.y, decimal_places)), self.nodes)
+    def geometry_as_line_string(self):
+        coords = map(lambda node: node.center.to_tuple(), self._nodes)
         return LineString(coords)
 
     def _index_of_node_at(self, point):
-        return next((index for index, node in enumerate(self.nodes) if node.center == point), None)
+        return next((index for index, node in enumerate(self._nodes) if node.center == point), None)
 
     def _add_node(self, node):
-        self.nodes.append(node)
+        self._nodes.append(node)
         node.added_to(self)
-        self.cached_waypoints = None
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
-            self.width == other.width and \
-            self.nodes == other.nodes
+            self.width() == other.width() and \
+            self._nodes == other._nodes
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash((self.width, tuple(self.nodes)))
+        return hash((self.width(), tuple(self._nodes)))
 
     def __repr__(self):
         return "%s: " % self.__class__.__name__ + \
-            reduce(lambda acc, node: acc + "%s," % str(node), self.nodes, '')
+            reduce(lambda acc, node: acc + "%s," % str(node), self._nodes, '')

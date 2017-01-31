@@ -13,6 +13,7 @@ class RNDFIdMapper(CityVisitor):
     def run(self):
         self.segment_id = 0
         self.waypoint_id = 0
+        self.lane_id = 0
         self.object_to_id_level_1 = {}
         self.object_to_id_level_2 = {}
         self.id_to_object = {}
@@ -29,18 +30,24 @@ class RNDFIdMapper(CityVisitor):
 
     def map_road(self, road):
         self.segment_id = self.segment_id + 1
-        self.waypoint_id = 0
+        self.lane_id = 0
         self._register(str(self.segment_id), road)
-        for waypoint in road.get_waypoints():
-            self.waypoint_id = self.waypoint_id + 1
-            rndf_id = str(self.segment_id) + '.1.' + str(self.waypoint_id)
-            self._register(rndf_id, waypoint)
 
     def start_street(self, street):
         self.map_road(street)
 
     def start_trunk(self, trunk):
         self.map_road(trunk)
+
+    def start_lane(self, lane):
+        self.lane_id = self.lane_id + 1
+        rndf_lane_id = str(self.segment_id) + '.' + str(self.lane_id)
+        self._register(rndf_lane_id, lane)
+        self.waypoint_id = 0
+        for waypoint in lane.get_waypoints():
+            self.waypoint_id = self.waypoint_id + 1
+            rndf_waypoint_id = rndf_lane_id + '.' + str(self.waypoint_id)
+            self._register(rndf_waypoint_id, waypoint)
 
     def _register(self, rndf_id, object):
         """We do some caching by id, to avoid computing hashes if they are

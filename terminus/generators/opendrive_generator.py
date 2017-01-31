@@ -78,7 +78,7 @@ class OpenDriveGenerator(FileGenerator):
                               <link>
                               </link>
                               <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="{{model.get_width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                              <width sOffset="0.0000000000000000e+00" a="{{model.width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
                           </lane>
                       </right>
                   </laneSection>

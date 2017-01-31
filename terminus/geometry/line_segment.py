@@ -1,5 +1,5 @@
-import math
-from point import Point
+from math import hypot
+from geometry.point import Point
 
 
 class LineSegment(object):
@@ -7,6 +7,10 @@ class LineSegment(object):
     def __init__(self, point_a, point_b):
         self.a = point_a
         self.b = point_b
+
+    @classmethod
+    def from_tuples(cls, t1, t2):
+        return cls(Point.from_tuple(t1), Point.from_tuple(t2))
 
     def includes_point(self, point, buffer=0.001):
         # First check if the a->b and a->point are colinear. If they are,
@@ -28,6 +32,9 @@ class LineSegment(object):
             return False
 
         return True
+
+    def length(self):
+        return (self.a - self.b).norm()
 
     def is_orthogonal_to(self, line_segment, buffer=0.001):
         return abs((self.b - self.a).dot_product(line_segment.b - line_segment.a)) < buffer
@@ -65,3 +72,29 @@ class LineSegment(object):
         t = float(t_numer) / float(denom)
         return Point(self.a.x + (t * s10_x),
                      self.a.y + (t * s10_y), 0)
+
+    def extend(self, distance):
+        '''
+        Returns a new line segment that has been extended by distance. The extension
+        is performed assuming the direction defined as if the line segment was a
+        vector going from point a to point b
+        '''
+        dx = self.b.x - self.a.x
+        dy = self.b.y - self.a.y
+        linelen = hypot(dx, dy)
+
+        new_end = Point(self.b.x + dx / linelen * distance,
+                        self.b.y + dy / linelen * distance)
+        return LineSegment(self.a, new_end)
+
+    def __eq__(self, other):
+        return self.a == other.a and self.b == other.b
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash((hash(self.a), hash(self.b)))
+
+    def __repr__(self):
+        return "LineSegment({0}, {1})".format(self.a, self.b)

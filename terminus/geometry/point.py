@@ -50,6 +50,14 @@ class Point(object):
         diff = other - self
         return math.atan2(diff.y, diff.x)
 
+    def almost_equal_to(self, other, decimals):
+        return self.rounded_to(decimals) == other.rounded_to(decimals)
+
+    def rounded_to(self, decimals):
+        return Point(round(self.x, decimals),
+                     round(self.y, decimals),
+                     round(self.z, decimals))
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
 
