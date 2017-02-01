@@ -233,7 +233,7 @@ class Lane(object):
         candidate_segments.append(first_segment)
         candidate_segments.sort(key=lambda segment: segment.length())
         new_first_point = candidate_segments[-1].b
-        geometry[0] = new_first_point
+        geometry[0] = new_first_point.rounded_to(7)
 
         # The first segment of the polyline, pointing outwards
         last_segment = LineSegment(geometry[-2], geometry[-1])
@@ -279,7 +279,7 @@ class Lane(object):
         candidate_segments.append(last_segment)
         candidate_segments.sort(key=lambda segment: segment.length())
         new_last_point = candidate_segments[-1].b
-        geometry[-1] = new_last_point
+        geometry[-1] = new_last_point.rounded_to(7)
 
         return geometry
 
