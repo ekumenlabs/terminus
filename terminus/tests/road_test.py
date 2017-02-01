@@ -1,9 +1,11 @@
 import unittest
 
+from geometry.bounding_box import BoundingBox
 from geometry.point import Point
 from geometry.latlon import LatLon
 from models.road import Road
 from models.street import Street
+from models.road_node import RoadNode
 import math
 
 
@@ -66,3 +68,22 @@ class RoadTest(unittest.TestCase):
     def test_length_empty_road(self):
         road = Street.from_points([])
         self.assertEqual(road.length(), 0.0)
+
+        '''
+        this test couldn't be implemented yet:
+
+    def test_node_bounding_boxes(self):
+        road = Road()
+        node_1 = RoadNode(Point(10, 20))
+        node_2 = RoadNode(Point(-15, 10))
+        node_3 = RoadNode(Point(40, -20))
+        road._add_node(node_1)
+        road._add_node(node_2)
+        road._add_node(node_3)
+        road.add_lane(10)
+        road.add_lane(20)
+        width = road.width()
+        expected_box = BoundingBox(Point(-15 - width / 2, -20 - width / 2),
+                                    Point(40 + width / 2, 20 + width / 2))
+        self.assertEqual(road.road_bounding_box(), expected_box)
+        '''
