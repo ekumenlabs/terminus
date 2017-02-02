@@ -87,16 +87,22 @@ class SimpleCityBuilder(object):
         ring_road_1 = Trunk(name='RingRoad1')
         for x in range(size):
             ring_road_1.add_point(self.intersections[x][0])
-        for y in range(1, size):
-            ring_road_1.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_1)
 
         ring_road_2 = Trunk(name='RingRoad2')
-        for x in range(size):
-            ring_road_2.add_point(self.intersections[size - x - 1][size - 1])
-        for y in range(1, size):
-            ring_road_2.add_point(self.intersections[0][size - y - 1])
+        for y in range(size):
+            ring_road_2.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_2)
+
+        ring_road_3 = Trunk(name='RingRoad3')
+        for x in range(size):
+            ring_road_3.add_point(self.intersections[size - x - 1][size - 1])
+        city.add_road(ring_road_3)
+
+        ring_road_4 = Trunk(name='RingRoad4')
+        for y in range(size):
+            ring_road_4.add_point(self.intersections[0][size - y - 1])
+        city.add_road(ring_road_4)
 
     def _create_blocks(self, city, size):
         blocks_count = size - 1
