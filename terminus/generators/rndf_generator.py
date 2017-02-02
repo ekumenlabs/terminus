@@ -50,6 +50,9 @@ class RNDFGenerator(FileGenerator):
     def id_for(self, object):
         return self.id_mapper.id_for(object)
 
+    def meters_to_feet(self, meters):
+        return int(meters * 3.28084)
+
     def waypoint_connections_for(self, road):
         exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), road.get_waypoints())
         waypoint_connections = []
@@ -80,7 +83,7 @@ class RNDFGenerator(FileGenerator):
         return """
         lane\t{{lane_id}}
         num_waypoints\t{{model.waypoints_count()}}
-        lane_width\t{{model.width()}}
+        lane_width\t{{generator.meters_to_feet(model.width())}}
         {% for waypoint_connection in generator.waypoint_connections_for(model) %}
         exit\t{{waypoint_connection.exit_id()}}\t{{waypoint_connection.entry_id()}}
         {% endfor %}
