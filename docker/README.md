@@ -84,9 +84,9 @@ In the following table you can check the current repositories commits used for t
 | Repository    | latest                                   | dev                                      |
 |---------------|------------------------------------------|------------------------------------------|
 | Gazebo        | [2b49dbedff87910898d507c09135e1f078c40f59](https://bitbucket.org/osrf/gazebo/src/2b49dbedff87910898d507c09135e1f078c40f59) | [2b49dbedff87910898d507c09135e1f078c40f59](https://bitbucket.org/osrf/gazebo/src/2b49dbedff87910898d507c09135e1f078c40f59) |
-| Manifold      | [d17f711f060559033426b560c23bbe3ba2334fd3](https://bitbucket.org/osrf/manifold/src/d17f711f060559033426b560c23bbe3ba2334fd3) | [d17f711f060559033426b560c23bbe3ba2334fd3](https://bitbucket.org/osrf/manifold/src/d17f711f060559033426b560c23bbe3ba2334fd3) |
+| Manifold      | [f82a77f](https://bitbucket.org/osrf/manifold/src/f82a77f) | [f82a77f](https://bitbucket.org/osrf/manifold/src/f82a77f) |
 | SDFormat      | [a3fa3d1163cc](https://bitbucket.org/osrf/sdformat/src/a3fa3d1163cc)                             | [a3fa3d1163cc](https://bitbucket.org/osrf/sdformat/src/a3fa3d1163cc)                             |
-| Ignition Math | [05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23](https://bitbucket.org/ignitionrobotics/ign-math/src/05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23) | [05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23](https://bitbucket.org/ignitionrobotics/ign-math/src/05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23) |
+| Ignition Math | [f462760030766eb28d3e6e8e234408debc4b3e36](https://bitbucket.org/ignitionrobotics/ign-math/src/f462760030766eb28d3e6e8e234408debc4b3e36) | [f462760030766eb28d3e6e8e234408debc4b3e36](https://bitbucket.org/ignitionrobotics/ign-math/src/f462760030766eb28d3e6e8e234408debc4b3e36) |
 
 
 ### Checking Gazebo version
