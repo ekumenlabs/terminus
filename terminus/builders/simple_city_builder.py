@@ -28,6 +28,21 @@ class SimpleCityBuilder(object):
     def _setup_intersections(self, city, size):
         self.intersections = [[Point(self.multiplier * x, self.multiplier * y, 0)
                               for y in range(size)] for x in range(size)]
+
+        for x in range(size - 1):
+            self.intersections[x][0] = self.intersections[x][0] + Point(0, -2)
+        self.intersections[size - 1][0] = self.intersections[size - 1][0] + Point(2, -2)
+
+        for y in range(1, size):
+            self.intersections[size - 1][y] = self.intersections[size - 1][y] + Point(2, 0)
+
+        for x in range(size - 1):
+            self.intersections[size - x - 1][size - 1] = self.intersections[size - x - 1][size - 1] + Point(0, 2)
+        self.intersections[0][size - 1] = self.intersections[0][size - 1] + Point(-2, 2)
+
+        for y in range(1, size):
+            self.intersections[0][size - y - 1] = self.intersections[0][size - y - 1] + Point(-2, 0)
+
         for x in range(size):
             for y in range(size):
                 city.add_intersection_at(self.intersections[x][y])
@@ -58,12 +73,12 @@ class SimpleCityBuilder(object):
             city.add_road(road)
 
         # Diagonals
-        road = Trunk()
+        road = Street()
         for i in range(size):
             road.add_point(self.intersections[i][i])
         city.add_road(road)
 
-        road = Trunk()
+        road = Street()
         for i in range(size):
             road.add_point(self.intersections[i][size - i - 1])
         city.add_road(road)
@@ -72,49 +87,55 @@ class SimpleCityBuilder(object):
         ring_road_1 = Trunk(name='RingRoad1')
         for x in range(size):
             ring_road_1.add_point(self.intersections[x][0])
-        for y in range(1, size):
-            ring_road_1.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_1)
 
         ring_road_2 = Trunk(name='RingRoad2')
-        for x in range(size):
-            ring_road_2.add_point(self.intersections[size - x - 1][size - 1])
-        for y in range(1, size):
-            ring_road_2.add_point(self.intersections[0][size - y - 1])
+        for y in range(size):
+            ring_road_2.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_2)
+
+        ring_road_3 = Trunk(name='RingRoad3')
+        for x in range(size):
+            ring_road_3.add_point(self.intersections[size - x - 1][size - 1])
+        city.add_road(ring_road_3)
+
+        ring_road_4 = Trunk(name='RingRoad4')
+        for y in range(size):
+            ring_road_4.add_point(self.intersections[0][size - y - 1])
+        city.add_road(ring_road_4)
 
     def _create_blocks(self, city, size):
         blocks_count = size - 1
         block_size = 96
         inital_offset = 50
         street_width = 4
-        trunk_width = 8
-        half_trunk_width = trunk_width / 2.0
+        half_street_width = street_width / 2.0
+        triangle_delta = 93
 
         for x in range(blocks_count):
             for y in range(blocks_count):
                 if x == y:
-                    origin = Point(trunk_width + 1 + x * self.multiplier,
-                                   half_trunk_width + y * self.multiplier, 0)
-                    vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(91.5, 91.5, 0)]
+                    origin = Point(street_width + 1 + x * self.multiplier,
+                                   half_street_width + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(triangle_delta, 0, 0), Point(triangle_delta, triangle_delta, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
 
-                    origin = Point(half_trunk_width + x * self.multiplier,
-                                   trunk_width + 1 + y * self.multiplier, 0)
-                    vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(91.5, 91.5, 0)]
+                    origin = Point(half_street_width + x * self.multiplier,
+                                   street_width + 1 + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(0, triangle_delta, 0), Point(triangle_delta, triangle_delta, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
                 elif x + y == blocks_count - 1:
-                    origin = Point(half_trunk_width + x * self.multiplier,
-                                   half_trunk_width + y * self.multiplier, 0)
-                    vertices = [Point(0, 0, 0), Point(91.5, 0, 0), Point(0, 91.5, 0)]
+                    origin = Point(half_street_width + x * self.multiplier,
+                                   half_street_width + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(triangle_delta, 0, 0), Point(0, triangle_delta, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
 
-                    origin = Point((x + 1) * self.multiplier - half_trunk_width,
-                                   trunk_width + 1 + y * self.multiplier, 0)
-                    vertices = [Point(0, 0, 0), Point(0, 91.5, 0), Point(-91.5, 91.5, 0)]
+                    origin = Point((x + 1) * self.multiplier - half_street_width,
+                                   street_width + 1 + y * self.multiplier, 0)
+                    vertices = [Point(0, 0, 0), Point(0, triangle_delta, 0), Point(-triangle_delta, triangle_delta, 0)]
                     block = Block(origin, vertices)
                     city.add_block(block)
                 else:
