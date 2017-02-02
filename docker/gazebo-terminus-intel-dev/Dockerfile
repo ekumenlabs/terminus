@@ -1,4 +1,4 @@
-FROM gazebo-terminus:latest
+FROM gazebo-terminus:dev
 
 MAINTAINER Javier Choclin, jchoclin@ekumenlabs.com
 
