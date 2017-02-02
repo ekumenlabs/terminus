@@ -13,7 +13,7 @@ The available container names are the following:
 | gazebo-terminus-intel-local  | It builds the local, base and stable container. |
 | gazebo-terminus-intel-dev    | It builds the local, base and development container. |
 | gazebo-terminus-nvidia-local | It builds the local, base and stable container. |
-| gazebo-terminus-nvidia-local | It builds the local, base and development container. |
+| gazebo-terminus-nvidia-dev   | It builds the local, base and development container. |
 | gazebo-terminus-intel        | It pulls the ekumenlabs/gazebo-terminus container (stable) and compiles the Intel drivers part. |
 | gazebo-terminus-nvidia       | It pulls the ekumenlabs/gazebo-terminus container (stable) and compiles the NVidia drivers part. |
 
@@ -42,7 +42,7 @@ To start the container just execute the script `run_simulator`:
 
 ```
 cd {REPOSITORY_PATH}/terminus/docker
-$ ./run_simulator [CONTAINER_NAME:TAG] [IMAGE_NAME]
+$ ./run_simulator [IMAGE_NAME] [CONTAINER_NAME:TAG]
 ```
 
 We recommend to use the same name for the container, so you should run one of these commands for example:

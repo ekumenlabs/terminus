@@ -14,7 +14,7 @@ gazebo-terminus:
 
 .PHONY: gazebo-terminus-nvidia-local
 gazebo-terminus-nvidia-local: gazebo-terminus
-	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo-terminus-nvidia:latest gazebo-terminus-nvidia-local
+	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo-terminus-nvidia-local:latest gazebo-terminus-nvidia-local
 
 .PHONY: gazebo-terminus-intel-local
 gazebo-terminus-intel-local: gazebo-terminus
@@ -38,7 +38,7 @@ gazebo-terminus-dev:
 gazebo-terminus-intel-dev: gazebo-terminus-dev
 	docker build ${DOCKER_ARGS} -t gazebo-terminus-intel-local:dev gazebo-terminus-intel-dev
 
-.PHONY: ekumenlabs-terminus-nvidia
+.PHONY: gazebo-terminus-nvidia-dev
 gazebo-terminus-nvidia-dev: gazebo-terminus-dev
 	docker build ${DOCKER_ARGS} --build-arg nvidia_driver=${NVIDIA_DRIVER} -t gazebo-terminus-nvidia-local:dev gazebo-terminus-nvidia-dev
 
