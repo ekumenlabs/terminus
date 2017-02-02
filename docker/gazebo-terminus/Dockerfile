@@ -47,7 +47,7 @@ RUN apt-get install -y libflann-dev libgtest-dev libeigen3-dev libassimp-dev fre
 RUN mkdir -p /home/gazebo/ws/
 
 # Download and compile Ignition package
-ARG ign_math_commit=05e4ffaab536566ae5b55ed2cd2e62b94fdc1e23
+ARG ign_math_commit=f462760030766eb28d3e6e8e234408debc4b3e36
 RUN hg clone https://bitbucket.org/ignitionrobotics/ign-math /home/gazebo/ws/ign-math 
 RUN cd /home/gazebo/ws/ign-math;hg up -r ${ign_math_commit}; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; make -j4; make install
 
@@ -70,7 +70,7 @@ RUN mkdir -p /home/gazebo/ws/src
 RUN apt-get update && apt-get install -y cmake pkg-config python ruby-ronn
 
 # Select Manifold commit
-ARG manifold_commit=d17f711f060559033426b560c23bbe3ba2334fd3
+ARG manifold_commit=f82a77f
 #Clone and install Manifold
 RUN hg clone https://bitbucket.org/osrf/manifold /tmp/manifold
 RUN cd /tmp/manifold; hg up -r ${manifold_commit}; mkdir build; cd build; cmake -DCMAKE_INSTALL_PREFIX=/home/gazebo/manifold ../; cmake -DCMAKE_BUILD_TYPE=Debug ../; make -j4; make install
