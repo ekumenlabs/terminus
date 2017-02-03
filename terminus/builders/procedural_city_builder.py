@@ -24,7 +24,7 @@ import pickle
 
 class ProceduralCityBuilder(AbstractCityBuilder):
     def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500, pcg_runner=None):
-        if pcg_runner == None:
+        if pcg_runner is None:
             # Default runner
             self.pcg_runner = PcgRunner()
         else:
