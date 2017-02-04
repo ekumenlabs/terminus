@@ -1,12 +1,17 @@
 #!/usr/bin/python
 
+from __future__ import print_function
+
 from geometry.latlon import LatLon
 from generators.rndf_generator import RNDFGenerator
 from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
 from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
 from generators.street_plot_generator import StreetPlotGenerator
 from generators.opendrive_generator import OpenDriveGenerator
-from builders import *
+
+from builders import OsmCityBuilder
+from builders import ProceduralCityBuilder
+from builders import SimpleCityBuilder
 
 import argparse
 import sys
@@ -62,6 +67,12 @@ destination_street_plot_file = base_path + '_streets.png'
 destination_opendrive_file = base_path + '.xodr'
 
 # Get the class of the builder to use
+builders_list = [
+    OsmCityBuilder,
+    ProceduralCityBuilder,
+    SimpleCityBuilder
+]
+assert(arguments.builder in [x.__name__ for x in builders_list])
 builder_class = getattr(sys.modules[__name__], arguments.builder)
 
 # Get the remaining parameters to pass to the builder as <key>=<value> pairs
