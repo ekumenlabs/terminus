@@ -6,7 +6,7 @@ from math import degrees
 import yaml
 
 from .city_visitor import CityVisitor
-from models.intersection_node import IntersectionNode
+from models.road_intersection_node import RoadIntersectionNode
 
 
 class MonolaneGenerator(CityVisitor):
@@ -97,8 +97,8 @@ class MonolaneGenerator(CityVisitor):
             # Generate a unique name for the point based on the street name.
             point_name = '{}-{}'.format(street.name, point_index)
             point_index += 1
-            # If this is an "IntersectionNode", adjust the name to indicate it.
-            if isinstance(node, IntersectionNode):
+            # If this is an "RoadIntersectionNode", adjust the name to indicate it.
+            if isinstance(node, RoadIntersectionNode):
                 # Get the index associated with the intersection.
                 if id(node) not in self.intersection_index_by_node:
                     # Assign an index if this is the first appearance.
