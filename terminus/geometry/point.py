@@ -58,6 +58,12 @@ class Point(object):
                      round(self.y, decimals),
                      round(self.z, decimals))
 
+    def min(self, other):
+        return Point(min(self.x, other.x), min(self.y, other.y), min(self.z, other.z))
+
+    def max(self, other):
+        return Point(max(self.x, other.x), max(self.y, other.y), max(self.z, other.z))
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
 

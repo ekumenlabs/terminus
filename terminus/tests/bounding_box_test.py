@@ -51,7 +51,7 @@ class BoundingBoxTest(unittest.TestCase):
         box_2 = BoundingBox(Point(-5, 10), Point(5, 20))
         box_list = [box_1, box_2]
         expected_merge = box_1.merge(box_2)
-        self.assertEqual(box_1.merge_multiple_boundingboxes(box_list), expected_merge)
+        self.assertEqual(BoundingBox.from_boxes(box_list), expected_merge)
 
     def test_merge_multiple_boundingboxes_for_three_boxes(self):
         box_1 = BoundingBox(Point(-20, -10), Point(-10, 10))
@@ -59,7 +59,7 @@ class BoundingBoxTest(unittest.TestCase):
         box_3 = BoundingBox(Point(-15, 0), Point(10, 20))
         box_list = [box_1, box_2, box_3]
         expected_merge = BoundingBox(Point(-20, -10), Point(30, 20))
-        self.assertEqual(box_2.merge_multiple_boundingboxes(box_list), expected_merge)
+        self.assertEqual(BoundingBox.from_boxes(box_list), expected_merge)
 
     def test_merge_multiple_boundingboxes_for_five_boxes(self):
         box_1 = BoundingBox(Point(-20, -10), Point(-10, 10))
@@ -69,4 +69,4 @@ class BoundingBoxTest(unittest.TestCase):
         box_5 = BoundingBox(Point(-5, -10), Point(5, 0))
         box_list = [box_1, box_2, box_3, box_4, box_4]
         expected_merge = BoundingBox(Point(-20, -10), Point(55, 20))
-        self.assertEqual(box_1.merge_multiple_boundingboxes(box_list), expected_merge)
+        self.assertEqual(BoundingBox.from_boxes(box_list), expected_merge)

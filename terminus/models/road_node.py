@@ -7,7 +7,7 @@ class RoadNode(object):
         self.center = center
         self.name = name
 
-    def road_node_bounding_box(self, width):
+    def bounding_box(self, width):
         box_origin = Point(self.center.x - width / 2, self.center.y - width / 2)
         box_corner = Point(self.center.x + width / 2, self.center.y + width / 2)
         return BoundingBox(box_origin, box_corner)

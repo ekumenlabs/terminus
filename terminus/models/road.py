@@ -133,15 +133,11 @@ class Road(CityModel):
         node.added_to(self)
 
     def node_bounding_boxes(self):
-        node_bounding_boxes = []
-        for node in self._nodes:
-            node_bounding_boxes.append(node.road_node_bounding_box(self.width()))
-        return node_bounding_boxes
+        return map((lambda node: node.bounding_box(self.width())), self._nodes)
 
-    def road_bounding_box(self):
-        node_bounding_boxes = self.node_bounding_boxes
-        base_box = BoundingBox(Point(0, 0), Point(10, 10))
-        return base_box.merge_multiple_bounding_boxes(node_bounding_boxes)
+    def bounding_box(self):
+        node_bounding_boxes = self.node_bounding_boxes()
+        return BoundingBox.from_boxes(node_bounding_boxes)
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
