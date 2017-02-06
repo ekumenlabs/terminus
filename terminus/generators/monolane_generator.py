@@ -154,32 +154,8 @@ class MonolaneGenerator(CityVisitor):
     def start_street(self, street):
         self.process_street(street)
 
-    def end_street(self, street):
-        pass
-
     def start_trunk(self, trunk):
         self.process_street(trunk)
-
-    def end_trunk(self, trunk):
-        pass
-
-    def start_ground_plane(self, plane):
-        pass
-
-    def end_ground_plane(self, plane):
-        pass
-
-    def start_block(self, block):
-        pass
-
-    def end_block(self, block):
-        pass
-
-    def start_building(self, building):
-        pass
-
-    def end_building(self, building):
-        pass
 
     def to_string(self, stream=None, Dumper=yaml.Dumper, **kwds):
         """Convert the current monolane data into its yaml version.
