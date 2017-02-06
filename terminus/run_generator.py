@@ -122,6 +122,4 @@ opendrive_generator.write_to(destination_opendrive_file)
 
 logger.info("Generating monolane file")
 monolane_generator = MonolaneGenerator(city)
-monolane_generator.run()
-with open(destination_monolane_file, 'w+') as f:
-    f.write(monolane_generator.to_string())
+monolane_generator.write_to(destination_monolane_file)

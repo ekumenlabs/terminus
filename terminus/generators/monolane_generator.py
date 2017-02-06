@@ -5,11 +5,14 @@ from math import atan2
 from math import degrees
 import yaml
 
-from .city_visitor import CityVisitor
+from .file_generator import FileGenerator
 from models.road_intersection_node import RoadIntersectionNode
 
 
-class MonolaneGenerator(CityVisitor):
+class MonolaneGenerator(FileGenerator):
+    def __init__(self, city):
+        super(MonolaneGenerator, self).__init__(city)
+
     def start_city(self, city):
         """Called when a visitation of a new city starts."""
         # Reset all of the class variables used until stop_city is called.
@@ -157,7 +160,11 @@ class MonolaneGenerator(CityVisitor):
     def start_trunk(self, trunk):
         self.process_street(trunk)
 
-    def to_string(self, stream=None, Dumper=yaml.Dumper, **kwds):
+    def end_document(self):
+        """Called after the document is generated, but before it is written to a file."""
+        self.document.write(self.to_string())
+
+    def to_string(self, Dumper=yaml.Dumper, **kwds):
         """Convert the current monolane data into its yaml version.
 
         Preserves order of the keys inside of 'maliput_monolane_builder'.
@@ -176,4 +183,4 @@ class MonolaneGenerator(CityVisitor):
                 data.items())
 
         OrderedDumper.add_representer(OrderedDict, _dict_representer)
-        return header + yaml.dump(self.monolane, stream, OrderedDumper, **kwds)
+        return header + yaml.dump(self.monolane, None, OrderedDumper, **kwds)
