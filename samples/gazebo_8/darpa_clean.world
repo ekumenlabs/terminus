@@ -1,4 +1,5 @@
 <sdf version='1.6'>
+  <!-- This world file imports darpa.rndf file file sample into a clean world. -->
   <world name='darpa_clean'>
     <include>
       <uri>model://ground_plane</uri>

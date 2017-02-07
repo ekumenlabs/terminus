@@ -1,4 +1,5 @@
 <sdf version='1.6'>
+  <!-- This world file imports darpa.rndf file file sample, load rndf_gazebo_plugin  and driver_plugin with some boxes running on the city. It also includes some Gazebo models with buildings like some houses, a gas station, etc. -->
   <world name='darpa'>
     <model name='ground_plane'>
       <static>1</static>

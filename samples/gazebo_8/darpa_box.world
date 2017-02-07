@@ -1,4 +1,5 @@
 <sdf version='1.6'>
+  <!-- This world file imports darpa.rndf file file sample into a world with some mock buildings made of static boxes. -->
   <world name='darpa_boxes'>
     <model name='ground_plane'>
       <static>1</static>
