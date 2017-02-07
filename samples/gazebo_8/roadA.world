@@ -1,0 +1,150 @@
+<sdf version='1.6'>
+  <world name='roadA'>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <plugin name='rndf_gazebo_plugin0' filename='librndf_gazebo_plugin0.so.0.0.1'>
+      <rndf>roadA.rndf</rndf>
+      <lanes>true</lanes>
+      <waypoints>true</waypoints>
+      <print_labels>true</print_labels>
+      <junctions>true</junctions>
+      <perimeter>true</perimeter>
+      <waypoints_material>Gazebo/White</waypoints_material>
+      <lane_material>Gazebo/Black</lane_material>
+      <junction_material>Gazebo/Residential</junction_material>
+      <interpolation_distance>10.0</interpolation_distance>
+      <perimeter_material>Gazebo/Blue</perimeter_material>
+    </plugin>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>500 500</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>500 500</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+
+     <model name="simple_box">
+        <link name="simple_box_link">
+           <pose frame="">0.0 0.0 0.0 0 0 0</pose>
+           <collision name="simple_box_collision">
+              <geometry>
+                 <box>
+                    <size>1.5 4.0 1.2</size>
+                 </box>
+              </geometry>
+              <surface>
+                <friction>
+                  <ode>
+                    <mu>0.0</mu>
+                    <mu2>0.0</mu2>
+                  </ode>ode>
+                </friction>
+              </surface>
+           </collision>
+           <visual name="simple_box_visual">
+              <material>
+                 <script>
+                    <uri>file://media/materials/scripts/gazebo.material</uri>
+                    <name>Gazebo/Grey</name>
+                 </script>
+                 <ambient>1 1 1 1</ambient>
+              </material>
+              <meta>
+                 <layer>0</layer>
+              </meta>
+              <geometry>
+                 <box>
+                    <size>1.5 4.0 1.2</size>
+                 </box>
+              </geometry>
+           </visual>
+           <inertial>
+              <mass>1000</mass>
+              <inertia>
+                <ixx>1520.83</ixx>
+                <ixy>0.0</ixy>
+                <ixz>0.0</ixz>
+                <iyy>307.5</iyy>
+                <iyz>0.0</iyz>
+                <izz>1453.33</izz>
+              </inertia>
+              <pose frame=''>0 0 0 0 -0 0</pose>
+           </inertial>
+        </link>
+        <plugin name="sensor" filename="libroad_driver_plugin.so" >
+          <initialWaitTime>5</initialWaitTime>
+        </plugin>
+     </model>
+
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>25.7442 -168.253 46.0654 0 0.398797 1.54</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>
