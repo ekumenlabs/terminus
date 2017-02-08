@@ -1,12 +1,16 @@
 #!/usr/bin/python
 
 from geometry.latlon import LatLon
+from generators.monolane_generator import MonolaneGenerator
 from generators.rndf_generator import RNDFGenerator
 from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
 from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
 from generators.street_plot_generator import StreetPlotGenerator
 from generators.opendrive_generator import OpenDriveGenerator
-from builders import *
+
+from builders import OsmCityBuilder
+from builders import ProceduralCityBuilder
+from builders import SimpleCityBuilder
 
 import argparse
 import sys
@@ -60,8 +64,15 @@ destination_sdf_7_file = base_path + '_gazebo_7.sdf'
 destination_sdf_8_file = base_path + '_gazebo_8.sdf'
 destination_street_plot_file = base_path + '_streets.png'
 destination_opendrive_file = base_path + '.xodr'
+destination_monolane_file = base_path + '.monolane.yaml'
 
 # Get the class of the builder to use
+builders_list = [
+    OsmCityBuilder,
+    ProceduralCityBuilder,
+    SimpleCityBuilder
+]
+assert(arguments.builder in [x.__name__ for x in builders_list])
 builder_class = getattr(sys.modules[__name__], arguments.builder)
 
 # Get the remaining parameters to pass to the builder as <key>=<value> pairs
@@ -106,3 +117,7 @@ rndf_generator.write_to(destination_rndf_file)
 logger.info("Generating OpenDrive file")
 opendrive_generator = OpenDriveGenerator(city, RNDF_ORIGIN)
 opendrive_generator.write_to(destination_opendrive_file)
+
+logger.info("Generating monolane file")
+monolane_generator = MonolaneGenerator(city)
+monolane_generator.write_to(destination_monolane_file)

@@ -13,6 +13,7 @@ setup(name='terminus',
           'imposm.parser',
           'scipy',
           'matplotlib',
-          'Pillow'
+          'Pillow',
+          'PyYAML'
       ],
       zip_safe=False)
