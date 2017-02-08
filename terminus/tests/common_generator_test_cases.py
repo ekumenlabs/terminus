@@ -63,7 +63,7 @@ def generate_L_intersection_city():
     return city
 
 
-def generate_Y_intersection_city():
+def generate_Y_intersection_one_to_many_city():
     """
               (0,1)
                 +
