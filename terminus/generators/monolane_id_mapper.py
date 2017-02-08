@@ -25,8 +25,6 @@ class MonolaneIdMapper(CityVisitor):
 
     def road_node_id(self, road, node):
         """Return a hashable unique identifier for a road node."""
-        if road.name is None:
-            print(road)
         return (road.name, id(node))
 
     def get_monolane_points(self):

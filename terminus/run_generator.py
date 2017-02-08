@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-from __future__ import print_function
-
 from geometry.latlon import LatLon
 from generators.monolane_generator import MonolaneGenerator
 from generators.rndf_generator import RNDFGenerator
