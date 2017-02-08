@@ -8,6 +8,16 @@ class BoundingBox(object):
         self.corner = corner
         self._normalize()
 
+    @classmethod
+    def from_boxes(cls, box_list):
+        try:
+            whole_merge = box_list[0]
+            for i in range(1, len(box_list)):
+                whole_merge = whole_merge.merge(box_list[i])
+            return whole_merge
+        except:
+            raise Exception('box_list should be a non empty list of bounding boxes')
+
     def __hash__(self):
         return hash(hash(origin), hash(corner))
 
@@ -20,13 +30,6 @@ class BoundingBox(object):
         merge_corner = Point(max(self.corner.x, other.corner.x),
                              max(self.corner.y, other.corner.y))
         return BoundingBox(merge_origin, merge_corner)
-
-    @classmethod
-    def from_boxes(cls, box_list):
-        whole_merge = box_list[0]
-        for i in range(1, len(box_list)):
-            whole_merge = whole_merge.merge(box_list[i])
-        return whole_merge
 
     def _normalize(self):
         new_origin = self.origin.min(self.corner)
