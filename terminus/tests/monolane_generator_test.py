@@ -16,7 +16,6 @@ class MonolaneGeneratorTest(unittest.TestCase):
     def generate_monolane(self, city):
         self.generator = MonolaneGenerator(city)
         self.generated_contents = self.generator.generate()
-        print(self.generated_contents)
         self.yaml_dict = yaml.load(self.generated_contents)
         monolane_dict = self.yaml_dict['maliput_monolane_builder']
         self.standard_checks(city, monolane_dict)
