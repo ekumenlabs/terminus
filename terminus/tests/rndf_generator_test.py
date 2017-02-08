@@ -9,6 +9,13 @@ from models.trunk import Trunk
 
 from generators.rndf_generator import RNDFGenerator
 
+from common_generator_test_cases import generate_cross_intersection_city
+from common_generator_test_cases import generate_empty_city
+from common_generator_test_cases import generate_L_intersection_city
+from common_generator_test_cases import generate_simple_street_city
+from common_generator_test_cases import generate_Y_intersection_one_to_many_city
+from common_generator_test_cases import generate_Y_intersection_many_to_one_city
+
 import textwrap
 
 
@@ -30,7 +37,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         self.assertMultiLineEqual(self.generated_contents, expected)
 
     def test_empty_city(self):
-        city = City("Empty")
+        city = generate_empty_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
         RNDF_name\tEmpty
@@ -40,14 +47,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_simple_street(self):
-        city = City("Single street")
-        street = Street.from_points([
-            Point(0, 0),
-            Point(1000, 0),
-            Point(2000, 0)
-        ])
-        street.name = "s1"
-        city.add_road(street)
+        city = generate_simple_street_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
         RNDF_name\tSingle street
@@ -68,24 +68,12 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_cross_intersection(self):
-
         """
              (0,1)
         (-1,0) + (1,0)
              (0,-1)
         """
-        city = City("Cross")
-
-        s1 = Street.from_points([Point(-1000, 0), Point(0, 0), Point(1000, 0)])
-        s1.name = "s1"
-
-        s2 = Street.from_points([Point(0, 1000), Point(0, 0), Point(0, -1000)])
-        s2.name = "s2"
-
-        city.add_intersection_at(Point(0, 0))
-
-        city.add_road(s1)
-        city.add_road(s2)
+        city = generate_cross_intersection_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -122,23 +110,11 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_L_intersection(self):
-
         """
              (0,1)
                +  (1,0)
         """
-        city = City("LCross")
-
-        s1 = Street.from_points([Point(0, 1000), Point(0, 0)])
-        s1.name = "s1"
-
-        s2 = Street.from_points([Point(0, 0), Point(1000, 0)])
-        s2.name = "s2"
-
-        city.add_intersection_at(Point(0, 0))
-
-        city.add_road(s1)
-        city.add_road(s2)
+        city = generate_L_intersection_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -172,28 +148,12 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_Y_intersection_one_to_many(self):
-
         """
                   (0,1)
                     +
             (-1,-1)   (1,-1)
         """
-        city = City("YCross")
-
-        s1 = Street.from_points([Point(0, 1000), Point(0, 0)])
-        s1.name = "s1"
-
-        s2 = Street.from_points([Point(0, 0), Point(-1000, -1000)])
-        s2.name = "s2"
-
-        s3 = Street.from_points([Point(0, 0), Point(1000, -1000)])
-        s3.name = "s3"
-
-        city.add_intersection_at(Point(0, 0))
-
-        city.add_road(s1)
-        city.add_road(s2)
-        city.add_road(s3)
+        city = generate_Y_intersection_one_to_many_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -239,32 +199,16 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_Y_intersection_many_to_one(self):
-
         """
                   (0,1)
                     +
             (-1,-1)   (1,-1)
         """
-        city = City("YCross")
-
-        s1 = Street.from_points([Point(0, 0), Point(0, 1000)])
-        s1.name = "s1"
-
-        s2 = Street.from_points([Point(-1000, -1000), Point(0, 0)])
-        s2.name = "s2"
-
-        s3 = Street.from_points([Point(1000, -1000), Point(0, 0)])
-        s3.name = "s3"
-
-        city.add_road(s1)
-        city.add_road(s2)
-        city.add_road(s3)
-
-        city.add_intersection_at(Point(0, 0))
+        city = generate_Y_intersection_many_to_one_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tYCross
+        RNDF_name\tYCross Many to One
         num_segments\t3
         num_zones\t0
         format_version\t1.0
