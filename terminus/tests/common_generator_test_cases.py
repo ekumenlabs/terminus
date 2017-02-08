@@ -1,8 +1,7 @@
 from geometry.point import Point
-from geometry.latlon import LatLon
 from models.city import City
 from models.street import Street
-from models.trunk import Trunk
+
 
 def generate_empty_city():
     city = City("Empty")
@@ -41,6 +40,7 @@ def generate_cross_intersection_city():
     city.add_road(s2)
 
     return city
+
 
 def generate_L_intersection_city():
     """

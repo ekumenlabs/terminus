@@ -1,4 +1,5 @@
 import unittest
+
 import yaml
 
 from generators.monolane_generator import MonolaneGenerator
@@ -72,7 +73,6 @@ class MonolaneGeneratorTest(unittest.TestCase):
         # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
         self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
 
-
     def test_Y_intersection_one_to_many(self):
         city = generate_Y_intersection_one_to_many_city()
 
@@ -84,7 +84,6 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertEqual(3, len([x for x in monolane_dict['points'] if 'Intersection' in x]))
         # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
         self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
-
 
     def test_Y_intersection_many_to_one(self):
         city = generate_Y_intersection_many_to_one_city()
