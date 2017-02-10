@@ -12,7 +12,7 @@ from models.road import *
 class SimpleCityBuilder(object):
 
     def get_city(self):
-        # Must be even
+        # Must be odd
         size = 5
         city = City()
         self.multiplier = 100
