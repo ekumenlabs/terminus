@@ -8,9 +8,8 @@ import math
 
 class OpenDriveGenerator(FileGenerator):
 
-    def __init__(self, city, origin):
+    def __init__(self, city):
         super(OpenDriveGenerator, self).__init__(city)
-        self.origin = origin
         self.id_mapper = OpenDriveIdMapper(city)
 
     def start_document(self):

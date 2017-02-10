@@ -16,8 +16,7 @@ class OpenDriveGeneratorTest(unittest.TestCase):
 
     def _get_sample_generator(self):
         city = City("Empty")
-        latlon = LatLon(45.0, 45.0)
-        return OpenDriveGenerator(city, latlon)
+        return OpenDriveGenerator(city)
 
     def _generate_output(self):
         self.generated_contents = self.generator.generate()
