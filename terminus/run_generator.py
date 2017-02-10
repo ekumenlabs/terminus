@@ -9,7 +9,6 @@ from city_generation_process import CityGenerationProcess
 
 import argparse
 import sys
-import os
 
 # For the time being we use an arbitrary (lat, lon) as the origin
 RNDF_ORIGIN = LatLon(10, 65)

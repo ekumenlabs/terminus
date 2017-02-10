@@ -6,6 +6,8 @@ from generators.street_plot_generator import StreetPlotGenerator
 from generators.opendrive_generator import OpenDriveGenerator
 
 import logging
+import subprocess
+import os
 
 
 class CityGenerationProcess(object):
@@ -27,12 +29,27 @@ class CityGenerationProcess(object):
 
         if self.debug_on:
             self._run_generator(StreetPlotGenerator(city),
-                                "Generating street plot",
-                                "city_streets.png")
+                                'Generating street plot',
+                                'city_streets.png')
 
         self._run_generator(RNDFGenerator(city, self.rndf_origin),
-                            "Generating RNDF file",
-                            "city.rndf")
+                            'Generating RNDF file',
+                            'city.rndf')
+
+        if self.debug_on:
+            command = "cd {0}; ../tools/rndf_visualizer/build/rndf_visualizer -g city.rndf".format(self.path)
+            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+            process.wait()
+            if process.returncode == 0:
+                # If the command executed ok, remove residual file and rename the svg
+                try:
+                    os.remove(os.path.join(self.path, 'gps.kml'))
+                    os.rename(os.path.join(self.path, 'sample.svg'), os.path.join(self.path, 'city.svg'))
+                except OSError:
+                    pass
+            else:
+                # Otherwise warn the user
+                self.logger.warn("Can't generate SVG file for RNDF. Please make sure rndf_visualizer has been properly built")
 
         self._run_generator(SDFGeneratorGazebo7(city),
                             "Generating Gazebo 7 SDF",
@@ -45,16 +62,16 @@ class CityGenerationProcess(object):
         # in https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/54/add-origin-node-to-world-description
         generator = SDFGeneratorGazebo8(city, self.rndf_origin, '../example/city.rndf')
         self._run_generator(generator,
-                            "Generating Gazebo 8 SDF",
-                            "city_gazebo_8.world")
+                            'Generating Gazebo 8 SDF',
+                            'city_gazebo_8.world')
 
         self._run_generator(OpenDriveGenerator(city),
-                            "Generating OpenDrive file",
-                            "city.xodr")
+                            'Generating OpenDrive file',
+                            'city.xodr')
 
         self._run_generator(MonolaneGenerator(city),
-                            "Generating monolane file",
-                            "city_monolane.yaml")
+                            'Generating monolane file',
+                            'city_monolane.yaml')
 
     def _run_generator(self, generator, log_message, path_extension):
         self.logger.info(log_message)
