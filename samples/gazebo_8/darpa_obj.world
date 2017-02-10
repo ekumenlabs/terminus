@@ -1,0 +1,46 @@
+<sdf version='1.6'>
+  <!-- This world file imports darpa.rndf file file sample into a clean world. Use https://bitbucket.org/ekumen/terminus-simulation/src/dd8f4a78a430f3b6bae1000ca823ed227f967276/?at=Issue%2F%2381_Move_DARPA_samples_to_obj to generate the obj file. -->
+  <world name='darpa_clean'>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <plugin name='rndf_gazebo_plugin0' filename='librndf_gazebo_plugin0.so.0.0.1'>
+      <rndf>darpa.rndf</rndf>
+      <lanes>true</lanes>
+      <waypoints>true</waypoints>
+      <print_labels>true</print_labels>
+      <obj_file_path>/home/gazebo/darpa.obj</obj_file_path>
+    </plugin>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>25.7442 -168.253 46.0654 0 0.398797 1.54</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>
