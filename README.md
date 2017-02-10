@@ -119,6 +119,10 @@ Some examples:
 
 - Open using `$ gazebo generated_worlds/city.world`
 
+## Generating output files for test cities
+
+In the test cases we use a set of sample cities to verify the output of the generators. If you want you can run them all and generate all the output files for these cities by executing `$ python terminus/generate_test_cities.py`. This command will generate a new directory `tests/` inside `generated_worlds/` with all the sample cities.
+
 ## About the builders
 
 Currently the idea is to have a single, unified City model that knows how to convert itself to an sdf file and that can be generated in different ways. These different ways of building cities are captured in the "builder" classes, which so far are two:

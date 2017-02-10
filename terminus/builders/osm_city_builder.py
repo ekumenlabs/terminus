@@ -12,6 +12,8 @@ from models.building import Building
 from models.ground_plane import GroundPlane
 from models.road import *
 
+from builders.abstract_city_builder import AbstractCityBuilder
+
 import xml.etree.ElementTree as ET
 
 import logging
@@ -19,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class OsmCityBuilder(object):
+class OsmCityBuilder(AbstractCityBuilder):
     def __init__(self, osm_map):
         self.osm_map = osm_map
         self.osm_coords = {}

@@ -12,10 +12,12 @@ import os
 
 class CityGenerationProcess(object):
 
-    def __init__(self, builder, rndf_origin, path, debug_on=False, logger=None):
+    def __init__(self, builder, rndf_origin, path, debug_on=False,
+                 base_name='city', logger=None):
         self.builder = builder
         self.rndf_origin = rndf_origin
         self.path = path
+        self.base_name = base_name
         self.debug_on = debug_on
         if logger is None:
             self.logger = self._create_default_logger()
@@ -23,28 +25,43 @@ class CityGenerationProcess(object):
             self.logger = logger
 
     def run(self):
-        self.logger.info("Building city using {0}".format(self.builder.__class__.__name__))
+        self.logger.info("Building city using {0}".format(self.builder.name()))
 
         city = self.builder.get_city()
+
+        # Make sure the path exists
+        try:
+            os.makedirs(self.path)
+        except OSError:
+            pass
 
         if self.debug_on:
             self._run_generator(StreetPlotGenerator(city),
                                 'Generating street plot',
-                                'city_streets.png')
+                                self.base_name + '_streets.png')
 
         self._run_generator(RNDFGenerator(city, self.rndf_origin),
                             'Generating RNDF file',
-                            'city.rndf')
+                            self.base_name + '.rndf')
 
         if self.debug_on:
-            command = "cd {0}; ../tools/rndf_visualizer/build/rndf_visualizer -g city.rndf".format(self.path)
+            depth = 0
+            to_process = self.path
+            while True:
+                to_process, leaf = os.path.split(to_process)
+                if not leaf and not to_process:
+                    break
+                else:
+                    depth = depth + 1
+            parent_path = '/'.join(map(lambda x: '..', range(1, depth)))
+            command = "cd {0}; {1}/tools/rndf_visualizer/build/rndf_visualizer -g {2}.rndf".format(self.path, parent_path, self.base_name)
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
             process.wait()
             if process.returncode == 0:
                 # If the command executed ok, remove residual file and rename the svg
                 try:
                     os.remove(os.path.join(self.path, 'gps.kml'))
-                    os.rename(os.path.join(self.path, 'sample.svg'), os.path.join(self.path, 'city.svg'))
+                    os.rename(os.path.join(self.path, 'sample.svg'), os.path.join(self.path, self.base_name + '.svg'))
                 except OSError:
                     pass
             else:
@@ -53,7 +70,7 @@ class CityGenerationProcess(object):
 
         self._run_generator(SDFGeneratorGazebo7(city),
                             "Generating Gazebo 7 SDF",
-                            "city_gazebo_7.world")
+                            self.base_name + '_gazebo_7.world')
 
         # We are using a path that suits the Gazebo 8 plugin. This will change once
         # https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/53/rndf-file-path-in-world-file
@@ -63,15 +80,15 @@ class CityGenerationProcess(object):
         generator = SDFGeneratorGazebo8(city, self.rndf_origin, '../example/city.rndf')
         self._run_generator(generator,
                             'Generating Gazebo 8 SDF',
-                            'city_gazebo_8.world')
+                            self.base_name + '_gazebo_8.world')
 
         self._run_generator(OpenDriveGenerator(city),
                             'Generating OpenDrive file',
-                            'city.xodr')
+                            self.base_name + '.xodr')
 
         self._run_generator(MonolaneGenerator(city),
                             'Generating monolane file',
-                            'city_monolane.yaml')
+                            self.base_name + '_monolane.yaml')
 
     def _run_generator(self, generator, log_message, path_extension):
         self.logger.info(log_message)

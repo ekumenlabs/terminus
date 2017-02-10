@@ -9,6 +9,7 @@ from city_generation_process import CityGenerationProcess
 
 import argparse
 import sys
+import os
 
 # For the time being we use an arbitrary (lat, lon) as the origin
 RNDF_ORIGIN = LatLon(10, 65)
@@ -40,8 +41,9 @@ parser.add_argument('-x',
 
 arguments = parser.parse_args()
 
-# Get the base file name + path to generate the different files
-base_path = arguments.destination
+# Get the base path to generate the different files (join to make sure it has
+# a trailing slash)
+base_path = os.path.join(arguments.destination, '')
 
 # Get the class of the builder to use
 builders_list = [
