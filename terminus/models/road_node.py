@@ -8,12 +8,11 @@ class RoadNode(object):
         self.name = name
 
     def bounding_box(self, width):
-        if width >= 0:
-            box_origin = Point(self.center.x - width / 2, self.center.y - width / 2)
-            box_corner = Point(self.center.x + width / 2, self.center.y + width / 2)
-            return BoundingBox(box_origin, box_corner)
-        else:
+        if width < 0:
             raise ValueError('width should be a non negative number')
+        box_origin = Point(self.center.x - width / 2, self.center.y - width / 2)
+        box_corner = Point(self.center.x + width / 2, self.center.y + width / 2)
+        return BoundingBox(box_origin, box_corner)
 
     @classmethod
     def on(cls, *args, **kwargs):

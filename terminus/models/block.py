@@ -1,5 +1,6 @@
 from city_model import CityModel
 from geometry.point import Point
+from geometry.bounding_box import BoundingBox
 
 
 class Block(CityModel):
@@ -30,3 +31,8 @@ class Block(CityModel):
     def accept(self, generator):
         generator.start_block(self)
         generator.end_block(self)
+
+    def bounding_box(self):
+        box_origin = self.origin + Point.min(self.vertices)
+        box_corner = self.origin + Point.max(self.vertices)
+        return BoundingBox(box_origin, box_corner)
