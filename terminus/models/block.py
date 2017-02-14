@@ -33,6 +33,5 @@ class Block(CityModel):
         generator.end_block(self)
 
     def bounding_box(self):
-        box_origin = self.origin + Point.min(self.vertices)
-        box_corner = self.origin + Point.max(self.vertices)
-        return BoundingBox(box_origin, box_corner)
+        box_list = map(lambda vertex: BoundingBox(vertex, vertex), self.vertices)
+        return BoundingBox.from_boxes(box_list).translate(self.origin)

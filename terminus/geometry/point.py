@@ -23,18 +23,16 @@ class Point(object):
         else:
             return cls(tuple[0], tuple[1])
 
-    @classmethod
-    def min(cls, points_list):
-        min_x = min(map(lambda point: point.x, points_list))
-        min_y = min(map(lambda point: point.y, points_list))
-        min_z = min(map(lambda point: point.z, points_list))
+    def min(self, other):
+        min_x = min(self.x, other.x)
+        min_y = min(self.y, other.y)
+        min_z = min(self.z, other.z)
         return Point(min_x, min_y, min_z)
 
-    @classmethod
-    def max(cls, points_list):
-        max_x = max(map(lambda point: point.x, points_list))
-        max_y = max(map(lambda point: point.y, points_list))
-        max_z = max(map(lambda point: point.z, points_list))
+    def max(self, other):
+        max_x = max(self.x, other.x)
+        max_y = max(self.y, other.y)
+        max_z = max(self.z, other.z)
         return Point(max_x, max_y, max_z)
 
     def to_shapely_point(self):
