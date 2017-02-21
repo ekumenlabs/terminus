@@ -1,6 +1,11 @@
 from city_model import CityModel
 from datetime import date
 from road_intersection_node import RoadIntersectionNode
+from geometry.bounding_box import BoundingBox
+from road import Road
+from building import Building
+from block import Block
+from ground_plane import GroundPlane
 
 
 # For the time being, the city will be our Gazebo world
@@ -44,6 +49,22 @@ class City(CityModel):
                 if road.includes_point(point):
                     road.replace_node_at(point, intersection)
 
+    def bounding_box(self):
+        road_boxes = self._box_list_from_list(self.roads)
+        roads_bounding_box = BoundingBox.from_boxes(road_boxes)
+        block_boxes = self._box_list_from_list(self.blocks)
+        blocks_bounding_box = BoundingBox.from_boxes(block_boxes)
+        building_boxes = self._box_list_from_list(self.buildings)
+        buildings_bounding_box = BoundingBox.from_boxes(building_boxes)
+        if self.ground_plane is not None:
+            groung_plane_bounding_box = self.ground_plane.bounding_box()
+            return BoundingBox.from_boxes([roads_bounding_box, blocks_bounding_box,
+                                           buildings_bounding_box,
+                                           groung_plane_bounding_box])
+        else:
+            return BoundingBox.from_boxes([roads_bounding_box, blocks_bounding_box,
+                                           buildings_bounding_box])
+
     def accept(self, generator):
         generator.start_city(self)
         if self.ground_plane is not None:
@@ -55,3 +76,6 @@ class City(CityModel):
         for building in self.buildings:
             building.accept(generator)
         generator.end_city(self)
+
+    def _box_list_from_list(self, lst):
+        return map(lambda x: x.bounding_box(), lst)

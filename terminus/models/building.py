@@ -36,4 +36,7 @@ class Building(CityModel):
 
     def bounding_box(self):
         box_list = map(lambda vertex: BoundingBox(vertex, vertex), self.vertices)
-        return BoundingBox.from_boxes(box_list).translate(self.origin)
+        base_box = BoundingBox.from_boxes(box_list).translate(self.origin)
+        box_origin = base_box.origin
+        box_corner = base_box.corner + Point(0, 0, self.height)
+        return BoundingBox(box_origin, box_corner)

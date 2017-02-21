@@ -5,6 +5,11 @@ from models.city import City
 from models.street import Street
 from models.road_simple_node import RoadSimpleNode
 from models.road_intersection_node import RoadIntersectionNode
+from geometry.bounding_box import BoundingBox
+from models.road import Road
+from models.building import Building
+from models.block import Block
+from models.ground_plane import GroundPlane
 
 
 class CityTest(unittest.TestCase):
@@ -57,3 +62,29 @@ class CityTest(unittest.TestCase):
         self.city.add_road(street2)
         self.assertEquals(street1.get_nodes()[0], RoadIntersectionNode.on(0, 0))
         self.assertEquals(street2.get_nodes()[0], RoadSimpleNode.on(0, 0, 1))
+
+    def test_bounding_box_with_ground_plane(self):
+        building = Building.square(Point(35, 45), 10, 10)
+        block = Block.square(Point(-75, -45), 10)
+        road = Road.from_points([Point(60, -20), Point(80, -20)])
+        road.add_lane(0)
+        ground_plane = GroundPlane(30, Point(15, 15))
+        city = City()
+        city.set_ground_plane(ground_plane)
+        city.add_road(road)
+        city.add_block(block)
+        city.add_building(building)
+        self.assertEqual(city.bounding_box(), BoundingBox(Point(-80, -50), Point(82, 50, 10)))
+
+    def test_bounding_box_without_ground_plane(self):
+        building = Building(Point(35, 10), [Point(-5, -10), Point(5, -10),
+                                            Point(5, 10), Point(-5, 10)], 25)
+        block = Block(Point(-45, 70), [Point(-15, -10), Point(15, -10),
+                                       Point(15, 10), Point(-15, 10)])
+        road = Road.from_points([Point(-20, -10), Point(0, 30)])
+        road.add_lane(0, 20)
+        city = City()
+        city.add_road(road)
+        city.add_block(block)
+        city.add_building(building)
+        self.assertEqual(city.bounding_box(), BoundingBox(Point(-60, -20), Point(40, 80, 25)))
