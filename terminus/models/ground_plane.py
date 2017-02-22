@@ -10,8 +10,8 @@ class GroundPlane(CityModel):
         self.origin = origin
 
     def bounding_box(self):
-        box_origin = Point(-self.size / 2, -self.size / 2)
-        box_corner = Point(self.size / 2, self.size / 2)
+        box_origin = Point(-self.size / 2.0, -self.size / 2.0)
+        box_corner = Point(self.size / 2.0, self.size / 2.0)
         box = BoundingBox(box_origin, box_corner)
         return box.translate(self.origin)
 
