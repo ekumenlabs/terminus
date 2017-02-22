@@ -1,5 +1,6 @@
 from city_model import CityModel
 from geometry.point import Point
+from geometry.bounding_box import BoundingBox
 
 
 class Block(CityModel):
@@ -30,3 +31,10 @@ class Block(CityModel):
     def accept(self, generator):
         generator.start_block(self)
         generator.end_block(self)
+
+    def bounding_box(self):
+        box_list = map(lambda vertex: BoundingBox(vertex, vertex), self.vertices)
+        box_base = BoundingBox.from_boxes(box_list).translate(self.origin)
+        box_origin = box_base.origin
+        box_corner = box_base.corner + Point(0, 0, self.height)
+        return BoundingBox(box_origin, box_corner)

@@ -23,6 +23,18 @@ class Point(object):
         else:
             return cls(tuple[0], tuple[1])
 
+    def min(self, other):
+        min_x = min(self.x, other.x)
+        min_y = min(self.y, other.y)
+        min_z = min(self.z, other.z)
+        return Point(min_x, min_y, min_z)
+
+    def max(self, other):
+        max_x = max(self.x, other.x)
+        max_y = max(self.y, other.y)
+        max_z = max(self.z, other.z)
+        return Point(max_x, max_y, max_z)
+
     def to_shapely_point(self):
         return shapely.geometry.Point(self.x, self.y, self.z)
 

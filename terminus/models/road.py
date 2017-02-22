@@ -1,12 +1,14 @@
 import math
 from shapely.geometry import LineString
 from geometry.point import Point
+from geometry.bounding_box import BoundingBox
 
 from city_model import CityModel
 from road_simple_node import RoadSimpleNode
 from road_intersection_node import RoadIntersectionNode
 from lane_intersection_node import LaneIntersectionNode
 from lane import Lane
+from road_node import RoadNode
 
 
 class Road(CityModel):
@@ -130,6 +132,10 @@ class Road(CityModel):
         self._nodes.append(node)
         node.added_to(self)
 
+    def bounding_box(self):
+        node_bounding_boxes = self._node_bounding_boxes()
+        return BoundingBox.from_boxes(node_bounding_boxes)
+
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
             self.width() == other.width() and \
@@ -144,3 +150,6 @@ class Road(CityModel):
     def __repr__(self):
         return "%s: " % self.__class__.__name__ + \
             reduce(lambda acc, node: acc + "%s," % str(node), self._nodes, '')
+
+    def _node_bounding_boxes(self):
+        return map(lambda node: node.bounding_box(self.width()), self._nodes)
