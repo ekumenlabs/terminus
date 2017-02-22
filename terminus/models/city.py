@@ -50,17 +50,12 @@ class City(CityModel):
                     road.replace_node_at(point, intersection)
 
     def bounding_box(self):
-        roads_bounding_box = self._bounding_box_from_list(self.roads)
-        blocks_bounding_box = self._bounding_box_from_list(self.blocks)
-        buildings_bounding_box = self._bounding_box_from_list(self.buildings)
+        child_bounding_boxes = [self._bounding_box_from_list(self.roads),
+                                self._bounding_box_from_list(self.blocks),
+                                self._bounding_box_from_list(self.buildings)]
         if self.ground_plane is not None:
-            groung_plane_bounding_box = self.ground_plane.bounding_box()
-            return BoundingBox.from_boxes([roads_bounding_box, blocks_bounding_box,
-                                           buildings_bounding_box,
-                                           groung_plane_bounding_box])
-        else:
-            return BoundingBox.from_boxes([roads_bounding_box, blocks_bounding_box,
-                                           buildings_bounding_box])
+            child_bounding_boxes.append(self.ground_plane.bounding_box())
+        return BoundingBox.from_boxes(child_bounding_boxes)
 
     def accept(self, generator):
         generator.start_city(self)
