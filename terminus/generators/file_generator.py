@@ -1,11 +1,15 @@
 from city_visitor import CityVisitor
-from jinja2 import Template
+from jinja2 import Template, Environment
 import textwrap
 import re
 try:
     from cStringIO import StringIO
 except:
     from io import StringIO
+
+jinja_env = Environment(extensions=['jinja2.ext.do'],
+                        trim_blocks=True,
+                        lstrip_blocks=True)
 
 
 class FileGenerator(CityVisitor):
@@ -55,9 +59,7 @@ class FileGenerator(CityVisitor):
         if key not in self.template_cache:
             method_name = key + '_template'
             method = getattr(self, method_name)
-            template = Template(method(),
-                                trim_blocks=True,
-                                lstrip_blocks=True)
+            template = jinja_env.from_string(method())
             self.template_cache[key] = template
         return self.template_cache[key]
 

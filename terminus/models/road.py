@@ -47,6 +47,9 @@ class Road(CityModel):
     def get_lanes(self):
         return self._lanes
 
+    def get_lane(self, index):
+        return self._lanes[index]
+
     def add_point(self, point):
         node = RoadSimpleNode(point)
         self._add_node(node)

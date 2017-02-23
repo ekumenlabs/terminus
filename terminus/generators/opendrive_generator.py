@@ -8,9 +8,8 @@ import math
 
 class OpenDriveGenerator(FileGenerator):
 
-    def __init__(self, city, origin):
+    def __init__(self, city):
         super(OpenDriveGenerator, self).__init__(city)
-        self.origin = origin
         self.id_mapper = OpenDriveIdMapper(city)
 
     def start_document(self):
@@ -20,38 +19,77 @@ class OpenDriveGenerator(FileGenerator):
         self._wrap_document_with_contents_for(city)
 
     def start_street(self, street):
-        self.start_road(street)
+        '''
+        For the time being we will assume that a Street can only contain a
+        single lane, at the center. Otherwise we fail loudly.
+        We will generalize this in the future.
+        '''
+        if street.lane_count() != 1 or street.get_lane(0).offset() != 0:
+            raise RuntimeError("Only streets with a single lane at the center are currently supported")
+        street_id = self.id_for(street)
+        street_content = self._contents_for(street, segment_id=street_id)
+        self._append_to_document(street_content)
 
-    def start_trunk(self, street):
-        self.start_road(street)
-
-    def start_road(self, road):
-        road_id = self.id_for(road)
-        road_content = self._contents_for(road, segment_id=road_id)
-        self._append_to_document(road_content)
+    def start_trunk(self, trunk):
+        trunk_id = self.id_for(trunk)
+        trunk_content = self._contents_for(trunk, segment_id=trunk_id)
+        self._append_to_document(trunk_content)
 
     def id_for(self, object):
         return self.id_mapper.id_for(object)
 
+    def sorted_right_lanes(self, road):
+        right_lanes = filter(lambda lane: lane.offset() > 0, road.get_lanes())
+        right_lanes.sort(key=lambda lane: lane.offset())
+        lane_id = 0
+        tuples = []
+        for lane in right_lanes:
+            lane_id = lane_id - 1
+            tuples.append((lane_id, lane))
+        return tuples
+
+    def has_right_lanes(self, road):
+        return len(self.sorted_right_lanes(road)) != 0
+
+    def sorted_left_lanes(self, road):
+        left_lanes = filter(lambda lane: lane.offset() < 0, road.get_lanes())
+        left_lanes.sort(key=lambda lane: lane.offset())
+        lane_id = len(left_lanes) + 1
+        tuples = []
+        for lane in left_lanes:
+            lane_id = lane_id - 1
+            tuples.append((lane_id, lane))
+        tuples.reverse()
+        return tuples
+
+    def has_left_lanes(self, road):
+        return len(self.sorted_left_lanes(road)) != 0
+
+    def reset_accumulated_width(self):
+        self.accumulated_width = 0
+
+    def accumulate_width_for(self, lane):
+        self.accumulated_width = abs(lane.external_offset())
+
+    def width_for(self, lane):
+        return abs(lane.external_offset()) - self.accumulated_width
+
     def city_template(self):
         return """
         <?xml version="1.0" standalone="yes"?>
-          <OpenDRIVE xmlns="http://www.opendrive.org">
-            <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0000000000000000e+00" south="0.0000000000000000e+00" east="0.0000000000000000e+00" west="0.0000000000000000e+00" maxRoad="{{model.roads_count()}}" maxJunc="0" maxPrg="0">
-            </header>
-            {{inner_contents}}
+        <OpenDRIVE>
+          <header revMajor="1" revMinor="1" name="{{model.name}}" version="1.00" north="0.0" south="0.0" east="0.0" west="0.0">
+          </header>
+          {{inner_contents}}
         </OpenDRIVE>"""
 
-    # We don't have support for multilane roads, so we should
-    # correct the lane creation for roads. We are creating only one lane to the
-    # right of the base line and no offset is set.
-    def road_template(self):
+    def street_template(self):
         return """
             {% set points = model.get_waypoint_positions() %}
             {% set distances = model.get_waypoint_distances() %}
             {% set angles = model.get_waypoints_yaws() %}
             <road name="{{model.name}}" length="{{model.length()}}" id="{{segment_id}}">
-              <type s="0.0000000000000000e+00" type="town"/>
+              <type s="0.0" type="town"/>
               <planView>
               {% for i in range(model.waypoints_count() - 1)    %}
                 <geometry s="{{model.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
@@ -60,25 +98,28 @@ class OpenDriveGenerator(FileGenerator):
               {% endfor %}
               </planView>
               <elevationProfile>
-                  <elevation s="0.0000000000000000e+00" a="0.0000000000000000e+00" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                  <elevation s="0.0" a="0.0" b="0.0" c="0.0" d="0.0"/>
               </elevationProfile>
               <lateralProfile>
               </lateralProfile>
               <lanes>
-                  <laneSection s="0.0000000000000000e+00">
+                  <laneOffset s="0.0" a="{{model.width() / 2.0}}" b="0.0" c="0.0" d="0.0"/>
+                  <laneSection s="0.0">
                       <center>
-                          <lane id="0" type="driving" level= "0">
+                          <lane id="0" type="driving" level="false">
                               <link>
                               </link>
-                              <roadMark sOffset="0.0000000000000000e+00" type="none" weight="standard" color="standard" width="1.3000000000000000e-01"/>
+                              <roadMark sOffset="0.0" type="solid" weight="standard" color="standard" width="1.3e-01">
+                              </roadMark>
                           </lane>
                       </center>
                       <right>
-                          <lane id="-1" type="driving" level= "0">
+                          <lane id="-1" type="driving" level="false">
                               <link>
                               </link>
-                              <roadMark sOffset="0.0000000000000000e+00" type="solid" weight="standard" color="standard" width="1.3000000000000000e-01"/>
-                              <width sOffset="0.0000000000000000e+00" a="{{model.width()}}" b="0.0000000000000000e+00" c="0.0000000000000000e+00" d="0.0000000000000000e+00"/>
+                              <width sOffset="0.0" a="{{model.width()}}" b="0.0" c="0.0" d="0.0"/>
+                              <roadMark sOffset="0.0" type="solid" weight="standard" color="standard" width="1.3e-01">
+                              </roadMark>
                           </lane>
                       </right>
                   </laneSection>
@@ -89,8 +130,79 @@ class OpenDriveGenerator(FileGenerator):
               </signals>
             </road>"""
 
-    def street_template(self):
-        return self.road_template()
-
     def trunk_template(self):
-        return self.road_template()
+        return """
+            {% set points = model.get_waypoint_positions() %}
+            {% set distances = model.get_waypoint_distances() %}
+            {% set angles = model.get_waypoints_yaws() %}
+            <road name="{{model.name}}" length="{{model.length()}}" id="{{segment_id}}">
+              <type s="0.0" type="town"/>
+              <planView>
+              {% for i in range(model.waypoints_count() - 1)    %}
+                <geometry s="{{model.length(0,i)}}" x="{{points[i].x}}" y="{{points[i].y}}" hdg="{{angles[i]}}" length="{{distances[i]}}">
+                  <line/>
+                </geometry>
+              {% endfor %}
+              </planView>
+              <elevationProfile>
+                  <elevation s="0.0" a="0.0" b="0.0" c="0.0" d="0.0"/>
+              </elevationProfile>
+              <lateralProfile>
+              </lateralProfile>
+              <lanes>
+                  <laneSection s="0.0">
+                      {% if generator.has_left_lanes(model) %}
+                      {% do generator.reset_accumulated_width() %}
+                      <left>
+                        {% for (id, lane) in generator.sorted_left_lanes(model) %}
+                          <lane id="{{id}}" type="driving" level="false">
+                              <link>
+                              </link>
+                              <width sOffset="0.0" a="{{generator.width_for(lane)}}" b="0.0" c="0.0" d="0.0"/>
+                              {% if loop.last %}
+                                <roadMark sOffset="0.0" type="solid" weight="standard" color="standard" width="1.3e-01">
+                                </roadMark>
+                              {% else %}
+                                <roadMark sOffset="0.0" type="broken" weight="standard" color="standard" width="1.3e-01">
+                                </roadMark>
+                              {% endif %}
+                          {% do generator.accumulate_width_for(lane) %}
+                          </lane>
+                        {% endfor %}
+                      </left>
+                      {% endif -%}
+                      <center>
+                          <lane id="0" type="driving" level="false">
+                              <link>
+                              </link>
+                              <roadMark sOffset="0.0" type="broken" weight="standard" color="standard" width="1.3e-01">
+                              </roadMark>
+                          </lane>
+                      </center>
+                      {% if generator.has_right_lanes(model) %}
+                      {% do generator.reset_accumulated_width() %}
+                      <right>
+                        {% for (id, lane) in generator.sorted_right_lanes(model) %}
+                          <lane id="{{id}}" type="driving" level="false">
+                              <link>
+                              </link>
+                              <width sOffset="0.0" a="{{generator.width_for(lane)}}" b="0.0" c="0.0" d="0.0"/>
+                              {% if loop.last %}
+                                <roadMark sOffset="0.0" type="solid" weight="standard" color="standard" width="1.3e-01">
+                                </roadMark>
+                              {% else %}
+                                <roadMark sOffset="0.0" type="broken" weight="standard" color="standard" width="1.3e-01">
+                                </roadMark>
+                              {% endif %}
+                          {% do generator.accumulate_width_for(lane) %}
+                          </lane>
+                        {% endfor %}
+                      </right>
+                      {% endif -%}
+                  </laneSection>
+              </lanes>
+              <objects>
+              </objects>
+              <signals>
+              </signals>
+            </road>"""

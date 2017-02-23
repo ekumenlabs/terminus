@@ -8,11 +8,13 @@ from models.building import Building
 from models.ground_plane import GroundPlane
 from models.road import *
 
+from builders.abstract_city_builder import AbstractCityBuilder
 
-class SimpleCityBuilder(object):
+
+class SimpleCityBuilder(AbstractCityBuilder):
 
     def get_city(self):
-        # Must be even
+        # Must be odd
         size = 5
         city = City()
         self.multiplier = 100

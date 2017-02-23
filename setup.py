@@ -14,6 +14,7 @@ setup(name='terminus',
           'scipy',
           'matplotlib',
           'Pillow',
-          'PyYAML'
+          'PyYAML',
+          'python-slugify'
       ],
       zip_safe=False)

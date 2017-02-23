@@ -226,7 +226,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_street)
         city.add_road(vertical_street)
 
-        lane = vertical_street.get_lanes()[0]
+        lane = vertical_street.get_lane(0)
 
         expected_points = [
             Point(0, 2),
@@ -259,7 +259,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_road)
         city.add_road(vertical_street)
 
-        lane = vertical_street.get_lanes()[0]
+        lane = vertical_street.get_lane(0)
 
         expected_points = [
             Point(0, 5),
@@ -289,14 +289,14 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        inner_horizontal_lane = horizontal_trunk.get_lanes()[0]
+        inner_horizontal_lane = horizontal_trunk.get_lane(0)
         expected_points = [
             Point(-2, -2),
             Point(1000, -2)
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, inner_horizontal_lane.geometry())
 
-        outer_horizontal_lane = horizontal_trunk.get_lanes()[1]
+        outer_horizontal_lane = horizontal_trunk.get_lane(1)
         expected_points = [
             Point(-2, 2),
             Point(1000, 2)
@@ -329,27 +329,27 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_trunk)
         # city.add_road(diagonal_trunk)
 
-        inner_horizontal_lane = horizontal_trunk.get_lanes()[0]
+        inner_horizontal_lane = horizontal_trunk.get_lane(0)
         expected_points = [
             Point(-7, -7),
             Point(1000, -7)
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, inner_horizontal_lane.geometry())
 
-        outer_horizontal_lane = horizontal_trunk.get_lanes()[1]
+        outer_horizontal_lane = horizontal_trunk.get_lane(1)
         expected_points = [
             Point(-7, 7),
             Point(1000, 7)
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, outer_horizontal_lane.geometry())
 
-        inner_vertical_lane = vertical_trunk.get_lanes()[0]
+        inner_vertical_lane = vertical_trunk.get_lane(0)
         expected_points = [
             Point(-7, 1000),
             Point(-7, -7)
         ]
         self.assertPointCollectionsAreAlmostEquals(expected_points, inner_vertical_lane.geometry())
-        outer_vertical_lane = vertical_trunk.get_lanes()[1]
+        outer_vertical_lane = vertical_trunk.get_lane(1)
         expected_points = [
             Point(7, 1000),
             Point(7, -7)
@@ -400,7 +400,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_street)
         city.add_road(vertical_street)
 
-        lane = horizontal_street.get_lanes()[0]
+        lane = horizontal_street.get_lane(0)
         lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
@@ -428,7 +428,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_street)
         city.add_road(diagonal_street)
 
-        lane = horizontal_street.get_lanes()[0]
+        lane = horizontal_street.get_lane(0)
         lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
@@ -462,7 +462,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(vertical_street)
         city.add_road(diagonal_street)
 
-        lane = horizontal_street.get_lanes()[0]
+        lane = horizontal_street.get_lane(0)
         lane_nodes = lane.get_nodes()
 
         expected_waypoints = [
@@ -497,10 +497,10 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1 = horizontal_trunk.get_lane(0)
         horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
 
-        horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2 = horizontal_trunk.get_lane(1)
         horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
@@ -551,10 +551,10 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1 = horizontal_trunk.get_lane(0)
         horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
 
-        horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2 = horizontal_trunk.get_lane(1)
         horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
@@ -605,10 +605,10 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1 = horizontal_trunk.get_lane(0)
         horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
 
-        horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2 = horizontal_trunk.get_lane(1)
         horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
@@ -654,10 +654,10 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1 = horizontal_trunk.get_lane(0)
         horizontal_lane_1_nodes = horizontal_lane_1.get_nodes()
 
-        horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2 = horizontal_trunk.get_lane(1)
         horizontal_lane_2_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints_lane_1 = [
@@ -709,7 +709,7 @@ class LaneTest(unittest.TestCase):
         city.add_road(horizontal_trunk)
         city.add_road(vertical_trunk)
 
-        vertical_lane_1 = vertical_trunk.get_lanes()[0]
+        vertical_lane_1 = vertical_trunk.get_lane(0)
         lane_nodes = vertical_lane_1.get_nodes()
 
         expected_waypoints = [
@@ -721,7 +721,7 @@ class LaneTest(unittest.TestCase):
         ]
         self.assertEquals(expected_waypoints, vertical_lane_1.get_waypoints())
 
-        vertical_lane_2 = vertical_trunk.get_lanes()[1]
+        vertical_lane_2 = vertical_trunk.get_lane(1)
         lane_nodes = vertical_lane_2.get_nodes()
 
         expected_waypoints = [
@@ -733,7 +733,7 @@ class LaneTest(unittest.TestCase):
         ]
         self.assertEquals(expected_waypoints, vertical_lane_2.get_waypoints())
 
-        horizontal_lane_1 = horizontal_trunk.get_lanes()[0]
+        horizontal_lane_1 = horizontal_trunk.get_lane(0)
         lane_nodes = horizontal_lane_1.get_nodes()
 
         expected_waypoints = [
@@ -745,7 +745,7 @@ class LaneTest(unittest.TestCase):
         ]
         self.assertEquals(expected_waypoints, horizontal_lane_1.get_waypoints())
 
-        horizontal_lane_2 = horizontal_trunk.get_lanes()[1]
+        horizontal_lane_2 = horizontal_trunk.get_lane(1)
         lane_nodes = horizontal_lane_2.get_nodes()
 
         expected_waypoints = [

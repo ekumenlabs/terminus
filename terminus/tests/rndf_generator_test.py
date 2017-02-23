@@ -9,12 +9,7 @@ from models.trunk import Trunk
 
 from generators.rndf_generator import RNDFGenerator
 
-from common_generator_test_cases import generate_cross_intersection_city
-from common_generator_test_cases import generate_empty_city
-from common_generator_test_cases import generate_L_intersection_city
-from common_generator_test_cases import generate_simple_street_city
-from common_generator_test_cases import generate_Y_intersection_one_to_many_city
-from common_generator_test_cases import generate_Y_intersection_many_to_one_city
+from test_cities_generator import TestCitiesGenerator
 
 import textwrap
 
@@ -24,6 +19,7 @@ class RNDFGeneratorTest(unittest.TestCase):
     def setUp(self):
         # print full diff in test output
         self.maxDiff = None
+        self.test_generator = TestCitiesGenerator()
 
     def _generate_rndf(self, city):
         self.generator = RNDFGenerator(city, LatLon(45, 65))
@@ -37,7 +33,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         self.assertMultiLineEqual(self.generated_contents, expected)
 
     def test_empty_city(self):
-        city = generate_empty_city()
+        city = self.test_generator.empty_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
         RNDF_name\tEmpty
@@ -47,7 +43,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_file""")
 
     def test_simple_street(self):
-        city = generate_simple_street_city()
+        city = self.test_generator.simple_street_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
         RNDF_name\tSingle street
@@ -61,8 +57,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         1.1.1\t45.000000\t65.000000
-        1.1.2\t45.000000\t65.012704
-        1.1.3\t45.000000\t65.025408
+        1.1.2\t45.000000\t65.001270
+        1.1.3\t45.000000\t65.002541
         end_lane
         end_segment
         end_file""")
@@ -73,7 +69,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         (-1,0) + (1,0)
              (0,-1)
         """
-        city = generate_cross_intersection_city()
+        city = self.test_generator.cross_intersection_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -88,10 +84,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t13
         exit\t1.1.2\t2.1.3
-        1.1.1\t45.000000\t64.987296
+        1.1.1\t45.000000\t64.998730
         1.1.2\t45.000000\t64.999936
         1.1.3\t45.000000\t65.000064
-        1.1.4\t45.000000\t65.012704
+        1.1.4\t45.000000\t65.001270
         end_lane
         end_segment
         segment\t2
@@ -101,10 +97,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t13
         exit\t2.1.2\t1.1.3
-        2.1.1\t45.008983\t65.000000
+        2.1.1\t45.000898\t65.000000
         2.1.2\t45.000045\t65.000000
         2.1.3\t44.999955\t65.000000
-        2.1.4\t44.991017\t65.000000
+        2.1.4\t44.999102\t65.000000
         end_lane
         end_segment
         end_file""")
@@ -114,7 +110,7 @@ class RNDFGeneratorTest(unittest.TestCase):
              (0,1)
                +  (1,0)
         """
-        city = generate_L_intersection_city()
+        city = self.test_generator.L_intersection_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -129,7 +125,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t1.1.2\t2.1.2
-        1.1.1\t45.008983\t65.000000
+        1.1.1\t45.000898\t65.000000
         1.1.2\t45.000045\t65.000000
         1.1.3\t45.000000\t65.000000
         end_lane
@@ -142,7 +138,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         2.1.1\t45.000000\t65.000000
         2.1.2\t45.000000\t65.000064
-        2.1.3\t45.000000\t65.012704
+        2.1.3\t45.000000\t65.001270
         end_lane
         end_segment
         end_file""")
@@ -153,7 +149,7 @@ class RNDFGeneratorTest(unittest.TestCase):
                     +
             (-1,-1)   (1,-1)
         """
-        city = generate_Y_intersection_one_to_many_city()
+        city = self.test_generator.Y_intersection_one_to_many_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -169,7 +165,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.2
         exit\t1.1.2\t3.1.2
-        1.1.1\t45.008983\t65.000000
+        1.1.1\t45.000898\t65.000000
         1.1.2\t45.000045\t65.000000
         1.1.3\t45.000000\t65.000000
         end_lane
@@ -182,7 +178,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         2.1.1\t45.000000\t65.000000
         2.1.2\t44.999968\t64.999955
-        2.1.3\t44.991017\t64.987296
+        2.1.3\t44.999102\t64.998730
         end_lane
         end_segment
         segment\t3
@@ -193,7 +189,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         3.1.1\t45.000000\t65.000000
         3.1.2\t44.999968\t65.000045
-        3.1.3\t44.991017\t65.012704
+        3.1.3\t44.999102\t65.001270
         end_lane
         end_segment
         end_file""")
@@ -204,7 +200,7 @@ class RNDFGeneratorTest(unittest.TestCase):
                     +
             (-1,-1)   (1,-1)
         """
-        city = generate_Y_intersection_many_to_one_city()
+        city = self.test_generator.Y_intersection_many_to_one_city()
 
         self._generate_rndf(city)
         self._assert_contents_are("""
@@ -220,7 +216,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         1.1.1\t45.000000\t65.000000
         1.1.2\t45.000045\t65.000000
-        1.1.3\t45.008983\t65.000000
+        1.1.3\t45.000898\t65.000000
         end_lane
         end_segment
         segment\t2
@@ -230,7 +226,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t2.1.2\t1.1.2
-        2.1.1\t44.991017\t64.987296
+        2.1.1\t44.999102\t64.998730
         2.1.2\t44.999968\t64.999955
         2.1.3\t45.000000\t65.000000
         end_lane
@@ -242,7 +238,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t3.1.2\t1.1.2
-        3.1.1\t44.991017\t65.012704
+        3.1.1\t44.999102\t65.001270
         3.1.2\t44.999968\t65.000045
         3.1.3\t45.000000\t65.000000
         end_lane

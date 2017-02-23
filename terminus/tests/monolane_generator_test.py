@@ -4,15 +4,13 @@ import yaml
 
 from generators.monolane_generator import MonolaneGenerator
 
-from common_generator_test_cases import generate_cross_intersection_city
-from common_generator_test_cases import generate_empty_city
-from common_generator_test_cases import generate_L_intersection_city
-from common_generator_test_cases import generate_simple_street_city
-from common_generator_test_cases import generate_Y_intersection_one_to_many_city
-from common_generator_test_cases import generate_Y_intersection_many_to_one_city
+from test_cities_generator import TestCitiesGenerator
 
 
 class MonolaneGeneratorTest(unittest.TestCase):
+
+    def setUp(self):
+        self.test_generator = TestCitiesGenerator()
 
     def generate_monolane(self, city):
         self.generator = MonolaneGenerator(city)
@@ -34,7 +32,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertEqual(0, len(monolane_dict['groups']))
 
     def test_empty_city(self):
-        city = generate_empty_city()
+        city = self.test_generator.empty_city()
 
         monolane_dict = self.generate_monolane(city)
 
@@ -42,7 +40,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertEqual(0, len(monolane_dict['connections']))
 
     def test_simple_street(self):
-        city = generate_simple_street_city()
+        city = self.test_generator.simple_street_city()
 
         monolane_dict = self.generate_monolane(city)
 
@@ -50,7 +48,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertEqual(2, len(monolane_dict['connections']))
 
     def test_cross_intersection(self):
-        city = generate_cross_intersection_city()
+        city = self.test_generator.cross_intersection_city()
 
         monolane_dict = self.generate_monolane(city)
 
@@ -62,7 +60,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
 
     def test_L_intersection(self):
-        city = generate_L_intersection_city()
+        city = self.test_generator.L_intersection_city()
 
         monolane_dict = self.generate_monolane(city)
 
@@ -74,7 +72,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
 
     def test_Y_intersection_one_to_many(self):
-        city = generate_Y_intersection_one_to_many_city()
+        city = self.test_generator.Y_intersection_one_to_many_city()
 
         monolane_dict = self.generate_monolane(city)
 
@@ -86,7 +84,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
         self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
 
     def test_Y_intersection_many_to_one(self):
-        city = generate_Y_intersection_many_to_one_city()
+        city = self.test_generator.Y_intersection_many_to_one_city()
 
         monolane_dict = self.generate_monolane(city)
 

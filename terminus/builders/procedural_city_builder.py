@@ -8,6 +8,8 @@ from models.block import Block
 from models.building import Building
 from models.ground_plane import GroundPlane
 
+from builders.abstract_city_builder import AbstractCityBuilder
+
 from procedural_city.vertex import *
 from procedural_city.polygon2d import Polygon2D, Edge
 from procedural_city.vertex_graph_to_roads_converter \
@@ -26,7 +28,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class ProceduralCityBuilder(object):
+class ProceduralCityBuilder(AbstractCityBuilder):
     def __init__(self, verticesFilename=None, polygonsFilename=None, size=1500):
         self.verticesFilename = verticesFilename
         self.polygonsFilename = polygonsFilename
