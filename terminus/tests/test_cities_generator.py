@@ -21,7 +21,7 @@ from models.street import Street
 
 class TestCitiesGenerator(object):
 
-    def all_cities(self):
+    def non_empty_cities(self):
         cities = []
         for element in dir(self):
             attribute = getattr(self, element)

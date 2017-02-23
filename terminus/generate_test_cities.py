@@ -40,7 +40,7 @@ class SampleBuilder(object):
     def name(self):
         return "SampleBuilder for {0}".format(self.city.name)
 
-test_cities = TestCitiesGenerator().all_cities()
+test_cities = TestCitiesGenerator().non_empty_cities()
 
 for city in test_cities:
     builder = SampleBuilder(city)
