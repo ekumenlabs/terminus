@@ -61,6 +61,7 @@ class CityGenerationProcess(object):
                             self.base_name + '.rndf')
 
         if self.debug_on:
+            # Generate SVG file from RNDF if binary available
             depth = 0
             to_process = self.path
             while True:
@@ -71,6 +72,7 @@ class CityGenerationProcess(object):
                     depth = depth + 1
             parent_path = '/'.join(map(lambda x: '..', range(1, depth)))
             command = "cd {0}; {1}/tools/rndf_visualizer/build/rndf_visualizer -g {2}.rndf".format(self.path, parent_path, self.base_name)
+            self.logger.info("Generating SVG for RNDF")
             process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
             process.wait()
             if process.returncode == 0:
@@ -105,6 +107,21 @@ class CityGenerationProcess(object):
         self._run_generator(MonolaneGenerator(city),
                             'Generating monolane file',
                             self.base_name + '_monolane.yaml')
+
+        if self.debug_on and os.environ['DRAKE_DISTRO']:
+            # Generate OBJ from monolane if binary is available
+            binary = os.path.join(os.environ['DRAKE_DISTRO'], 'build/drake/automotive/maliput/utility/yaml_to_obj')
+            monolane_file = self.path + self.base_name + '_monolane.yaml'
+            params = "-yaml_file=\"{0}\" -obj_dir=\"{1}\" -obj_file=\"{2}\"".format(monolane_file, self.path, self.base_name + '_monolane')
+            command = "{0} {1}".format(binary, params)
+            self.logger.info("Generating OBJ for monolane")
+            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process.wait()
+            if process.returncode != 0:
+                output = process.stderr.read()
+                self.logger.warn("Can't generate OBJ file for monolane. Command attempted:")
+                self.logger.warn(command)
+                self.logger.warn(output)
 
     def _run_generator(self, generator, log_message, path_extension):
         self.logger.info(log_message)
