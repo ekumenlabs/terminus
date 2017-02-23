@@ -15,7 +15,7 @@ setup(name='terminus',
           'matplotlib',
           'Pillow',
           'PyYAML',
-          'mock'
+          'mock',
           'python-slugify'
       ],
       zip_safe=False)
