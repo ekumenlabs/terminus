@@ -31,7 +31,7 @@ class MonolaneIdMapper(CityVisitor):
         return self.monolane_points
 
     def point_name_by_road_node(self, road, node):
-        return self.point_name_by_road_node_dict[self.road_node_id(road, node)]
+        return self.point_name_by_road_node_dict[self.road_node_id(road, node)][0]
 
     def process_road(self, road):
         """Called anytime a road or trunk are visited.
