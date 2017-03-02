@@ -7,8 +7,8 @@ class StreetPlotGenerator(CityVisitor):
 
     def write_to(self, destination_file):
         bounding_box = self.city.bounding_box()
-        plt.figure(figsize=((bounding_box.corner.x - bounding_box.origin.x) / 100.0,
-                            (bounding_box.corner.y - bounding_box.origin.y) / 100.0),
+        plt.figure(figsize=(bounding_box.width() / 100.0,
+                            bounding_box.height() / 100.0),
                    dpi=150)
         self.run()
         plt.savefig(destination_file, dpi=150)
