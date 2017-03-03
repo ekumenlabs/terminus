@@ -1,11 +1,15 @@
 from city_visitor import CityVisitor
 import matplotlib.pyplot as plt
+from models.city import City
 
 
 class StreetPlotGenerator(CityVisitor):
 
     def write_to(self, destination_file):
-        plt.figure(figsize=(20, 20), dpi=150)
+        bounding_box = self.city.bounding_box()
+        plt.figure(figsize=(bounding_box.width() / 100.0,
+                            bounding_box.height() / 100.0),
+                   dpi=150)
         self.run()
         plt.savefig(destination_file, dpi=150)
 

@@ -74,3 +74,11 @@ class BoundingBoxTest(unittest.TestCase):
     def test_from_boxes_with_empty_box_list(self):
         box_list = []
         self.assertRaises(Exception, lambda: BoundingBox.from_boxes(box_list))
+
+    def test_width(self):
+        box = BoundingBox(Point(25, 40), Point(30, 50))
+        self.assertEqual(box.width(), 5)
+
+    def test_height(self):
+        box = BoundingBox(Point(-10, 18), Point(15, 43))
+        self.assertEqual(box.height(), 25)

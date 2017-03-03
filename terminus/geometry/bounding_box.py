@@ -33,6 +33,12 @@ class BoundingBox(object):
         new_corner = self.corner + point
         return BoundingBox(new_origin, new_corner)
 
+    def width(self):
+        return self.corner.x - self.origin.x
+
+    def height(self):
+        return self.corner.y - self.origin.y
+
     def _normalize(self):
         new_origin = self.origin.min(self.corner)
         new_corner = self.origin.max(self.corner)
