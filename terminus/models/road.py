@@ -103,7 +103,10 @@ class Road(CityModel):
         old_node.removed_from(self)
 
     def includes_point(self, point):
-        return point in self._point_to_node
+        # Attempt a constant search in the points dictionary. If that fails
+        # do the linear search in the nodes collection.
+        return (point in self._point_to_node) or \
+            any(node.center.almost_equal_to(point, 5) for node in self._nodes)
 
     def reverse(self):
         self._nodes.reverse()
