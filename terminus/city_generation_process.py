@@ -110,7 +110,7 @@ class CityGenerationProcess(object):
 
         if self.debug_on and os.environ['DRAKE_DISTRO']:
             # Generate OBJ from monolane if binary is available
-            binary = os.path.join(os.environ['DRAKE_DISTRO'], 'build/drake/automotive/maliput/utility/yaml_to_obj')
+            binary = os.path.join(os.environ['DRAKE_DISTRO'], 'bazel-bin/drake/automotive/maliput/utility/yaml_to_obj')
             monolane_file = self.path + self.base_name + '_monolane.yaml'
             params = "-yaml_file=\"{0}\" -obj_dir=\"{1}\" -obj_file=\"{2}\"".format(monolane_file, self.path, self.base_name + '_monolane')
             command = "{0} {1}".format(binary, params)
