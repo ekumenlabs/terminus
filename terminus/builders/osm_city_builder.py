@@ -143,7 +143,7 @@ class OsmCityBuilder(AbstractCityBuilder):
             tags = value['tags']
             # Filter highways
             if 'highway' in tags and tags['highway'] in self.road_types:
-                tmp_road = Street(name=osmid)
+                tmp_road = Street(name='OSM_' + str(osmid))
                 coords_outside_box = []
                 road_in_and_out = False
                 coord_inside_bounds = False
@@ -163,11 +163,11 @@ class OsmCityBuilder(AbstractCityBuilder):
                         # add the interscting point with it to the road
                         if prev_coord_outside:
                             for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
-                                tmp_road.add_point(intersection)
+                                self._add_point_to_road(tmp_road, intersection)
 
                         # If list is empty, use the node
                         if not coords_outside_box:
-                            tmp_road.add_point(coord)
+                            self._add_point_to_road(tmp_road, coord)
                             prev_coord = coord
                             coord_inside_bounds = True
                             if self.nodes[ref][osmid] is None:
@@ -183,7 +183,7 @@ class OsmCityBuilder(AbstractCityBuilder):
                         # add the interscting point with it to the road
                         if tmp_road.node_count() >= 1 and not already_intersected:
                             for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
-                                tmp_road.add_point(intersection)
+                                self._add_point_to_road(tmp_road, intersection)
                                 prev_coord = intersection
                                 already_intersected = True
 
@@ -197,7 +197,7 @@ class OsmCityBuilder(AbstractCityBuilder):
                 # Add nodes if way runs in and out the bounding box
                 if road_in_and_out:
                     for coord in coords_outside_box:
-                        tmp_road.add_point(Point(coord.x, coord.y, 0))
+                        self._add_point_to_road(tmp_road, Point(coord.x, coord.y, 0))
                     if self.nodes[ref][osmid] is None:
                         self.nodes[ref][osmid] = tmp_road
 
@@ -226,6 +226,10 @@ class OsmCityBuilder(AbstractCityBuilder):
             for index in range(len(roads)):
                 if roads[index] is not None and index < len(roads) - 1:
                     city.add_intersection_at(self.osm_coords[key]['point'])
+
+    def _add_point_to_road(self, road, point):
+        if not road.includes_point(point):
+            road.add_point(point)
 
     def _create_buildings(self, city):
         '''

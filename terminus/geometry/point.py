@@ -65,8 +65,17 @@ class Point(object):
     def dot_product(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
+    def angle(self, other):
+        v1 = self.normalized()
+        v2 = other.normalized()
+        return math.atan2(v2.y, v2.x) - math.atan2(v1.y, v1.x)
+
     def norm(self):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def normalized(self):
+        length = self.norm()
+        return Point(self.x / length, self.y / length, self.z / length)
 
     def squared_distance_to(self, other):
         return (self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2

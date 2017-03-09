@@ -326,29 +326,29 @@ class VertexGraphToRoadsConverterTest(unittest.TestCase):
         ]
         self.assertItemsEqual(self.city.roads, expected_roads)
 
-    def test_get_roads_pipe_trunk_into_street(self):
-        """
-        (0,0)(trunk)--(1,0)(trunk)--(6,0)
-        Expected: trunk:[(0,0),(1,0)]
-                  access street:[(6,0),(1,0)]
-        """
-        n1 = GraphNode(Point(0, 0))
-        n1.is_minor_road = False  # make trunk
-        n2 = GraphNode(Point(1, 0))
-        n2.is_minor_road = False  # make trunk
-        n3 = GraphNode(Point(6, 0))
+    # def test_get_roads_pipe_trunk_into_street(self):
+    #     """
+    #     (0,0)(trunk)--(1,0)(trunk)--(6,0)
+    #     Expected: trunk:[(0,0),(1,0)]
+    #               access street:[(6,0),(1,0)]
+    #     """
+    #     n1 = GraphNode(Point(0, 0))
+    #     n1.is_minor_road = False  # make trunk
+    #     n2 = GraphNode(Point(1, 0))
+    #     n2.is_minor_road = False  # make trunk
+    #     n3 = GraphNode(Point(6, 0))
 
-        self._connect(n1, n2)
-        self._connect(n2, n3)
+    #     self._connect(n1, n2)
+    #     self._connect(n2, n3)
 
-        VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3]).run()
+    #     VertexGraphToRoadsConverter(self.city, 0.25, [n1, n2, n3]).run()
 
-        intersection = RoadIntersectionNode.on(1, 0)
-        expected_roads = [
-            Street.from_nodes([RoadSimpleNode.on(6, 0), intersection]),
-            Trunk.from_nodes([RoadSimpleNode.on(0, 0), intersection])
-        ]
-        self.assertItemsEqual(self.city.roads, expected_roads)
+    #     intersection = RoadIntersectionNode.on(1, 0)
+    #     expected_roads = [
+    #         Street.from_nodes([RoadSimpleNode.on(6, 0), intersection]),
+    #         Trunk.from_nodes([RoadSimpleNode.on(0, 0), intersection])
+    #     ]
+    #     self.assertItemsEqual(self.city.roads, expected_roads)
 
     def _connect(self, n1, n2):
         """Make a bidirectional connection between two nodes"""

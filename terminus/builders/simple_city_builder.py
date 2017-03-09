@@ -102,22 +102,22 @@ class SimpleCityBuilder(AbstractCityBuilder):
         city.add_road(road)
 
     def _create_surrounding_ring_road(self, city, size):
-        ring_road_1 = Trunk(name='RingRoad1')
+        ring_road_1 = Street(name='RingRoad1')
         for x in range(size):
             ring_road_1.add_point(self.intersections[x][0])
         city.add_road(ring_road_1)
 
-        ring_road_2 = Trunk(name='RingRoad2')
+        ring_road_2 = Street(name='RingRoad2')
         for y in range(size):
             ring_road_2.add_point(self.intersections[size - 1][y])
         city.add_road(ring_road_2)
 
-        ring_road_3 = Trunk(name='RingRoad3')
+        ring_road_3 = Street(name='RingRoad3')
         for x in range(size):
             ring_road_3.add_point(self.intersections[size - x - 1][size - 1])
         city.add_road(ring_road_3)
 
-        ring_road_4 = Trunk(name='RingRoad4')
+        ring_road_4 = Street(name='RingRoad4')
         for y in range(size):
             ring_road_4.add_point(self.intersections[0][size - y - 1])
         city.add_road(ring_road_4)

@@ -21,7 +21,7 @@ from models.street import Street
 
 class TestCitiesGenerator(object):
 
-    def all_cities(self):
+    def non_empty_cities(self):
         cities = []
         for element in dir(self):
             attribute = getattr(self, element)
@@ -46,9 +46,11 @@ class TestCitiesGenerator(object):
 
     def cross_intersection_city(self):
         """
-             (0,1)
-        (-1,0) + (1,0)
-             (0,-1)
+                   (0,100)
+                     |
+        (-100,0) -- + -- (100,0)
+                     |
+                   (0,-100)
         """
         city = City("Cross")
 
@@ -65,10 +67,50 @@ class TestCitiesGenerator(object):
 
         return city
 
+    def non_collinear_segments_city(self):
+        """
+        (-100,0) -- (0,0) -- (100,30)
+        """
+        city = City("NonCollinearSegments")
+
+        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 30)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
+    def two_non_collinear_segments_border_city(self):
+        """
+        (-10,0) -- (0,0) -- (10,2) -- (20,4)
+        """
+        city = City("NonCollinearSegmentsBorder")
+
+        s1 = Street.from_points([Point(-10, 0), Point(0, 0), Point(10, 2), Point(20, 7)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
+    def two_non_collinear_segments_less_than_border_city(self):
+        """
+        (-10,0) -- (0,0) -- (10,2) -- (20,4)
+        """
+        city = City("NonCollinearSegmentsLessThanBorder")
+
+        s1 = Street.from_points([Point(-10, 0), Point(0, 0), Point(4, 2), Point(20, 7)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
     def L_intersection_city(self):
         """
-             (0,1)
-               +  (1,0)
+            (0,100)
+               |
+               + -- (100,0)
         """
         city = City("LCross")
 
@@ -85,11 +127,57 @@ class TestCitiesGenerator(object):
 
         return city
 
+    def T_intersection_out_city(self):
+        """
+        (-100,0) -- + -- (100,0)
+                    |
+                  (0,-100)
+        """
+        city = City("TIntersectionOut")
+
+        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1.name = "s1"
+
+        s2 = Street.from_points([Point(0, 0), Point(0, -100)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
+    def T_intersection_in_city(self):
+        """
+        (-100,0) -- + -- (100,0)
+                    |
+                  (0,-100)
+        """
+        city = City("TIntersectionIn")
+
+        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1.name = "s1"
+
+        s2 = Street.from_points([Point(0, -100), Point(0, 0)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
     def Y_intersection_one_to_many_city(self):
         """
-                  (0,1)
+                  (0,100)
+                    |
+                    |
                     +
-            (-1,-1)   (1,-1)
+                   / \
+                  /   \
+         (-100,-100) (100,-100)
         """
         city = City("YCross")
 
@@ -112,9 +200,13 @@ class TestCitiesGenerator(object):
 
     def Y_intersection_many_to_one_city(self):
         """
-                  (0,1)
+                  (0,100)
+                    |
+                    |
                     +
-            (-1,-1)   (1,-1)
+                   / \
+                  /   \
+         (-100,-100) (100,-100)
         """
         city = City("YCross Many to One")
 
