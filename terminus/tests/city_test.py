@@ -1,18 +1,57 @@
 import unittest
+import mock
 
 from geometry.point import Point
-from models.city import City
 from models.street import Street
-from models.road_simple_node import RoadSimpleNode
-from models.road_intersection_node import RoadIntersectionNode
-from geometry.bounding_box import BoundingBox
+from models.trunk import Trunk
+from models.ground_plane import GroundPlane
 from models.road import Road
 from models.building import Building
 from models.block import Block
-from models.ground_plane import GroundPlane
+from models.city import City
+from models.road_simple_node import RoadSimpleNode
+from models.road_intersection_node import RoadIntersectionNode
+from geometry.bounding_box import BoundingBox
 
 
 class CityTest(unittest.TestCase):
+
+    def test_accept_with_ground_plane(self):
+        city = self.city
+        road = mock.Mock()
+        road.get_nodes = mock.Mock(return_value=[])
+        ground_plane = mock.Mock()
+        building = mock.Mock()
+        block = mock.Mock()
+        city.add_road(road)
+        city.add_building(building)
+        city.set_ground_plane(ground_plane)
+        city.add_block(block)
+        generator_mock = mock.Mock()
+        city_calls = [mock.call.start_city(city), mock.call.end_city(city)]
+        city.accept(generator_mock)
+        generator_mock.assert_has_calls(city_calls)
+        road.accept.assert_called()
+        ground_plane.accept.assert_called()
+        building.accept.assert_called()
+        block.accept.assert_called()
+
+    def test_accept_without_ground_plane(self):
+        city = City()
+        road = mock.Mock()
+        road.get_nodes = mock.Mock(return_value=[])
+        building = mock.Mock()
+        block = mock.Mock()
+        city.add_road(road)
+        city.add_building(building)
+        city.add_block(block)
+        generator_mock = mock.Mock()
+        city_calls = [mock.call.start_city(city), mock.call.end_city(city)]
+        city.accept(generator_mock)
+        generator_mock.assert_has_calls(city_calls)
+        road.accept.assert_called()
+        building.accept.assert_called()
+        block.accept.assert_called()
 
     def setUp(self):
         self.city = City()

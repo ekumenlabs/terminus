@@ -1,13 +1,20 @@
 import unittest
+import mock
 
 from geometry.point import Point
-
 from geometry.bounding_box import BoundingBox
-
 from models.building import Building
 
 
 class BuildingTest(unittest.TestCase):
+
+    def test_accept(self):
+        vertices = [Point(0, 0, 0), Point(0, 1, 0), Point(1, 0, 0)]
+        building = Building(Point(0, 0, 0), vertices)
+        generator_mock = mock.Mock()
+        calls = [mock.call.start_building(building), mock.call.end_building(building)]
+        building.accept(generator_mock)
+        generator_mock.assert_has_calls(calls)
 
     def test_bounding_box(self):
         building = Building(Point(10, 20), [Point(15, 30), Point(15, -5),
