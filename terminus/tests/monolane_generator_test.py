@@ -68,45 +68,29 @@ class MonolaneGeneratorTest(unittest.TestCase):
 
         monolane_dict = self.generate_monolane(city)
 
-        self.assertEqual(6, len(monolane_dict['points']))
-        self.assertEqual(4, len(monolane_dict['connections']))
-        # Make sure two of the points are part of the intersection.
-        self.assertEqual(2, len([x for x in monolane_dict['points'] if 'Intersection' in x]))
-        # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
-        self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
+        self.assertEqual(8, len(monolane_dict['points']))
+        self.assertEqual(8, len(monolane_dict['connections']))
 
     def test_L_intersection(self):
         city = self.test_generator.L_intersection_city()
 
         monolane_dict = self.generate_monolane(city)
 
-        self.assertEqual(4, len(monolane_dict['points']))
-        self.assertEqual(2, len(monolane_dict['connections']))
-        # Make sure two of the points are part of the intersection.
-        self.assertEqual(2, len([x for x in monolane_dict['points'] if 'Intersection' in x]))
-        # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
-        self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
+        self.assertEqual(6, len(monolane_dict['points']))
+        self.assertEqual(3, len(monolane_dict['connections']))
 
     def test_Y_intersection_one_to_many(self):
         city = self.test_generator.Y_intersection_one_to_many_city()
 
         monolane_dict = self.generate_monolane(city)
 
-        self.assertEqual(6, len(monolane_dict['points']))
-        self.assertEqual(3, len(monolane_dict['connections']))
-        # Make sure two of the points are part of the intersection.
-        self.assertEqual(3, len([x for x in monolane_dict['points'] if 'Intersection' in x]))
-        # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
-        self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
+        self.assertEqual(9, len(monolane_dict['points']))
+        self.assertEqual(5, len(monolane_dict['connections']))
 
     def test_Y_intersection_many_to_one(self):
         city = self.test_generator.Y_intersection_many_to_one_city()
 
         monolane_dict = self.generate_monolane(city)
 
-        self.assertEqual(6, len(monolane_dict['points']))
-        self.assertEqual(3, len(monolane_dict['connections']))
-        # Make sure two of the points are part of the intersection.
-        self.assertEqual(3, len([x for x in monolane_dict['points'] if 'Intersection' in x]))
-        # Make sure there is only one intersection, i.e. no Intersection-2, only Intersection-1.
-        self.assertFalse(any([x for x in monolane_dict['points'] if 'Intersection-2' in x]))
+        self.assertEqual(9, len(monolane_dict['points']))
+        self.assertEqual(5, len(monolane_dict['connections']))

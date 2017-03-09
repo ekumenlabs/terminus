@@ -521,24 +521,24 @@ class LaneTest(unittest.TestCase):
 
         expected_waypoints_lane_1 = [
             Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, -2)),
-            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-7, -2)),
-            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(-2, -2)),
-            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(2, -2)),
-            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(7, -2)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-3.9, -2)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-0.1, -2)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(0.1, -2)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(3.9, -2)),
             Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, -2))
         ]
 
         expected_waypoints_lane_2 = [
             Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, 2)),
-            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-7, 2)),
-            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(-2, 2)),
-            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(2, 2)),
-            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(7, 2)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-3.9, 2)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-0.1, 2)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(0.1, 2)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(3.9, 2)),
             Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, 2))
         ]
 
-        self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
-        self.assertEquals(expected_waypoints_lane_2, horizontal_lane_2.get_waypoints())
+        self.assertWaypointCollectionsAreAlmostEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
+        self.assertWaypointCollectionsAreAlmostEquals(expected_waypoints_lane_2, horizontal_lane_2.get_waypoints())
 
     def test_get_waypoints_single_intersection_two_lanes_overlapping(self):
         '''
@@ -575,24 +575,24 @@ class LaneTest(unittest.TestCase):
 
         expected_waypoints_lane_1 = [
             Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[0], Point(-1000, -5)),
-            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-10, -5)),
-            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(0, -5)),
-            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(0, -5)),
-            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(10, -5)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-9.9, -5)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[1], Point(-0.1, -5)),
+            Waypoint.exit(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(0.1, -5)),
+            Waypoint.entry(horizontal_lane_1, horizontal_lane_1_nodes[2], Point(9.9, -5)),
             Waypoint(horizontal_lane_1, horizontal_lane_1_nodes[3], Point(1000, -5))
         ]
 
         expected_waypoints_lane_2 = [
             Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[0], Point(-1000, 5)),
-            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-10, 5)),
-            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(0, 5)),
-            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(0, 5)),
-            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(10, 5)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-9.9, 5)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[1], Point(-0.1, 5)),
+            Waypoint.exit(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(0.1, 5)),
+            Waypoint.entry(horizontal_lane_2, horizontal_lane_2_nodes[2], Point(9.9, 5)),
             Waypoint(horizontal_lane_2, horizontal_lane_2_nodes[3], Point(1000, 5))
         ]
 
-        self.assertEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
-        self.assertEquals(expected_waypoints_lane_2, horizontal_lane_2.get_waypoints())
+        self.assertWaypointCollectionsAreAlmostEquals(expected_waypoints_lane_1, horizontal_lane_1.get_waypoints())
+        self.assertWaypointCollectionsAreAlmostEquals(expected_waypoints_lane_2, horizontal_lane_2.get_waypoints())
 
     def test_get_waypoints_single_intersection_two_lanes_big_offset(self):
         '''
@@ -772,6 +772,13 @@ class LaneTest(unittest.TestCase):
             Waypoint(horizontal_lane_2, lane_nodes[2], Point(1000, 7)),
         ]
         self.assertEquals(expected_waypoints, horizontal_lane_2.get_waypoints())
+
+    def assertWaypointCollectionsAreAlmostEquals(self, collection1, collection2):
+        for waypoint1, waypoint2 in zip(collection1, collection2):
+            self.assertPointsAreAlmostEquals(waypoint1.center, waypoint2.center)
+            self.assertEquals(waypoint1.type, waypoint2.type)
+            self.assertEquals(waypoint1.lane, waypoint2.lane)
+            self.assertEquals(waypoint1.source_node, waypoint2.source_node)
 
     def assertPointCollectionsAreAlmostEquals(self, collection1, collection2):
         if (len(collection1) != len(collection2)):

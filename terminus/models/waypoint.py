@@ -23,6 +23,7 @@ class Waypoint(object):
         self.source_node = source_node
         self.center = center
         self.be_reference()
+        self.be_line_connection()
 
     @classmethod
     def entry(cls, lane, source_node, center):
@@ -35,6 +36,8 @@ class Waypoint(object):
         waypoint = cls(lane, source_node, center)
         waypoint.be_exit()
         return waypoint
+
+    # Logical type
 
     def is_exit(self):
         return self.type.is_exit()
@@ -50,6 +53,26 @@ class Waypoint(object):
 
     def be_reference(self):
         self.type = ReferencePoint()
+
+    # Geometrical type
+
+    def be_line_connection(self):
+        self.connection_type = 'Line'
+
+    def be_arc_start_connection(self):
+        self.connection_type = 'ArcBegin'
+
+    def be_arc_end_connection(self):
+        self.connection_type = 'ArcEnd'
+
+    def is_line_connection(self):
+        return self.connection_type == 'Line'
+
+    def is_arc_start_connection(self):
+        return self.connection_type == 'ArcBegin'
+
+    def is_arc_end_connection(self):
+        return self.connection_type == 'ArcEnd'
 
     def connected_waypoints(self):
         return self.source_node.connected_waypoints_for(self)
@@ -68,7 +91,7 @@ class Waypoint(object):
         return hash((self.type, self.center, self.lane, self.source_node))
 
     def __repr__(self):
-        return str(self.type) + "Waypoint at " + str(self.center) + \
+        return str(self.type) + self.connection_type + " Waypoint at " + str(self.center) + \
             ". Source node " + str(self.source_node)
 
 

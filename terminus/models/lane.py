@@ -55,11 +55,17 @@ class Lane(object):
             self._nodes = self._build_nodes()
         return self._nodes
 
+    def nodes_count(self):
+        return len(self._nodes)
+
     def find_node_matching(self, target_node):
         if target_node in self.get_nodes():
             return target_node
         else:
             return self._find_index_and_node_matching(target_node)[1]
+
+    def node_index(self, target_node):
+        return self._find_index_and_node_matching(target_node)[0]
 
     def previous_node(self, target_node):
         nodes = self.get_nodes()
@@ -205,6 +211,8 @@ class Lane(object):
         '''
         TODO: This definitely needs a refactoring
         '''
+        geometry_as_line_string = LineString(map(lambda point: (point.x, point.y, point.z), geometry))
+
         # The first segment of the polyline, pointing outwards
         first_segment = LineSegment(geometry[1], geometry[0])
         # Extend it by an arbitrary amount
@@ -220,36 +228,41 @@ class Lane(object):
         points = []
         for lane in lanes:
             lane_geometry_as_line_string = lane.derived_geometry_as_line_string()
-            intersection = extended_first_segment_as_line_string.intersection(lane_geometry_as_line_string)
-            if isinstance(intersection, GeometryCollection) and len(intersection) == 0:
-                lane_geometry = lane.derived_geometry()
-                extended_lane_start_segment = LineSegment(lane_geometry[1], lane_geometry[0]).extend(10)
-                segment_intersection = extended_lane_start_segment.find_intersection(extended_first_segment)
-                if segment_intersection is not None:
-                    points.append(segment_intersection)
+            current_intersection = geometry_as_line_string.intersection(lane_geometry_as_line_string)
 
-                extended_lane_end_segment = LineSegment(lane_geometry[-2], lane_geometry[-1]).extend(10)
-                segment_intersection = extended_lane_end_segment.find_intersection(extended_first_segment)
-                if segment_intersection is not None:
-                    points.append(segment_intersection)
-            elif isinstance(intersection, GeometryCollection) and len(intersection) > 0:
-                pass
-            elif isinstance(intersection, MultiPoint):
-                for shapely_point in intersection:
-                    points.append(Point.from_shapely(shapely_point))
-            elif isinstance(intersection, LineString):
-                for shapely_point in intersection.coords[:]:
-                    points.append(Point.from_tuple(shapely_point))
-            elif isinstance(intersection, ShapelyPoint):
-                points.append(Point.from_shapely(intersection))
-            else:
-                raise ValueError("Unexpected intersection", intersection)
+            # Only attempt an extension if there is no intersection
+            if isinstance(current_intersection, GeometryCollection) and len(current_intersection) == 0:
+                intersection = extended_first_segment_as_line_string.intersection(lane_geometry_as_line_string)
+                if isinstance(intersection, GeometryCollection) and len(intersection) == 0:
+                    lane_geometry = lane.derived_geometry()
+                    extended_lane_start_segment = LineSegment(lane_geometry[1], lane_geometry[0]).extend(10)
+                    segment_intersection = extended_lane_start_segment.find_intersection(extended_first_segment)
+                    if segment_intersection is not None:
+                        points.append(segment_intersection)
 
-        candidate_segments = map(lambda point: LineSegment(geometry[1], point), points)
-        candidate_segments.append(first_segment)
-        candidate_segments.sort(key=lambda segment: segment.length())
-        new_first_point = candidate_segments[-1].b
-        geometry[0] = new_first_point.rounded_to(7)
+                    extended_lane_end_segment = LineSegment(lane_geometry[-2], lane_geometry[-1]).extend(10)
+                    segment_intersection = extended_lane_end_segment.find_intersection(extended_first_segment)
+                    if segment_intersection is not None:
+                        points.append(segment_intersection)
+                elif isinstance(intersection, GeometryCollection) and len(intersection) > 0:
+                    pass
+                elif isinstance(intersection, MultiPoint):
+                    for shapely_point in intersection:
+                        points.append(Point.from_shapely(shapely_point))
+                elif isinstance(intersection, LineString):
+                    for shapely_point in intersection.coords[:]:
+                        points.append(Point.from_tuple(shapely_point))
+                elif isinstance(intersection, ShapelyPoint):
+                    points.append(Point.from_shapely(intersection))
+                else:
+                    raise ValueError("Unexpected intersection", intersection)
+
+        if points:
+            candidate_segments = map(lambda point: LineSegment(geometry[1], point), points)
+            candidate_segments.append(first_segment)
+            candidate_segments.sort(key=lambda segment: segment.length())
+            new_first_point = candidate_segments[-1].b
+            geometry[0] = new_first_point.rounded_to(7)
 
         # The first segment of the polyline, pointing outwards
         last_segment = LineSegment(geometry[-2], geometry[-1])
@@ -266,36 +279,41 @@ class Lane(object):
         points = []
         for lane in lanes:
             lane_geometry_as_line_string = lane.derived_geometry_as_line_string()
-            intersection = extended_last_segment_as_line_string.intersection(lane_geometry_as_line_string)
-            if isinstance(intersection, GeometryCollection) and len(intersection) == 0:
-                lane_geometry = lane.derived_geometry()
-                extended_lane_start_segment = LineSegment(lane_geometry[1], lane_geometry[0]).extend(10)
-                segment_intersection = extended_lane_start_segment.find_intersection(extended_last_segment)
-                if segment_intersection is not None:
-                    points.append(segment_intersection)
+            current_intersection = geometry_as_line_string.intersection(lane_geometry_as_line_string)
 
-                extended_lane_end_segment = LineSegment(lane_geometry[-2], lane_geometry[-1]).extend(10)
-                segment_intersection = extended_lane_end_segment.find_intersection(extended_last_segment)
-                if segment_intersection is not None:
-                    points.append(segment_intersection)
-            elif isinstance(intersection, GeometryCollection) and len(intersection) > 0:
-                pass
-            elif isinstance(intersection, MultiPoint):
-                for shapely_point in intersection:
-                    points.append(Point.from_shapely(shapely_point))
-            elif isinstance(intersection, LineString):
-                for shapely_point in intersection.coords[:]:
-                    points.append(Point.from_tuple(shapely_point))
-            elif isinstance(intersection, ShapelyPoint):
-                points.append(Point.from_shapely(intersection))
-            else:
-                raise ValueError("Unexpected intersection", intersection)
+            # Only attempt an extension if there is no intersection
+            if isinstance(current_intersection, GeometryCollection) and len(current_intersection) == 0:
+                intersection = extended_last_segment_as_line_string.intersection(lane_geometry_as_line_string)
+                if isinstance(intersection, GeometryCollection) and len(intersection) == 0:
+                    lane_geometry = lane.derived_geometry()
+                    extended_lane_start_segment = LineSegment(lane_geometry[1], lane_geometry[0]).extend(10)
+                    segment_intersection = extended_lane_start_segment.find_intersection(extended_last_segment)
+                    if segment_intersection is not None:
+                        points.append(segment_intersection)
 
-        candidate_segments = map(lambda point: LineSegment(geometry[-2], point), points)
-        candidate_segments.append(last_segment)
-        candidate_segments.sort(key=lambda segment: segment.length())
-        new_last_point = candidate_segments[-1].b
-        geometry[-1] = new_last_point.rounded_to(7)
+                    extended_lane_end_segment = LineSegment(lane_geometry[-2], lane_geometry[-1]).extend(10)
+                    segment_intersection = extended_lane_end_segment.find_intersection(extended_last_segment)
+                    if segment_intersection is not None:
+                        points.append(segment_intersection)
+                elif isinstance(intersection, GeometryCollection) and len(intersection) > 0:
+                    pass
+                elif isinstance(intersection, MultiPoint):
+                    for shapely_point in intersection:
+                        points.append(Point.from_shapely(shapely_point))
+                elif isinstance(intersection, LineString):
+                    for shapely_point in intersection.coords[:]:
+                        points.append(Point.from_tuple(shapely_point))
+                elif isinstance(intersection, ShapelyPoint):
+                    points.append(Point.from_shapely(intersection))
+                else:
+                    raise ValueError("Unexpected intersection", intersection)
+
+        if points:
+            candidate_segments = map(lambda point: LineSegment(geometry[-2], point), points)
+            candidate_segments.append(last_segment)
+            candidate_segments.sort(key=lambda segment: segment.length())
+            new_last_point = candidate_segments[-1].b
+            geometry[-1] = new_last_point.rounded_to(7)
 
         return geometry
 
@@ -330,13 +348,14 @@ class Lane(object):
 
                     if isinstance(intersection, ShapelyPoint):
                         point = Point.from_shapely(intersection)
-                        if point not in intersections:
+                        rounded_point = point.rounded_to(5)
+                        if rounded_point not in intersections:
                             node = LaneIntersectionNode(point, self, road_node)
                             node.added_to(lane)
                             nodes.append(node)
-                            intersections[point] = node
+                            intersections[rounded_point] = node
                         else:
-                            intersections[point].added_to(lane)
+                            intersections[rounded_point].added_to(lane)
                     else:
                         raise ValueError("Can't find a suitable location in the lane for the node", road_node)
 
