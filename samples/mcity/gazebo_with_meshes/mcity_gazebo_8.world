@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+<world name="city_1">
+<gui fullscreen='0'>
+  <camera name='city_camera'>
+    <pose frame=''>
+      -0.065965 0.276379 1005.72 2e-06 1.5538 1.5962
+    </pose>
+  </camera>
+</gui>
+<include>
+  <uri>model://sun</uri>
+</include>
+<plugin name='rndf_gazebo_plugin0' filename='librndf_gazebo_plugin0.so.0.0.1'>
+  <rndf>../example/mcity.rndf</rndf>
+  <lanes>true</lanes>
+  <waypoints>true</waypoints>
+  <junctions>true</junctions>
+  <waypoints_material>Gazebo/White</waypoints_material>
+  <origin>10 65 0.0</origin>
+</plugin>
+
+  <model name="groundPlane_2">
+    <static>1</static>
+    <pose frame=''>0 0 0 0 0 0</pose>
+    <link name='groundPlane_2_link'>
+      <collision name='groundPlane_2'>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>424.128819 424.128819</size>
+          </plane>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+            <torsional>
+              <ode/>
+            </torsional>
+          </friction>
+          <contact>
+            <ode/>
+          </contact>
+          <bounce/>
+        </surface>
+        <max_contacts>10</max_contacts>
+      </collision>
+      <visual name='groundPlane_2'>
+        <cast_shadows>0</cast_shadows>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>424.128819 424.128819</size>
+          </plane>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+        <transparency>1</transparency>
+      </visual>
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+    </link>
+  </model>
+
+<model name="MCityMeshes">
+  <pose>3 0 -0.1  0 0 0</pose>
+  <static>true</static>
+  <link name="body">
+    <visual name="visual">
+      <geometry>
+        <mesh>
+          <uri>file://../meshes/MCityNoRoads.obj</uri>
+          <scale>0.12 0.12 0.12</scale>
+        </mesh>
+      </geometry>
+    </visual>
+  </link>
+</model>
+
+</world>
+
+</sdf>
