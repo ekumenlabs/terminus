@@ -20,6 +20,7 @@ from generators.sdf_generator_gazebo_7 import SDFGeneratorGazebo7
 from generators.sdf_generator_gazebo_8 import SDFGeneratorGazebo8
 from generators.street_plot_generator import StreetPlotGenerator
 from generators.opendrive_generator import OpenDriveGenerator
+from models.city_statistics import CityStatistics
 
 import logging
 import subprocess
@@ -50,6 +51,15 @@ class CityGenerationProcess(object):
             os.makedirs(self.path)
         except OSError:
             pass
+
+        if self.debug_on:
+            stats = CityStatistics(city)
+            stats.run()
+            self.logger.info("====================================")
+            self.logger.info("Statistics for {0}".format(city.name))
+            self.logger.info("====================================")
+            self.logger.info(stats)
+            self.logger.info("====================================")
 
         if self.debug_on:
             self._run_generator(StreetPlotGenerator(city),

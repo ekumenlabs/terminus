@@ -24,6 +24,9 @@ class LaneNode(object):
         self.source = road_node
         self.added_to(main_lane)
 
+    def is_intersection(self):
+        raise NotImplementedError()
+
     def added_to(self, lane):
         raise NotImplementedError()
 

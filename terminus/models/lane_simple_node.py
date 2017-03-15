@@ -33,6 +33,9 @@ class LaneSimpleNode(LaneNode):
     def involved_lane(self):
         return [self.lane]
 
+    def is_intersection(self):
+        return False
+
     def get_waypoints_for(self, lane):
         if (self.lane is not lane):
             return None
