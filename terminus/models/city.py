@@ -65,6 +65,9 @@ class City(CityModel):
                 if road.includes_point(point):
                     road.replace_node_at(point, intersection)
 
+    def intersections_count(self):
+        return len(self.intersections)
+
     def bounding_box(self):
         box_list = self._box_list_from_list(self.roads)
         box_list.extend(self._box_list_from_list(self.blocks))

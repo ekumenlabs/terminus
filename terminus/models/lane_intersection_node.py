@@ -32,6 +32,9 @@ class LaneIntersectionNode(LaneNode):
     def involved_lanes(self):
         return self.lanes
 
+    def is_intersection(self):
+        return True
+
     def get_waypoints_for(self, lane):
         waypoints = []
         lane_node = lane.find_node_matching(self)
