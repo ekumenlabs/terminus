@@ -18,6 +18,7 @@ import textwrap
 
 from generators.city_visitor import CityVisitor
 
+
 class CityStatistics(CityVisitor):
 
     def __init__(self, city):
@@ -32,7 +33,6 @@ class CityStatistics(CityVisitor):
 
     def get_values(self):
         return self.stats
-
 
     def start_city(self, city):
         self.stats['intersections_count'] = city.intersections_count()
@@ -86,4 +86,3 @@ class CityStatistics(CityVisitor):
         if lanes_count != 0.0:
             self.stats['average_lane_intersections'] = self.stats['lane_intersections_count'] / lanes_count
             self.stats['average_lane_nodes'] = self.stats['lane_nodes_count'] / lanes_count
-
