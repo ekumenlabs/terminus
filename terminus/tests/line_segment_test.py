@@ -55,7 +55,7 @@ class LineSegmentTest(unittest.TestCase):
 
     def test_includes_point_buffer(self):
         '''The point is slightly outside the line, so by increasing the buffer
-        we use to test colinearity between vectors we make it pass'''
+        we use to test collinearity between vectors we make it pass'''
         segment = LineSegment(Point(0, 0), Point(1, 0))
         self.assertTrue(segment.includes_point(Point(0.5, 0)))
         self.assertFalse(segment.includes_point(Point(0.5, 0.01)))

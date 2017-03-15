@@ -19,9 +19,12 @@ import unittest
 from geometry.bounding_box import BoundingBox
 from geometry.point import Point
 from geometry.latlon import LatLon
+from models.city import City
 from models.road import Road
 from models.street import Street
 from models.road_node import RoadNode
+from models.road_simple_node import RoadSimpleNode
+from models.road_intersection_node import RoadIntersectionNode
 import math
 
 
@@ -142,3 +145,145 @@ class RoadTest(unittest.TestCase):
         road.add_lane(10)
         expected_box = BoundingBox(Point(-2, -2), Point(22, 22))
         self.assertEqual(road.bounding_box(), expected_box)
+
+    def test_trim_redundant_nodes_single_segment(self):
+        """Nothing to do in this case, as the road has a single segment"""
+        points = [Point(0, 0), Point(100, 0)]
+        road = Road.from_points(points)
+        road.trim_redundant_nodes()
+        expected_nodes = map(lambda point: RoadSimpleNode(point), points)
+        self.assertEqual(road.get_nodes(), expected_nodes)
+
+    def test_trim_redundant_nodes_no_collinear_segments(self):
+        """Nothing to do in this case, as the existing segments in the road
+        are not collinear"""
+        points = [Point(0, 0), Point(100, 0), Point(200, 1)]
+        road = Road.from_points(points)
+        road.trim_redundant_nodes()
+        expected_nodes = map(lambda point: RoadSimpleNode(point), points)
+        self.assertEqual(road.get_nodes(), expected_nodes)
+
+    def test_trim_redundant_nodes_collinear_segments(self):
+        """Two collinear segments, where the midpoint is not an intersection.
+        The middle point should be removed"""
+        points = [Point(0, 0), Point(100, 0), Point(200, 0)]
+        road = Road.from_points(points)
+
+        before_trim_expected_nodes = map(lambda point: RoadSimpleNode(point), points)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+
+        road.trim_redundant_nodes()
+
+        after_trim_expected_nodes = [RoadSimpleNode(Point(0, 0)), RoadSimpleNode(Point(200, 0))]
+        self.assertEqual(road.get_nodes(), after_trim_expected_nodes)
+
+    def test_trim_redundant_nodes_on_collinear_segments_with_intersection(self):
+        """Two collinear segments, where the midpoint is an intersection.
+        The middle point should not be removed, as that would remove the intersection"""
+
+        city = City()
+        city.add_intersection_at(Point(100, 0))
+        city.add_road(Road.from_points([Point(100, 100), Point(100, 0)]))
+
+        points = [Point(0, 0), Point(100, 0), Point(200, 0)]
+        road = Road.from_points(points)
+        city.add_road(road)
+
+        expected_nodes = [
+            RoadSimpleNode(Point(0, 0)),
+            RoadIntersectionNode(Point(100, 0)),
+            RoadSimpleNode(Point(200, 0)),
+        ]
+        self.assertEqual(road.get_nodes(), expected_nodes)
+        road.trim_redundant_nodes()
+        self.assertEqual(road.get_nodes(), expected_nodes)
+
+    def test_trim_redundant_nodes_multiple_collinear_segments(self):
+        """Multiple collinear segments to be trimmed, leaving just two segments"""
+        points = [
+            Point(0, 0),
+            Point(10, 0),
+            Point(20, 0),
+            Point(50, 0),
+            Point(100, 0),
+            Point(110, 10),
+            Point(150, 50),
+            Point(200, 100)
+        ]
+        road = Road.from_points(points)
+
+        before_trim_expected_nodes = map(lambda point: RoadSimpleNode(point), points)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+
+        road.trim_redundant_nodes()
+
+        after_trim_expected_nodes = [
+            RoadSimpleNode(Point(0, 0)),
+            RoadSimpleNode(Point(100, 0)),
+            RoadSimpleNode(Point(200, 100))
+        ]
+        self.assertEqual(road.get_nodes(), after_trim_expected_nodes)
+
+    def test_trim_redundant_nodes_on_multiple_collinear_segments_with_one_intersection(self):
+        """Two collinear segments, where the midpoint is an intersection.
+        The middle point should not be removed, as that would remove the intersection"""
+
+        city = City()
+        city.add_intersection_at(Point(100, 0))
+        city.add_road(Road.from_points([Point(100, 100), Point(100, 0)]))
+
+        points = [
+            Point(0, 0),
+            Point(10, 0),
+            Point(20, 0),
+            Point(50, 0),
+            Point(100, 0),
+            Point(110, 0),
+            Point(150, 0),
+            Point(200, 0)
+        ]
+        road = Road.from_points(points)
+        city.add_road(road)
+
+        before_trim_expected_nodes = [
+            RoadSimpleNode(Point(0, 0)),
+            RoadSimpleNode(Point(10, 0)),
+            RoadSimpleNode(Point(20, 0)),
+            RoadSimpleNode(Point(50, 0)),
+            RoadIntersectionNode(Point(100, 0)),
+            RoadSimpleNode(Point(110, 0)),
+            RoadSimpleNode(Point(150, 0)),
+            RoadSimpleNode(Point(200, 0))
+        ]
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+
+        road.trim_redundant_nodes()
+
+        after_trim_expected_nodes = [
+            RoadSimpleNode(Point(0, 0)),
+            RoadIntersectionNode(Point(100, 0)),
+            RoadSimpleNode(Point(200, 0))
+        ]
+
+        self.assertEqual(road.get_nodes(), after_trim_expected_nodes)
+
+    def test_trim_redundant_nodes_optional_angle_tolerance(self):
+        """Two non-collinear segments, with 45 deg angle difference. Test
+        with different angle tolerance"""
+        points = [Point(0, 0), Point(100, 0), Point(200, 100)]
+        before_trim_expected_nodes = map(lambda point: RoadSimpleNode(point), points)
+
+        road = Road.from_points(points)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+        road.trim_redundant_nodes(44.5)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+
+        road = Road.from_points(points)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+        road.trim_redundant_nodes(45.5)
+        self.assertEqual(road.get_nodes(), [RoadSimpleNode(Point(0, 0)), RoadSimpleNode(Point(200, 100))])
+
+        road = Road.from_points(points)
+        self.assertEqual(road.get_nodes(), before_trim_expected_nodes)
+        road.trim_redundant_nodes(45.0)
+        self.assertEqual(road.get_nodes(), [RoadSimpleNode(Point(0, 0)), RoadSimpleNode(Point(200, 100))])

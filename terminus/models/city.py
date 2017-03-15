@@ -49,6 +49,12 @@ class City(CityModel):
     def roads_count(self):
         return len(self.roads)
 
+    def trim_roads(self):
+        # Based on current tests, having a 1 deg angle tolerance seems to
+        # give good results
+        for road in self.roads:
+            road.trim_redundant_nodes(1.0)
+
     def add_block(self, block):
         self.blocks.append(block)
 

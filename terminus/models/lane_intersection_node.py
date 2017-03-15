@@ -50,10 +50,10 @@ class LaneIntersectionNode(LaneNode):
         if has_predecessor and has_successor:
             predecessor_vector = self.center - predecessor.center
             successor_vector = successor.center - self.center
-            are_segments_colinear = predecessor_vector.cross_product(successor_vector) == Point(0.0, 0.0, 0.0)
+            are_segments_collinear = predecessor_vector.cross_product(successor_vector) == Point(0.0, 0.0, 0.0)
             delta = min((predecessor_vector.norm() / 2.0) - 0.1, (successor_vector.norm() / 2.0) - 0.1, 5)
         else:
-            are_segments_colinear = True
+            are_segments_collinear = True
             if has_predecessor:
                 predecessor_vector = self.center - predecessor.center
                 delta = min((predecessor_vector.norm() / 2.0) - 0.1, 5)
@@ -61,15 +61,15 @@ class LaneIntersectionNode(LaneNode):
                 successor_vector = successor.center - self.center
                 delta = min((successor_vector.norm() / 2.0) - 0.1, 5)
 
-        add_predecessor_waypoint = has_predecessor and (requires_exit_waypoint or not are_segments_colinear)
-        add_successor_waypoint = has_successor and (requires_entry_waypoint or not are_segments_colinear)
+        add_predecessor_waypoint = has_predecessor and (requires_exit_waypoint or not are_segments_collinear)
+        add_successor_waypoint = has_successor and (requires_entry_waypoint or not are_segments_collinear)
 
         if add_predecessor_waypoint:
             point = LineString([lane_node.center.to_shapely_point(), predecessor.center.to_shapely_point()]).interpolate(delta)
             waypoint = Waypoint(lane, lane_node, Point.from_shapely(point))
             if requires_exit_waypoint:
                 waypoint.be_exit()
-            if has_successor and not are_segments_colinear:
+            if has_successor and not are_segments_collinear:
                 waypoint.be_arc_start_connection()
             waypoints.append(waypoint)
 
@@ -81,7 +81,7 @@ class LaneIntersectionNode(LaneNode):
             waypoint = Waypoint(lane, lane_node, Point.from_shapely(point))
             if requires_entry_waypoint:
                 waypoint.be_entry()
-            if has_predecessor and not are_segments_colinear:
+            if has_predecessor and not are_segments_collinear:
                 waypoint.be_arc_end_connection()
             waypoints.append(waypoint)
 

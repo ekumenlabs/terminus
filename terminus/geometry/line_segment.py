@@ -29,7 +29,7 @@ class LineSegment(object):
         return cls(Point.from_tuple(t1), Point.from_tuple(t2))
 
     def includes_point(self, point, buffer=0.001):
-        # First check if the a->b and a->point are colinear. If they are,
+        # First check if the a->b and a->point are collinear. If they are,
         # the cross product should be zero (with some buffer for errors)
         cross_product = (self.b - self.a).cross_product(point - self.a)
         if cross_product.norm() > buffer:

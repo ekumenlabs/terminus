@@ -74,6 +74,12 @@ class Road(CityModel):
     def points_count(self):
         return len(self._nodes)
 
+    def includes_point(self, point):
+        # Attempt a constant search in the points dictionary. If that fails
+        # do the linear search in the nodes collection.
+        return (point in self._point_to_node) or \
+            any(node.center.almost_equal_to(point, 5) for node in self._nodes)
+
     def get_nodes(self):
         return self._nodes
 
@@ -102,11 +108,20 @@ class Road(CityModel):
         new_node.added_to(self)
         old_node.removed_from(self)
 
-    def includes_point(self, point):
-        # Attempt a constant search in the points dictionary. If that fails
-        # do the linear search in the nodes collection.
-        return (point in self._point_to_node) or \
-            any(node.center.almost_equal_to(point, 5) for node in self._nodes)
+    def trim_redundant_nodes(self, angle=0):
+        previous_node = self.first_node()
+        trimmed_nodes = [previous_node]
+        for index in range(1, self.node_count() - 1):
+            current_node = self.get_node_at(index)
+            following_node = self.get_node_at(index + 1)
+            previous_vector = current_node.center - previous_node.center
+            following_vector = following_node.center - current_node.center
+            if current_node.is_intersection() or \
+               (abs(math.degrees(previous_vector.angle(following_vector))) > angle):
+                trimmed_nodes.append(current_node)
+                previous_node = current_node
+        trimmed_nodes.append(self.last_node())
+        self._nodes = trimmed_nodes
 
     def reverse(self):
         self._nodes.reverse()

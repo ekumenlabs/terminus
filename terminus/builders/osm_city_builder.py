@@ -107,6 +107,8 @@ class OsmCityBuilder(AbstractCityBuilder):
         self._create_roads(city)
         self._create_buildings(city)
 
+        city.trim_roads()
+
         return city
 
     def _get_ways(self, ways):

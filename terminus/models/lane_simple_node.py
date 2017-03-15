@@ -47,7 +47,7 @@ class LaneSimpleNode(LaneNode):
         else:
             previous_vector = self.center - previous_node.center
             following_vector = following_node.center - self.center
-            # If they are colinear
+            # If they are collinear
             if previous_vector.cross_product(following_vector) == Point(0.0, 0.0, 0.0):
                 return [Waypoint(lane, self, self.center)]
             else:
