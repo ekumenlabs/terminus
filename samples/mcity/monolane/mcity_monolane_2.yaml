@@ -2760,10 +2760,13 @@ maliput_monolane_builder:
       start: points.OSM_447515380_1_5
       arc: [11612.653220686, 0.04835230977856522]
       explicit_end: points.OSM_447515380_1_6
+
     OSM_447515380_1_7-OSM_453872621_1_16:
       start: points.OSM_447515380_1_7
-      arc: [4.185273256478536, -89.17131673470715]
+      #arc: [4.185273256478536, -89.17131673470715]
+      arc: [4.01, -90]
       explicit_end: points.OSM_453872621_1_16
+
     OSM_447515380_1_6-OSM_447515380_1_7: {start: points.OSM_447515380_1_6, length: 30.41110207427439,
       explicit_end: points.OSM_447515380_1_7}
     OSM_447515380_1_7-OSM_447515380_1_8:
@@ -2777,7 +2780,7 @@ maliput_monolane_builder:
     #Modified by agalbachicar:
     OSM_447515380_1_9-OSM_447515380_1_20:
       start: points.OSM_447515380_1_9
-      arc: [5.75833985383127, 180]
+      arc: [5.75833985383127, 178.745059401807]
       explicit_end: points.OSM_447515380_1_20
 
     # Old version:
@@ -2821,10 +2824,18 @@ maliput_monolane_builder:
     #   arc: [9.151212907733832, 22.54872172513349]
     #   explicit_end: points.OSM_447515380_1_20
 
+
+    # Old value
     OSM_447515380_1_21-OSM_453872621_1_14:
-      start: points.OSM_447515380_1_21
+      start: points.OSM_447515380_1_20
       arc: [4.02820627099525, 90.38631408874389]
       explicit_end: points.OSM_453872621_1_14
+    # Modified by agalbachicar
+    OSM_447515380_1_20-OSM_453872621_1_14:
+      start: points.OSM_447515380_1_20
+      arc: [4.6883451997, 90]
+      explicit_end: points.OSM_453872621_1_14
+
     OSM_447515380_1_20-OSM_447515380_1_21: {start: points.OSM_447515380_1_20, length: 1.5820682612127717,
       explicit_end: points.OSM_447515380_1_21}
     OSM_447515380_1_21-OSM_447515380_1_22:
@@ -3285,19 +3296,36 @@ maliput_monolane_builder:
       start: points.OSM_453872621_1_11
       arc: [433.7563472739967, 1.2557617498290656]
       explicit_end: points.OSM_453872621_1_12
+
+    # Old value
+    # OSM_453872621_1_13-OSM_447515380_1_22:
+    #  start: points.OSM_453872621_1_13
+    #  arc: [4.024233732707948, -90.44501128440291]
+    #  explicit_end: points.OSM_447515380_1_22
+
+    # Modified by agalbachicar
     OSM_453872621_1_13-OSM_447515380_1_22:
       start: points.OSM_453872621_1_13
-      arc: [4.024233732707948, -90.44501128440291]
+      arc: [4.7286440409, -90]
       explicit_end: points.OSM_447515380_1_22
+
     OSM_453872621_1_12-OSM_453872621_1_13: {start: points.OSM_453872621_1_12, length: 0.1999999999999993,
       explicit_end: points.OSM_453872621_1_13}
     OSM_453872621_1_13-OSM_453872621_1_14:
       start: points.OSM_453872621_1_13
       arc: [706.326726827902, -0.771184482562232]
       explicit_end: points.OSM_453872621_1_14
+
+    # Old value
+    # OSM_453872621_1_15-OSM_447515380_1_8:
+    #   start: points.OSM_453872621_1_15
+    #   arc: [4.068380619691763, 90.86862650944892]
+    #   explicit_end: points.OSM_447515380_1_8
+
+    # Modified by agalbachicar
     OSM_453872621_1_15-OSM_447515380_1_8:
       start: points.OSM_453872621_1_15
-      arc: [4.068380619691763, 90.86862650944892]
+      arc: [4.8941602288, 90]
       explicit_end: points.OSM_447515380_1_8
 
     # Old version:
