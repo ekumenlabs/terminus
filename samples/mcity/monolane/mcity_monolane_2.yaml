@@ -3207,10 +3207,18 @@ maliput_monolane_builder:
       start: points.OSM_453872611_1_5
       arc: [319.9000552754402, -1.630904101724875]
       explicit_end: points.OSM_453877805_1_2
+
+    # Old values
+    # OSM_453872611_1_5-OSM_447573366_1_7:
+    #   start: points.OSM_453872611_1_5
+    #   arc: [4.628706708946502, 89.21923769529589]
+    #   explicit_end: points.OSM_447573366_1_7
+    # Modified by agalbachicar
     OSM_453872611_1_5-OSM_447573366_1_7:
       start: points.OSM_453872611_1_5
-      arc: [4.628706708946502, 89.21923769529589]
+      arc: [4.25, 89.21923769529589]
       explicit_end: points.OSM_447573366_1_7
+
     OSM_453872611_1_4-OSM_453872611_1_5: {start: points.OSM_453872611_1_4, length: 0.19999999999999954,
       explicit_end: points.OSM_453872611_1_5}
     OSM_453872612_1_3-OSM_447515380_1_2:
