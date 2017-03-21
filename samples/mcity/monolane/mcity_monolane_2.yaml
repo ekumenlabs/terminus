@@ -1019,6 +1019,8 @@ maliput_monolane_builder:
     OSM_447515380_1_9:
       xypoint: [-82.51089084864293, 6.782022365356573, -179.90255797311332]
       zpoint: [0.0, 0, 0, 0]
+
+    # Modified by agalbachicar
     # OSM_447515380_1_10:
     #   xypoint: [-85.5215640752082, 6.246004571160404, -159.9072105155791]
     #   zpoint: [0.0, 0, 0, 0]
@@ -1049,6 +1051,7 @@ maliput_monolane_builder:
     # OSM_447515380_1_19:
     #   xypoint: [-85.95617179318938, -3.9642311932678815, -23.70622029643961]
     #   zpoint: [0.0, 0, 0, 0]
+
     OSM_447515380_1_20:
       xypoint: [-82.46181412653033, -4.734552775032725, -1.1574985713061223]
       zpoint: [0.0, 0, 0, 0]
@@ -2770,16 +2773,18 @@ maliput_monolane_builder:
     OSM_447515380_1_8-OSM_447515380_1_9: {start: points.OSM_447515380_1_8, length: 1.8202142804944863,
       explicit_end: points.OSM_447515380_1_9}
 
+
+    #Modified by agalbachicar:
+    OSM_447515380_1_9-OSM_447515380_1_20:
+      start: points.OSM_447515380_1_9
+      arc: [5.75833985383127, 180]
+      explicit_end: points.OSM_447515380_1_20
+
     # Old version:
     #OSM_447515380_1_9-OSM_447515380_1_10:
     #  start: points.OSM_447515380_1_9
     #  arc: [8.807237161213704, 19.995347457534216]
     #  explicit_end: points.OSM_447515380_1_10
-
-    OSM_447515380_1_9-OSM_447515380_1_20:
-      start: points.OSM_447515380_1_9
-      arc: [5.75833985383127, 180]
-      explicit_end: points.OSM_447515380_1_20
 
     # # Modified by caguero:
     # OSM_447515380_1_9-OSM_447515380_1_10:
