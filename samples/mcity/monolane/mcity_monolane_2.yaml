@@ -920,13 +920,15 @@ maliput_monolane_builder:
     #   xypoint: [-30.7601505, 52.6654447, 0]
     #   zpoint: [0.0, 0, 0, 0]
 
+    # OSM_453870101_1_2:
+    #   xypoint: [-33, 50.8, -160]
+    #   zpoint: [0.0, 0, 0, 0]
     OSM_453870101_1_2:
-      xypoint: [-33, 50.8, -160]
+      xypoint: [-33.4094081623621, 50.6863736564921, -155.8]
       zpoint: [0.0, 0, 0, 0]
     OSM_453870101_1_33:
       xypoint: [-25.768647077861445, 62.45211394739258, -90]
       zpoint: [0.0, 0, 0, 0]
-
 
     OSM_447319694_1_1:
       xypoint: [-39.24883229981174, 50.02716306143863, -89.720285307194]
@@ -2615,13 +2617,18 @@ maliput_monolane_builder:
     # Modified by agalbachicar
     OSM_453870101_1_2-OSM_447319694_1_2:
       start: points.OSM_453870101_1_2
-      arc: [9.5, 70]
+      arc: [9.9, 62.5]
       explicit_end: points.OSM_447319694_1_2
 
     # Modified by agalbachicar
-    OSM_453870101_1_33-OSM_453870101_1_33:
+    OSM_453870101_1_33-OSM_453870101_1_2:
       start: points.OSM_453870101_1_33
-      arc: [12.8792061659, -360]
+      arc: [12.8792061659, -66]
+      explicit_end: points.OSM_453870101_1_2
+
+    OSM_453870101_1_2-OSM_453870101_1_33:
+      start: points.OSM_453870101_1_2
+      arc: [12.8792061659, -294]
       explicit_end: points.OSM_453870101_1_33
 
     # OSM_453870101_1_1-OSM_453870101_1_2: {start: points.OSM_453870101_1_1, length: 2.6780172582554806,
