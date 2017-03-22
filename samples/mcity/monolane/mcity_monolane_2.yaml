@@ -319,6 +319,7 @@ maliput_monolane_builder:
     # OSM_453870098_1_10:
     #   xypoint: [-5.1870704, 45.0622955, 0]
     #   zpoint: [0.0, 0, 0, 0]
+
     # Modified by agalbachicar
     OSM_453870098_1_1:
       xypoint: [-5.014168, 91.8389175, 90.2026527419]
@@ -2046,6 +2047,7 @@ maliput_monolane_builder:
     OSM_453870096_1_12-OSM_453870096_1_13: {start: points.OSM_453870096_1_12, length: 0.4517630751577341,
       explicit_end: points.OSM_453870096_1_13}
 
+    # Old values
     # OSM_453870098_1_2-OSM_453870098_1_3: {start: points.OSM_453870098_1_2, length: 11.150536225931015,
     #   explicit_end: points.OSM_453870098_1_3}
     # OSM_453870098_1_3-OSM_453870098_1_4:
@@ -2067,26 +2069,29 @@ maliput_monolane_builder:
     # OSM_453870098_1_8-OSM_453870098_1_9: {start: points.OSM_453870098_1_8, length: 3.1335901507521284,
     #   explicit_end: points.OSM_453870098_1_9}
 
-    OSM_453870098_1_3-OSM_453870098_1_2: {start: points.OSM_453870098_1_3, length: 11.150536225931015,
-      explicit_end: points.OSM_453870098_1_2}
-    OSM_453870098_1_4-OSM_453870098_1_3:
-      start: points.OSM_453870098_1_4
-      arc: [107010.0991116145, -0.005247155564450242]
-      explicit_end: points.OSM_453870098_1_3
-    OSM_453870098_1_5-OSM_453870098_1_4: {start: points.OSM_453870098_1_5, length: 7.227435792310555,
-      explicit_end: points.OSM_453870098_1_4}
+    # Modified by agalbachicar
+    OSM_453870098_1_9-OSM_453870098_1_8: {start: points.OSM_453870098_1_9, length: 3.1335901507521284,
+      explicit_end: points.OSM_453870098_1_8}
+    OSM_453870098_1_8-OSM_453870098_1_7:
+      start: points.OSM_453870098_1_8
+      arc: [320.67441234441725, 0.5313966844927361]
+      explicit_end: points.OSM_453870098_1_7
+    OSM_453870098_1_7-OSM_453870098_1_6: {start: points.OSM_453870098_1_7, length: 0.2,
+      explicit_end: points.OSM_453870098_1_6}
     OSM_453870098_1_6-OSM_453870098_1_5:
       start: points.OSM_453870098_1_6
       arc: [85.55302644043809, 1.99162308437571]
       explicit_end: points.OSM_453870098_1_5
-    # OSM_453870098_1_7-OSM_453870098_1_6: {start: points.OSM_453870098_1_7, length: 0.1999999999999984,
-    #   explicit_end: points.OSM_453870098_1_6}
-    # OSM_453870098_1_8-OSM_453870098_1_7:
-    #   start: points.OSM_453870098_1_8
-    #   arc: [320.67441234441725, 0.5313966844927361]
-    #   explicit_end: points.OSM_453870098_1_7
-    # OSM_453870098_1_9-OSM_453870098_1_8: {start: points.OSM_453870098_1_9, length: 3.1335901507521284,
-    #   explicit_end: points.OSM_453870098_1_8}
+    OSM_453870098_1_5-OSM_453870098_1_4: {start: points.OSM_453870098_1_5, length: 7.227435792310555,
+      explicit_end: points.OSM_453870098_1_4}
+    OSM_453870098_1_4-OSM_453870098_1_3:
+      start: points.OSM_453870098_1_4
+      arc: [107010.0991116145, -0.005247155564450242]
+      explicit_end: points.OSM_453870098_1_3
+    OSM_453870098_1_3-OSM_453870098_1_2: {start: points.OSM_453870098_1_3, length: 11.150536225931015,
+      explicit_end: points.OSM_453870098_1_2}
+    OSM_453870098_1_2-OSM_453870098_1_1: {start: points.OSM_453870098_1_2, length: 3.571404,
+      explicit_end: points.OSM_453870098_1_1}
 
     # Old version:
     #OSM_453870099_1_1-OSM_453870099_1_2: {start: points.OSM_453870099_1_1, length: 3.5714037090645445,
