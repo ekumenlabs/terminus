@@ -920,6 +920,10 @@ maliput_monolane_builder:
     #   xypoint: [-30.7601505, 52.6654447, 0]
     #   zpoint: [0.0, 0, 0, 0]
 
+    OSM_453870101_1_1:
+      #xypoint: [-51.4780501419, 63.5746107268, 85]
+      xypoint: [-51.0281408051, 66.00210428, 74]
+      zpoint: [0.0, 0, 0, 0]
     OSM_453870101_1_2:
       xypoint: [-33.4094081623621, 50.6863736564921, -155.8]
       zpoint: [0.0, 0, 0, 0]
@@ -2615,20 +2619,19 @@ maliput_monolane_builder:
       explicit_end: points.OSM_453877805_1_25}
 
     # Modified by agalbachicar
-    OSM_453870101_1_2-OSM_447319694_1_2:
-      start: points.OSM_453870101_1_2
-      arc: [9.9, 62.5]
-      explicit_end: points.OSM_447319694_1_2
-
-    # Modified by agalbachicar
     OSM_453870101_1_33-OSM_453870101_1_2:
       start: points.OSM_453870101_1_33
       arc: [12.8792061659, -66]
       explicit_end: points.OSM_453870101_1_2
 
-    OSM_453870101_1_2-OSM_453870101_1_3:
+    OSM_453870101_1_2-OSM_453870101_1_1:
       start: points.OSM_453870101_1_2
-      arc: [12.8792061659, -230]
+      arc: [12.8792061659, -130]
+      explicit_end: points.OSM_453870101_1_1
+
+    OSM_453870101_1_1-OSM_453870101_1_3:
+      start: points.OSM_453870101_1_1
+      arc: [12.8792061659, -100]
       explicit_end: points.OSM_453870101_1_3
 
     OSM_453870101_1_3-OSM_453870101_1_33:
@@ -2636,10 +2639,22 @@ maliput_monolane_builder:
       arc: [12.8792061659, -64]
       explicit_end: points.OSM_453870101_1_33
 
+    # External connections
+    # Modified by agalbachicar
+    OSM_453870101_1_2-OSM_447319694_1_2:
+      start: points.OSM_453870101_1_2
+      arc: [9.9, 62.5]
+      explicit_end: points.OSM_447319694_1_2
+
     OSM_453870101_1_3-OSM_447542431_1_2:
       start: points.OSM_453870101_1_3
       arc: [5, 70]
       explicit_end: points.OSM_453870101_1_33
+
+    OSM_453872621_1_37-OSM_453870101_1_1:
+      start: points.OSM_453872621_1_37
+      arc: [6.5, 60]
+      explicit_end: points.OSM_453870101_1_1
 
 
     # OSM_453870101_1_1-OSM_453870101_1_2: {start: points.OSM_453870101_1_1, length: 2.6780172582554806,
