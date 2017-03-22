@@ -349,7 +349,7 @@ maliput_monolane_builder:
       xypoint: [-5.0904545821726686, 49.48190733607688, 88.7476734976]
       zpoint: [0.0, 0, 0, 0]
     OSM_453870098_1_10:
-      xypoint: [-5.1870704, 45.0622955, 180]
+      xypoint: [-5.1870704, 45.0622955, 90]
       zpoint: [0.0, 0, 0, 0]
 
     OSM_453870099_1_1:
@@ -2092,6 +2092,11 @@ maliput_monolane_builder:
       explicit_end: points.OSM_453870098_1_2}
     OSM_453870098_1_2-OSM_453870098_1_1: {start: points.OSM_453870098_1_2, length: 3.571404,
       explicit_end: points.OSM_453870098_1_1}
+
+    OSM_453870100_1_3-OSM_453870098_1_9:
+        start: points.OSM_453870100_1_3
+        arc: [7.9, 65]
+        explicit_end: points.OSM_453870098_1_9
 
     # Old version:
     #OSM_453870099_1_1-OSM_453870099_1_2: {start: points.OSM_453870099_1_1, length: 3.5714037090645445,
