@@ -60,8 +60,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
 
         monolane_dict = self.generate_monolane(city)
 
-        self.assertEqual(3, len(monolane_dict['points']))
-        self.assertEqual(2, len(monolane_dict['connections']))
+        self.assertEqual(2, len(monolane_dict['points']))
+        self.assertEqual(1, len(monolane_dict['connections']))
 
     def test_cross_intersection(self):
         city = self.test_generator.cross_intersection_city()

@@ -231,8 +231,8 @@ class OsmCityBuilder(AbstractCityBuilder):
                     city.add_intersection_at(self.osm_coords[key]['point'])
 
     def _add_point_to_road(self, road, point):
-        if not road.includes_point(point):
-            road.add_point(point)
+        if not road.includes_control_point(point):
+            road.add_control_point(point)
 
     def _create_buildings(self, city):
         '''

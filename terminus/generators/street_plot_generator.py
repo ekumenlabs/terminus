@@ -32,17 +32,17 @@ class StreetPlotGenerator(CityVisitor):
     def draw_lane(self, lane):
         x = []
         y = []
-        for point in lane.geometry():
+        for point in lane.control_points():
             x.append(point.x)
             y.append(point.y)
         return plt.plot(x, y)
 
     def start_street(self, street):
-        for lane in street.get_lanes():
+        for lane in street.lanes():
             line = self.draw_lane(lane)
             plt.setp(line, linewidth=1)
 
     def start_trunk(self, trunk):
-        for lane in trunk.get_lanes():
+        for lane in trunk.lanes():
             line = self.draw_lane(lane)
             plt.setp(line, linewidth=1)

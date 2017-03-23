@@ -14,17 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from road import Road
+from geometry.line_segment import LineSegment
+
+from path_geometry import PathGeometry
 
 
-class Trunk(Road):
-    def __init__(self, name=None):
-        super(Trunk, self).__init__(name)
-        self.add_lane(2)
-        self.add_lane(-2)
+class PolylinePathGeometry(PathGeometry):
 
-    def accept(self, generator):
-        generator.start_trunk(self)
-        for lane in self.lanes():
-            lane.accept(generator)
-        generator.end_trunk(self)
+    def connect_waypoints(self, exit_waypoint, entry_waypoint):
+        return LineSegment(exit_waypoint.center(), entry_waypoint.center())
+
+    def _build_geometry_from(self, points):
+        pairs = zip(points, points[1:])
+        self._elements = map(lambda (p1, p2): LineSegment(p1, p2), pairs)

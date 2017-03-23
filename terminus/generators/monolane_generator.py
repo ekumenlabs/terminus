@@ -20,6 +20,7 @@ import math
 import yaml
 from geometry.point import Point
 from geometry.line_segment import LineSegment
+from geometry.arc import Arc
 from file_generator import FileGenerator
 from monolane_id_mapper import MonolaneIdMapper
 
@@ -55,135 +56,97 @@ class MonolaneGenerator(FileGenerator):
         self._build_lane_points(lane)
         self._build_lane_connections(lane)
 
-    def _build_lane_connections(self, lane):
-        all_waypoints = lane.get_waypoints()
-        previous_waypoint = None
-        for waypoint in all_waypoints:
-            if previous_waypoint is not None:
-                # If the waypoint is an exit, create the connection with all the
-                # entry waypoints of the other lanes.
-                if waypoint.is_exit():
-                    for entry_waypoint in waypoint.connected_waypoints():
-                        monolane_connection = self._create_arc_connection(waypoint, entry_waypoint)
-                        if monolane_connection is not None:
-                            monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(waypoint), self.monolane_id_mapper.formatted_id_for(entry_waypoint))
-                            self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
-
-                # Do the previous and current waypoint belong to the same intersection?
-                are_same_intersection = previous_waypoint.source_node == waypoint.source_node
-
-                # In some cases we don't want to generate the connection between
-                # the previous and following node.
-                # If the lane starts with an intersection, start on the entry waypoint
-                if are_same_intersection and previous_waypoint == all_waypoints[0] and waypoint.is_entry():
-                    pass
-                # If the lane ends with an intersection, end it on the exit waypoint
-                elif are_same_intersection and waypoint == all_waypoints[-1] and previous_waypoint.is_exit():
-                    pass
-                elif previous_waypoint.center == waypoint.center:
-                    pass
-                elif previous_waypoint.is_arc_start_connection() and waypoint.is_arc_end_connection():
-                    monolane_connection = self._create_arc_connection(previous_waypoint, waypoint)
-                    if monolane_connection is not None:
-                        monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(previous_waypoint), self.monolane_id_mapper.formatted_id_for(waypoint))
-                        self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
-                else:
-                    monolane_connection = self._create_line_connection(previous_waypoint, waypoint)
-                    monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(previous_waypoint), self.monolane_id_mapper.formatted_id_for(waypoint))
-                    self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
-            previous_waypoint = waypoint
-
-    def _create_line_connection(self, start_waypoint, end_waypoint):
-        return OrderedDict([
-            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(start_waypoint)),
-            ('length', start_waypoint.center.distance_to(end_waypoint.center)),
-            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(end_waypoint))
-        ])
-
-    def _create_arc_connection(self, start_waypoint, end_waypoint):
-        try:
-            previous_waypoint = self._previous_waypoint(start_waypoint)
-            start_vector = start_waypoint.center - previous_waypoint.center
-
-            following_waypoint = self._following_waypoint(end_waypoint)
-            end_vector = following_waypoint.center - end_waypoint.center
-        except:
-            logger.debug("Can't create arc connection between {0} and {1}".format(start_waypoint, end_waypoint))
-            return None
-
-        angle = start_vector.angle(end_vector)
-        d2 = start_waypoint.center.squared_distance_to(end_waypoint.center)
-        cos = math.cos(angle)
-        if cos == 1:
-            return None
-        radius = math.sqrt(d2 / (2 * (1 - cos)))
-
-        # If the turning radius is less than the driveable_bounds then
-        # don't generate the connection
-        if radius <= 4:
-            return None
-
-        angle_in_degrees = math.degrees(angle)
-
-        # Keep the angle in the [-180, 180) range
-        if angle_in_degrees >= 180:
-            angle_in_degrees = angle_in_degrees - 360
-
-        if angle_in_degrees < -180:
-            angle_in_degrees = angle_in_degrees + 360
-
-        return OrderedDict([
-            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(start_waypoint)),
-            ('arc', [radius, angle_in_degrees]),
-            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(end_waypoint))
-        ])
-
-    def _previous_waypoint(self, waypoint):
-        (road_id, lane_id, waypoint_id) = self.monolane_id_mapper.id_for(waypoint)
-        return self.monolane_id_mapper.object_for((road_id, lane_id, waypoint_id - 1))
-
-    def _following_waypoint(self, waypoint):
-        (road_id, lane_id, waypoint_id) = self.monolane_id_mapper.id_for(waypoint)
-        return self.monolane_id_mapper.object_for((road_id, lane_id, waypoint_id + 1))
-
-    def end_document(self):
-        """Called after the document is generated, but before it is written to a file."""
-        self.document.write(self.to_string())
-
     def _build_lane_points(self, lane):
         previous_waypoint = None
         previous_monolane_point = None
         last_line_heading = None
-        for waypoint in lane.get_waypoints():
+        for waypoint in lane.waypoints():
             monolane_point = self._monolane_point_from_waypoint(waypoint)
             monolane_point_id = self.monolane_id_mapper.formatted_id_for(waypoint)
             self.monolane['maliput_monolane_builder']['points'][monolane_point_id] = monolane_point
-            if previous_waypoint is not None:
-                if previous_waypoint.is_arc_start_connection() and waypoint.is_arc_end_connection():
-                    if last_line_heading is not None:
-                        previous_monolane_point['xypoint'][2] = last_line_heading
-                else:
-                    previous_heading = math.degrees(previous_waypoint.center.yaw(waypoint.center))
-                    last_line_heading = previous_heading
-                    previous_monolane_point['xypoint'][2] = previous_heading
-            previous_waypoint = waypoint
-            previous_monolane_point = monolane_point
+
+    def _build_lane_connections(self, lane):
+        connections = lane.waypoint_geometry().connections()
+        for connection in connections:
+            monolane_connection = None
+
+            # If the waypoint is an exit, create the connection with all the
+            # entry waypoints of the other lanes.
+            if connection.start_waypoint().is_exit():
+                exit_waypoint = connection.start_waypoint()
+                for out_connection in exit_waypoint.out_connections():
+                    self._create_connection(out_connection)
+
+            # In some cases we don't want to generate the connection between
+            # the previous and following node.
+            # If the lane starts with an intersection, start on the entry waypoint
+            belong_to_same_node = connection.start_waypoint().road_node() is connection.end_waypoint().road_node()
+            if belong_to_same_node and (connection is connections[0]) and connection.end_waypoint().is_entry():
+                pass
+            # If the lane ends with an intersection, end it on the exit waypoint
+            elif belong_to_same_node and (connection is connections[-1]) and connection.start_waypoint().is_exit():
+                pass
+            else:
+                self._create_connection(connection)
+
+    def _create_connection(self, connection):
+        connection_primitive = connection.primitive()
+        if isinstance(connection_primitive, Arc):
+            monolane_connection = self._create_arc_connection(connection)
+        elif isinstance(connection_primitive, LineSegment):
+            monolane_connection = self._create_line_connection(connection)
+        else:
+            raise ValueError("Connection geometry not supported by monolane generator")
+
+        if monolane_connection is not None:
+            start = connection.start_waypoint()
+            end = connection.end_waypoint()
+            monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(start), self.monolane_id_mapper.formatted_id_for(end))
+            self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
+
+    def _create_line_connection(self, connection):
+        return OrderedDict([
+            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.start_waypoint())),
+            ('length', connection.primitive().length()),
+            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.end_waypoint()))
+        ])
+
+    def _create_arc_connection(self, connection):
+
+        primitive = connection.primitive()
+
+        radius = primitive.radius()
+
+        # If the turning radius is less than the driveable_bounds then
+        # don't generate the connection
+        if radius <= 4:
+            logger.error("Radius is too small to create an arc connection - {0}".format(primitive))
+            return None
+
+        angle_in_degrees = primitive.angular_length()
+
+        return OrderedDict([
+            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.start_waypoint())),
+            ('arc', [radius, angle_in_degrees]),
+            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.end_waypoint()))
+        ])
 
     def _monolane_point_from_waypoint(self, waypoint):
         point = OrderedDict()
-        point['xypoint'] = [float(waypoint.center.x), float(waypoint.center.y), 0]
-        point['zpoint'] = [float(waypoint.center.z), 0, 0, 0]
+        point['xypoint'] = [float(waypoint.center().x), float(waypoint.center().y), float(waypoint.heading())]
+        point['zpoint'] = [float(waypoint.center().z), 0, 0, 0]
         return point
 
-    def to_string(self, Dumper=yaml.Dumper, **kwds):
+    def end_document(self):
+        """Called after the document is generated, but before it is written to a file."""
+        self.document.write(self._contents_as_string())
+
+    def _contents_as_string(self):
         """Convert the current monolane data into its yaml version.
 
         Preserves order of the keys inside of 'maliput_monolane_builder'.
         """
-        header = """# -*- yaml -*-
----
-# distances are meters; angles are degrees.
-"""
+        header = "# -*- yaml -*-\n---\n# distances are meters; angles are degrees.\n"
 
         class OrderedDumper(yaml.Dumper):
             pass
@@ -194,4 +157,4 @@ class MonolaneGenerator(FileGenerator):
                 data.items())
 
         OrderedDumper.add_representer(OrderedDict, _dict_representer)
-        return header + yaml.dump(self.monolane, None, OrderedDumper, **kwds)
+        return header + yaml.dump(self.monolane, None, OrderedDumper)

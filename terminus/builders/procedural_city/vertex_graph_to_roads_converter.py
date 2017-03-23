@@ -49,7 +49,7 @@ class VertexGraphToRoadsConverter(object):
                 if node.neighbours_count() > 1:
                     self.city.add_intersection_at(node.location)
 
-                road.add_point(node.location)
+                road.add_control_point(node.location)
 
                 self._build_road(road, None, node)
 
@@ -69,7 +69,7 @@ class VertexGraphToRoadsConverter(object):
                 neighbour.remove_neighbour_to_traverse(current_node)
             if neighbour.neighbours_count() > 2:
                 self.city.add_intersection_at(neighbour.location)
-            road.add_point(neighbour.location)
+            road.add_control_point(neighbour.location)
             self._build_road(road, current_node, neighbour)
         else:
             # Since there is a previous vertex, we must select the
@@ -82,14 +82,14 @@ class VertexGraphToRoadsConverter(object):
                     best_neighbour.remove_neighbour_to_traverse(current_node)
                 if best_neighbour.neighbours_count() > 2:
                     self.city.add_intersection_at(best_neighbour.location)
-                road.add_point(best_neighbour.location)
+                road.add_control_point(best_neighbour.location)
                 self._build_road(road, current_node, best_neighbour)
             else:
                 # Go to the last point and fix if it was originally a simple
                 # node but had 2 neighbours, since it should be flagged as
                 # an intersection.
                 if current_node.neighbours_count() == 2:
-                    last_node = road.get_nodes()[-1]
+                    last_node = road.nodes()[-1]
                     self.city.add_intersection_at(last_node.center)
 
     def _angle_2d(self, point_from, point_to):

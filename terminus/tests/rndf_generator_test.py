@@ -70,11 +70,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_lanes\t1
         segment_name\ts1
         lane\t1.1
-        num_waypoints\t3
+        num_waypoints\t2
         lane_width\t13
         1.1.1\t45.000000\t65.000000
-        1.1.2\t45.000000\t65.001268
-        1.1.3\t45.000000\t65.002537
+        1.1.2\t45.000000\t65.002541
         end_lane
         end_segment
         end_file""")
@@ -100,10 +99,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t13
         exit\t1.1.2\t2.1.3
-        1.1.1\t45.000000\t64.998732
-        1.1.2\t45.000000\t64.999937
-        1.1.3\t45.000000\t65.000063
-        1.1.4\t45.000000\t65.001268
+        1.1.1\t45.000000\t64.998730
+        1.1.2\t45.000000\t64.999911
+        1.1.3\t45.000000\t65.000089
+        1.1.4\t45.000000\t65.001270
         end_lane
         end_segment
         segment\t2
@@ -113,10 +112,10 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t4
         lane_width\t13
         exit\t2.1.2\t1.1.3
-        2.1.1\t45.000900\t65.000000
-        2.1.2\t45.000045\t65.000000
-        2.1.3\t44.999955\t65.000000
-        2.1.4\t44.999100\t65.000000
+        2.1.1\t45.000898\t65.000000
+        2.1.2\t45.000063\t65.000000
+        2.1.3\t44.999937\t65.000000
+        2.1.4\t44.999102\t65.000000
         end_lane
         end_segment
         end_file""")
@@ -130,7 +129,7 @@ class RNDFGeneratorTest(unittest.TestCase):
 
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tLCross
+        RNDF_name\tL intersection
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -141,8 +140,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t1.1.2\t2.1.2
-        1.1.1\t45.000900\t65.000000
-        1.1.2\t45.000045\t65.000000
+        1.1.1\t45.000898\t65.000000
+        1.1.2\t45.000063\t65.000000
         1.1.3\t45.000000\t65.000000
         end_lane
         end_segment
@@ -153,8 +152,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         2.1.1\t45.000000\t65.000000
-        2.1.2\t45.000000\t65.000063
-        2.1.3\t45.000000\t65.001268
+        2.1.2\t45.000000\t65.000089
+        2.1.3\t45.000000\t65.001270
         end_lane
         end_segment
         end_file""")
@@ -169,7 +168,7 @@ class RNDFGeneratorTest(unittest.TestCase):
 
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tYCross
+        RNDF_name\tY intersection - One to many
         num_segments\t3
         num_zones\t0
         format_version\t1.0
@@ -181,8 +180,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.2
         exit\t1.1.2\t3.1.2
-        1.1.1\t45.000900\t65.000000
-        1.1.2\t45.000045\t65.000000
+        1.1.1\t45.000898\t65.000000
+        1.1.2\t45.000063\t65.000000
         1.1.3\t45.000000\t65.000000
         end_lane
         end_segment
@@ -193,8 +192,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         2.1.1\t45.000000\t65.000000
-        2.1.2\t44.999968\t64.999955
-        2.1.3\t44.999100\t64.998732
+        2.1.2\t44.999956\t64.999937
+        2.1.3\t44.999102\t64.998730
         end_lane
         end_segment
         segment\t3
@@ -204,8 +203,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         3.1.1\t45.000000\t65.000000
-        3.1.2\t44.999968\t65.000045
-        3.1.3\t44.999100\t65.001268
+        3.1.2\t44.999956\t65.000063
+        3.1.3\t44.999102\t65.001270
         end_lane
         end_segment
         end_file""")
@@ -220,7 +219,7 @@ class RNDFGeneratorTest(unittest.TestCase):
 
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tYCross Many to One
+        RNDF_name\tY intersection - Many to one
         num_segments\t3
         num_zones\t0
         format_version\t1.0
@@ -231,8 +230,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         1.1.1\t45.000000\t65.000000
-        1.1.2\t45.000045\t65.000000
-        1.1.3\t45.000900\t65.000000
+        1.1.2\t45.000063\t65.000000
+        1.1.3\t45.000898\t65.000000
         end_lane
         end_segment
         segment\t2
@@ -242,8 +241,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t2.1.2\t1.1.2
-        2.1.1\t44.999100\t64.998732
-        2.1.2\t44.999968\t64.999955
+        2.1.1\t44.999102\t64.998730
+        2.1.2\t44.999956\t64.999937
         2.1.3\t45.000000\t65.000000
         end_lane
         end_segment
@@ -254,8 +253,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         exit\t3.1.2\t1.1.2
-        3.1.1\t44.999100\t65.001268
-        3.1.2\t44.999968\t65.000045
+        3.1.1\t44.999102\t65.001270
+        3.1.2\t44.999956\t65.000063
         3.1.3\t45.000000\t65.000000
         end_lane
         end_segment

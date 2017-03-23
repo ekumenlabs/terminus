@@ -41,7 +41,7 @@ class City(CityModel):
         self.roads.append(road)
         # We assume there will be globally way more intersections than nodes
         # in a street
-        for node in road.get_nodes():
+        for node in road.nodes():
             if node.center in self.intersections:
                 intersection = self.intersections[node.center]
                 road.replace_node_at(node.center, intersection)
@@ -68,7 +68,7 @@ class City(CityModel):
             self.intersections[point] = intersection
             # Add to it existing roads that include that point
             for road in self.roads:
-                if road.includes_point(point):
+                if road.includes_control_point(point):
                     road.replace_node_at(point, intersection)
 
     def intersections_count(self):

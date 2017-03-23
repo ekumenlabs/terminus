@@ -69,20 +69,18 @@ class RNDFGenerator(FileGenerator):
     def meters_to_feet(self, meters):
         return int(meters * 3.28084)
 
-    def waypoint_connections_for(self, road):
-        exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), road.get_waypoints())
+    def waypoint_connections_for(self, lane):
+        exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), lane.waypoints())
         waypoint_connections = []
         for exit_waypoint in exit_waypoints:
-            for entry_waypoint in exit_waypoint.connected_waypoints():
-                connection = WaypointConnection(self, exit_waypoint, entry_waypoint)
-                # TODO: Don't know why we sometimes get repeated entry-exit
-                # connections. Need to understand and fix this.
-                if connection not in waypoint_connections:
-                    waypoint_connections.append(connection)
+            for connection in exit_waypoint.out_connections():
+                exit_id = self.id_for(connection.start_waypoint())
+                entry_id = self.id_for(connection.end_waypoint())
+                waypoint_connections.append((exit_id, entry_id))
         return waypoint_connections
 
-    def translate_waypoint(self, waypoint):
-        center = (waypoint.center.y, waypoint.center.x)
+    def translate_point(self, point):
+        center = (point.y, point.x)
         return self.origin.translate(center)
 
     # TODO: Put {{inner_contents}} on a different line while keeping RNDF
@@ -101,10 +99,10 @@ class RNDFGenerator(FileGenerator):
         num_waypoints\t{{model.waypoints_count()}}
         lane_width\t{{generator.meters_to_feet(model.width())}}
         {% for waypoint_connection in generator.waypoint_connections_for(model) %}
-        exit\t{{waypoint_connection.exit_id()}}\t{{waypoint_connection.entry_id()}}
+        exit\t{{waypoint_connection[0]}}\t{{waypoint_connection[1]}}
         {% endfor %}
-        {% for waypoint in model.get_waypoints() %}
-        {% set latlon = generator.translate_waypoint(waypoint) %}
+        {% for waypoint in model.waypoints() %}
+        {% set latlon = generator.translate_point(waypoint.center()) %}
         {% set lat = latlon.lat %}
         {% set lon = latlon.lon %}
         {{generator.id_for(waypoint)}}\t{{'{0:0.6f}'.format(lat)}}\t{{'{0:0.6f}'.format(lon)}}
@@ -122,26 +120,3 @@ class RNDFGenerator(FileGenerator):
 
     def trunk_template(self):
         return self.road_template()
-
-
-class WaypointConnection(object):
-    def __init__(self, generator, exit_waypoint, entry_waypoint):
-        self.generator = generator
-        self.exit_waypoint = exit_waypoint
-        self.entry_waypoint = entry_waypoint
-
-    def exit_id(self):
-        return self.generator.id_for(self.exit_waypoint)
-
-    def entry_id(self):
-        return self.generator.id_for(self.entry_waypoint)
-
-    def __eq__(self, other):
-        return (self.exit_waypoint == other.exit_waypoint) and \
-               (self.entry_waypoint == other.entry_waypoint)
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash((self.exit_waypoint, self.entry_waypoint))

@@ -24,6 +24,6 @@ class Street(Road):
 
     def accept(self, generator):
         generator.start_street(self)
-        for lane in self.get_lanes():
+        for lane in self.lanes():
             lane.accept(generator)
         generator.end_street(self)

@@ -16,11 +16,10 @@ limitations under the License.
 
 import unittest
 
-from models.road_node import RoadNode
-
 from geometry.bounding_box import BoundingBox
-
 from geometry.point import Point
+
+from models.road_node import RoadNode
 
 
 class RoadNodeTest(unittest.TestCase):
