@@ -558,7 +558,7 @@ maliput_monolane_builder:
       zpoint: [0.0, 0, 0, 0]
 
     OSM_453877805_1_6:
-      xypoint: [104.1013715229, -2.1930613686, -45]
+      xypoint: [105.1831919449, -3.6725946542, 59]
       zpoint: [0.0, 0, 0, 0]
 
     OSM_453877805_1_24:
@@ -2006,12 +2006,12 @@ maliput_monolane_builder:
 
     OSM_453877805_1_5-OSM_453877805_1_6:
       start: points.OSM_453877805_1_5
-      arc: [6.1781332232, 45]
+      arc: [6.1781332232, 60]
       explicit_end: points.OSM_453877805_1_6
 
-    OSM_453877805_1_5-OSM_453877805_1_24:
-      start: points.OSM_453877805_1_5
-      arc: [6.1781332232, 140]
+    OSM_453877805_1_6-OSM_453877805_1_24:
+      start: points.OSM_453877805_1_6
+      arc: [6.2381332232, 123]
       explicit_end: points.OSM_453877805_1_24
 
     OSM_453877805_1_25-OSM_453877804_1_2:
@@ -2439,8 +2439,14 @@ maliput_monolane_builder:
       start: points.OSM_447573815_1_24
       arc: [18.531291535522893, 7.583003567382664]
       explicit_end: points.OSM_447573815_1_25
-    OSM_447573815_1_25-OSM_447573815_1_26: {start: points.OSM_447573815_1_25, length: 0.19999999999999996,
-      explicit_end: points.OSM_447573815_1_26}
+    # OSM_447573815_1_25-OSM_447573815_1_26: {start: points.OSM_447573815_1_25, length: 0.19999999999999996,
+    #   explicit_end: points.OSM_447573815_1_26}
+
+    OSM_447573815_1_25-OSM_453877805_1_6:
+      start: points.OSM_447573815_1_25
+      arc: [5.7, -43]
+      explicit_end: points.OSM_453877805_1_6
+
     OSM_447573366_1_1-OSM_447573366_1_2: {start: points.OSM_447573366_1_1, length: 15.12759414853572,
       explicit_end: points.OSM_447573366_1_2}
     OSM_447573366_1_2-OSM_447573366_1_3:
