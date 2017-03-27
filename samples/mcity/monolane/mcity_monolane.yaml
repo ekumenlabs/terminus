@@ -2617,6 +2617,11 @@ maliput_monolane_builder:
     OSM_453872615_1_6-OSM_453872615_1_7: {start: points.OSM_453872615_1_6, length: 0.19999999999999787,
       explicit_end: points.OSM_453872615_1_7}
 
+    OSM_453872615_1_7-OSM_453870095_1_5:
+      start: points.OSM_453872615_1_7
+      arc: [9.5, -30]
+      explicit_end: points.OSM_453870095_1_5
+
     OSM_453872616_1_1-OSM_453872616_1_2: {start: points.OSM_453872616_1_1, length: 14.750185087416892,
       explicit_end: points.OSM_453872616_1_2}
     OSM_453872616_1_2-OSM_453872616_1_3:
