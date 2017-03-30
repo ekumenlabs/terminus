@@ -105,110 +105,72 @@ class LatLonTest(unittest.TestCase):
         expected_result = LatLon(75, -130)
         self.assertEqual(point.sum(point_to_sum), expected_result)
 
-    def test_translate(self):
-        initial_point = LatLon(60, 30)
-        expected_point = LatLon(80, 165)
-        self.assertEqual(initial_point.translate((2226398.0, 7514093.250000002)),
-                         expected_point)
-
     def test_translate_zero(self):
         point = LatLon(35, 20)
         self.assertEqual(point, point.translate((0, 0)))
 
-    def test_translate_longitudinally_in_north_pole_does_not_move_point(self):
-        point_at_north_pole = LatLon(90, 20)
-        self.assertEqual(point_at_north_pole.translate((0, 100)), point_at_north_pole)
+    def test_translate_decreasing_lat(self):
+        initial_point = LatLon(45, 45)
+        expected_point = LatLon(44.99818284, 45.00489128)
+        delta_tuple = (-201.9322713, 385.6743932)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lat, expected_point.lat)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lon, expected_point.lon)
 
-    def test_translate_longitudinally_in_south_pole_does_not_move_point(self):
-        point_at_south_pole = LatLon(-90, 20)
-        self.assertEqual(point_at_south_pole.translate((0, 100)), point_at_south_pole)
+    def test_translate(self):
+        initial_point = LatLon(45, 45)
+        expected_point = LatLon(45.0039935, 45.00182566)
+        delta_tuple = (443.8065667, 143.9373575)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lat, expected_point.lat)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lon, expected_point.lon)
 
-    def test_translate_lat(self):
-        initial_point = LatLon(15, 30)
-        delta = self.degrees_to_meters(45)
-        expected_point = LatLon(60, 30)
-        self.assertEqual(initial_point.translate((delta, 0)), expected_point)
+    def test_translate_decreasing_lon(self):
+        initial_point = LatLon(45, 45)
+        expected_point = LatLon(45.00250709, 44.99860589)
+        delta_tuple = (278.6178914, -109.9165341)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lat, expected_point.lat)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lon, expected_point.lon)
 
-    def test_translate_lon(self):
-        initial_point = LatLon(60, 27)
-        delta = self.degrees_to_meters(90) * 0.5000000000000001
-        expected_point = LatLon(60, 117)
-        self.assertEqual(initial_point.translate((0, delta)), expected_point)
+    def test_translate_decreasing_lat_and_lon(self):
+        initial_point = LatLon(45, 45)
+        expected_point = LatLon(44.9980984, 44.99779783)
+        delta_tuple = (-211.3263391, -173.6395534)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lat, expected_point.lat)
+        self.assertAlmostEqual(initial_point.translate(delta_tuple).lon, expected_point.lon)
 
-    def test_translate_latitud_greater_than_90(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(170)
-        expected_point = LatLon(10, 180)
-        self.assertEqual(initial_point.translate((delta, 0)), expected_point)
+    def test_delta_in_meters_with_no_displacement(self):
+        initial_point = LatLon(10, 65)
+        final_point = LatLon(10, 65)
+        expected_delta = (0, 0)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[0], expected_delta[0], places=4)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[1], expected_delta[1], places=4)
 
-    def test_translate_longitude_greater_than_180(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(190)
-        expected_point = LatLon(0, -170)
-        self.assertEqual(initial_point.translate((0, delta)), expected_point)
+    def test_delta_in_meters_increasing_lon(self):
+        initial_point = LatLon(10, 65)
+        final_point = LatLon(10, 66)
+        expected_delta = (166.1395712, 109633.7978)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[0], expected_delta[0], places=4)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[1], expected_delta[1], places=4)
 
-    def test_translate_longitude_greater_than_360(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(450)
-        expected_point = LatLon(0, 90)
-        self.assertEqual(initial_point.translate((0, delta)), expected_point)
+    def test_delta_in_meters_decreasing_lon(self):
+        initial_point = LatLon(10, 65)
+        final_point = LatLon(10, 64)
+        expected_delta = (166.1395712, -109633.7978)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[0], expected_delta[0], places=4)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[1], expected_delta[1], places=4)
 
-    def test_translate_latitud_greater_than_180(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(190)
-        expected_point = LatLon(-10, 180)
-        self.assertEqual(initial_point.translate((delta, 0)), expected_point)
+    def test_delta_in_meters_decreasing_lat(self):
+        initial_point = LatLon(10, 65)
+        final_point = LatLon(9, 65)
+        expected_delta = (-110598.9407, 0.0000000002)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[0], expected_delta[0], places=4)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[1], expected_delta[1], places=4)
 
-    def test_translate_negative_latitud_greater_than_90(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(-135)
-        expected_point = LatLon(-45, -180)
-        self.assertEqual(initial_point.translate((delta, 0)), expected_point)
-
-    def test_translate_negative_longitude_greater_than_180(self):
-        initial_point = LatLon(0, 0)
-        delta = self.degrees_to_meters(-190)
-        expected_point = LatLon(0, 170)
-        self.assertEqual(initial_point.translate((0, delta)), expected_point)
-
-    def test_delta_in_meters_starting_at_0_0(self):
-        initial_point = LatLon(0, 0)
-        final_point = LatLon(45, 70)
-        expected_delta = (self.degrees_to_meters(45), self.degrees_to_meters(70))
-        self.assertEqual(initial_point.delta_in_meters(final_point), expected_delta)
-
-    def test_delta_in_meters_finding_the_shortest_path(self):
-        self.assertEqual(LatLon(0, -170).delta_in_meters(LatLon(0, 170)),
-                         (0, self.degrees_to_meters(-20)))
-
-    def test_delta_in_meters_from_south_pole_to_north_pole(self):
-        self.assertEqual(LatLon(-90, 10).delta_in_meters(LatLon(90, 20)),
-                         (self.degrees_to_meters(180), 0))
-
-    def test_delta_in_meters_not_starting_at_0_0(self):
-        for i in range(0, 2):
-            self.assertAlmostEqual(LatLon(-20, 45).delta_in_meters(LatLon(35, -70))[i],
-                                   (
-                                   self.degrees_to_meters(55),
-                                   self.degree_to_meters_lon_at_lat(-20, -115)
-                                   )[i])
-
-    def test_delta_in_meters_starting_at_north_pole(self):
-        for i in range(0, 2):
-            self.assertAlmostEqual(LatLon(90, 0).delta_in_meters(LatLon(35, 60))[i],
-                                   (self.degrees_to_meters(-55), 0)[i])
-            self.assertEqual(LatLon(90, 0).translate(LatLon(90, 0).delta_in_meters(LatLon(35, 60))),
-                             LatLon(35, 60))
-
-    def test_delta_in_meters_going_to_north_pole(self):
-        self.assertEqual(LatLon(35, 60).delta_in_meters(LatLon(90, 0)),
-                         (self.degrees_to_meters(55), 0))
-
-    def test_translate_with_delta_in_meters(self):
-        initial_point = LatLon(25, 64)
-        final_point = LatLon(67, 138)
-        self.assertEqual(initial_point.translate(initial_point.delta_in_meters(final_point)),
-                         final_point)
+    def test_delta_in_meters_increasing_lat(self):
+        initial_point = LatLon(10, 65)
+        final_point = LatLon(11, 65)
+        expected_delta = (110605.5709, 0.0000000002)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[0], expected_delta[0], places=4)
+        self.assertAlmostEqual(initial_point.delta_in_meters(final_point)[1], expected_delta[1], places=4)
 
     def test_midpoint(self):
         self.assertEqual(LatLon(60, 80).midpoint(LatLon(20, 20)), LatLon(40, 50))

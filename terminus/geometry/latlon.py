@@ -15,6 +15,9 @@ limitations under the License.
 """
 
 import math
+import numpy as np
+import ecef
+import enu
 
 
 class LatLon(object):
@@ -58,61 +61,51 @@ class LatLon(object):
                    (abs(self.lon) == 180 and abs(other.lon) == 180) or \
                 abs(self.lat) == 90
 
+    def __hash__(self):
+        return hash((self.lat, self.lon))
+
     def __repr__(self):
         return 'LatLon(%s, %s)' % (self.lat, self.lon)
 
     def sum(self, other):
         return LatLon(self.lat + other.lat, self.lon + other.lon)
 
+    def curvature(self):
+        # Radius of planet curvature (meters)
+        curvature = ecef.Ecef.equatorial_radius() / math.sqrt(1 - ecef.Ecef.first_eccentricity_parameter() ** 2 * self._sin_lat() ** 2)
+        return curvature
+
+    def to_ecef(self):
+        x = self.curvature() * self._cos_lat() * self._cos_lon()
+        y = self.curvature() * self._cos_lat() * self._sin_lon()
+        z = ((ecef.Ecef.polar_radius() ** 2) / (ecef.Ecef.equatorial_radius() ** 2)) * self.curvature() * self._sin_lat()
+        return ecef.Ecef(x, y, z)
+
     def translate(self, delta_lat_lon):
         """
-        Given LatLon point and a delt_lat_lon tuple, returns a LatLon point
+        Given LatLon point and a delta_lat_lon tuple, returns a LatLon point
         corresponding to the place where an object would be after starting at
-        the LatLon point and moving first delta_lat_lon[1] meters in the
-        longitudinal direction, and then delta_lat_lon[0] meters in the
-        latitudinal direction.
+        the LatLon point and moving delta_lat_lon[1] meters in the
+        longitudinal direction, and delta_lat_lon[0] meters in the
+        latitudinal direction in the plane that is tangent to the Earth on the
+        original LatLon point.
 
         """
-
-        latitude_traslation_in_meters = delta_lat_lon[0]
-        longitude_traslation_in_meters = delta_lat_lon[1]
-        meters_per_degree_lat = 111319.9
-        latitude_in_radians = math.radians(self.lat)
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(latitude_in_radians)
-
-        delta_lat = latitude_traslation_in_meters / meters_per_degree_lat
-        if meters_per_degree_lon != 0:
-            delta_lon = longitude_traslation_in_meters / meters_per_degree_lon
-        else:
-            delta_lon = 0
-
-        new_lat = self.lat + delta_lat
-        new_lon = self.lon + delta_lon
-
-        return LatLon(new_lat, new_lon)
+        delta_in_enu = enu.Enu(delta_lat_lon[1], delta_lat_lon[0], 0)
+        delta_in_ecef = delta_in_enu.to_ecef(self)
+        inicial_point_in_ecef = self.to_ecef()
+        final_point_in_ecef = inicial_point_in_ecef + delta_in_ecef
+        return final_point_in_ecef.to_latlon()
 
     def delta_in_meters(self, other):
         """
-        Given two LatLon objects, it returns an (x, y) tuple that verifies
-        self.translate(x, y) = other
-        (the answer is not unique, this is just one tuple that verifies).
+        Given two LatLon objects, it returns an (x, y) tuple that approximates
+        how many meters in the latitudinal directon (x) and in the longitudinal
+        direction (y) is the second point(other) from the first(self).
 
         """
-        delta_lat_in_degrees = other.lat - self.lat
-        meters_per_degree_lat = 111319.9
-        delta_lat_in_meters = meters_per_degree_lat * delta_lat_in_degrees
-        delta_lon_in_degrees = other.lon - self.lon
-        if delta_lon_in_degrees > 180:
-            delta_lon_in_degrees = delta_lon_in_degrees - 360
-        if delta_lon_in_degrees < -180:
-            delta_lon_in_degrees = delta_lon_in_degrees + 360
-        latitude_in_radians = math.radians(self.lat)
-        meters_per_degree_lon = meters_per_degree_lat * math.cos(latitude_in_radians)
-        delta_lon_in_meters = delta_lon_in_degrees * meters_per_degree_lon
-        if other == LatLon(90, 0):
-            return (delta_lat_in_meters, 0)
-        else:
-            return (delta_lat_in_meters, delta_lon_in_meters)
+        delta_in_enu = other.to_ecef().to_global(self)
+        return (delta_in_enu.n, delta_in_enu.e)
 
     def midpoint(self, other):
         '''
@@ -153,3 +146,21 @@ class LatLon(object):
             if (self.lat - origin.lat) * (self.lat - corner.lat) <= 0 and \
                (self.lon - origin.lon) * (self.lon - corner.lon) >= 0:
                 return True
+
+    def _latitude_in_radians(self):
+        return math.radians(self.lat)
+
+    def _longitude_in_radians(self):
+        return math.radians(self.lon)
+
+    def _sin_lat(self):
+        return math.sin(self._latitude_in_radians())
+
+    def _sin_lon(self):
+        return math.sin(self._longitude_in_radians())
+
+    def _cos_lat(self):
+        return math.cos(self._latitude_in_radians())
+
+    def _cos_lon(self):
+        return math.cos(self._longitude_in_radians())
