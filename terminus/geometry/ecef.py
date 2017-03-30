@@ -40,12 +40,14 @@ class Ecef(object):
     @classmethod
     def first_eccentricity_parameter(cls):
         # https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
-        return math.sqrt(1.0 - (Ecef.polar_radius() ** 2) / (Ecef.equatorial_radius() ** 2))
+        # As a reference, this constant was computed as math.sqrt(1.0 - (Ecef.polar_radius() ** 2) / (Ecef.equatorial_radius() ** 2))
+        return 0.08181919084296556
 
     @classmethod
     def second_eccectricity_parameter(cls):
         # https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
-        return math.sqrt((Ecef.equatorial_radius() ** 2) / (Ecef.polar_radius() ** 2) - 1.0)
+        # As a reference, this constant was computed as math.sqrt((Ecef.equatorial_radius() ** 2) / (Ecef.polar_radius() ** 2) - 1.0)
+        return 0.08209443795004348
 
     def to_latlon(self):
         lon_in_radians = math.atan2(self.y, self.x)
@@ -79,6 +81,9 @@ class Ecef(object):
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __hash__(self):
+        return hash((self.x, self.y, self.z))
 
     def __add__(self, other):
         return Ecef(self.x + other.x, self.y + other.y, self.z + other.z)
