@@ -103,6 +103,14 @@ maliput_monolane_builder:
       #xypoint: [27.042, 67.288, 40.0]
       zpoint: [0.0, 0, 0, 0]
 
+    #c2
+    c2_1:
+      xypoint: [27.142, 67.288, 4.0]
+      zpoint: [0.0, 0, 0, 0]
+    c2_2:
+      xypoint: [36.2805, 68.0134, 4.0]
+      zpoint: [0.0, 0, 0, 0]
+
   connections:
     a1_1-a1_2: {start: points.a1_1, length: 182.288, explicit_end: points.a1_2}
 
@@ -127,3 +135,5 @@ maliput_monolane_builder:
     b7_1-b7_2: {start: points.b7_1, length: 277.6658, explicit_end: points.b7_2}
 
     c1_1-c1_2: {start: points.c1_1, length: 22.4057, explicit_end: points.c1_2}
+
+    c2_1-c2_2: {start: points.c2_1, length: 9.2662, explicit_end: points.c2_2}
