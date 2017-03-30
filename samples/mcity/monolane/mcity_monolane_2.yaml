@@ -1,0 +1,129 @@
+maliput_monolane_builder:
+  id: city_1
+  lane_bounds: [-2, 2]
+  driveable_bounds: [-4, 4]
+  position_precision: 0.01
+  orientation_precision: 0.5
+  points:
+    #a1
+    a1_1:
+      xypoint: [10.0, 0.0, 0.0]
+      zpoint: [0.0, 0, 0, 0]
+    a1_2:
+      xypoint: [192.288, 0.0, 0.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #a2
+    a2_1:
+      xypoint: [192.288, 12.1351, 180.0]
+      zpoint: [0.0, 0, 0, 0]
+    a2_2:
+      xypoint: [10.0, 12.1351, 180.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #a3
+    a3_1:
+      xypoint: [81.3375, 101.0746, 0.0]
+      zpoint: [0.0, 0, 0, 0]
+    a3_2:
+      xypoint: [130.3909, 101.0746, 0.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #a4
+    a4_1:
+      xypoint: [108.6092, -53.7631, 180.0]
+      zpoint: [0.0, 0, 0, 0]
+    a4_2:
+      xypoint: [7.25, -53.7631, 180.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b1
+    b1_1:
+      xypoint: [10.0, -19.406, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b1_2:
+      xypoint: [10.0, 52.7421, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b2
+    b2_1:
+      xypoint: [49.2855, 56.1094, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b2_2:
+      xypoint: [49.2855, -82.0676, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b3
+    b3_1:
+      xypoint: [83.3482, 52.0276, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b3_2:
+      xypoint: [83.3482, 99.7356, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b4
+    b4_1:
+      xypoint: [108.6092, 187.7676, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b4_2:
+      xypoint: [108.6092, -93.7236, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b5
+    b5_1:
+      xypoint: [130.3909, 79.3537, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b5_2:
+      xypoint: [130.3909, 108.5921, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b6
+    b6_1:
+      xypoint: [142.0394, 140.8531, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b6_2:
+      xypoint: [142.0394, -149.7502, -90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #b7
+    b7_1:
+      xypoint: [150.4154, -148.4132, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b7_2:
+      xypoint: [150.4154, 129.2526, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+
+    #c1
+    c1_1:
+      xypoint: [10.1, 52.7421, 40.0]
+      #xypoint: [10.0, 52.7421, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    c1_2:
+      xypoint: [27.142, 67.288, 40.0]
+      #xypoint: [27.042, 67.288, 40.0]
+      zpoint: [0.0, 0, 0, 0]
+
+  connections:
+    a1_1-a1_2: {start: points.a1_1, length: 182.288, explicit_end: points.a1_2}
+
+    a2_1-a2_2: {start: points.a2_1, length: 182.288, explicit_end: points.a2_2}
+
+    a3_1-a3_2: {start: points.a3_1, length: 49.0534, explicit_end: points.a3_2}
+
+    a4_1-a4_2: {start: points.a4_1, length: 101.3592, explicit_end: points.a4_2}
+
+    b1_1-b1_2: {start: points.b1_1, length: 72.1481, explicit_end: points.b1_2}
+
+    b2_1-b2_2: {start: points.b2_1, length: 138.1769, explicit_end: points.b2_2}
+
+    b3_1-b3_2: {start: points.b3_1, length: 47.708, explicit_end: points.b3_2}
+
+    b4_1-b4_2: {start: points.b4_1, length: 273.6012, explicit_end: points.b4_2}
+
+    b5_1-b5_2: {start: points.b5_1, length: 29.2384, explicit_end: points.b5_2}
+
+    b6_1-b6_2: {start: points.b6_1, length: 290.6033, explicit_end: points.b6_2}
+
+    b7_1-b7_2: {start: points.b7_1, length: 277.6658, explicit_end: points.b7_2}
+
+    c1_1-c1_2: {start: points.c1_1, length: 22.4057, explicit_end: points.c1_2}
