@@ -16,6 +16,8 @@ limitations under the License.
 
 import math
 import numpy as np
+import ecef
+import enu
 
 
 class LatLon(object):
@@ -59,6 +61,9 @@ class LatLon(object):
                    (abs(self.lon) == 180 and abs(other.lon) == 180) or \
                 abs(self.lat) == 90
 
+    def __hash__(self):
+        return hash((self.lat, self.lon))
+
     def __repr__(self):
         return 'LatLon(%s, %s)' % (self.lat, self.lon)
 
@@ -67,43 +72,14 @@ class LatLon(object):
 
     def curvature(self):
         # Radius of planet curvature (meters)
-        curvature = Ecef.equatorial_radius() / math.sqrt(1 - Ecef.first_eccentricity_parameter() ** 2 * self._sin_lat() ** 2)
+        curvature = ecef.Ecef.equatorial_radius() / math.sqrt(1 - ecef.Ecef.first_eccentricity_parameter() ** 2 * self._sin_lat() ** 2)
         return curvature
 
-    def latlon_to_ecef(self):
+    def to_ecef(self):
         x = self.curvature() * self._cos_lat() * self._cos_lon()
         y = self.curvature() * self._cos_lat() * self._sin_lon()
-        z = ((Ecef.polar_radius() ** 2) / (Ecef.equatorial_radius() ** 2)) * self.curvature() * self._sin_lat()
-        return Ecef(x, y, z)
-
-    def global_to_ecef_rotation(self, enu):
-        # this doesn't work at the poles because longitude is not uniquely defined there
-        sin_lon = self._sin_lon()
-        sin_lat = self._sin_lat()
-        cos_lon = self._cos_lon()
-        cos_lat = self._cos_lat()
-        global_to_ecef_matrix = np.array([[-sin_lon, -cos_lon * sin_lat, cos_lon * cos_lat],
-                                          [cos_lon, - sin_lon * sin_lat, sin_lon * cos_lat],
-                                          [0, cos_lat, sin_lat]])
-        enu_vector = np.array([[enu.e], [enu.n], [enu.u]])
-        ecef_vector = np.dot(global_to_ecef_matrix, enu_vector)
-        return Ecef(ecef_vector[0][0], ecef_vector[1][0], ecef_vector[2][0])
-
-    def ecef_to_global(self, ecef):
-        # this doesn't work at the poles because longitude is not uniquely defined there
-        sin_lon = self._sin_lon()
-        sin_lat = self._sin_lat()
-        cos_lon = self._cos_lon()
-        cos_lat = self._cos_lat()
-        local_vector_in_ecef = ecef - self.latlon_to_ecef()
-        ecef_vector = np.array([[local_vector_in_ecef.x],
-                                [local_vector_in_ecef.y],
-                                [local_vector_in_ecef.z]])
-        ecef_to_global_matrix = np.array([[-sin_lon, cos_lon, 0.0],
-                                          [-cos_lon * sin_lat, -sin_lon * sin_lat, cos_lat],
-                                          [cos_lon * cos_lat, sin_lon * cos_lat, sin_lat]])
-        enu_vector = np.dot(ecef_to_global_matrix, ecef_vector)
-        return Enu(enu_vector[0][0], enu_vector[1][0], enu_vector[2][0])
+        z = ((ecef.Ecef.polar_radius() ** 2) / (ecef.Ecef.equatorial_radius() ** 2)) * self.curvature() * self._sin_lat()
+        return ecef.Ecef(x, y, z)
 
     def translate(self, delta_lat_lon):
         """
@@ -115,11 +91,11 @@ class LatLon(object):
         original LatLon point.
 
         """
-        delta_in_enu = Enu(delta_lat_lon[1], delta_lat_lon[0], 0)
-        delta_in_ecef = self.global_to_ecef_rotation(delta_in_enu)
-        inicial_point_in_ecef = self.latlon_to_ecef()
+        delta_in_enu = enu.Enu(delta_lat_lon[1], delta_lat_lon[0], 0)
+        delta_in_ecef = delta_in_enu.to_ecef(self)
+        inicial_point_in_ecef = self.to_ecef()
         final_point_in_ecef = inicial_point_in_ecef + delta_in_ecef
-        return final_point_in_ecef.ecef_to_latlon()
+        return final_point_in_ecef.to_latlon()
 
     def delta_in_meters(self, other):
         """
@@ -128,7 +104,7 @@ class LatLon(object):
         direction (y) is the second point(other) from the first(self).
 
         """
-        delta_in_enu = self.ecef_to_global(other.latlon_to_ecef())
+        delta_in_enu = other.to_ecef().to_global(self)
         return (delta_in_enu.n, delta_in_enu.e)
 
     def midpoint(self, other):
@@ -188,65 +164,3 @@ class LatLon(object):
 
     def _cos_lon(self):
         return math.cos(self._longitude_in_radians())
-
-
-class Ecef(object):
-
-    def __init__(self, x, y, z):
-        self.x = x
-        self.y = y
-        self.z = z
-
-    @classmethod
-    def equatorial_radius(cls):
-        # Semi-major axis of the WGS84 spheroid (meters)
-        return 6378137.0
-
-    @classmethod
-    def polar_radius(cls):
-        # Semi-minor axis of the wgs84 spheroid (meters)
-        return 6356752.314245
-
-    @classmethod
-    def first_eccentricity_parameter(cls):
-        # https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
-        return math.sqrt(1.0 - (Ecef.polar_radius() ** 2) / (Ecef.equatorial_radius() ** 2))
-
-    @classmethod
-    def second_eccectricity_parameter(cls):
-        # https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
-        return math.sqrt((Ecef.equatorial_radius() ** 2) / (Ecef.polar_radius() ** 2) - 1.0)
-
-    def ecef_to_latlon(self):
-        lon_in_radians = math.atan2(self.y, self.x)
-        lon_in_degrees = math.degrees(lon_in_radians)
-        xy_norm = math.sqrt(self.x ** 2 + self.y ** 2)
-        a = Ecef.equatorial_radius()
-        b = Ecef.polar_radius()
-        p = Ecef.second_eccectricity_parameter()
-        e = Ecef.first_eccentricity_parameter()
-        angle = math.atan((self.z * a) / (xy_norm * b))
-        lat_in_radians = math.atan((self.z + ((p ** 2) * b * (math.sin(angle) ** 3))) /
-                                   (xy_norm - (e ** 2) * a * (math.cos(angle) ** 3)))
-        lat_in_degrees = math.degrees(lat_in_radians)
-        return LatLon(lat_in_degrees, lon_in_degrees)
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y and self.z == other.z
-
-    def __add__(self, other):
-        return Ecef(self.x + other.x, self.y + other.y, self.z + other.z)
-
-    def __sub__(self, other):
-        return Ecef(self.x - other.x, self.y - other.y, self.z - other.z)
-
-
-class Enu(object):
-
-    def __init__(self, e, n, u):
-        self.e = e
-        self.n = n
-        self.u = u
-
-    def __eq__(self, other):
-        return self.e == other.e and self.n == other.n and self.u == other.u
