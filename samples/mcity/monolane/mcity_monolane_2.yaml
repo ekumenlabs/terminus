@@ -271,6 +271,50 @@ maliput_monolane_builder:
       xypoint: [3.0305, -106.4781, -177]
       zpoint: [0.0, 0, 0, 0]
 
+    #c21
+    c21_1:
+      #xypoint: [49.2855, -82.0676, -134]
+      xypoint: [49.3855, -82.0676, -116]
+      zpoint: [0.0, 0, 0, 0]
+    c21_2:
+      #xypoint: [38.6311, -103.875, -134]
+      xypoint: [38.7311, -103.875, -116]
+      zpoint: [0.0, 0, 0, 0]
+
+    #c22
+    c22_1:
+      xypoint: [58.6383, -104.5471, 113]
+      zpoint: [0.0, 0, 0, 0]
+    c22_2:
+      xypoint: [49.2855, -82.0676, 113]
+      zpoint: [0.0, 0, 0, 0]
+
+    #c23
+    c23_1:
+      xypoint: [64.1004, -109.2724, 11]
+      zpoint: [0.0, 0, 0, 0]
+    c23_2:
+      xypoint: [97.8769, -102.5956, 11]
+      zpoint: [0.0, 0, 0, 0]
+
+    #c24
+    c24_1:
+      #xypoint: [108.6092, -93.7236, -140]
+      xypoint: [108.7092, -93.7236, -140]
+      zpoint: [0.0, 0, 0, 0]
+    c24_2:
+      #xypoint: [68.1696, -127.1536, -140]
+      xypoint: [68.2696, -127.1536, -140]
+      zpoint: [0.0, 0, 0, 0]
+
+    #c25
+    c25_1:
+      xypoint: [-1.7516, -166.2233, 85]
+      zpoint: [0.0, 0, 0, 0]
+    c25_2:
+      xypoint: [10, -19.406, 85]
+      zpoint: [0.0, 0, 0, 0]
+
   connections:
     a1_1-a1_2: {start: points.a1_1, length: 182.288, explicit_end: points.a1_2}
 
@@ -335,3 +379,13 @@ maliput_monolane_builder:
     c19_1-c19_2: {start: points.c19_1, length: 25.6555, explicit_end: points.c19_2}
 
     c20_1-c20_2: {start: points.c20_1, length: 34.0292, explicit_end: points.c20_2}
+
+    c21_1-c21_2: {start: points.c21_1, length: 24.271, explicit_end: points.c21_2}
+
+    c22_1-c22_2: {start: points.c22_1, length: 24.3476, explicit_end: points.c22_2}
+
+    c23_1-c23_2: {start: points.c23_1, length: 34.4301, explicit_end: points.c23_2}
+
+    c24_1-c24_2: {start: points.c24_1, length: 52.4683, explicit_end: points.c24_2}
+
+    c24_1-c25_2: {start: points.c25_1, length: 147.2868, explicit_end: points.c25_2}
