@@ -160,7 +160,7 @@ maliput_monolane_builder:
       xypoint: [83.3482, 52.0276, 90.0]
       zpoint: [0.0, 0, 0, 0]
     b3_2:
-      xypoint: [83.3482, 99.7356, 90.0]
+      xypoint: [83.3482, 95.0746, 90.0]
       zpoint: [0.0, 0, 0, 0]
 
     #b4
@@ -203,10 +203,13 @@ maliput_monolane_builder:
 
     #b5
     b5_1:
-      xypoint: [130.3909, 79.3537, 90.0]
+      xypoint: [130.3909, 83.1917, 90.0]
       zpoint: [0.0, 0, 0, 0]
     b5_2:
-      xypoint: [130.3909, 108.5921, 90.0]
+      xypoint: [130.3909, 105.1746, 90.0]
+      zpoint: [0.0, 0, 0, 0]
+    b5_3:
+      xypoint: [130.3909, 107.4623, 90.0]
       zpoint: [0.0, 0, 0, 0]
 
     #b6
@@ -515,7 +518,7 @@ maliput_monolane_builder:
     b2_7-b2_8: {start: points.b2_7, length: 11.0, explicit_end: points.b2_8}
     b2_8-b2_9: {start: points.b2_8, length: 20.9171, explicit_end: points.b2_9}
 
-    b3_1-b3_2: {start: points.b3_1, length: 47.708, explicit_end: points.b3_2}
+    b3_1-b3_2: {start: points.b3_1, length: 39.1498, explicit_end: points.b3_2}
 
     b4_1-b4_2: {start: points.b4_1, length: 47.1863, explicit_end: points.b4_2}
     b4_2-b4_3: {start: points.b4_2, length: 23.1612, explicit_end: points.b4_3}
@@ -529,7 +532,8 @@ maliput_monolane_builder:
     b4_10-b4_11: {start: points.b4_10, length: 43.7631, explicit_end: points.b4_11}
     b4_11-b4_12: {start: points.b4_11, length: 42.1358, explicit_end: points.b4_12}
 
-    b5_1-b5_2: {start: points.b5_1, length: 29.2384, explicit_end: points.b5_2}
+    b5_1-b5_2: {start: points.b5_1, length: 21.9775, explicit_end: points.b5_2}
+    b5_2-b5_3: {start: points.b5_2, length: 2.2878, explicit_end: points.b5_3}
 
     b6_1-b6_2: {start: points.b6_1, length: 290.6033, explicit_end: points.b6_2}
 
