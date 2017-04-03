@@ -66,6 +66,10 @@ Cleaning up...
 ```
 $ pip install numpy
 ```
+- And mock library also:
+```
+$ pip install mock
+```
 - Setup project dependencies:
 ```
 $ python setup.py develop
