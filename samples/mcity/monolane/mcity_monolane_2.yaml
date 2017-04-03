@@ -483,10 +483,15 @@ maliput_monolane_builder:
 
     #d1
     d1_1:
-      xypoint: [62.3799, 69.1854, -90]
+      xypoint: [54.3803, 81.2358, -23]
       zpoint: [0.0, 0, 0, 0]
-
-    #d2
+    d1_2:
+      xypoint: [53.4041, 56.7688, -162]
+      zpoint: [0.0, 0, 0, 0]
+    d1_3:
+      xypoint: [36.5824, 72.2096, 77]
+      zpoint: [0.0, 0, 0, 0]
+    #d2d1_1
     d2_1:
       xypoint: [68.7382, -122.3341, 90]
       zpoint: [0.0, 0, 0, 0]
@@ -637,9 +642,17 @@ maliput_monolane_builder:
     c25_4-c25_5: {start: points.c25_4, length: 28.811, explicit_end: points.c25_5}
 
 
-    d1_1-d1_1:
+    d1_1-d1_2:
       start: points.d1_1
-      arc: [13.076, -360]
+      arc: [13.076, -134]
+      explicit_end: points.d1_2
+    d1_2-d1_3:
+      start: points.d1_2
+      arc: [13.076, -122]
+      explicit_end: points.d1_3
+    d1_3-d1_1:
+      start: points.d1_3
+      arc: [13.076, -104]
       explicit_end: points.d1_1
 
     d2_1-d2_1:
