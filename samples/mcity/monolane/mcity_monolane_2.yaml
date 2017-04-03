@@ -491,9 +491,28 @@ maliput_monolane_builder:
     d1_3:
       xypoint: [36.5824, 72.2096, 77]
       zpoint: [0.0, 0, 0, 0]
-    #d2d1_1
+
+    #d2
     d2_1:
-      xypoint: [68.7382, -122.3341, 90]
+      xypoint: [67.7948, -128.5139, 73]
+      zpoint: [0.0, 0, 0, 0]
+    d2_2:
+      xypoint: [62.4029, -107.4243, 136]
+      zpoint: [0.0, 0, 0, 0]
+    d2_3:
+      xypoint: [59.8121, -105.3022, 145]
+      zpoint: [0.0, 0, 0, 0]
+    d2_4:
+      xypoint: [37.7155, -104.3704, -150]
+      zpoint: [0.0, 0, 0, 0]
+    d2_5:
+      xypoint: [27.3728, -123.8994, -86]
+      zpoint: [0.0, 0, 0, 0]
+    d2_6:
+      xypoint: [28.9321, -130.3609, -67]
+      zpoint: [0.0, 0, 0, 0]
+    d2_7:
+      xypoint: [48.0802, -143.0463, 0]
       zpoint: [0.0, 0, 0, 0]
 
     #d3
@@ -644,7 +663,7 @@ maliput_monolane_builder:
 
     d1_1-d1_2:
       start: points.d1_1
-      arc: [13.076, -134]
+      arc: [13.076, -139]
       explicit_end: points.d1_2
     d1_2-d1_3:
       start: points.d1_2
@@ -655,9 +674,33 @@ maliput_monolane_builder:
       arc: [13.076, -104]
       explicit_end: points.d1_1
 
-    d2_1-d2_1:
+    d2_1-d2_2:
       start: points.d2_1
-      arc: [20.7123, 360]
+      arc: [20.7123, 63]
+      explicit_end: points.d2_2
+    d2_2-d2_3:
+      start: points.d2_2
+      arc: [20.7123, 10]
+      explicit_end: points.d2_2
+    d2_3-d2_4:
+      start: points.d2_3
+      arc: [20.7123, 64]
+      explicit_end: points.d2_4
+    d2_4-d2_5:
+      start: points.d2_4
+      arc: [20.7123, 66]
+      explicit_end: points.d2_5
+    d2_5-d2_6:
+      start: points.d2_5
+      arc: [20.7123, 18]
+      explicit_end: points.d2_6
+    d2_6-d2_7:
+      start: points.d2_6
+      arc: [20.7123, 67]
+      explicit_end: points.d2_7
+    d2_7-d2_1:
+      start: points.d2_7
+      arc: [20.7123, 72]
       explicit_end: points.d2_1
 
     d3_1-d3_1:
