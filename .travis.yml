@@ -5,9 +5,10 @@ python:
 
 before_install:
     - sudo apt-get install python-virtualenv pkg-config zlib1g-dev libssl-dev build-essential protobuf-compiler libprotobuf-dev libgeos-dev python-matplotlib python-scipy gfortran libblas-dev liblapack-dev libatlas-base-dev libjpeg-dev libfreetype6-dev
-    - pip install pep8
-    - pip install numpy
-    - pip install imposm.parser
+    - pip install pep8==1.7.0
+    - pip install numpy==1.11.3
+    - pip install imposm.parser==1.0.7
+    - pip install python-slugify==1.2.1
 
 install:
     - python setup.py -q install
