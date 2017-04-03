@@ -515,17 +515,6 @@ maliput_monolane_builder:
       xypoint: [48.0802, -143.0463, 0]
       zpoint: [0.0, 0, 0, 0]
 
-    #d3
-    d3_1:
-      xypoint: [10.0, 12.1351, 180]
-      zpoint: [0.0, 0, 0, 0]
-
-    #d4
-    d4_1:
-      xypoint: [192.288, 0.0, 0.0]
-      zpoint: [0.0, 0, 0, 0]
-
-
   connections:
     a1_1-a1_2: {start: points.a1_1, length: 10.1, explicit_end: points.a1_2}
     a1_2-a1_3: {start: points.a1_2, length: 28.2855, explicit_end: points.a1_3}
@@ -703,12 +692,143 @@ maliput_monolane_builder:
       arc: [20.7123, 72]
       explicit_end: points.d2_1
 
-    d3_1-d3_1:
-      start: points.d3_1
+    a2_11-a1_1:
+      start: points.a2_11
       arc: [6.0675, 180]
-      explicit_end: points.d3_1
+      explicit_end: points.a1_1
 
-    d4_1-d4_1:
-      start: points.d4_1
+    a1_11-a2_1:
+      start: points.a1_11
       arc: [6.0675, 180]
-      explicit_end: points.d4_1
+      explicit_end: points.a2_1
+#
+    b1_4-a2_11:
+      start: points.b1_4
+      arc: [4.1, 90]
+      explicit_end: points.a2_11
+
+    a1_1-b1_3:
+      start: points.a1_1
+      arc: [4.1, 90]
+      explicit_end: points.b1_3
+
+    a2_10-b1_5:
+      start: points.a2_10
+      arc: [5, -90]
+      explicit_end: points.b1_5
+
+    b1_2-a1_2:
+      start: points.b1_2
+      arc: [6, -90]
+      explicit_end: points.a1_6
+
+#
+    b2_3-a2_9:
+      start: points.b2_3
+      arc: [5.0, -90]
+      explicit_end: points.a2_9
+
+    a2_8-b2_4:
+      start: points.a2_8
+      arc: [5.0, 90]
+      explicit_end: points.b2_4
+
+    b2_5-a1_4:
+      start: points.b2_5
+      arc: [4.5, 90]
+      explicit_end: points.a1_4
+
+    a1_3-b2_6:
+      start: points.a1_3
+      arc: [5, -90]
+      explicit_end: points.b2_6
+#
+    b4_7-a2_7:
+      start: points.b4_7
+      arc: [5.0, -90]
+      explicit_end: points.a2_7
+
+    a2_6-b4_8:
+      start: points.a2_6
+      arc: [5.0, 90]
+      explicit_end: points.b4_8
+
+    b4_9-a1_6:
+      start: points.b4_9
+      arc: [4.5, 90]
+      explicit_end: points.a1_6
+
+    a1_5-b4_10:
+      start: points.a1_5
+      arc: [5, -90]
+      explicit_end: points.b4_10
+#
+    b6_2-a2_5:
+      start: points.b6_2
+      arc: [5.0, -90]
+      explicit_end: points.a2_5
+
+    a2_4-b6_3:
+      start: points.a2_4
+      arc: [4.1, 90]
+      explicit_end: points.b6_3
+
+    b6_4-a1_8:
+      start: points.b6_4
+      arc: [4.1, 90]
+      explicit_end: points.a1_8
+
+    a1_7-b6_5:
+      start: points.a1_7
+      arc: [5, -90]
+      explicit_end: points.b6_5
+#
+    a2_2-b7_5:
+      start: points.a2_2
+      arc: [5.0, -90]
+      explicit_end: points.b7_5
+
+    b7_4-a2_3:
+      start: points.b7_4
+      arc: [4.1, 90]
+      explicit_end: points.a2_3
+
+    a1_9-b7_3:
+      start: points.a1_9
+      arc: [4.1, 90]
+      explicit_end: points.b7_3
+
+    b7_2-a1_10:
+      start: points.b7_2
+      arc: [5, -90]
+      explicit_end: points.a1_10
+#
+    b1_6-c1_1:
+      start: points.b1_6
+      arc: [6, -50]
+      explicit_end: points.c1_1
+
+    c1_2-c2_1:
+      start: points.c1_2
+      arc: [6, -36]
+      explicit_end: points.c2_1
+
+    c2_2-d1_3:
+      start: points.c2_2
+      arc: [6, 72]
+      explicit_end: points.d1_3
+#
+    c1_1-c3_1:
+      start: points.d1_1
+      arc: [6, 66]
+      explicit_end: points.c3_1
+
+    c3_2-a3_1:
+      start: points.c3_2
+      arc: [6, -43]
+      explicit_end: points.a3_1
+
+    b3_2-a3_2:
+      start: points.b3_2
+      arc: [6, -90]
+      explicit_end: points.a3_2
