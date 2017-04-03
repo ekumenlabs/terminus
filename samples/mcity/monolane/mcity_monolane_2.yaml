@@ -265,70 +265,69 @@ maliput_monolane_builder:
 
     #c1
     c1_1:
-      xypoint: [10.1, 52.7421, 40.0]
-      #xypoint: [10.0, 52.7421, 90.0]
+      xypoint: [12.1048, 54.5386, 40.0]
       zpoint: [0.0, 0, 0, 0]
     c1_2:
-      xypoint: [27.142, 67.288, 40.0]
-      #xypoint: [27.042, 67.288, 40.0]
+      xypoint: [25.5595, 66.0227, 40.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c2
     c2_1:
-      xypoint: [27.142, 67.288, 4.0]
+      xypoint: [28.9851, 67.4406, 4.0]
       zpoint: [0.0, 0, 0, 0]
     c2_2:
-      xypoint: [36.2805, 68.0134, 4.0]
+      xypoint: [31.2147, 67.6157, 4.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c3
     c3_1:
-      xypoint: [57.354, 79.3465, 43.0]
+      xypoint: [60.7897, 82.366, 43.0]
       zpoint: [0.0, 0, 0, 0]
     c3_2:
-      xypoint: [80.6858, 100.8189, 43.0]
+      xypoint: [79.2355, 99.4738, 43.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c4
     c4_1:
-      xypoint: [49.2855, 36.8687, 24.0]
+      xypoint: [57.725, 40.6247, 24.0]
       zpoint: [0.0, 0, 0, 0]
     c4_2:
-      xypoint: [108.6092, 63.2694, 24.0]
+      xypoint: [79.7877, 50.4431, 24.0]
+      zpoint: [0.0, 0, 0, 0]
+    c4_3:
+      xypoint: [100.1697, 59.5137, 24.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c5
     c5_1:
-      xypoint: [108.6092, 69.3281, 25.0]
+      xypoint: [117.1179, 73.2444, 25.0]
       zpoint: [0.0, 0, 0, 0]
     c5_2:
-      xypoint: [130.3909, 79.3537, 25.0]
+      xypoint: [126.8996, 77.7467, 25.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c6
     c6_1:
-      xypoint: [130.4909, 108.5921, 121.0]
-      #xypoint: [130.3909, 108.5921, 121.0]
+      xypoint: [129.8122, 109.5624, 121.0]
       zpoint: [0.0, 0, 0, 0]
     c6_2:
-      #xypoint: [108.6092, 145.115, 121.0]
-      xypoint: [108.7092, 145.115, 121.0]
+      xypoint: [116.2305, 132.3358, 121.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c7
     c7_1:
-      xypoint: [128.9207, 200.5363, -135.0]
+      xypoint: [126.7618, 198.3405, -135.0]
       zpoint: [0.0, 0, 0, 0]
     c7_2:
-      xypoint: [108.6092, 179.8776, -135.0]
+      xypoint: [110.3307, 181.6286, -135.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c8
     c8_1:
-      xypoint: [161.388, 195.4806, 171.0]
+      xypoint: [165.913, 194.776, 171.0]
       zpoint: [0.0, 0, 0, 0]
     c8_2:
-      xypoint: [128.9207, 200.4353, 171.0]
+      xypoint: [131.9634, 200.0625, 171.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c9
@@ -336,30 +335,28 @@ maliput_monolane_builder:
       xypoint: [232.9248, 194.776, -116.0]
       zpoint: [0.0, 0, 0, 0]
     c9_2:
-      xypoint: [150.4154, 22.9427, -116.0]
+      xypoint: [151.006, 24.1739, -116.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c10
     c10_1:
-      xypoint: [192.336, -13.9778, -133.0]
+      xypoint: [190.7176, -15.7147, -133.0]
       zpoint: [0.0, 0, 0, 0]
     c10_2:
-      xypoint: [173.3733, -34.328, -133.0]
+      xypoint: [174.3248, 33.3069, -133.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c11
     c11_1:
-      #xypoint: [173.3733, -34.328, -107.0]
-      xypoint: [173.4733, -34.328, -107.0]
+      xypoint: [172.9702, -35.6642, -107.0]
       zpoint: [0.0, 0, 0, 0]
     c11_2:
-      #xypoint: [165.5077, -60.3995, -107.0]
-      xypoint: [165.6077, -60.3995, -107.0]
+      xypoint: [166.4895, -57.1453, -107.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c12
     c12_1:
-      xypoint: [165.5077, -60.3995, -169.0]
+      xypoint: [162.1714, -61.0497, -169.0]
       zpoint: [0.0, 0, 0, 0]
     c12_2:
       xypoint: [156.2278, -62.2083, -169.0]
@@ -375,75 +372,74 @@ maliput_monolane_builder:
 
     #c14
     c14_1:
-      xypoint: [169.5474, -171.8626, -172.0]
+      xypoint: [163.7532, -172.7099, -172.0]
       zpoint: [0.0, 0, 0, 0]
     c14_2:
-      xypoint: [21.0952, -193.5702, -172.0]
+      xypoint: [24.4161, -193.0846, -172.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c15
     c15_1:
-      xypoint: [21.0952, -193.5702, 130.0]
+      xypoint: [18.9434, -190.9946, 130.0]
       zpoint: [0.0, 0, 0, 0]
     c15_2:
-      xypoint: [-1.7516, -166.2233, 130.0]
+      xypoint: [13.2409, -184.1619, 130.0]
+      zpoint: [0.0, 0, 0, 0]
+    c15_3:
+      xypoint: [0.1797, -168.1048, 130.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c16
     c16_1:
-      xypoint: [10.2331, -180.5286, 54.0]
+      xypoint: [13.0017, -176.7813, 54.0]
       zpoint: [0.0, 0, 0, 0]
     c16_2:
-      xypoint: [25.4318, -159.7769, 54.0]
+      xypoint: [24.0962, -160.4221, 54.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c17
     c17_1:
-      xypoint: [25.4318, -159.7769, 39.0]
+      xypoint: [26.0558, -159.2777, 39.0]
       zpoint: [0.0, 0, 0, 0]
     c17_2:
-      xypoint: [46.4226, -142.9843, 39.0]
+      xypoint: [44.9755, -144.142, 39.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c18
     c18_1:
-      #xypoint: [25.4318, -159.7769, 82.0]
-      xypoint: [25.5318, -159.7769, 82.0]
+      xypoint: [29.2772, -133.0086, -98.0]
       zpoint: [0.0, 0, 0, 0]
     c18_2:
-      #xypoint: [29.4804, -131.5572, 82.0]
-      xypoint: [29.5804, -131.5572, 82.0]
+      xypoint: [25.4318, -159.7769, -98.0]
       zpoint: [0.0, 0, 0, 0]
 
     #c19
     c19_1:
-      xypoint: [2.3718, -114.7074, -13]
+      xypoint: [9.1047, -116.2035, -13]
       zpoint: [0.0, 0, 0, 0]
     c19_2:
-      xypoint: [27.4164, -120.2729, -13]
+      xypoint: [23.4717, -119.3963, -13]
       zpoint: [0.0, 0, 0, 0]
 
     #c20
     c20_1:
-      xypoint: [37.0178, -104.7893, -177]
+      xypoint: [36.1386, -104.8329, -177]
       zpoint: [0.0, 0, 0, 0]
     c20_2:
-      xypoint: [3.0305, -106.4781, -177]
+      xypoint: [9.8543, -106.139, -177]
       zpoint: [0.0, 0, 0, 0]
 
     #c21
     c21_1:
-      #xypoint: [49.2855, -82.0676, -134]
-      xypoint: [49.3855, -82.0676, -116]
+      xypoint: [48.6768, -83.3141, -116]
       zpoint: [0.0, 0, 0, 0]
     c21_2:
-      #xypoint: [38.6311, -103.875, -134]
-      xypoint: [38.7311, -103.875, -116]
+      xypoint: [39.1254, -102.8634, -116]
       zpoint: [0.0, 0, 0, 0]
 
     #c22
     c22_1:
-      xypoint: [58.6383, -104.5471, 113]
+      xypoint: [58.0409, -103.1114, 113]
       zpoint: [0.0, 0, 0, 0]
     c22_2:
       xypoint: [49.2855, -82.0676, 113]
@@ -451,28 +447,38 @@ maliput_monolane_builder:
 
     #c23
     c23_1:
-      xypoint: [64.1004, -109.2724, 11]
+      xypoint: [66.8432, -108.7302, 11]
       zpoint: [0.0, 0, 0, 0]
     c23_2:
-      xypoint: [97.8769, -102.5956, 11]
+      xypoint: [96.3876, -102.89, 11]
       zpoint: [0.0, 0, 0, 0]
 
     #c24
     c24_1:
-      #xypoint: [108.6092, -93.7236, -140]
-      xypoint: [108.7092, -93.7236, -140]
+      xypoint: [106.4321, -95.5234, -140]
       zpoint: [0.0, 0, 0, 0]
     c24_2:
-      #xypoint: [68.1696, -127.1536, -140]
-      xypoint: [68.2696, -127.1536, -140]
+      xypoint: [69.3813, -162.152, -140]
       zpoint: [0.0, 0, 0, 0]
 
     #c25
     c25_1:
-      xypoint: [-1.7516, -166.2233, 85]
+      xypoint: [-1.556, -163.7793, 85]
       zpoint: [0.0, 0, 0, 0]
     c25_2:
-      xypoint: [10, -19.406, 85]
+      xypoint: [1.8216, -121.5819, 85]
+      zpoint: [0.0, 0, 0, 0]
+    c25_3:
+      xypoint: [1.8216, -121.5819, 85]
+      zpoint: [0.0, 0, 0, 0]
+    c25_3:
+      xypoint: [3.5757, -99.6677, 85]
+      zpoint: [0.0, 0, 0, 0]
+    c25_4:
+      xypoint: [7.6821, -48.3642, 85]
+      zpoint: [0.0, 0, 0, 0]
+    c25_5:
+      xypoint: [9.9809, -19.645, 85]
       zpoint: [0.0, 0, 0, 0]
 
     #d1
@@ -575,55 +581,61 @@ maliput_monolane_builder:
 
     b8_1-b8_2: {start: points.b8_1, length: 7.1351, explicit_end: points.b8_2}
 
-    c1_1-c1_2: {start: points.c1_1, length: 22.4057, explicit_end: points.c1_2}
+    c1_1-c1_2: {start: points.c1_1, length: 17.6894, explicit_end: points.c1_2}
 
-    c2_1-c2_2: {start: points.c2_1, length: 9.2662, explicit_end: points.c2_2}
+    c2_1-c2_2: {start: points.c2_1, length: 2.2364, explicit_end: points.c2_2}
 
-    c3_1-c3_2: {start: points.c3_1, length: 31.5764, explicit_end: points.c3_2}
+    c3_1-c3_2: {start: points.c3_1, length: 25.158, explicit_end: points.c3_2}
 
-    c4_1-c4_2: {start: points.c4_1, length: 64.933, explicit_end: points.c4_2}
+    c4_1-c4_2: {start: points.c4_1, length: 24.1489, explicit_end: points.c4_2}
+    c4_2-c4_3: {start: points.c4_2, length: 22.3092, explicit_end: points.c4_3}
 
-    c5_1-c5_2: {start: points.c5_1, length: 23.9782, explicit_end: points.c5_2}
+    c5_1-c5_2: {start: points.c5_1, length: 10.7681, explicit_end: points.c5_2}
 
-    c6_1-c6_2: {start: points.c6_1, length: 42.5249, explicit_end: points.c6_2}
+    c6_1-c6_2: {start: points.c6_1, length: 26.5159, explicit_end: points.c6_2}
 
-    c7_1-c7_2: {start: points.c7_1, length: 28.9714, explicit_end: points.c7_2}
+    c7_1-c7_2: {start: points.c7_1, length: 23.4365, explicit_end: points.c7_2}
 
-    c8_1-c8_2: {start: points.c8_1, length: 35.8585, explicit_end: points.c8_2}
+    c8_1-c8_2: {start: points.c8_1, length: 34.3587, explicit_end: points.c8_2}
 
-    c9_1-c9_2: {start: points.c9_1, length: 190.6161, explicit_end: points.c9_2}
+    c9_1-c9_2: {start: points.c9_1, length: 189.2502, explicit_end: points.c9_2}
 
-    c10_1-c10_2: {start: points.c10_1, length: 27.8158, explicit_end: points.c10_2}
+    c10_1-c10_2: {start: points.c10_1, length: 24.046, explicit_end: points.c10_2}
 
-    c11_1-c11_2: {start: points.c11_1, length: 27.2321, explicit_end: points.c11_2}
+    c11_1-c11_2: {start: points.c11_1, length: 22.4374, explicit_end: points.c11_2}
 
-    c12_1-c12_2: {start: points.c12_1, length: 9.4546, explicit_end: points.c12_2}
+    c12_1-c12_2: {start: points.c12_1, length: 6.0555, explicit_end: points.c12_2}
 
     c13_1-c13_2: {start: points.c13_1, length: 158.663, explicit_end: points.c13_2}
 
-    c14_1-c14_2: {start: points.c14_1, length: 153.0309, explicit_end: points.c14_2}
+    c14_1-c14_2: {start: points.c14_1, length: 140.8189, explicit_end: points.c14_2}
 
-    c15_1-c15_2: {start: points.c15_1, length: 35.6347, explicit_end: points.c15_2}
+    c15_1-c15_2: {start: points.c15_1, length: 8.8943, explicit_end: points.c15_2}
+    c15_2-c15_3: {start: points.c15_2, length: 20.9324, explicit_end: points.c15_3}
 
-    c16_1-c16_2: {start: points.c16_1, length: 25.7545, explicit_end: points.c16_2}
+    c16_1-c16_2: {start: points.c16_1, length: 20.264, explicit_end: points.c16_2}
 
-    c17_1-c17_2: {start: points.c17_1, length: 26.8813, explicit_end: points.c17_2}
+    c17_1-c17_2: {start: points.c17_1, length: 24.2289, explicit_end: points.c17_2}
 
-    c18_1-c18_2: {start: points.c18_1, length: 25.5086, explicit_end: points.c18_2}
+    c18_1-c18_2: {start: points.c18_1, length: 27.0423, explicit_end: points.c18_2}
 
-    c19_1-c19_2: {start: points.c19_1, length: 25.6555, explicit_end: points.c19_2}
+    c19_1-c19_2: {start: points.c19_1, length: 14.7182, explicit_end: points.c19_2}
 
-    c20_1-c20_2: {start: points.c20_1, length: 34.0292, explicit_end: points.c20_2}
+    c20_1-c20_2: {start: points.c20_1, length: 26.3168, explicit_end: points.c20_2}
 
-    c21_1-c21_2: {start: points.c21_1, length: 24.271, explicit_end: points.c21_2}
+    c21_1-c21_2: {start: points.c21_1, length: 21.7577, explicit_end: points.c21_2}
 
-    c22_1-c22_2: {start: points.c22_1, length: 24.3476, explicit_end: points.c22_2}
+    c22_1-c22_2: {start: points.c22_1, length: 22.7925, explicit_end: points.c22_2}
 
-    c23_1-c23_2: {start: points.c23_1, length: 34.4301, explicit_end: points.c23_2}
+    c23_1-c23_2: {start: points.c23_1, length: 30.1161, explicit_end: points.c23_2}
 
-    c24_1-c24_2: {start: points.c24_1, length: 52.4683, explicit_end: points.c24_2}
+    c24_1-c24_2: {start: points.c24_1, length: 48.0715, explicit_end: points.c24_2}
 
-    c24_1-c25_2: {start: points.c25_1, length: 147.2868, explicit_end: points.c25_2}
+    c25_1-c25_2: {start: points.c25_1, length: 42.3323, explicit_end: points.c25_2}
+    c25_2-c25_3: {start: points.c25_2, length: 21.9843, explicit_end: points.c25_3}
+    c25_3-c25_4: {start: points.c25_3, length: 51.4675, explicit_end: points.c25_4}
+    c25_4-c25_5: {start: points.c25_4, length: 28.811, explicit_end: points.c25_5}
+
 
     d1_1-d1_1:
       start: points.d1_1
