@@ -400,27 +400,27 @@ maliput_monolane_builder:
 
     #c16
     c16_1:
-      xypoint: [13.0017, -176.7813, 54.0]
+      xypoint: [13.0017, -176.7813, 54]
       zpoint: [0.0, 0, 0, 0]
     c16_2:
-      xypoint: [24.0962, -160.4221, 54.0]
+      xypoint: [24.9, -160.4, 54]
       zpoint: [0.0, 0, 0, 0]
 
     #c17
     c17_1:
-      xypoint: [26.0558, -159.2777, 39.0]
+      xypoint: [26.0558, -159.2777, 38.65]
       zpoint: [0.0, 0, 0, 0]
     c17_2:
-      xypoint: [44.9755, -144.142, 39.0]
+      xypoint: [44.9755, -144.142, 38.65]
       zpoint: [0.0, 0, 0, 0]
 
-    #c18
-    c18_1:
-      xypoint: [29.2772, -133.0086, -98.0]
-      zpoint: [0.0, 0, 0, 0]
-    c18_2:
-      xypoint: [25.4318, -159.7769, -98.0]
-      zpoint: [0.0, 0, 0, 0]
+    # #c18
+    # c18_1:
+    #   xypoint: [29.2772, -133.0086, -98.0]
+    #   zpoint: [0.0, 0, 0, 0]
+    # c18_2:
+    #   xypoint: [25.4318, -159.7769, -98.0]
+    #   zpoint: [0.0, 0, 0, 0]
 
     #c19
     c19_1:
@@ -642,7 +642,7 @@ maliput_monolane_builder:
 
     c17_1-c17_2: {start: points.c17_1, length: 24.2289, explicit_end: points.c17_2}
 
-    c18_1-c18_2: {start: points.c18_1, length: 27.0423, explicit_end: points.c18_2}
+    # c18_1-c18_2: {start: points.c18_1, length: 27.0423, explicit_end: points.c18_2}
 
     c19_1-c19_2: {start: points.c19_1, length: 14.7182, explicit_end: points.c19_2}
 
@@ -935,20 +935,20 @@ maliput_monolane_builder:
       arc: [5, -90]
       explicit_end: points.a4_1
 #
-    c19_1-c25_2:
-      start: points.c19_1
+    c25_2-c19_1:
+      start: points.c25_2
       arc: [6, -98]
-      explicit_end: points.c25_2
+      explicit_end: points.c19_1
 
     c19_2-d2_5:
       start: points.c19_2
       arc: [5, -73]
       explicit_end: points.d2_5
 
-    d2_6-c18_1:
-      start: points.d2_6
-      arc: [5, -31]
-      explicit_end: points.c18_1
+    # d2_6-c18_1:
+    #   start: points.d2_6
+    #   arc: [5, -31]
+    #   explicit_end: points.c18_1
 
     c17_2-d2_7:
       start: points.c17_2
@@ -977,7 +977,7 @@ maliput_monolane_builder:
 
     c16_2-c17_1:
       start: points.c16_2
-      arc: [6, -15]
+      arc: [6, -18]
       explicit_end: points.c17_1
 #
     b7_11-c13_2:
