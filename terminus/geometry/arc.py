@@ -17,6 +17,7 @@ limitations under the License.
 import math
 
 from geometry.point import Point
+from geometry.circle import Circle
 
 
 class Arc(object):
@@ -136,6 +137,18 @@ class Arc(object):
             raise ValueError("Offset ({0}) is greater than segment length ({1})".format(offset, self.length()))
         angular_offset = math.copysign(offset, self._angular_length) * 180 / (math.pi * self._radius)
         return self._theta + angular_offset
+
+    def intersection(self, other):
+        circle1 = Circle(self.center_point(), self.radius)
+        circle2 = Circle(other.center_point(), other.radius)
+        if circle1.intersection(circle2) is None:
+            return None
+        else:
+            intersections = []
+            for point in circle1.intersection(circle2):
+                if self.includes_point(point) and other.includes_point(point):
+                    intersection.append(point)
+            return intersections
 
     def _compute_point_at(self, angular_offset):
         theta_in_radians = math.radians(self._theta)

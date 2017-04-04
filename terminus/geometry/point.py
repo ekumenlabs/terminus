@@ -95,6 +95,9 @@ class Point(object):
                      round(self.y, decimals),
                      round(self.z, decimals))
 
+    def orthogonal_vector(self):
+        return Point(-self.y, self.x)
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
 
