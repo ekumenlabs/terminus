@@ -22,8 +22,6 @@ from shapely.geometry import LineString, LinearRing, Polygon
 from shapely.geometry.collection import GeometryCollection
 from shapely.geometry import Point as ShapelyPoint, MultiPoint
 from city_model import CityModel
-from lane_simple_node import LaneSimpleNode
-from lane_intersection_node import LaneIntersectionNode
 from waypoint import Waypoint
 from waypoint_geometry import WaypointGeometry
 

@@ -22,7 +22,6 @@ from geometry.bounding_box import BoundingBox
 from city_model import CityModel
 from road_simple_node import RoadSimpleNode
 from road_intersection_node import RoadIntersectionNode
-from lane_intersection_node import LaneIntersectionNode
 from lane import Lane
 from road_node import RoadNode
 from polyline_path_geometry import PolylinePathGeometry
