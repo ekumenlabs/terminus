@@ -55,7 +55,7 @@ class MonolaneIdMapper(CityVisitor):
     def start_lane(self, lane):
         self.lane_id = self.lane_id + 1
         self.waypoint_id = 0
-        for waypoint in lane.get_waypoints():
+        for waypoint in lane.waypoints():
             self.waypoint_id = self.waypoint_id + 1
             waypoint_uid = (self.road_id, self.lane_id, self.waypoint_id)
             self._register(waypoint_uid, waypoint)

@@ -22,9 +22,10 @@ from geometry.bounding_box import BoundingBox
 from city_model import CityModel
 from road_simple_node import RoadSimpleNode
 from road_intersection_node import RoadIntersectionNode
-from lane_intersection_node import LaneIntersectionNode
 from lane import Lane
 from road_node import RoadNode
+from polyline_path_geometry import PolylinePathGeometry
+from lines_and_arcs_path_geometry import LinesAndArcsPathGeometry
 
 
 class Road(CityModel):
@@ -36,23 +37,79 @@ class Road(CityModel):
 
     @classmethod
     def from_nodes(cls, array_of_nodes):
-        '''Please use the `from_points` class method if possible. This method
-        will be deprecated in the future'''
+        """
+        Please use the `from_control_points` class method if possible. This method
+        will be deprecated in the future.
+        """
         road = cls()
         for node in array_of_nodes:
             road._add_node(node)
         return road
 
     @classmethod
-    def from_points(cls, array_of_points):
+    def from_control_points(cls, array_of_points):
         road = cls()
         for point in array_of_points:
-            road.add_point(point)
+            road.add_control_point(point)
         return road
 
+    # Geometry
+
     def width(self):
-        external_offsets = map(lambda lane: lane.external_offset(), self.get_lanes())
+        external_offsets = map(lambda lane: lane.external_offset(), self.lanes())
         return abs(min(external_offsets)) + abs(max(external_offsets))
+
+    def bounding_box(self):
+        node_bounding_boxes = self._node_bounding_boxes()
+        return BoundingBox.from_boxes(node_bounding_boxes)
+
+    def polyline_geometry(self):
+        geometry = PolylinePathGeometry.from_path(self)
+        geometry.simplify()
+        return geometry
+
+    def lines_and_arcs_geometry(self):
+        geometry = LinesAndArcsPathGeometry.from_path(self)
+        geometry.simplify()
+        return geometry
+
+    # Control points management
+
+    def control_points(self):
+        return map(lambda node: node.center, self._nodes)
+
+    def control_points_as_line_string(self):
+        coords = map(lambda node: node.center.to_tuple(), self._nodes)
+        return LineString(coords)
+
+    def add_control_point(self, point):
+        node = RoadSimpleNode(point)
+        self._add_node(node)
+        self._point_to_node[point] = node
+
+    def control_points_count(self):
+        return len(self._nodes)
+
+    def includes_control_point(self, point):
+        # Attempt a constant search in the points dictionary. If that fails
+        # do the linear search in the nodes collection.
+        return (point in self._point_to_node) or \
+            any(node.center.almost_equal_to(point, 5) for node in self._nodes)
+
+    def control_points_distances(self):
+        points = self.control_points()
+        if len(points) == 1:
+            return [0.0]
+        point_pairs = zip(points, points[1:])
+        return map(lambda point_pair: point_pair[0].distance_to(point_pair[1]), point_pairs)
+
+    def sum_control_points_distances(self, initial=0, final=None):
+        distances = self.control_points_distances()
+        if final is None:
+            return math.fsum(distances[initial:])
+        return math.fsum(distances[initial:final])
+
+    # Lane management
 
     def add_lane(self, offset, width=4):
         self._lanes.append(Lane(self, width, offset))
@@ -60,30 +117,21 @@ class Road(CityModel):
     def lane_count(self):
         return len(self._lanes)
 
-    def get_lanes(self):
+    def lanes(self):
         return self._lanes
 
-    def get_lane(self, index):
+    def lane_at(self, index):
         return self._lanes[index]
 
-    def add_point(self, point):
-        node = RoadSimpleNode(point)
-        self._add_node(node)
-        self._point_to_node[point] = node
+    # Nodes management
 
-    def points_count(self):
-        return len(self._nodes)
+    def reverse(self):
+        self._nodes.reverse()
 
-    def includes_point(self, point):
-        # Attempt a constant search in the points dictionary. If that fails
-        # do the linear search in the nodes collection.
-        return (point in self._point_to_node) or \
-            any(node.center.almost_equal_to(point, 5) for node in self._nodes)
-
-    def get_nodes(self):
+    def nodes(self):
         return self._nodes
 
-    def get_node_at(self, index):
+    def node_at(self, index):
         return self._nodes[index]
 
     def node_count(self):
@@ -112,8 +160,8 @@ class Road(CityModel):
         previous_node = self.first_node()
         trimmed_nodes = [previous_node]
         for index in range(1, self.node_count() - 1):
-            current_node = self.get_node_at(index)
-            following_node = self.get_node_at(index + 1)
+            current_node = self.node_at(index)
+            following_node = self.node_at(index + 1)
             previous_vector = current_node.center - previous_node.center
             following_vector = following_node.center - current_node.center
             if current_node.is_intersection() or \
@@ -122,56 +170,6 @@ class Road(CityModel):
                 previous_node = current_node
         trimmed_nodes.append(self.last_node())
         self._nodes = trimmed_nodes
-
-    def reverse(self):
-        self._nodes.reverse()
-
-    def be_two_way(self):
-        pass
-
-    def length(self, initial=0, final=None):
-        distances = self.get_waypoint_distances()
-        if final is None:
-            return math.fsum(distances[initial:])
-        return math.fsum(distances[initial:final])
-
-    def waypoints_count(self):
-        return len(self.get_nodes())
-
-    def get_waypoint_positions(self):
-        return map(lambda waypoint: waypoint.center, self._nodes)
-
-    def get_waypoint_distances(self):
-        points = self.get_waypoint_positions()
-        if len(points) == 1:
-            return [0.0]
-        point_pairs = zip(points, points[1:])
-        return map(lambda point_pair: point_pair[0].distance_to(point_pair[1]), point_pairs)
-
-    def get_waypoints_yaws(self):
-        points = self.get_waypoint_positions()
-        if len(points) == 1:
-            return [0.0]
-        point_pairs = zip(points, points[1:])
-        return map(lambda point_pair: point_pair[0].yaw(point_pair[1]), point_pairs)
-
-    def geometry(self):
-        return map(lambda node: node.center, self._nodes)
-
-    def geometry_as_line_string(self):
-        coords = map(lambda node: node.center.to_tuple(), self._nodes)
-        return LineString(coords)
-
-    def _index_of_node_at(self, point):
-        return next((index for index, node in enumerate(self._nodes) if node.center == point), None)
-
-    def _add_node(self, node):
-        self._nodes.append(node)
-        node.added_to(self)
-
-    def bounding_box(self):
-        node_bounding_boxes = self._node_bounding_boxes()
-        return BoundingBox.from_boxes(node_bounding_boxes)
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \
@@ -190,3 +188,10 @@ class Road(CityModel):
 
     def _node_bounding_boxes(self):
         return map(lambda node: node.bounding_box(self.width()), self._nodes)
+
+    def _index_of_node_at(self, point):
+        return next((index for index, node in enumerate(self._nodes) if node.center == point), None)
+
+    def _add_node(self, node):
+        self._nodes.append(node)
+        node.added_to(self)

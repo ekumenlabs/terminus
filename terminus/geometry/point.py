@@ -51,6 +51,15 @@ class Point(object):
         max_z = max(self.z, other.z)
         return Point(max_x, max_y, max_z)
 
+    def clone(self):
+        return Point(self.x, self.y, self.z)
+
+    def negated(self):
+        return Point(-self.x, -self.y, -self.z)
+
+    def orthogonal_vector(self):
+        return Point(-self.y, self.x)
+
     def to_shapely_point(self):
         return shapely.geometry.Point(self.x, self.y, self.z)
 
@@ -72,6 +81,9 @@ class Point(object):
 
     def norm(self):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def norm_squared(self):
+        return self.x ** 2 + self.y ** 2 + self.z ** 2
 
     def normalized(self):
         length = self.norm()

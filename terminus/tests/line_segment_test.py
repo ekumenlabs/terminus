@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import unittest
+from custom_assertions_mixin import CustomAssertionsMixin
 
 from math import *
 
@@ -22,7 +23,7 @@ from geometry.point import Point
 from geometry.line_segment import LineSegment
 
 
-class LineSegmentTest(unittest.TestCase):
+class LineSegmentTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_includes_point_2d(self):
         segment = LineSegment(Point(0, 0), Point(1, 0))
@@ -109,22 +110,18 @@ class LineSegmentTest(unittest.TestCase):
         first_segment = LineSegment(Point(28.5299698219, 160.06688421), Point(-48.1969708416, -28.3309145497))
         second_segment = LineSegment(Point(-193.740103155, 132.470681), Point(193.740103155, 132.470681))
         non_intersect_segment = LineSegment(Point(193.740103155, 132.470681), Point(193.740103155, -132.470681))
-        self.assertPointAlmostEqual(first_segment.find_intersection(second_segment), Point(17.2911323186, 132.470681, 0))
+        self.assertAlmostEqual(first_segment.find_intersection(second_segment), Point(17.2911323186, 132.470681, 0))
         self.assertEqual(first_segment.find_intersection(non_intersect_segment), None)
 
     def test_extend(self):
         original = LineSegment(Point(0, 0), Point(0, 1))
         expected = LineSegment(Point(0, 0), Point(0, 2))
-        self.assertEquals(original.extend(1), expected)
+        self.assertAlmostEqual(original.extend(1), expected)
 
         original = LineSegment(Point(0, 0), Point(1, 0))
         expected = LineSegment(Point(0, 0), Point(3, 0))
-        self.assertEquals(original.extend(2), expected)
+        self.assertAlmostEqual(original.extend(2), expected)
 
         original = LineSegment(Point(0, 0), Point(1, 1))
         expected = LineSegment(Point(0, 0), Point(2, 2))
-        self.assertEquals(original.extend(sqrt(2)), expected)
-
-    def assertPointAlmostEqual(self, point1, point2):
-        self.assertAlmostEqual(point1.x, point2.x)
-        self.assertAlmostEqual(point1.y, point2.y)
+        self.assertAlmostEqual(original.extend(sqrt(2)), expected)

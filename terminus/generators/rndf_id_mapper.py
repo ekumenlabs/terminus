@@ -60,7 +60,7 @@ class RNDFIdMapper(CityVisitor):
         rndf_lane_id = str(self.segment_id) + '.' + str(self.lane_id)
         self._register(rndf_lane_id, lane)
         self.waypoint_id = 0
-        for waypoint in lane.get_waypoints():
+        for waypoint in lane.waypoints():
             self.waypoint_id = self.waypoint_id + 1
             rndf_waypoint_id = rndf_lane_id + '.' + str(self.waypoint_id)
             self._register(rndf_waypoint_id, waypoint)

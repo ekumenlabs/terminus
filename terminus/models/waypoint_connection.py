@@ -14,17 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from road import Road
 
+class WaypointConnection(object):
 
-class Trunk(Road):
-    def __init__(self, name=None):
-        super(Trunk, self).__init__(name)
-        self.add_lane(2)
-        self.add_lane(-2)
+    def __init__(self, start_waypoint, end_waypoint, primitive):
+        self._start_waypoint = start_waypoint
+        self._end_waypoint = end_waypoint
+        self._primitive = primitive
 
-    def accept(self, generator):
-        generator.start_trunk(self)
-        for lane in self.lanes():
-            lane.accept(generator)
-        generator.end_trunk(self)
+    def start_waypoint(self):
+        return self._start_waypoint
+
+    def end_waypoint(self):
+        return self._end_waypoint
+
+    def primitive(self):
+        return self._primitive

@@ -35,7 +35,7 @@ class TestCitiesGenerator(object):
 
     def simple_street_city(self):
         city = City("Single street")
-        street = Street.from_points([
+        street = Street.from_control_points([
             Point(0, 0),
             Point(100, 0),
             Point(200, 0)
@@ -54,10 +54,10 @@ class TestCitiesGenerator(object):
         """
         city = City("Cross")
 
-        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(0, 100), Point(0, 0), Point(0, -100)])
+        s2 = Street.from_control_points([Point(0, 100), Point(0, 0), Point(0, -100)])
         s2.name = "s2"
 
         city.add_intersection_at(Point(0, 0))
@@ -71,9 +71,9 @@ class TestCitiesGenerator(object):
         """
         (-100,0) -- (0,0) -- (100,30)
         """
-        city = City("NonCollinearSegments")
+        city = City("Non collinear segments - Standard")
 
-        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 30)])
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 30)])
         s1.name = "s1"
 
         city.add_road(s1)
@@ -84,9 +84,9 @@ class TestCitiesGenerator(object):
         """
         (-10,0) -- (0,0) -- (10,2) -- (20,4)
         """
-        city = City("NonCollinearSegmentsBorder")
+        city = City("Non collinear segments - Border")
 
-        s1 = Street.from_points([Point(-10, 0), Point(0, 0), Point(10, 2), Point(20, 7)])
+        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(10, 2), Point(20, 7)])
         s1.name = "s1"
 
         city.add_road(s1)
@@ -97,9 +97,9 @@ class TestCitiesGenerator(object):
         """
         (-10,0) -- (0,0) -- (10,2) -- (20,4)
         """
-        city = City("NonCollinearSegmentsLessThanBorder")
+        city = City("Non collinear segments - Less than border")
 
-        s1 = Street.from_points([Point(-10, 0), Point(0, 0), Point(4, 2), Point(20, 7)])
+        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(4, 2), Point(20, 7)])
         s1.name = "s1"
 
         city.add_road(s1)
@@ -112,12 +112,12 @@ class TestCitiesGenerator(object):
                |
                + -- (100,0)
         """
-        city = City("LCross")
+        city = City("L intersection")
 
-        s1 = Street.from_points([Point(0, 100), Point(0, 0)])
+        s1 = Street.from_control_points([Point(0, 100), Point(0, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(0, 0), Point(100, 0)])
+        s2 = Street.from_control_points([Point(0, 0), Point(100, 0)])
         s2.name = "s2"
 
         city.add_intersection_at(Point(0, 0))
@@ -133,12 +133,12 @@ class TestCitiesGenerator(object):
                     |
                   (0,-100)
         """
-        city = City("TIntersectionOut")
+        city = City("T intersection out")
 
-        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(0, 0), Point(0, -100)])
+        s2 = Street.from_control_points([Point(0, 0), Point(0, -100)])
         s2.name = "s2"
 
         city.add_intersection_at(Point(0, 0))
@@ -154,12 +154,12 @@ class TestCitiesGenerator(object):
                     |
                   (0,-100)
         """
-        city = City("TIntersectionIn")
+        city = City("T intersection in")
 
-        s1 = Street.from_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(0, -100), Point(0, 0)])
+        s2 = Street.from_control_points([Point(0, -100), Point(0, 0)])
         s2.name = "s2"
 
         city.add_intersection_at(Point(0, 0))
@@ -179,15 +179,15 @@ class TestCitiesGenerator(object):
                   /   \
          (-100,-100) (100,-100)
         """
-        city = City("YCross")
+        city = City("Y intersection - One to many")
 
-        s1 = Street.from_points([Point(0, 100), Point(0, 0)])
+        s1 = Street.from_control_points([Point(0, 100), Point(0, 0)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(0, 0), Point(-100, -100)])
+        s2 = Street.from_control_points([Point(0, 0), Point(-100, -100)])
         s2.name = "s2"
 
-        s3 = Street.from_points([Point(0, 0), Point(100, -100)])
+        s3 = Street.from_control_points([Point(0, 0), Point(100, -100)])
         s3.name = "s3"
 
         city.add_intersection_at(Point(0, 0))
@@ -208,15 +208,15 @@ class TestCitiesGenerator(object):
                   /   \
          (-100,-100) (100,-100)
         """
-        city = City("YCross Many to One")
+        city = City("Y intersection - Many to one")
 
-        s1 = Street.from_points([Point(0, 0), Point(0, 100)])
+        s1 = Street.from_control_points([Point(0, 0), Point(0, 100)])
         s1.name = "s1"
 
-        s2 = Street.from_points([Point(-100, -100), Point(0, 0)])
+        s2 = Street.from_control_points([Point(-100, -100), Point(0, 0)])
         s2.name = "s2"
 
-        s3 = Street.from_points([Point(100, -100), Point(0, 0)])
+        s3 = Street.from_control_points([Point(100, -100), Point(0, 0)])
         s3.name = "s3"
 
         city.add_road(s1)

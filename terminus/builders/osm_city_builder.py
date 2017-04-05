@@ -145,7 +145,18 @@ class OsmCityBuilder(AbstractCityBuilder):
             tags = value['tags']
             # Filter highways
             if 'highway' in tags and tags['highway'] in self.road_types:
-                tmp_road = Street(name='OSM_' + str(osmid))
+
+                # Check if street is one or two ways
+                oneway = False
+                if 'oneway' in value['tags']:
+                    oneway = value['tags']['oneway'] in ['true', '1', 'yes', 'reverse', '-1']
+
+                if oneway:
+                    tmp_road = Street(name='OSM_' + str(osmid))
+                else:
+                    tmp_road = Street(name='OSM_' + str(osmid))
+                    # tmp_road = Trunk(name='OSM_' + str(osmid))
+
                 coords_outside_box = []
                 road_in_and_out = False
                 coord_inside_bounds = False
@@ -207,18 +218,8 @@ class OsmCityBuilder(AbstractCityBuilder):
                 if tmp_road.node_count() < 2:
                     continue
 
-                # Check if street is one or two ways
-                oneway = False
-                if 'oneway' in value['tags']:
-                    oneway = value['tags']['oneway'] in ['true', '1', 'yes', 'reverse', '-1']
-
-                if oneway:
-                    # Check if the street should be reversed
-                    if value['tags']['oneway'] in ['-1', 'reverse']:
-                        tmp_road.reverse()
-                else:
-                    # Make roads two ways
-                    tmp_road.be_two_way()
+                if oneway and (value['tags']['oneway'] in ['-1', 'reverse']):
+                    tmp_road.reverse()
 
                 city.add_road(tmp_road)
 
@@ -230,8 +231,8 @@ class OsmCityBuilder(AbstractCityBuilder):
                     city.add_intersection_at(self.osm_coords[key]['point'])
 
     def _add_point_to_road(self, road, point):
-        if not road.includes_point(point):
-            road.add_point(point)
+        if not road.includes_control_point(point):
+            road.add_control_point(point)
 
     def _create_buildings(self, city):
         '''

@@ -40,7 +40,7 @@ class OpenDriveGenerator(FileGenerator):
         single lane, at the center. Otherwise we fail loudly.
         We will generalize this in the future.
         '''
-        if street.lane_count() != 1 or street.get_lane(0).offset() != 0:
+        if street.lane_count() != 1 or street.lane_at(0).offset() != 0:
             raise RuntimeError("Only streets with a single lane at the center are currently supported")
         street_id = self.id_for(street)
         street_content = self._contents_for(street, segment_id=street_id)
@@ -55,7 +55,7 @@ class OpenDriveGenerator(FileGenerator):
         return self.id_mapper.id_for(object)
 
     def sorted_right_lanes(self, road):
-        right_lanes = filter(lambda lane: lane.offset() > 0, road.get_lanes())
+        right_lanes = filter(lambda lane: lane.offset() > 0, road.lanes())
         right_lanes.sort(key=lambda lane: lane.offset())
         lane_id = 0
         tuples = []
@@ -68,7 +68,7 @@ class OpenDriveGenerator(FileGenerator):
         return len(self.sorted_right_lanes(road)) != 0
 
     def sorted_left_lanes(self, road):
-        left_lanes = filter(lambda lane: lane.offset() < 0, road.get_lanes())
+        left_lanes = filter(lambda lane: lane.offset() < 0, road.lanes())
         left_lanes.sort(key=lambda lane: lane.offset())
         lane_id = len(left_lanes) + 1
         tuples = []
