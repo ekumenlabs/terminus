@@ -102,7 +102,6 @@ class WaypointGeometry(object):
 
         waypoints = []
 
-        minimum_connection_length = 10
         initial_connection_offset = 7
 
         connection_offset = initial_connection_offset
