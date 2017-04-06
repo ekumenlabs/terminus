@@ -17,6 +17,8 @@ limitations under the License.
 import textwrap
 
 from generators.city_visitor import CityVisitor
+from models.polyline_builder import PolylineBuilder
+from models.lines_and_arcs_builder import LinesAndArcsBuilder
 
 
 class CityStatistics(CityVisitor):
@@ -45,10 +47,14 @@ class CityStatistics(CityVisitor):
 
     def start_lane(self, lane):
         self.stats['lanes_count'] += 1
-        for waypoint in lane.waypoints():
-            self.stats['lane_waypoints_count'] += 1
+        for waypoint in lane.waypoints_using(PolylineBuilder):
+            self.stats['polyline_waypoints_count'] += 1
             if waypoint.is_intersection():
-                self.stats['lane_intersections_count'] += 1
+                self.stats['polyline_intersections_count'] += 1
+        for waypoint in lane.waypoints_using(LinesAndArcsBuilder):
+            self.stats['lines_and_arcs_waypoints_count'] += 1
+            if waypoint.is_intersection():
+                self.stats['lines_and_arcs_intersections_count'] += 1
 
     def start_block(self, block):
         self.stats['blocks_count'] += 1
@@ -61,12 +67,18 @@ class CityStatistics(CityVisitor):
         Roads: {roads_count}
         Intersections: {intersections_count}
         Lanes: {lanes_count}
-        Total lane waypoints: {lane_waypoints_count}
-        Total lane intersections: {lane_intersections_count}
-        Average lane waypoints: {average_lane_waypoints}
-        Average lane intersections: {average_lane_intersections}
         Buildings: {buildings_count}
-        Blocks: {blocks_count}""".format(**self.stats))[1:]
+        Blocks: {blocks_count}
+        Polyline Geometry
+          Waypoints: {polyline_waypoints_count}
+          Intersections: {polyline_intersections_count}
+          Average waypoints: {average_polyline_waypoints}
+          Average intersections: {average_polyline_intersections}
+        Lines and Arcs Geometry
+          Waypoints: {lines_and_arcs_waypoints_count}
+          Intersections: {lines_and_arcs_intersections_count}
+          Average waypoints: {average_lines_and_arcs_waypoints}
+          Average intersections: {average_lines_and_arcs_intersections}""".format(**self.stats))[1:]
 
     def _clear_counters(self):
         self.stats = {
@@ -75,14 +87,20 @@ class CityStatistics(CityVisitor):
             'buildings_count': 0,
             'blocks_count': 0,
             'intersections_count': 0,
-            'lane_waypoints_count': 0,
-            'lane_intersections_count': 0,
-            'average_lane_intersections': 0,
-            'average_lane_waypoints': 0
+            'polyline_waypoints_count': 0,
+            'polyline_intersections_count': 0,
+            'average_polyline_intersections': 0,
+            'average_polyline_waypoints': 0,
+            'lines_and_arcs_waypoints_count': 0,
+            'lines_and_arcs_intersections_count': 0,
+            'average_lines_and_arcs_intersections': 0,
+            'average_lines_and_arcs_waypoints': 0
         }
 
     def _compute_derived_statistics(self):
         lanes_count = float(self.stats['lanes_count'])
         if lanes_count != 0.0:
-            self.stats['average_lane_intersections'] = self.stats['lane_intersections_count'] / lanes_count
-            self.stats['average_lane_waypoints'] = self.stats['lane_waypoints_count'] / lanes_count
+            self.stats['average_polyline_intersections'] = self.stats['polyline_intersections_count'] / lanes_count
+            self.stats['average_polyline_waypoints'] = self.stats['polyline_waypoints_count'] / lanes_count
+            self.stats['average_lines_and_arcs_intersections'] = self.stats['lines_and_arcs_intersections_count'] / lanes_count
+            self.stats['average_lines_and_arcs_waypoints'] = self.stats['lines_and_arcs_waypoints_count'] / lanes_count

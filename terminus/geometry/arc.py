@@ -92,7 +92,13 @@ class Arc(object):
             return None
         else:
             candidates = circle1.intersection(circle2)
-            return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
+            points = filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
+            if not points:
+                return None
+            elif len(points) == 1:
+                return points[0]
+            else:
+                return points
 
     def includes_point(self, point, buffer=0.001):
         """

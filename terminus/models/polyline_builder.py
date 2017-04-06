@@ -16,14 +16,24 @@ limitations under the License.
 
 from geometry.line_segment import LineSegment
 
-from path_geometry import PathGeometry
+from path_geometry_builder import PathGeometryBuilder
 
 
-class PolylinePathGeometry(PathGeometry):
+class PolylineBuilder(PathGeometryBuilder):
 
     def connect_waypoints(self, exit_waypoint, entry_waypoint):
         return LineSegment(exit_waypoint.center(), entry_waypoint.center())
 
+    def index_nodes(self, nodes):
+        node_mapping = dict((node.center.rounded(), node) for node in nodes)
+        mapping = {}
+        for element in self._elements:
+            point = element.start_point().rounded()
+            mapping[point] = node_mapping[point]
+        missing_point = self._elements[-1].end_point().rounded()
+        mapping[missing_point] = node_mapping[missing_point]
+        return mapping
+
     def _build_geometry_from(self, points):
         pairs = zip(points, points[1:])
-        self._elements = map(lambda (p1, p2): LineSegment(p1, p2), pairs)
+        return map(lambda (p1, p2): LineSegment(p1, p2), pairs)

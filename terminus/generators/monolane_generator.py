@@ -23,6 +23,7 @@ from geometry.line_segment import LineSegment
 from geometry.arc import Arc
 from file_generator import FileGenerator
 from monolane_id_mapper import MonolaneIdMapper
+from models.lines_and_arcs_builder import LinesAndArcsBuilder
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -60,13 +61,13 @@ class MonolaneGenerator(FileGenerator):
         previous_waypoint = None
         previous_monolane_point = None
         last_line_heading = None
-        for waypoint in lane.waypoints():
+        for waypoint in lane.waypoints_using(LinesAndArcsBuilder):
             monolane_point = self._monolane_point_from_waypoint(waypoint)
             monolane_point_id = self.monolane_id_mapper.formatted_id_for(waypoint)
             self.monolane['maliput_monolane_builder']['points'][monolane_point_id] = monolane_point
 
     def _build_lane_connections(self, lane):
-        connections = lane.waypoint_geometry().connections()
+        connections = lane.waypoint_geometry_using(LinesAndArcsBuilder).connections()
         for connection in connections:
             monolane_connection = None
 

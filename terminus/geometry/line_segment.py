@@ -129,7 +129,13 @@ class LineSegment(object):
             u2 = (-b - delta) / (2 * a)
             candidates = [self.start_point() + (local_segment_vector * u1),
                           self.start_point() + (local_segment_vector * u2)]
-            return filter(lambda point: self.includes_point(point) and arc.includes_point(point), candidates)
+            points = filter(lambda point: self.includes_point(point) and arc.includes_point(point), candidates)
+            if not points:
+                return None
+            elif len(points) == 1:
+                return points[0]
+            else:
+                return points
 
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
