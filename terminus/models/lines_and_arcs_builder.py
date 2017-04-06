@@ -18,22 +18,10 @@ import math
 
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
+from path_geometry_builder import PathGeometryBuilder
 
-from path_geometry import PathGeometry
 
-
-class LinesAndArcsBuilder(object):
-
-    def __init__(self, control_points):
-        if len(control_points) < 2:
-            raise ValueError("Can't create a geometry from an empty path")
-        self._control_points = control_points
-
-    def build_path_geometry(self):
-        elements = self._build_geometry_from(self._control_points)
-        geometry = PathGeometry(elements)
-        geometry.simplify()
-        return geometry
+class LinesAndArcsBuilder(PathGeometryBuilder):
 
     def connect_waypoints(self, exit_waypoint, entry_waypoint):
         if exit_waypoint.heading() == entry_waypoint.heading():
