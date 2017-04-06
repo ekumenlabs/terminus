@@ -63,16 +63,6 @@ class Road(CityModel):
         node_bounding_boxes = self._node_bounding_boxes()
         return BoundingBox.from_boxes(node_bounding_boxes)
 
-    def polyline_geometry(self):
-        geometry = PolylinePathGeometry.from_path(self)
-        geometry.simplify()
-        return geometry
-
-    def lines_and_arcs_geometry(self):
-        geometry = LinesAndArcsPathGeometry.from_path(self)
-        geometry.simplify()
-        return geometry
-
     # Control points management
 
     def control_points(self):

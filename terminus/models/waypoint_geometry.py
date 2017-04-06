@@ -24,11 +24,15 @@ logger = logging.getLogger(__name__)
 
 class WaypointGeometry(object):
 
-    def __init__(self, lane, path_geometry):
+    def __init__(self, lane, path_geometry, builder):
         self._lane = lane
         self._geometry = path_geometry
         self._primitives = []
+        self._builder = builder
         self._build_prmitives()
+
+    def geometry(self):
+        return self._geometry
 
     def waypoints_count(self):
         return len(self._waypoints)
@@ -50,8 +54,8 @@ class WaypointGeometry(object):
         road = lane.road()
         geometry = self._geometry
         waypoints = {}
-        for waypoint in geometry.waypoints(lane):
-            waypoints[waypoint.center().rounded_to(7)] = waypoint
+        for waypoint in geometry.waypoints(lane, self._builder):
+            waypoints[waypoint.center().rounded()] = waypoint
         road_nodes = road.nodes()
         intersection_nodes = filter(lambda node: node.is_intersection(), road_nodes)
         intersection_waypoints = []
@@ -61,9 +65,9 @@ class WaypointGeometry(object):
             for other_road in other_roads:
                 other_lanes.extend(other_road.lanes())
             for other_lane in other_lanes:
-                intersections = self._intersecting_waypoints_at(node, lane, geometry, other_lane, other_lane.lines_and_arcs_geometry())
+                intersections = self._intersecting_waypoints_at(node, lane, geometry, other_lane, other_lane.geometry_using(self._builder.__class__))
                 for intersection_waypoint in intersections:
-                    rounded_point = intersection_waypoint.center().rounded_to(7)
+                    rounded_point = intersection_waypoint.center().rounded()
                     if rounded_point in waypoints:
                         existing_waypoint = waypoints[rounded_point]
                         existing_waypoint.add_connections_from(intersection_waypoint)
@@ -186,7 +190,7 @@ class WaypointGeometry(object):
         return trimmed_waypoints
 
     def _connect(self, exit_waypoint, entry_waypoint):
-        primitive = self._geometry.connect_waypoints(exit_waypoint, entry_waypoint)
+        primitive = self._builder.connect_waypoints(exit_waypoint, entry_waypoint)
         if primitive.is_valid_path_connection():
             return WaypointConnection(exit_waypoint, entry_waypoint, primitive)
         else:

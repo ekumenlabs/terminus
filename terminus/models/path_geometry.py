@@ -85,20 +85,20 @@ class PathGeometry(object):
             primitives.extend(element.split_into(pairs))
         return self.__class__(primitives)
 
-    def waypoints(self, lane):
+    def waypoints(self, lane, builder):
         if not self._waypoints:
             elements = list(self.elements())
-            nodes_by_point = self._index_nodes(lane.road().nodes())
+            nodes_by_point = builder.index_nodes(lane.road().nodes())
             self._waypoints = []
             for element in elements:
                 point = element.start_point()
-                node = nodes_by_point[point.rounded_to(7)]
+                node = nodes_by_point[point.rounded()]
                 waypoint = Waypoint(lane, self, point, element.start_heading(), node)
                 self._waypoints.append(waypoint)
             # We need to add the last way point
             last_element = elements[-1]
             point = element.end_point()
-            node = nodes_by_point[point.rounded_to(7)]
+            node = nodes_by_point[point.rounded()]
             waypoint = Waypoint(lane, self, point, last_element.end_heading(), node)
             self._waypoints.append(waypoint)
         return self._waypoints

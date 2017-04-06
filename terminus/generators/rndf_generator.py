@@ -14,11 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from file_generator import FileGenerator
-from rndf_id_mapper import RNDFIdMapper
+import math
+
 from geometry.point import Point
 from geometry.latlon import LatLon
-import math
+from models.polyline_builder import PolylineBuilder
+from file_generator import FileGenerator
+from rndf_id_mapper import RNDFIdMapper
 
 
 # TODO: In the near future we should do some benchmarking, as
@@ -69,8 +71,14 @@ class RNDFGenerator(FileGenerator):
     def meters_to_feet(self, meters):
         return int(meters * 3.28084)
 
+    def waypoints_count_for(self, lane):
+        return len(self.waypoints_for(lane))
+
+    def waypoints_for(self, lane):
+        return lane.waypoints_using(PolylineBuilder)
+
     def waypoint_connections_for(self, lane):
-        exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), lane.waypoints())
+        exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), self.waypoints_for(lane))
         waypoint_connections = []
         for exit_waypoint in exit_waypoints:
             for connection in exit_waypoint.out_connections():
@@ -96,12 +104,12 @@ class RNDFGenerator(FileGenerator):
     def lane_template(self):
         return """
         lane\t{{lane_id}}
-        num_waypoints\t{{model.waypoints_count()}}
+        num_waypoints\t{{generator.waypoints_count_for(model)}}
         lane_width\t{{generator.meters_to_feet(model.width())}}
         {% for waypoint_connection in generator.waypoint_connections_for(model) %}
         exit\t{{waypoint_connection[0]}}\t{{waypoint_connection[1]}}
         {% endfor %}
-        {% for waypoint in model.waypoints() %}
+        {% for waypoint in generator.waypoints_for(model) %}
         {% set latlon = generator.translate_point(waypoint.center()) %}
         {% set lat = latlon.lat %}
         {% set lon = latlon.lon %}

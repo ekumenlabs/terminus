@@ -107,6 +107,9 @@ class Point(object):
                      round(self.y, decimals),
                      round(self.z, decimals))
 
+    def rounded(self):
+        return self.rounded_to(7)
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z
 

@@ -32,9 +32,8 @@ class Lane(object):
         self._road = road
         self._width = width
         self._offset = offset
-        self._waypoint_geometry = None
-        self._polyline_geometry = None
-        self._lines_and_arcs_geometry = None
+        self._cached_geometries = {}
+        self._cached_waypoint_geometries = {}
 
     def offset(self):
         return self._offset
@@ -52,23 +51,23 @@ class Lane(object):
     def road(self):
         return self._road
 
-    def polyline_geometry(self):
-        if not self._polyline_geometry:
-            self._polyline_geometry = self._road.polyline_geometry()
-        return self._polyline_geometry
+    def control_points(self):
+        return self.road().control_points()
 
-    def lines_and_arcs_geometry(self):
-        if not self._lines_and_arcs_geometry:
-            self._lines_and_arcs_geometry = self._road.lines_and_arcs_geometry()
-        return self._lines_and_arcs_geometry
+    def waypoints_using(self, builder_class):
+        return self.waypoint_geometry_using(builder_class).waypoints()
 
-    def waypoints_count(self):
-        return len(self.waypoints())
+    def geometry_using(self, builder_class):
+        if builder_class not in self._cached_geometries:
+            builder = builder_class(self.control_points())
+            geometry = builder.build_path_geometry()
+            self._cached_geometries[builder_class] = geometry
+        return self._cached_geometries[builder_class]
 
-    def waypoints(self):
-        return self.waypoint_geometry().waypoints()
-
-    def waypoint_geometry(self):
-        if not self._waypoint_geometry:
-            self._waypoint_geometry = WaypointGeometry(self, self.lines_and_arcs_geometry())
-        return self._waypoint_geometry
+    def waypoint_geometry_using(self, builder_class):
+        if builder_class not in self._cached_waypoint_geometries:
+            builder = builder_class(self.control_points())
+            geometry = self.geometry_using(builder_class)
+            waypoint_geometry = WaypointGeometry(self, geometry, builder)
+            self._cached_waypoint_geometries[builder_class] = waypoint_geometry
+        return self._cached_waypoint_geometries[builder_class]
