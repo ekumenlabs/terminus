@@ -44,7 +44,7 @@ test_cities = TestCitiesGenerator().non_empty_cities()
 
 for city in test_cities:
     builder = SampleBuilder(city)
-    path = 'generated_worlds/tests/'
+    path = 'terminus/tests/samples/'
     name = slugify(city.name, separator="_")
     process = CityGenerationProcess(builder, RNDF_ORIGIN, path, True, name)
     process.run()
