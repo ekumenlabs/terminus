@@ -106,6 +106,27 @@ class TestCitiesGenerator(object):
 
         return city
 
+    def S_road_city(self):
+        """
+              (50,12) *------- (100, 12)
+                      |
+                      |
+            (0, 0) ---* (50,0)
+        """
+        city = City("S road")
+
+        s1 = Street.from_control_points([
+            Point(0, 0),
+            Point(50, 0),
+            Point(50, 15),
+            Point(100, 15)
+        ])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
     def L_intersection_city(self):
         """
             (0,100)
