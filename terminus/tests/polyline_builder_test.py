@@ -24,10 +24,10 @@ from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
 
-from models.polyline_path_geometry import PolylinePathGeometry
+from models.polyline_builder import PolylineBuilder
 
 
-class PolylinePathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
+class PolylineBuilderTest(CustomAssertionsMixin, unittest.TestCase):
 
     def _road_points(self):
         return [
@@ -39,20 +39,20 @@ class PolylinePathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_malformed_paths(self):
         with self.assertRaises(ValueError):
-            PolylinePathGeometry.from_control_points([])
+            PolylineBuilder([]).build_path_geometry()
 
         with self.assertRaises(ValueError):
-            PolylinePathGeometry.from_control_points([Point(0, 0)])
+            PolylineBuilder([Point(0, 0)]).build_path_geometry()
 
     def test_elements_single_segment_path(self):
         a, b = self._road_points()[0:2]
-        geometry = PolylinePathGeometry.from_control_points([a, b])
+        geometry = PolylineBuilder([a, b]).build_path_geometry()
         expected_elements = [LineSegment(a, b)]
         self.assertEquals(geometry.elements(), expected_elements)
 
     def test_elements_multiple_segments_path(self):
         [a, b, c, d] = self._road_points()
-        geometry = PolylinePathGeometry.from_control_points([a, b, c, d])
+        geometry = PolylineBuilder([a, b, c, d]).build_path_geometry()
         expected_elements = [
             LineSegment(a, b),
             LineSegment(b, c),
@@ -62,14 +62,14 @@ class PolylinePathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_to_line_string_single_segment_path(self):
         a, b = self._road_points()[0:2]
-        geometry = PolylinePathGeometry.from_control_points([a, b])
+        geometry = PolylineBuilder([a, b]).build_path_geometry()
         expected_line_string = LineString([a.to_tuple(), b.to_tuple()])
         self.assertEquals(geometry.to_line_string(), expected_line_string)
 
     def test_to_line_string_multiple_segments_path(self):
         points = self._road_points()
         tuples = map(lambda point: point.to_tuple(), points)
-        geometry = PolylinePathGeometry.from_control_points(points)
+        geometry = PolylineBuilder(points).build_path_geometry()
         geometry_line_string = geometry.to_line_string()
         self.assertEquals(len(geometry_line_string.coords), 4)
         expected_line_string = LineString(tuples)

@@ -24,22 +24,22 @@ from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
 
-from models.lines_and_arcs_path_geometry import LinesAndArcsPathGeometry
+from models.lines_and_arcs_builder import LinesAndArcsBuilder
 
 
-class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
+class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_malformed_paths(self):
         with self.assertRaises(ValueError):
-            LinesAndArcsPathGeometry.from_control_points([])
+            LinesAndArcsBuilder([]).build_path_geometry()
 
         with self.assertRaises(ValueError):
-            LinesAndArcsPathGeometry.from_control_points([Point(0, 0)])
+            LinesAndArcsBuilder([Point(0, 0)]).build_path_geometry()
 
     def test_elements_single_segment_path(self):
         a = Point(0, 0)
         b = Point(50, -50)
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b])
+        geometry = LinesAndArcsBuilder([a, b]).build_path_geometry()
         expected_elements = [LineSegment(a, b)]
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
@@ -47,8 +47,8 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         a = Point(0, 0)
         b = Point(50, -50)
         c = Point(100, -100)
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c])
-        expected_elements = [LineSegment(a, b), LineSegment(b, c)]
+        geometry = LinesAndArcsBuilder([a, b, c]).build_path_geometry()
+        expected_elements = [LineSegment(a, c)]
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
     def test_elements_two_non_collinear_segment_path(self):
@@ -57,14 +57,14 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         c_up = Point(100, 10)
         c_down = Point(100, -10)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c_up])
+        geometry = LinesAndArcsBuilder([a, b, c_up]).build_path_geometry()
         expected_elements = [
             LineSegment(a, Point(45.0, 0.0)),
             Arc(Point(45.0, 0.0), 0.0, 50.49509756, 11.30993247),
             LineSegment(Point(54.90290337, 0.98058067), c_up)]
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c_down])
+        geometry = LinesAndArcsBuilder([a, b, c_down]).build_path_geometry()
         expected_elements = [
             LineSegment(a, Point(45.0, 0.0)),
             Arc(Point(45.0, 0.0), 0.0, 50.49509756, -11.30993247),
@@ -77,7 +77,7 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(50, 20)
         d = Point(100, 20)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c, d])
+        geometry = LinesAndArcsBuilder([a, b, c, d]).build_path_geometry()
 
         expected_elements = [
             LineSegment(a, Point(45, 0)),
@@ -93,7 +93,7 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(50, 10)
         d = Point(100, 10)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c, d])
+        geometry = LinesAndArcsBuilder([a, b, c, d]).build_path_geometry()
 
         expected_elements = [
             LineSegment(a, Point(45, 0)),
@@ -108,7 +108,7 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(50, 7)
         d = Point(100, 7)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c, d])
+        geometry = LinesAndArcsBuilder([a, b, c, d]).build_path_geometry()
 
         expected_elements = [
             LineSegment(a, Point(46.5, 0)),
@@ -121,7 +121,7 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         a = Point(0, 0)
         b = Point(50, -50)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b])
+        geometry = LinesAndArcsBuilder([a, b]).build_path_geometry()
         elements = geometry.elements()
 
         self.assertAlmostEqual(geometry.elements()[0].start_heading(), -45)
@@ -132,20 +132,18 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         b = Point(50, 50)
         c = Point(100, 100)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c])
+        geometry = LinesAndArcsBuilder([a, b, c]).build_path_geometry()
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 45)
         self.assertAlmostEqual(elements[0].end_heading(), 45)
-        self.assertAlmostEqual(elements[1].start_heading(), 45)
-        self.assertAlmostEqual(elements[1].end_heading(), 45)
 
     def test_elements_heading_two_non_collinear_segment_path(self):
         a = Point(0, 0)
         b = Point(50, 0)
         c = Point(60, 10)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c])
+        geometry = LinesAndArcsBuilder([a, b, c]).build_path_geometry()
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 0)
@@ -161,7 +159,7 @@ class LinesAndArcsPathGeometryTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(50, 20)
         d = Point(100, 20)
 
-        geometry = LinesAndArcsPathGeometry.from_control_points([a, b, c, d])
+        geometry = LinesAndArcsBuilder([a, b, c, d]).build_path_geometry()
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 0)

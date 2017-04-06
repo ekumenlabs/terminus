@@ -24,8 +24,6 @@ from road_simple_node import RoadSimpleNode
 from road_intersection_node import RoadIntersectionNode
 from lane import Lane
 from road_node import RoadNode
-from polyline_path_geometry import PolylinePathGeometry
-from lines_and_arcs_path_geometry import LinesAndArcsPathGeometry
 
 
 class Road(CityModel):
