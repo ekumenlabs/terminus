@@ -25,10 +25,18 @@ class Circle(object):
         self.center = center
         self.radius = radius
 
+    def __eq__(self, other):
+        return self.center == other.center and self.radius == other.radius
+
+    def __hash__(self):
+        return hash((hash(self.center), self.radius))
+
     def intersection(self, other):
         d = (other.center - self.center).norm()
         r1 = self.radius
         r2 = other.radius
+        if d == 0 and r1 == r2:
+            return self
         if (d > self.radius + other.radius) or (d < abs(self.radius - other.radius)):
             return []
         if d == self.radius + other.radius:

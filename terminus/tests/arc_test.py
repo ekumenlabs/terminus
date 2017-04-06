@@ -157,3 +157,18 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(0), Point(0, 0))
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(15.7079632679), Point(10, 10))
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(23.5619449019), Point(17.07106781, 7.07106781))
+
+    def test_find_arc_intersection_with_circles_that_do_not_intersect(self):
+        arc1 = Arc(Point(1, 0), 90, 1, 180)
+        arc2 = Arc(Point(10, 10), 180, 2, 270)
+        self.assertEqual(arc1._find_arc_intersection(arc2), [])
+
+    def test_find_arc_intersection_with_arcs_that_intersect_at_one_point(self):
+        arc1 = Arc(Point(5, 0), 90, 5, 90)
+        arc2 = Arc(Point(0, 3), 0, 5, 45)
+        self.assertEqual(arc1._find_arc_intersection(arc2), [Point(3, 4)])
+
+    def test_find_arc_intersection_with_circles_that_intersect_but_no_arc_intersection(self):
+        arc1 = Arc(Point(5, 0), 90, 5, 10)
+        arc2 = Arc(Point(0, 3), 0, 5, 10)
+        self.assertEqual(arc1._find_arc_intersection(arc2), [])
