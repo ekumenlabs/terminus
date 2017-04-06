@@ -90,4 +90,5 @@ ENV/
 
 # Generated files
 generated_worlds/*
+tests/samples/*
 /.project
