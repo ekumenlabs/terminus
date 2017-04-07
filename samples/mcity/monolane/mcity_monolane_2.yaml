@@ -323,10 +323,10 @@ maliput_monolane_builder:
 
     #c7
     c7_1:
-      xypoint: [126.7618, 198.3405, -135.0]
+      xypoint: [126.7618, 198.3405, -134.5]
       zpoint: [0.0, 0, 0, 0]
     c7_2:
-      xypoint: [110.3307, 181.6286, -135.0]
+      xypoint: [110.3307, 181.6286, -134.5]
       zpoint: [0.0, 0, 0, 0]
 
     #c8
@@ -913,7 +913,7 @@ maliput_monolane_builder:
 #
     c8_2-b7_1:
       start: points.c8_2
-      arc: [6, 54]
+      arc: [6, 54.9]
       explicit_end: points.c7_1
 
     c7_2-b4_1:
