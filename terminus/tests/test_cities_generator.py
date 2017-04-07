@@ -67,66 +67,6 @@ class TestCitiesGenerator(object):
 
         return city
 
-    def non_collinear_segments_city(self):
-        """
-        (-100,0) -- (0,0) -- (100,30)
-        """
-        city = City("Non collinear segments - Standard")
-
-        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 30)])
-        s1.name = "s1"
-
-        city.add_road(s1)
-
-        return city
-
-    def two_non_collinear_segments_border_city(self):
-        """
-        (-10,0) -- (0,0) -- (10,2) -- (20,4)
-        """
-        city = City("Non collinear segments - Border")
-
-        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(10, 2), Point(20, 7)])
-        s1.name = "s1"
-
-        city.add_road(s1)
-
-        return city
-
-    def two_non_collinear_segments_less_than_border_city(self):
-        """
-        (-10,0) -- (0,0) -- (10,2) -- (20,4)
-        """
-        city = City("Non collinear segments - Less than border")
-
-        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(4, 2), Point(20, 7)])
-        s1.name = "s1"
-
-        city.add_road(s1)
-
-        return city
-
-    def S_road_city(self):
-        """
-              (50,12) *------- (100, 12)
-                      |
-                      |
-            (0, 0) ---* (50,0)
-        """
-        city = City("S road")
-
-        s1 = Street.from_control_points([
-            Point(0, 0),
-            Point(50, 0),
-            Point(50, 15),
-            Point(100, 15)
-        ])
-        s1.name = "s1"
-
-        city.add_road(s1)
-
-        return city
-
     def L_intersection_city(self):
         """
             (0,100)
@@ -139,48 +79,6 @@ class TestCitiesGenerator(object):
         s1.name = "s1"
 
         s2 = Street.from_control_points([Point(0, 0), Point(100, 0)])
-        s2.name = "s2"
-
-        city.add_intersection_at(Point(0, 0))
-
-        city.add_road(s1)
-        city.add_road(s2)
-
-        return city
-
-    def T_intersection_out_city(self):
-        """
-        (-100,0) -- + -- (100,0)
-                    |
-                  (0,-100)
-        """
-        city = City("T intersection out")
-
-        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
-        s1.name = "s1"
-
-        s2 = Street.from_control_points([Point(0, 0), Point(0, -100)])
-        s2.name = "s2"
-
-        city.add_intersection_at(Point(0, 0))
-
-        city.add_road(s1)
-        city.add_road(s2)
-
-        return city
-
-    def T_intersection_in_city(self):
-        """
-        (-100,0) -- + -- (100,0)
-                    |
-                  (0,-100)
-        """
-        city = City("T intersection in")
-
-        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
-        s1.name = "s1"
-
-        s2 = Street.from_control_points([Point(0, -100), Point(0, 0)])
         s2.name = "s2"
 
         city.add_intersection_at(Point(0, 0))
@@ -245,5 +143,107 @@ class TestCitiesGenerator(object):
         city.add_road(s3)
 
         city.add_intersection_at(Point(0, 0))
+
+        return city
+
+    def T_intersection_out_city(self):
+        """
+        (-100,0) -- + -- (100,0)
+                    |
+                  (0,-100)
+        """
+        city = City("T intersection out")
+
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1.name = "s1"
+
+        s2 = Street.from_control_points([Point(0, 0), Point(0, -100)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
+    def T_intersection_in_city(self):
+        """
+        (-100,0) -- + -- (100,0)
+                    |
+                  (0,-100)
+        """
+        city = City("T intersection in")
+
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 0)])
+        s1.name = "s1"
+
+        s2 = Street.from_control_points([Point(0, -100), Point(0, 0)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
+    def non_collinear_segments_city(self):
+        """
+        (-100,0) -- (0,0) -- (100,30)
+        """
+        city = City("Non collinear segments - Standard")
+
+        s1 = Street.from_control_points([Point(-100, 0), Point(0, 0), Point(100, 30)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
+    def two_non_collinear_segments_border_city(self):
+        """
+        (-10,0) -- (0,0) -- (10,2) -- (20,4)
+        """
+        city = City("Non collinear segments - Border")
+
+        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(10, 2), Point(20, 7)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
+    def two_non_collinear_segments_less_than_border_city(self):
+        """
+        (-10,0) -- (0,0) -- (10,2) -- (20,4)
+        """
+        city = City("Non collinear segments - Less than border")
+
+        s1 = Street.from_control_points([Point(-10, 0), Point(0, 0), Point(4, 2), Point(20, 7)])
+        s1.name = "s1"
+
+        city.add_road(s1)
+
+        return city
+
+    def S_road_city(self):
+        """
+              (50,12) *------- (100, 12)
+                      |
+                      |
+            (0, 0) ---* (50,0)
+        """
+        city = City("S road")
+
+        s1 = Street.from_control_points([
+            Point(0, 0),
+            Point(50, 0),
+            Point(50, 15),
+            Point(100, 15)
+        ])
+        s1.name = "s1"
+
+        city.add_road(s1)
 
         return city
