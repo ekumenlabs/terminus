@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import unittest
+import textwrap
 
 from geometry.point import Point
 from geometry.latlon import LatLon
@@ -26,8 +27,6 @@ from models.trunk import Trunk
 from generators.rndf_generator import RNDFGenerator
 
 from test_cities_generator import TestCitiesGenerator
-
-import textwrap
 
 
 class RNDFGeneratorTest(unittest.TestCase):
@@ -299,6 +298,27 @@ class RNDFGeneratorTest(unittest.TestCase):
         2.1.1\t9.999096\t65.000000
         2.1.2\t9.999937\t65.000000
         2.1.3\t10.000000\t65.000000
+        end_lane
+        end_segment
+        end_file""")
+
+    def test_two_non_collinear_segments_city(self):
+        city = self.test_generator.non_collinear_segments_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tNon collinear segments - Standard
+        num_segments\t1
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t3
+        lane_width\t13
+        1.1.1\t10.000000\t64.999088
+        1.1.2\t10.000000\t65.000000
+        1.1.3\t10.000271\t65.000912
         end_lane
         end_segment
         end_file""")
