@@ -36,7 +36,7 @@ class Circle(object):
         r1 = self.radius
         r2 = other.radius
         if d == 0 and r1 == r2:
-            return self
+            return [self]
         if (d > self.radius + other.radius) or (d < abs(self.radius - other.radius)):
             return []
         if d == self.radius + other.radius:

@@ -25,6 +25,12 @@ from geometry.arc import Arc
 
 class ArcTest(CustomAssertionsMixin, unittest.TestCase):
 
+    def test_compute_point_at(self):
+        arc1 = Arc(Point(5, 3), 90, 2, 100)
+        self.assertEqual(arc1._compute_point_at(90), Point(3, 5))
+        arc2 = Arc(Point(5, 3), 270, 2, -100)
+        self.assertAlmostEqual(arc2._compute_point_at(-90), Point(3, 1))
+
     def test_null_arc_end_point(self):
         null_arc = Arc(Point(0, 0), 90, 10, 0)
         self.assertAlmostEqual(null_arc.end_point(), Point(0, 0))
@@ -172,3 +178,18 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc1 = Arc(Point(5, 0), 90, 5, 10)
         arc2 = Arc(Point(0, 3), 0, 5, 10)
         self.assertEqual(arc1._find_arc_intersection(arc2), [])
+
+    def test_find_arc_intersection_with_arcs_that_intersect_at_two_points(self):
+        # with the center of each circle outside the other circle
+        arc1 = Arc(Point(5, 0), 90, 5, 60)
+        arc2 = Arc(Point(8, -1), 180, 5, -90)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(3, 4), Point(5, 0)])
+        # with the center of one of the circles inside the other circle
+        arc1 = Arc(Point(0, 5), 180, 5, 180)
+        arc2 = Arc(Point(-1, 0), 90, 3, 270)
+        # self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(-4, 3), Point(-4, -3)])
+
+    def test_includes_point_2(self):
+        # arc1 = Arc(Point(0, 5), 180, 5, 180)
+        arc2 = Arc(Point(-1, 0), 90, 3, 270)
+        # self.assertTrue(arc2.includes_point(Point(-4, -3)))

@@ -15,12 +15,13 @@ limitations under the License.
 """
 
 import unittest
+from custom_assertions_mixin import CustomAssertionsMixin
 import math
 from geometry.point import Point
 from geometry.circle import Circle
 
 
-class CircleTest(unittest.TestCase):
+class CircleTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_intersection_at_one_point_with_not_nested_circles(self):
         circle1 = Circle(Point(0, 0), 2)
@@ -37,10 +38,13 @@ class CircleTest(unittest.TestCase):
         circle1 = Circle(Point(-3, 0), 5)
         circle2 = Circle(Point(3, 0), 5)
         self.assertEqual(circle1.intersection(circle2), [Point(0, 4), Point(0, -4)])
-        # with one center inside the other circle (something is failing but can't see why)
+        # with one center inside the other circle
         circle3 = Circle(Point(0, 0), math.sqrt(65))
         circle4 = Circle(Point(4, 0), 5)
-        # self.assertEqual(circle3.intersection(circle4), [Point(7.0, 4.0, 0.0), Point(7.0, -4.0, 0.0)])
+        self.assertAlmostEqual(circle3.intersection(circle4), [Point(7.0, 4.0, 0.0), Point(7.0, -4.0, 0.0)])
+        circle5 = Circle(Point(0, 0), 5)
+        circle6 = Circle(Point(-4, 0), 3)
+        self.assertEqual(circle5.intersection(circle6), [Point(-4, -3), Point(-4, 3)])
 
     def test_intersection_with_circles_that_do_not_intersect(self):
         # with not nested circles
@@ -54,7 +58,7 @@ class CircleTest(unittest.TestCase):
 
     def test_intersection_between_equal_circles(self):
         circle = Circle(Point(45, 7), 9)
-        self.assertEqual(circle.intersection(circle), circle)
+        self.assertEqual(circle.intersection(circle), [circle])
 
     def test_intersection_with_concentric_circles(self):
         circle1 = Circle(Point(3, 3), 6)
