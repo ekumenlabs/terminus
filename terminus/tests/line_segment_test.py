@@ -104,14 +104,14 @@ class LineSegmentTest(CustomAssertionsMixin, unittest.TestCase):
         first_segment = LineSegment(Point(1, 0), Point(3, 4))
         second_segment = LineSegment(Point(1, 4), Point(3, 0))
         non_intersect_segment = LineSegment(Point(3, 1), Point(3, 2))
-        self.assertEqual(first_segment.find_intersection(second_segment), Point(2, 2, 0))
-        self.assertEqual(first_segment.find_intersection(non_intersect_segment), None)
+        self.assertEqual(first_segment.find_intersection(second_segment), [Point(2, 2, 0)])
+        self.assertEqual(first_segment.find_intersection(non_intersect_segment), [])
 
         first_segment = LineSegment(Point(28.5299698219, 160.06688421), Point(-48.1969708416, -28.3309145497))
         second_segment = LineSegment(Point(-193.740103155, 132.470681), Point(193.740103155, 132.470681))
         non_intersect_segment = LineSegment(Point(193.740103155, 132.470681), Point(193.740103155, -132.470681))
-        self.assertAlmostEqual(first_segment.find_intersection(second_segment), Point(17.2911323186, 132.470681, 0))
-        self.assertEqual(first_segment.find_intersection(non_intersect_segment), None)
+        self.assertAlmostEqual(first_segment.find_intersection(second_segment), [Point(17.2911323186, 132.470681, 0)])
+        self.assertEqual(first_segment.find_intersection(non_intersect_segment), [])
 
     def test_extend(self):
         original = LineSegment(Point(0, 0), Point(0, 1))

@@ -78,14 +78,12 @@ class WaypointGeometry(object):
                       key=lambda waypoint: geometry.offset_for_point(waypoint.center()))
 
     def _intersecting_waypoints_at(self, road_node, source_lane, source_geometry, target_lane, target_geometry):
-        intersections = []
+        intersections = set()
         intersection_control_point = road_node.center
 
         for source_element in source_geometry.elements():
             for target_element in target_geometry.elements():
-                intersection = source_element.find_intersection(target_element)
-                if intersection:
-                    intersections.append(intersection)
+                intersections.update(source_element.find_intersection(target_element))
 
         if not intersections:
             logger.warn("Couldn't find intersection between geometries")
@@ -94,67 +92,33 @@ class WaypointGeometry(object):
             logger.warn("TARGET: {0}".format(target_geometry))
             return []
 
-        intersections = sorted(intersections,
-                               key=lambda point: point.squared_distance_to(intersection_control_point))
+        intersections = list(intersections)
+
+        if len(intersections) > 1:
+            logger.warn("Multiple intersections found between geometries")
+            logger.warn("ROAD NODE: {0}".format(road_node))
+            logger.warn("SOURCE: {0}".format(source_geometry))
+            logger.warn("TARGET: {0}".format(target_geometry))
+            logger.warn("INTERSECTIONS: {0}".format(intersections))
+            intersections = sorted(intersections,
+                                   key=lambda point: point.squared_distance_to(intersection_control_point))
+
         intersection = intersections[0]
-
-        source_path_offset = source_geometry.offset_for_point(intersection)
-        source_path_length = source_geometry.length()
-
-        target_path_offset = target_geometry.offset_for_point(intersection)
-        target_path_length = target_geometry.length()
-
         waypoints = []
 
-        initial_connection_offset = 7
+        out_connection = self._find_connection(7, road_node, intersection, target_lane, target_geometry, source_lane, source_geometry)
 
-        connection_offset = initial_connection_offset
-        while True:
-            if (source_path_offset >= connection_offset) and (target_path_offset + connection_offset <= target_path_length):
-                exit_offset = source_path_offset - connection_offset
-                exit_point = source_geometry.point_at_offset(exit_offset)
-                exit_heading = source_geometry.heading_at_offset(exit_offset)
-                exit_waypoint = Waypoint(source_lane, source_geometry, exit_point, exit_heading, road_node)
+        if out_connection:
+            entry_waypoint, exit_waypoint, connection = out_connection
+            exit_waypoint.add_out_connection(connection)
+            waypoints.append(exit_waypoint)
 
-                entry_offset = target_path_offset + connection_offset
-                entry_point = target_geometry.point_at_offset(entry_offset)
-                entry_heading = target_geometry.heading_at_offset(entry_offset)
-                entry_waypoint = Waypoint(target_lane, target_geometry, entry_point, entry_heading, road_node)
+        in_connection = self._find_connection(7, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry)
 
-                connection = self._connect(exit_waypoint, entry_waypoint)
-
-                if connection is None:
-                    connection_offset += 0.5
-                else:
-                    exit_waypoint.add_out_connection(self._connect(exit_waypoint, entry_waypoint))
-                    waypoints.append(exit_waypoint)
-                    break
-            else:
-                break
-
-        connection_offset = initial_connection_offset
-        while True:
-            if (source_path_offset + connection_offset <= source_path_length) and (target_path_offset >= connection_offset):
-                entry_offset = source_path_offset + connection_offset
-                entry_point = source_geometry.point_at_offset(entry_offset)
-                entry_heading = source_geometry.heading_at_offset(entry_offset)
-                entry_waypoint = Waypoint(source_lane, source_geometry, entry_point, entry_heading, road_node)
-
-                exit_offset = target_path_offset - connection_offset
-                exit_point = target_geometry.point_at_offset(exit_offset)
-                exit_heading = target_geometry.heading_at_offset(exit_offset)
-                exit_waypoint = Waypoint(target_lane, target_geometry, exit_point, exit_heading, road_node)
-
-                connection = self._connect(exit_waypoint, entry_waypoint)
-
-                if connection is None:
-                    connection_offset += 0.5
-                else:
-                    entry_waypoint.add_in_connection(connection)
-                    waypoints.append(entry_waypoint)
-                    break
-            else:
-                break
+        if in_connection:
+            entry_waypoint, exit_waypoint, connection = in_connection
+            entry_waypoint.add_in_connection(connection)
+            waypoints.append(entry_waypoint)
 
         return waypoints
 
@@ -189,9 +153,45 @@ class WaypointGeometry(object):
         trimmed_waypoints.append(element_waypoints.pop(0))
         return trimmed_waypoints
 
+    def _find_connection(self, minimum_offset, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry):
+
+        original_intersection = road_node.center
+
+        source_offset = source_geometry.offset_for_point(intersection)
+        source_length = source_geometry.length()
+
+        target_offset = target_geometry.offset_for_point(intersection)
+        target_length = target_geometry.length()
+
+        connection_offset = minimum_offset
+
+        while True:
+            if (source_offset + connection_offset <= source_length) and (target_offset >= connection_offset):
+                entry_point = source_geometry.point_at_linear_offset(original_intersection, connection_offset)
+                entry_heading = source_geometry.heading_at_point(entry_point)
+                entry_waypoint = Waypoint(source_lane, source_geometry, entry_point, entry_heading, road_node)
+
+                exit_point = target_geometry.point_at_linear_offset(original_intersection, -connection_offset)
+                exit_heading = target_geometry.heading_at_point(exit_point)
+                exit_waypoint = Waypoint(target_lane, target_geometry, exit_point, exit_heading, road_node)
+
+                connection = self._connect(exit_waypoint, entry_waypoint)
+
+                if connection is None:
+                    connection_offset += 0.5
+                else:
+                    return (entry_waypoint, exit_waypoint, connection)
+            else:
+                return None
+
     def _connect(self, exit_waypoint, entry_waypoint):
         primitive = self._builder.connect_waypoints(exit_waypoint, entry_waypoint)
         if primitive.is_valid_path_connection():
+            # TODO: We should start using asserts
+            if not primitive.end_point().almost_equal_to(entry_waypoint.center(), 5):
+                message_template = "Bad connection between {0} and {1} using {2}\nExpecting {3} but {4} given"
+                message = message_template.format(exit_waypoint, entry_waypoint, primitive, entry_waypoint.center(), primitive.end_point())
+                raise ValueError(message)
             return WaypointConnection(exit_waypoint, entry_waypoint, primitive)
         else:
             return None

@@ -107,14 +107,14 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 93.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [7.000000000000001, -90.0]
+              arc: [7.0, -90.0]
               explicit_end: points.s2_1_3
             s1_1_2-s1_1_3: {start: points.s1_1_2, length: 14.0, explicit_end: points.s1_1_3}
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 93.0, explicit_end: points.s1_1_4}
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 93.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.000000000000001, 90.0]
+              arc: [7.0, 90.0]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 14.0, explicit_end: points.s2_1_3}
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 93.0, explicit_end: points.s2_1_4}
@@ -147,7 +147,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 93.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [7.000000000000001, 90.0]
+              arc: [7.0, 90.0]
               explicit_end: points.s2_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 93.0, explicit_end: points.s2_1_3}
           groups: {}""")
@@ -170,7 +170,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, -135.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [-4.949747468305832, -4.949747468305832, -135.0]
+              xypoint: [-4.9497475, -4.9497475, -135.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [-100.0, -100.0, -135.0]
@@ -179,7 +179,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, -45.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_2:
-              xypoint: [4.949747468305832, -4.949747468305832, -45.0]
+              xypoint: [4.9497475, -4.9497475, -45.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_3:
               xypoint: [100.0, -100.0, -45.0]
@@ -188,11 +188,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 93.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [16.899494936611667, -45.0]
+              arc: [16.8994949, -45.0]
               explicit_end: points.s2_1_2
             s1_1_2-s3_1_2:
               start: points.s1_1_2
-              arc: [16.899494936611667, 45.0]
+              arc: [16.8994949, 45.0]
               explicit_end: points.s3_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 134.4213562373095, explicit_end: points.s2_1_3}
             s3_1_2-s3_1_3: {start: points.s3_1_2, length: 134.4213562373095, explicit_end: points.s3_1_3}
@@ -216,7 +216,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-100.0, -100.0, 45.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [-4.949747468305844, -4.949747468305844, 45.0]
+              xypoint: [-4.9497475, -4.9497475, 45.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [0.0, 0.0, 45.0]
@@ -225,22 +225,22 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [100.0, -100.0, 135.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_2:
-              xypoint: [4.949747468305844, -4.949747468305844, 135.0]
+              xypoint: [4.9497475, -4.9497475, 135.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_3:
               xypoint: [0.0, 0.0, 135.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_2-s1_1_3: {start: points.s1_1_2, length: 93.0, explicit_end: points.s1_1_3}
-            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 134.42135623730948, explicit_end: points.s2_1_2}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 134.4213562373095, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_2:
               start: points.s2_1_2
-              arc: [16.89949493661169, 45.0]
+              arc: [16.8994949, 45.0]
               explicit_end: points.s1_1_2
-            s3_1_1-s3_1_2: {start: points.s3_1_1, length: 134.42135623730948, explicit_end: points.s3_1_2}
+            s3_1_1-s3_1_2: {start: points.s3_1_1, length: 134.4213562373095, explicit_end: points.s3_1_2}
             s3_1_2-s1_1_2:
               start: points.s3_1_2
-              arc: [16.89949493661169, -45.0]
+              arc: [16.8994949, -45.0]
               explicit_end: points.s1_1_2
           groups: {}""")
 
@@ -271,7 +271,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 93.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [7.000000000000001, -90.0]
+              arc: [7.0, -90.0]
               explicit_end: points.s2_1_2
             s1_1_2-s1_1_3: {start: points.s1_1_2, length: 107.0, explicit_end: points.s1_1_3}
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 93.0, explicit_end: points.s2_1_3}
@@ -306,8 +306,133 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 93.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_2:
               start: points.s2_1_2
-              arc: [7.000000000000001, -90.0]
+              arc: [7.0, -90.0]
               explicit_end: points.s1_1_2
+          groups: {}""")
+
+    def test_broken_intersection_on_one_lane_city(self):
+        city = self.test_generator.broken_intersection_on_one_lane_city()
+        self._generate_yaml(city)
+        self._assert_core_contents_are("Broken intersection - One lane", """
+          points:
+            s1_1_1:
+              xypoint: [-50.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_2:
+              xypoint: [-7.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_3:
+              xypoint: [-5.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_4:
+              xypoint: [4.6423835, 1.8569534, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_5:
+              xypoint: [6.4993368, 2.5997347, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_6:
+              xypoint: [50.0, 20.0, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_1:
+              xypoint: [0.0, -50.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_2:
+              xypoint: [0.0, -7.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_3:
+              xypoint: [0.0, 7.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_4:
+              xypoint: [0.0, 50.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+          connections:
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 43.0, explicit_end: points.s1_1_2}
+            s1_1_2-s2_1_3:
+              start: points.s1_1_2
+              arc: [7.0, 90.0]
+              explicit_end: points.s2_1_3
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 2.0, explicit_end: points.s1_1_3}
+            s1_1_3-s1_1_4:
+              start: points.s1_1_3
+              arc: [25.962912, 21.8014095]
+              explicit_end: points.s1_1_4
+            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 2.0000000000000013, explicit_end: points.s1_1_5}
+            s1_1_5-s1_1_6: {start: points.s1_1_5, length: 46.85164807134504, explicit_end: points.s1_1_6}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 43.0, explicit_end: points.s2_1_2}
+            s2_1_2-s1_1_5:
+              start: points.s2_1_2
+              arc: [10.3392307, -68.1985905]
+              explicit_end: points.s1_1_5
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 13.999999999999993, explicit_end: points.s2_1_3}
+            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 43.00000000000001, explicit_end: points.s2_1_4}
+          groups: {}""")
+
+    def test_broken_intersection_on_two_lanes_city(self):
+        city = self.test_generator.broken_intersection_on_two_lanes_city()
+        self._generate_yaml(city)
+        self._assert_core_contents_are("Broken intersection - Two lanes", """
+          points:
+            s1_1_1:
+              xypoint: [-50.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_2:
+              xypoint: [-7.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_3:
+              xypoint: [-5.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_4:
+              xypoint: [4.6423835, 1.8569534, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_5:
+              xypoint: [6.4993368, 2.5997347, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_6:
+              xypoint: [50.0, 20.0, 21.80140948635181]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_1:
+              xypoint: [0.0, -50.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_2:
+              xypoint: [0.0, -7.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_3:
+              xypoint: [0.0, -5.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_4:
+              xypoint: [0.9805807, 4.9029034, 78.69006752597979]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_5:
+              xypoint: [1.3728129, 6.8640647, 78.69006752597979]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_6:
+              xypoint: [10.0, 50.0, 78.69006752597979]
+              zpoint: [0.0, 0, 0, 0]
+          connections:
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 43.0, explicit_end: points.s1_1_2}
+            s1_1_2-s2_1_5:
+              start: points.s1_1_2
+              arc: [8.5386273, 78.6900675]
+              explicit_end: points.s2_1_5
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 2.0, explicit_end: points.s1_1_3}
+            s1_1_3-s1_1_4:
+              start: points.s1_1_3
+              arc: [25.962912, 21.8014095]
+              explicit_end: points.s1_1_4
+            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 2.0000000000000013, explicit_end: points.s1_1_5}
+            s1_1_5-s1_1_6: {start: points.s1_1_5, length: 46.85164807134504, explicit_end: points.s1_1_6}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 43.0, explicit_end: points.s2_1_2}
+            s2_1_2-s1_1_5:
+              start: points.s2_1_2
+              arc: [10.3392307, -68.1985905]
+              explicit_end: points.s1_1_5
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 2.0, explicit_end: points.s2_1_3}
+            s2_1_3-s2_1_4:
+              start: points.s2_1_3
+              arc: [50.4950976, -11.3099325]
+              explicit_end: points.s2_1_4
+            s2_1_4-s2_1_5: {start: points.s2_1_4, length: 1.9999999999999876, explicit_end: points.s2_1_5}
+            s2_1_5-s2_1_6: {start: points.s2_1_5, length: 43.99019513592785, explicit_end: points.s2_1_6}
           groups: {}""")
 
     def test_two_non_collinear_segments_city(self):
@@ -322,7 +447,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [4.789131426105762, 1.4367394278317265, 16.699244233993625]
+              xypoint: [4.7891314, 1.4367394, 16.699244233993625]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
               xypoint: [100.0, 30.0, 16.699244233993625]
@@ -331,7 +456,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [34.06717751485093, 16.699244233993618]
+              arc: [34.0671775, 16.6992442]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 99.4030650891055, explicit_end: points.s1_1_4}
           groups: {}""")
@@ -348,13 +473,13 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [4.902903378454589, 0.9805806756909214, 11.309932474019142]
+              xypoint: [4.9029034, 0.9805807, 11.309932474019142]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
-              xypoint: [5.097096621545399, 1.0194193243090797, 11.309932474019142]
+              xypoint: [5.0970966, 1.0194193, 11.309932474019142]
               zpoint: [0.0, 0, 0, 0]
             s1_1_5:
-              xypoint: [14.472135954999631, 4.236067977499612, 26.565051177079678]
+              xypoint: [14.472136, 4.236068, 26.565051177079678]
               zpoint: [0.0, 0, 0, 0]
             s1_1_6:
               xypoint: [20.0, 7.0, 26.565051177079678]
@@ -363,12 +488,12 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 5.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [50.49509756796387, 11.309932474020208]
+              arc: [50.4950976, 11.3099325]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 0.19803902718558075, explicit_end: points.s1_1_4}
             s1_1_4-s1_1_5:
               start: points.s1_1_4
-              arc: [37.336257084985604, 15.255118703057772]
+              arc: [37.3362571, 15.2551187]
               explicit_end: points.s1_1_5
             s1_1_5-s1_1_6: {start: points.s1_1_5, length: 6.180339887498981, explicit_end: points.s1_1_6}
           groups: {}""")
@@ -382,13 +507,13 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-10.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [-2.23606797749979, 0.0, 0.0]
+              xypoint: [-2.236068, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [2.0, 1.0000000000000002, 26.56505117707799]
+              xypoint: [2.0, 1.0, 26.56505117707799]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
-              xypoint: [6.134282114048841, 2.6669631606402633, 17.35402463626132]
+              xypoint: [6.1342821, 2.6669632, 17.35402463626132]
               zpoint: [0.0, 0, 0, 0]
             s1_1_5:
               xypoint: [20.0, 7.0, 17.35402463626132]
@@ -397,11 +522,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 7.76393202250021, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [9.47213595499958, 26.565051177077994]
+              arc: [9.472136, 26.5650512]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4:
               start: points.s1_1_3
-              arc: [27.75829803978227, -9.211026540816668]
+              arc: [27.758298, -9.2110265]
               explicit_end: points.s1_1_4
             s1_1_4-s1_1_5: {start: points.s1_1_4, length: 14.526986636740412, explicit_end: points.s1_1_5}
           groups: {}""")
@@ -418,7 +543,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [45.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [50.0, 4.999999999999999, 90.0]
+              xypoint: [50.0, 5.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
               xypoint: [50.0, 10.0, 90.0]
@@ -433,7 +558,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [5.0, 89.99999999999999]
+              arc: [5.0, 90.0]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 5.000000000000001, explicit_end: points.s1_1_4}
             s1_1_4-s1_1_5:

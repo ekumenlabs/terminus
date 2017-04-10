@@ -88,17 +88,8 @@ class Arc(object):
     def _find_arc_intersection(self, other):
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = Circle(other.center_point(), other.radius())
-        if circle1.intersection(circle2) is None:
-            return None
-        else:
-            candidates = circle1.intersection(circle2)
-            points = filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
-            if not points:
-                return None
-            elif len(points) == 1:
-                return points[0]
-            else:
-                return points
+        candidates = circle1.intersection(circle2)
+        return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
 
     def includes_point(self, point, buffer=0.001):
         """
@@ -139,6 +130,25 @@ class Arc(object):
         """
         angle = self._angular_offset_for_point(point)
         return abs(math.pi * self._radius * angle / 180.0)
+
+    def point_at_linear_offset(self, reference_point, offset):
+        circle1 = Circle(self.center_point(), self.radius())
+        circle2 = geometry.circle.Circle(reference_point, abs(offset))
+        intersections = circle1.intersection(circle2)
+        if not intersections:
+            return None
+
+        candidates = filter(lambda point: self.includes_point(point), intersections)
+        if not candidates:
+            return None
+        elif len(candidates) == 1:
+            return candidates[0]
+        else:
+            local_offset = self.offset_for_point(reference_point)
+            local_nearest_point = self.point_at_offset(local_offset + offset)
+            candidates = sorted(candidates,
+                                key=lambda point: point.squared_distance_to(local_nearest_point))
+            return candidates[0]
 
     def split_into(self, pairs):
         arcs = []

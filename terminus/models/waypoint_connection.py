@@ -30,3 +30,6 @@ class WaypointConnection(object):
 
     def primitive(self):
         return self._primitive
+
+    def __repr__(self):
+        return "WaypointConnection({0}, {1}, {2})".format(self._start_waypoint, self._end_waypoint, self._primitive)

@@ -116,7 +116,7 @@ class MonolaneGenerator(FileGenerator):
 
         primitive = connection.primitive()
 
-        radius = primitive.radius()
+        radius = round(primitive.radius(), 7)
 
         # If the turning radius is less than the driveable_bounds then
         # don't generate the connection
@@ -124,7 +124,7 @@ class MonolaneGenerator(FileGenerator):
             logger.error("Radius is too small to create an arc connection - {0}".format(primitive))
             return None
 
-        angle_in_degrees = primitive.angular_length()
+        angle_in_degrees = round(primitive.angular_length(), 7)
 
         return OrderedDict([
             ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.start_waypoint())),
@@ -133,9 +133,10 @@ class MonolaneGenerator(FileGenerator):
         ])
 
     def _monolane_point_from_waypoint(self, waypoint):
+        center = waypoint.center().rounded_to(7)
         point = OrderedDict()
-        point['xypoint'] = [float(waypoint.center().x), float(waypoint.center().y), float(waypoint.heading())]
-        point['zpoint'] = [float(waypoint.center().z), 0, 0, 0]
+        point['xypoint'] = [float(center.x), float(center.y), float(waypoint.heading())]
+        point['zpoint'] = [float(center.z), 0, 0, 0]
         return point
 
     def end_document(self):
