@@ -75,9 +75,15 @@ class Point(object):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
     def angle(self, other):
+        # Returns the angle from self to other in degrees between -180 and 180
         v1 = self.normalized()
         v2 = other.normalized()
-        return math.atan2(v2.y, v2.x) - math.atan2(v1.y, v1.x)
+        angle = math.degrees(math.atan2(v2.y, v2.x) - math.atan2(v1.y, v1.x))
+        if angle < -180:
+            angle = angle + 360
+        if angle > 180:
+            angle = angle - 360
+        return angle
 
     def norm(self):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)

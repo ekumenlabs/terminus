@@ -70,8 +70,7 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                 next_vector = next_point - point
                 # If they are collinear (given some tolerance)
                 angle_between_vectors = previous_vector.angle(next_vector)
-                angle_between_vectors_in_degrees = math.degrees(angle_between_vectors)
-                if abs(angle_between_vectors_in_degrees) < 1e-5:
+                if abs(angle_between_vectors) < 1e-5:
                     elements.append(LineSegment(previous_point, point))
                     mapping[previous_point.rounded()] = previous_node
                     mapping[point.rounded()] = node
@@ -86,25 +85,25 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                     previous_segment = LineSegment(previous_element_point, previous_segment_new_end_point)
 
                     d2 = previous_segment_new_end_point.squared_distance_to(next_segment_new_start_point)
-                    cos = math.cos(angle_between_vectors)
+                    cos = math.cos(math.radians(angle_between_vectors))
                     radius = math.sqrt(d2 / (2 * (1 - cos)))
 
                     # Keep the angle in the [-180, 180) range
-                    if angle_between_vectors_in_degrees >= 180:
-                        angle_between_vectors_in_degrees = angle_between_vectors_in_degrees - 360
+                    if angle_between_vectors >= 180:
+                        angle_between_vectors = angle_between_vectors - 360
 
-                    if angle_between_vectors_in_degrees < -180:
-                        angle_between_vectors_in_degrees = angle_between_vectors_in_degrees + 360
+                    if angle_between_vectors < -180:
+                        angle_between_vectors = angle_between_vectors + 360
 
                     # If there should be no segment, just an arc. Use previous_element_point to
                     # avoid rounding errors and make a perfect overlap
                     if previous_segment.length() < 1e-5:
-                        connection_arc = Arc(previous_element_point, elements[-1].end_heading(), radius, angle_between_vectors_in_degrees)
+                        connection_arc = Arc(previous_element_point, elements[-1].end_heading(), radius, angle_between_vectors)
                         elements.append(connection_arc)
                         mapping[connection_arc.start_point().rounded()] = node
                         mapping[connection_arc.end_point().rounded()] = node
                     else:
-                        connection_arc = Arc(previous_segment_new_end_point, previous_segment.end_heading(), radius, angle_between_vectors_in_degrees)
+                        connection_arc = Arc(previous_segment_new_end_point, previous_segment.end_heading(), radius, angle_between_vectors)
 
                         elements.append(previous_segment)
                         mapping[previous_segment.start_point().rounded()] = previous_node
@@ -140,8 +139,7 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                 next_vector = next_point - point
                 # If they are collinear (given some tolerance)
                 angle_between_vectors = previous_vector.angle(next_vector)
-                angle_between_vectors_in_degrees = math.degrees(angle_between_vectors)
-                if abs(angle_between_vectors_in_degrees) < 1e-5:
+                if abs(angle_between_vectors) < 1e-5:
                     elements.append(LineSegment(previous_point, point))
                 else:
                     inverted_previous_segment = LineSegment(point, previous_point)
@@ -154,23 +152,23 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                     previous_segment = LineSegment(previous_element_point, previous_segment_new_end_point)
 
                     d2 = previous_segment_new_end_point.squared_distance_to(next_segment_new_start_point)
-                    cos = math.cos(angle_between_vectors)
+                    cos = math.cos(math.radians(angle_between_vectors))
                     radius = math.sqrt(d2 / (2 * (1 - cos)))
 
                     # Keep the angle in the [-180, 180) range
-                    if angle_between_vectors_in_degrees >= 180:
-                        angle_between_vectors_in_degrees = angle_between_vectors_in_degrees - 360
+                    if angle_between_vectors >= 180:
+                        angle_between_vectors = angle_between_vectors - 360
 
-                    if angle_between_vectors_in_degrees < -180:
-                        angle_between_vectors_in_degrees = angle_between_vectors_in_degrees + 360
+                    if angle_between_vectors < -180:
+                        angle_between_vectors = angle_between_vectors + 360
 
                     # If there should be no segment, just an arc. Use previous_element_point to
                     # avoid rounding errors and make a perfect overlap
                     if previous_segment.length() < 1e-5:
-                        connection_arc = Arc(previous_element_point, elements[-1].end_heading(), radius, angle_between_vectors_in_degrees)
+                        connection_arc = Arc(previous_element_point, elements[-1].end_heading(), radius, angle_between_vectors)
                         elements.append(connection_arc)
                     else:
-                        connection_arc = Arc(previous_segment_new_end_point, previous_segment.end_heading(), radius, angle_between_vectors_in_degrees)
+                        connection_arc = Arc(previous_segment_new_end_point, previous_segment.end_heading(), radius, angle_between_vectors)
                         elements.append(previous_segment)
                         elements.append(connection_arc)
 

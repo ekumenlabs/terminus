@@ -110,7 +110,7 @@ class Arc(object):
         center_point = point - center
         if abs(center_point.norm() - self._radius) > buffer:
             return False
-        angle_between_vectors = math.degrees(center_start.angle(center_point))
+        angle_between_vectors = center_start.angle(center_point)
         if angle_between_vectors == 0:
             return True
         angular_delta = abs(angle_between_vectors) - abs(self._angular_length)
@@ -207,7 +207,7 @@ class Arc(object):
         center = self.center_point()
         center_start = self._start_point - center
         center_point = point - center
-        return math.degrees(center_start.angle(center_point))
+        return center_start.angle(center_point)
 
     def is_valid_path_connection(self):
         return self.radius() >= 4
