@@ -86,20 +86,10 @@ class Arc(object):
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
 
     def _find_arc_intersection(self, other):
-        # TODO: We definitely need to normalize what we return on intersections
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = Circle(other.center_point(), other.radius())
-        if circle1.intersection(circle2) is None:
-            return None
-        else:
-            candidates = circle1.intersection(circle2)
-            points = filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
-            if not points:
-                return None
-            elif len(points) == 1:
-                return points[0]
-            else:
-                return points
+        candidates = circle1.intersection(circle2)
+        return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
 
     def includes_point(self, point, buffer=0.001):
         """
@@ -142,7 +132,6 @@ class Arc(object):
         return abs(math.pi * self._radius * angle / 180.0)
 
     def point_at_linear_offset(self, reference_point, offset):
-        # TODO: We definitely need to normalize what we return on intersections
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = geometry.circle.Circle(reference_point, abs(offset))
         intersections = circle1.intersection(circle2)

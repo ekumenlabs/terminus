@@ -83,9 +83,7 @@ class WaypointGeometry(object):
 
         for source_element in source_geometry.elements():
             for target_element in target_geometry.elements():
-                intersection = source_element.find_intersection(target_element)
-                if intersection:
-                    intersections.add(intersection)
+                intersections.update(source_element.find_intersection(target_element))
 
         if not intersections:
             logger.warn("Couldn't find intersection between geometries")
