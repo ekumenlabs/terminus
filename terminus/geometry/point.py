@@ -79,7 +79,7 @@ class Point(object):
         v1 = self.normalized()
         v2 = other.normalized()
         angle = math.degrees(math.atan2(v2.y, v2.x) - math.atan2(v1.y, v1.x))
-        if angle < -180:
+        if angle <= -180:
             angle = angle + 360
         if angle > 180:
             angle = angle - 360

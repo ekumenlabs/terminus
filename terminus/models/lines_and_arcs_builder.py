@@ -88,13 +88,6 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                     cos = math.cos(math.radians(angle_between_vectors))
                     radius = math.sqrt(d2 / (2 * (1 - cos)))
 
-                    # Keep the angle in the [-180, 180) range
-                    if angle_between_vectors >= 180:
-                        angle_between_vectors = angle_between_vectors - 360
-
-                    if angle_between_vectors < -180:
-                        angle_between_vectors = angle_between_vectors + 360
-
                     # If there should be no segment, just an arc. Use previous_element_point to
                     # avoid rounding errors and make a perfect overlap
                     if previous_segment.length() < 1e-5:
@@ -154,13 +147,6 @@ class LinesAndArcsBuilder(PathGeometryBuilder):
                     d2 = previous_segment_new_end_point.squared_distance_to(next_segment_new_start_point)
                     cos = math.cos(math.radians(angle_between_vectors))
                     radius = math.sqrt(d2 / (2 * (1 - cos)))
-
-                    # Keep the angle in the [-180, 180) range
-                    if angle_between_vectors >= 180:
-                        angle_between_vectors = angle_between_vectors - 360
-
-                    if angle_between_vectors < -180:
-                        angle_between_vectors = angle_between_vectors + 360
 
                     # If there should be no segment, just an arc. Use previous_element_point to
                     # avoid rounding errors and make a perfect overlap
