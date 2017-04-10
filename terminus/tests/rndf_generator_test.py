@@ -302,6 +302,81 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
+    def test_broken_intersection_on_one_lane_city(self):
+        city = self.test_generator.broken_intersection_on_one_lane_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tBroken intersection - One lane
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t5
+        lane_width\t13
+        exit\t1.1.2\t2.1.3
+        1.1.1\t10.000000\t64.999544
+        1.1.2\t10.000000\t64.999936
+        1.1.3\t10.000000\t65.000000
+        1.1.4\t10.000024\t65.000059
+        1.1.5\t10.000181\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts2
+        lane\t2.1
+        num_waypoints\t4
+        lane_width\t13
+        exit\t2.1.2\t1.1.4
+        2.1.1\t9.999548\t65.000000
+        2.1.2\t9.999937\t65.000000
+        2.1.3\t10.000063\t65.000000
+        2.1.4\t10.000452\t65.000000
+        end_lane
+        end_segment
+        end_file""")
+
+    def test_broken_intersection_on_two_lanes_city(self):
+        city = self.test_generator.broken_intersection_on_two_lanes_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tBroken intersection - Two lanes
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t5
+        lane_width\t13
+        exit\t1.1.2\t2.1.4
+        1.1.1\t10.000000\t64.999544
+        1.1.2\t10.000000\t64.999936
+        1.1.3\t10.000000\t65.000000
+        1.1.4\t10.000024\t65.000059
+        1.1.5\t10.000181\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts2
+        lane\t2.1
+        num_waypoints\t5
+        lane_width\t13
+        exit\t2.1.2\t1.1.4
+        2.1.1\t9.999548\t65.000000
+        2.1.2\t9.999937\t65.000000
+        2.1.3\t10.000000\t65.000000
+        2.1.4\t10.000062\t65.000013
+        2.1.5\t10.000452\t65.000091
+        end_lane
+        end_segment
+        end_file""")
+
     def test_two_non_collinear_segments_city(self):
         city = self.test_generator.non_collinear_segments_city()
         self._generate_rndf(city)
