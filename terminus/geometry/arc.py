@@ -86,6 +86,7 @@ class Arc(object):
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
 
     def _find_arc_intersection(self, other):
+        # TODO: We definitely need to normalize what we return on intersections
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = Circle(other.center_point(), other.radius())
         if circle1.intersection(circle2) is None:
@@ -139,6 +140,26 @@ class Arc(object):
         """
         angle = self._angular_offset_for_point(point)
         return abs(math.pi * self._radius * angle / 180.0)
+
+    def point_at_linear_offset(self, reference_point, offset):
+        # TODO: We definitely need to normalize what we return on intersections
+        circle1 = Circle(self.center_point(), self.radius())
+        circle2 = geometry.circle.Circle(reference_point, abs(offset))
+        intersections = circle1.intersection(circle2)
+        if not intersections:
+            return None
+
+        candidates = filter(lambda point: self.includes_point(point), intersections)
+        if not candidates:
+            return None
+        elif len(candidates) == 1:
+            return candidates[0]
+        else:
+            local_offset = self.offset_for_point(reference_point)
+            local_nearest_point = self.point_at_offset(local_offset + offset)
+            candidates = sorted(candidates,
+                                key=lambda point: point.squared_distance_to(local_nearest_point))
+            return candidates[0]
 
     def split_into(self, pairs):
         arcs = []

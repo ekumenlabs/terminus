@@ -188,6 +188,56 @@ class TestCitiesGenerator(object):
 
         return city
 
+    def broken_intersection_on_one_lane_city(self):
+        """
+                      (0,50)
+                        |
+                        |    __--- (50,20)
+        (-50,0) ------- + ---
+                        |
+                        |
+                      (0,-50)
+        """
+        city = City("Broken intersection - One lane")
+
+        s1 = Street.from_control_points([Point(-50, 0), Point(0, 0), Point(50, 20)])
+        s1.name = "s1"
+
+        s2 = Street.from_control_points([Point(0, -50), Point(0, 0), Point(0, 50)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
+    def broken_intersection_on_two_lanes_city(self):
+        """
+                      (10,50)
+                         |
+                        |    __--- (50,20)
+        (-50,0) ------- + ---
+                        |
+                        |
+                      (0,-50)
+        """
+        city = City("Broken intersection - Two lanes")
+
+        s1 = Street.from_control_points([Point(-50, 0), Point(0, 0), Point(50, 20)])
+        s1.name = "s1"
+
+        s2 = Street.from_control_points([Point(0, -50), Point(0, 0), Point(10, 50)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
     def non_collinear_segments_city(self):
         """
         (-100,0) -- (0,0) -- (100,30)

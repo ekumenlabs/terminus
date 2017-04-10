@@ -157,6 +157,8 @@ class WaypointGeometry(object):
 
     def _find_connection(self, minimum_offset, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry):
 
+        original_intersection = road_node.center
+
         source_offset = source_geometry.offset_for_point(intersection)
         source_length = source_geometry.length()
 
@@ -167,14 +169,12 @@ class WaypointGeometry(object):
 
         while True:
             if (source_offset + connection_offset <= source_length) and (target_offset >= connection_offset):
-                entry_offset = source_offset + connection_offset
-                entry_point = source_geometry.point_at_offset(entry_offset)
-                entry_heading = source_geometry.heading_at_offset(entry_offset)
+                entry_point = source_geometry.point_at_linear_offset(original_intersection, connection_offset)
+                entry_heading = source_geometry.heading_at_point(entry_point)
                 entry_waypoint = Waypoint(source_lane, source_geometry, entry_point, entry_heading, road_node)
 
-                exit_offset = target_offset - connection_offset
-                exit_point = target_geometry.point_at_offset(exit_offset)
-                exit_heading = target_geometry.heading_at_offset(exit_offset)
+                exit_point = target_geometry.point_at_linear_offset(original_intersection, -connection_offset)
+                exit_heading = target_geometry.heading_at_point(exit_point)
                 exit_waypoint = Waypoint(target_lane, target_geometry, exit_point, exit_heading, road_node)
 
                 connection = self._connect(exit_waypoint, entry_waypoint)
@@ -190,7 +190,7 @@ class WaypointGeometry(object):
         primitive = self._builder.connect_waypoints(exit_waypoint, entry_waypoint)
         if primitive.is_valid_path_connection():
             # TODO: We should start using asserts
-            if not primitive.end_point().almost_equal_to(entry_waypoint.center(), 7):
+            if not primitive.end_point().almost_equal_to(entry_waypoint.center(), 5):
                 message_template = "Bad connection between {0} and {1} using {2}\nExpecting {3} but {4} given"
                 message = message_template.format(exit_waypoint, entry_waypoint, primitive, entry_waypoint.center(), primitive.end_point())
                 raise ValueError(message)

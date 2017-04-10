@@ -20,6 +20,7 @@ from geometry.point import Point
 
 # Avoid module circular dependencies
 import geometry.arc
+import geometry.circle
 
 
 class LineSegment(object):
@@ -137,6 +138,36 @@ class LineSegment(object):
             else:
                 return points
 
+    def _find_circle_intersection(self, circle):
+        local_segment = self.translate_by(circle.center.negated())
+        local_segment_vector = local_segment.direction_vector()
+
+        a = local_segment_vector.norm_squared()
+        b = 2 * ((local_segment_vector.x * local_segment.start_point().x) + (local_segment_vector.y * local_segment.start_point().y))
+        c = local_segment.start_point().norm_squared() - (circle.radius ** 2)
+
+        delta = (b ** 2) - (4 * a * c)
+
+        if delta < 0:
+            # No intersection
+            return None
+        elif delta == 0.0:
+            # Exactly one intersection (tangent)
+            # Note that we no longer use the local coordinates
+            u = -b / (2 * a)
+            candidate = self.start_point() + (local_segment_vector * u)
+            if self.includes_point(candidate):
+                return candidate
+            else:
+                return None
+        else:
+            delta = math.sqrt(delta)
+            u1 = (-b + delta) / (2 * a)
+            u2 = (-b - delta) / (2 * a)
+            candidates = [self.start_point() + (local_segment_vector * u1),
+                          self.start_point() + (local_segment_vector * u2)]
+            return filter(lambda point: self.includes_point(point), candidates)
+
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
         if isinstance(other, LineSegment):
@@ -174,6 +205,20 @@ class LineSegment(object):
 
         return Point(self.a.x + dx / linelen * offset,
                      self.a.y + dy / linelen * offset)
+
+    def point_at_linear_offset(self, reference_point, offset):
+        circle = geometry.circle.Circle(reference_point, abs(offset))
+        intersections = self._find_circle_intersection(circle)
+        if not intersections:
+            return None
+        elif len(intersections) == 1:
+            return intersections[0]
+        else:
+            local_offset = self.offset_for_point(reference_point)
+            local_nearest_point = self.point_at_offset(local_offset + offset)
+            intersections = sorted(intersections,
+                                   key=lambda point: point.squared_distance_to(local_nearest_point))
+            return intersections[0]
 
     def offset_for_point(self, point):
         if not self.includes_point(point):
