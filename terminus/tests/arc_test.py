@@ -153,6 +153,9 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertTrue(arc_135_neg_deg.includes_point(Point(2.92893219, 7.07106781)))
         self.assertTrue(arc_135_neg_deg.includes_point(Point(17.07106781, 7.07106781)))
 
+        arc_270_deg = Arc(Point(-1, 0), 90, 3, 270)
+        self.assertTrue(arc_270_deg.includes_point(Point(-4, -3)))
+
     def test_point_at_offset(self):
         arc_90_deg = Arc(Point(0, 0), 90, 10, 90)
         self.assertAlmostEqual(arc_90_deg.point_at_offset(0), Point(0, 0))
@@ -168,11 +171,24 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc1 = Arc(Point(1, 0), 90, 1, 180)
         arc2 = Arc(Point(10, 10), 180, 2, 270)
         self.assertEqual(arc1._find_arc_intersection(arc2), [])
+        # with nested circles
+        arc3 = Arc(Point(6, 0), 0, 4, 360)
+        arc4 = Arc(Point(6, 1), 0, 2, 360)
+        self.assertEqual(arc3._find_arc_intersection(arc4), [])
 
     def test_find_arc_intersection_with_arcs_that_intersect_at_one_point(self):
-        arc1 = Arc(Point(5, 0), 90, 5, 90)
+        # with positive angular length and circles that intersect at two points
+        arc1 = Arc(Point(5, 0), 90, 5, 360)
         arc2 = Arc(Point(0, 3), 0, 5, 45)
         self.assertEqual(arc1._find_arc_intersection(arc2), [Point(3, 4)])
+        # with negative angular length and circles that intersect at two points
+        arc3 = Arc(Point(0, 4), 0, 4, -135)
+        arc4 = Arc(Point(4, 0), 180, 4, 360)
+        self.assertEqual(arc3._find_arc_intersection(arc4), [Point(4, 0)])
+        # with circles that intersect at one point
+        arc5 = Arc(Point(4, 0), 0, 4, 100)
+        arc6 = Arc(Point(8, 4), -90, 2, -30)
+        self.assertEqual(arc5._find_arc_intersection(arc6), [Point(8, 4)])
 
     def test_find_arc_intersection_with_circles_that_intersect_but_no_arc_intersection(self):
         arc1 = Arc(Point(5, 0), 90, 5, 10)
@@ -185,11 +201,12 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc2 = Arc(Point(8, -1), 180, 5, -90)
         self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(3, 4), Point(5, 0)])
         # with the center of one of the circles inside the other circle
-        arc1 = Arc(Point(0, 5), 180, 5, 180)
-        arc2 = Arc(Point(-1, 0), 90, 3, 270)
-        # self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(-4, 3), Point(-4, -3)])
+        arc3 = Arc(Point(0, 5), 180, 5, 180)
+        arc4 = Arc(Point(-1, 0), 90, 3, 270)
+        self.assertAlmostEqual(arc3._find_arc_intersection(arc4), [Point(-4, -3), Point(-4, 3)])
 
-    def test_includes_point_2(self):
-        # arc1 = Arc(Point(0, 5), 180, 5, 180)
-        arc2 = Arc(Point(-1, 0), 90, 3, 270)
-        # self.assertTrue(arc2.includes_point(Point(-4, -3)))
+    def test_find_arc_intersection_with_arcs_in_the_same_circle(self):
+        # with no intersection
+        arc1 = Arc(Point(1, 0), 90, 1, 90)
+        arc2 = Arc(Point(-1, 0), 270, 1, 90)
+        # self.assertEqual(arc1._find_arc_intersection(arc2), [])

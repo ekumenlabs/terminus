@@ -102,11 +102,11 @@ class Arc(object):
         if abs(center_point.norm() - self._radius) > buffer:
             return False
         angle_between_vectors = center_start.angle(center_point)
-        if angle_between_vectors == 0:
-            return True
-        angular_delta = abs(angle_between_vectors) - abs(self._angular_length)
-        return (angle_between_vectors < 0) == (self._angular_length < 0) and angular_delta < buffer
-
+        if self._angular_length >= 0:
+            return 1e-5 >= angle_between_vectors % 360 - self._angular_length
+        else:
+            return self._angular_length - (angle_between_vectors % 360 - 360) <= 1e-5 or angle_between_vectors == 0
+            
     def extend(self, distance):
         """
         Extend the arc by a given distance, following the arc's direction

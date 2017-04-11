@@ -37,6 +37,8 @@ class Circle(object):
         r2 = other.radius
         if d == 0 and r1 == r2:
             return [self]
+        if d == 0 and r1 != r2:
+            return []
         if (d > self.radius + other.radius) or (d < abs(self.radius - other.radius)):
             return []
         if d == self.radius + other.radius:
@@ -46,7 +48,7 @@ class Circle(object):
                 return [self.center + (other.center - self.center) * (self.radius / d)]
             if self.radius < other.radius:
                 return [other.center + (self.center - other.center) * (other.radius / d)]
-        if max(r1, r2) < d < self.radius + other.radius:
+        if max(r1, r2) <= d < self.radius + other.radius:
             a = (r1 ** 2 - r2 ** 2 + d ** 2) / (2 * d)
             h = math.sqrt(r1 ** 2 - a ** 2)
             auxiliary_point = self.center + (other.center - self.center) * (a / d)
