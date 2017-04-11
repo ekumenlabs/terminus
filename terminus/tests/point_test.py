@@ -90,3 +90,18 @@ class PointTest(unittest.TestCase):
         self.assertAlmostEquals(Point(0, 1, 1).norm(), 1.41421356)
         self.assertAlmostEquals(Point(1, 0, 1).norm(), 1.41421356)
         self.assertAlmostEquals(Point(1, 1, 1).norm(), 1.73205080)
+
+    def test_angle(self):
+        # between a vector and itself
+        self.assertEqual(Point(19, 50).angle(Point(19, 50)), 0)
+        # between a vector and a positive multiple of itself
+        self.assertEqual(Point(-30, 40).angle(Point(-60, 80)), 0)
+        # between a vector and a negative multiple of itself
+        self.assertEqual(Point(35, -45).angle(Point(-35, 45)), 180)
+        self.assertEqual(Point(-35, 45).angle(Point(35, -45)), 180)
+        # with positive angle
+        self.assertEqual(Point(1, -1).angle(Point(1, 1)), 90)
+        self.assertEqual(Point(-1, 1).angle(Point(-1, -1)), 90)
+        # with negative angle
+        self.assertEqual(Point(1, 1).angle(Point(1, -1)), -90)
+        self.assertEqual(Point(-1, -1).angle(Point(-1, 1)), -90)

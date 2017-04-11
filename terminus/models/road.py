@@ -153,7 +153,7 @@ class Road(CityModel):
             previous_vector = current_node.center - previous_node.center
             following_vector = following_node.center - current_node.center
             if current_node.is_intersection() or \
-               (abs(math.degrees(previous_vector.angle(following_vector))) > angle):
+               (abs(previous_vector.angle(following_vector)) > angle):
                 trimmed_nodes.append(current_node)
                 previous_node = current_node
         trimmed_nodes.append(self.last_node())
