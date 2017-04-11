@@ -542,14 +542,16 @@ maliput_monolane_builder:
     a1_3-a1_4: {start: points.a1_3, length: 9.5, explicit_end: points.a1_4}
     a1_4-a1_5: {start: points.a1_4, length: 49.8237, explicit_end: points.a1_5}
     a1_5-a1_6: {start: points.a1_5, length: 9.5, explicit_end: points.a1_6}
-    a1_6-a1_7: {start: points.a1_6, length: 23.9302, explicit_end: points.a1_7}
+    #a1_6-a1_7: {start: points.a1_6, length: 23.9302, explicit_end: points.a1_7}
+    a1_6-a1_7: {start: points.a1_6, length: 24.2, explicit_end: points.a1_7}
     a1_7-a1_8: {start: points.a1_7, length: 9.1, explicit_end: points.a1_8}
     a1_8-a1_9: {start: points.a1_8, length: 0.176, explicit_end: points.a1_9}
     a1_9-a1_10: {start: points.a1_9, length: 9.1, explicit_end: points.a1_10}
     a1_10-a1_11: {start: points.a1_10, length: 30.8932, explicit_end: points.a1_11}
     a1_11-a1_12: {start: points.a1_11, length: 5.9794, explicit_end: points.a1_12}
 
-    a2_1-a2_2: {start: points.a2_1, length: 36.831, explicit_end: points.a2_2}
+    #a2_1-a2_2: {start: points.a2_1, length: 36.831, explicit_end: points.a2_2}
+    a2_1-a2_2: {start: points.a2_1, length: 36.95, explicit_end: points.a2_2}
     a2_2-a2_3: {start: points.a2_2, length: 9.1, explicit_end: points.a2_3}
     a2_3-a2_4: {start: points.a2_3, length: 0.176, explicit_end: points.a2_4}
     a2_4-a2_5: {start: points.a2_4, length: 9.1, explicit_end: points.a2_5}
