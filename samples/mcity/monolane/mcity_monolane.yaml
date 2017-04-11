@@ -235,8 +235,14 @@ maliput_monolane_builder:
     b6_6:
       xypoint: [142.0394, -154.2748, -90.0]
       zpoint: [0.0, 0, 0, 0]
+    b6_7:
+      xypoint: [142.0394, -170.6985, -90.0]
+      zpoint: [0.0, 0, 0, 0]
 
     #b7
+    b7_0:
+      xypoint: [150.4154, -167.719, 90.0]
+      zpoint: [0.0, 0, 0, 0]
     b7_1:
       xypoint: [150.4154, -148.4132, 90.0]
       zpoint: [0.0, 0, 0, 0]
@@ -387,8 +393,17 @@ maliput_monolane_builder:
       xypoint: [163.7532, -172.7099, -171.68]
       zpoint: [0.0, 0, 0, 0]
     c14_2:
+      xypoint: [157.2835, -173.6559, -171.68]
+      zpoint: [0.0, 0, 0, 0]
+    c14_3:
+      xypoint: [136.9075, -176.6354, -171.68]
+      zpoint: [0.0, 0, 0, 0]
+    c14_4:
       xypoint: [24.4161, -193.0846, -171.68]
       zpoint: [0.0, 0, 0, 0]
+    # c14_2:
+    #   xypoint: [24.4161, -193.0846, -171.68]
+    #   zpoint: [0.0, 0, 0, 0]
 
     #c15
     c15_1:
@@ -610,7 +625,9 @@ maliput_monolane_builder:
     b6_3-b6_4: {start: points.b6_3, length: 3.9351, explicit_end: points.b6_4}
     b6_4-b6_5: {start: points.b6_4, length: 9.1, explicit_end: points.b6_5}
     b6_5-b6_6: {start: points.b6_5, length: 149.2748, explicit_end: points.b6_6}
+    b6_6-b6_7: {start: points.b6_6, length: 16.4237, explicit_end: points.b6_7}
 
+    b7_0-b7_1: {start: points.b7_0, length: 19.3058, explicit_end: points.b7_1}
     b7_1-b7_11: {start: points.b7_1, length: 66.3009, explicit_end: points.b7_11}
     b7_11-b7_2: {start: points.b7_11, length: 77.1122, explicit_end: points.b7_2}
     b7_2-b7_3: {start: points.b7_2, length: 9.1, explicit_end: points.b7_3}
@@ -650,7 +667,10 @@ maliput_monolane_builder:
     c13_1-c13_2: {start: points.c13_1, length: 15.7359, explicit_end: points.c13_2}
     c13_2-c13_3: {start: points.c13_2, length: 85.0522, explicit_end: points.c13_3}
 
-    c14_1-c14_2: {start: points.c14_1, length: 140.8189, explicit_end: points.c14_2}
+    #c14_1-c14_2: {start: points.c14_1, length: 140.8189, explicit_end: points.c14_2}
+    c14_1-c14_2: {start: points.c14_1, length: 6.5385, explicit_end: points.c14_2}
+    c14_2-c14_3: {start: points.c14_2, length: 20.5927, explicit_end: points.c14_3}
+    c14_3-c14_4: {start: points.c14_3, length: 113.6877, explicit_end: points.c14_4}
 
     #c15_1-c15_2: {start: points.c15_1, length: 8.8943, explicit_end: points.c15_2}
     c15_1-c15_2: {start: points.c15_1, length: 9.0, explicit_end: points.c15_2}
@@ -985,8 +1005,8 @@ maliput_monolane_builder:
     #   arc: [5, -33]
     #   explicit_end: points.c22_1
 #
-    c14_2-c15_1:
-      start: points.c14_2
+    c14_4-c15_1:
+      start: points.c14_4
       arc: [6, -59]
       explicit_end: points.c15_1
 
@@ -1087,3 +1107,13 @@ maliput_monolane_builder:
       start: points.b7_6
       arc: [6, -26]
       explicit_end: points.c9_1
+#
+    c14_2-b7_7:
+      start: points.c14_2
+      arc: [6, -99]
+      explicit_end: points.b7_7
+
+    b6_7-c14_3:
+      start: points.b6_7
+      arc: [6, -82]
+      explicit_end: points.c14_3
