@@ -686,7 +686,7 @@ maliput_monolane_builder:
       explicit_end: points.d1_3
     d1_3-d1_1:
       start: points.d1_3
-      arc: [13.076, -104]
+      arc: [13.0, -100.5]
       explicit_end: points.d1_1
 
 
