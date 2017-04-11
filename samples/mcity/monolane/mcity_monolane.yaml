@@ -338,19 +338,35 @@ maliput_monolane_builder:
       zpoint: [0.0, 0, 0, 0]
 
     #c8
+    # c8_1:
+    #   xypoint: [165.913, 194.776, 171.0]
+    #   zpoint: [0.0, 0, 0, 0]
+    # c8_2:
+    #   xypoint: [131.9634, 200.0625, 171.0]
+    #   zpoint: [0.0, 0, 0, 0]
     c8_1:
-      xypoint: [165.913, 194.776, 171.0]
+      xypoint: [220.2803, 186.31, 171.2]
       zpoint: [0.0, 0, 0, 0]
     c8_2:
-      xypoint: [131.9634, 200.0625, 171.0]
+      xypoint: [175.0355, 193.3557, 171.2]
+      zpoint: [0.0, 0, 0, 0]
+    c8_3:
+      #xypoint: [165.1167, 194.776, 171.2]
+      xypoint: [165.1167, 194.9, 171.1]
+      zpoint: [0.0, 0, 0, 0]
+    c8_4:
+      #xypoint: [131.9634, 200.0625, 171.2]
+      xypoint: [131.9634, 200.15, 170.9]
       zpoint: [0.0, 0, 0, 0]
 
     #c9
     c9_1:
-      xypoint: [151.0066, 24.1739, 64]
+      #xypoint: [151.0066, 24.1739, 64.3]
+      xypoint: [151.0066, 24.1739, 64.35]
       zpoint: [0.0, 0, 0, 0]
     c9_2:
-      xypoint: [232.9248, 194.776, 64]
+      #xypoint: [232.9248, 194.776, 64]
+      xypoint: [224.7659, 177.7843, 64.35]
       zpoint: [0.0, 0, 0, 0]
 
     #c10
@@ -654,9 +670,14 @@ maliput_monolane_builder:
 
     c7_1-c7_2: {start: points.c7_1, length: 23.4365, explicit_end: points.c7_2}
 
-    c8_1-c8_2: {start: points.c8_1, length: 34.3587, explicit_end: points.c8_2}
+    #c8_1-c8_2: {start: points.c8_1, length: 34.3587, explicit_end: points.c8_2}
+    c8_1-c8_2: {start: points.c8_1, length: 45.7921, explicit_end: points.c8_2}
+    c8_2-c8_3: {start: points.c8_2, length: 10.0363, explicit_end: points.c8_3}
+    #c8_3-c8_4: {start: points.c8_3, length: 33.5528, explicit_end: points.c8_4}
+    c8_3-c8_4: {start: points.c8_3, length: 33.65, explicit_end: points.c8_4}
 
-    c9_1-c9_2: {start: points.c9_1, length: 189.2502, explicit_end: points.c9_2}
+    #c9_1-c9_2: {start: points.c9_1, length: 189.2502, explicit_end: points.c9_2}
+    c9_1-c9_2: {start: points.c9_1, length: 170.4012, explicit_end: points.c9_2}
 
     c10_1-c10_2: {start: points.c10_1, length: 24.046, explicit_end: points.c10_2}
 
@@ -950,8 +971,8 @@ maliput_monolane_builder:
       arc: [6, -114]
       explicit_end: points.b4_6
 #
-    c8_2-b7_1:
-      start: points.c8_2
+    c8_4-b7_1:
+      start: points.c8_4
       arc: [6, 54.9]
       explicit_end: points.c7_1
 
@@ -1117,3 +1138,8 @@ maliput_monolane_builder:
       start: points.b6_7
       arc: [6, -82]
       explicit_end: points.c14_3
+#
+    c9_2-c8_1:
+      start: points.c9_2
+      arc: [6, 107]
+      explicit_end: points.c8_1
