@@ -393,7 +393,7 @@ maliput_monolane_builder:
     #c15
     c15_1:
       #xypoint: [18.9434, -190.9946, 129.34]
-      xypoint: [18.9434, -190.9946, 129.1]
+      xypoint: [18.9434, -190.9946, 129.8]
       zpoint: [0.0, 0, 0, 0]
     c15_2:
       #xypoint: [13.2409, -184.1689, 129.34]
@@ -479,7 +479,9 @@ maliput_monolane_builder:
 
     #c25
     c25_1:
-      xypoint: [-1.556, -163.7793, 85.42]
+      #xypoint: [-1.556, -163.7793, 85.42]
+      #xypoint: [-1.556, -162.5, 85.42]
+      xypoint: [-1.556, -162.5, 85.3]
       zpoint: [0.0, 0, 0, 0]
     c25_2:
       xypoint: [1.8216, -121.5819, 85.42]
@@ -650,8 +652,9 @@ maliput_monolane_builder:
 
     c14_1-c14_2: {start: points.c14_1, length: 140.8189, explicit_end: points.c14_2}
 
-    c15_1-c15_2: {start: points.c15_1, length: 8.8943, explicit_end: points.c15_2}
-    c15_2-c15_3: {start: points.c15_2, length: 20.9324, explicit_end: points.c15_3}
+    #c15_1-c15_2: {start: points.c15_1, length: 8.8943, explicit_end: points.c15_2}
+    c15_1-c15_2: {start: points.c15_1, length: 9.0, explicit_end: points.c15_2}
+    c15_2-c15_3: {start: points.c15_2, length: 20.80, explicit_end: points.c15_3}
 
     c16_1-c16_2: {start: points.c16_1, length: 20.264, explicit_end: points.c16_2}
 
@@ -672,7 +675,8 @@ maliput_monolane_builder:
     #c24_1-c24_2: {start: points.c24_1, length: 48.0715, explicit_end: points.c24_2}
     c24_1-c24_2: {start: points.c24_1, length: 9.5818, explicit_end: points.c24_2}
 
-    c25_1-c25_2: {start: points.c25_1, length: 42.3323, explicit_end: points.c25_2}
+    #c25_1-c25_2: {start: points.c25_1, length: 42.3323, explicit_end: points.c25_2}
+    c25_1-c25_2: {start: points.c25_1, length: 41.1, explicit_end: points.c25_2}
     c25_2-c25_3: {start: points.c25_2, length: 21.9843, explicit_end: points.c25_3}
     c25_3-c25_4: {start: points.c25_3, length: 51.4675, explicit_end: points.c25_4}
     c25_4-c25_5: {start: points.c25_4, length: 28.811, explicit_end: points.c25_5}
@@ -993,12 +997,14 @@ maliput_monolane_builder:
 
     c15_3-c25_1:
       start: points.c15_3
-      arc: [7.5, -41]
+      #arc: [7.5, -41]
+      arc: [7.8, -44.5]
       explicit_end: points.c25_1
 
     c16_2-c17_1:
       start: points.c16_2
-      arc: [5.8, -18]
+      #arc: [5.8, -18]
+      arc: [5.60, -17.8]
       explicit_end: points.c17_1
 #
     b7_11-c13_2:
