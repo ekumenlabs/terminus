@@ -14,8 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from city_visitor import CityVisitor
 import matplotlib.pyplot as plt
+
+from models.polyline_builder import PolylineBuilder
+from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from city_visitor import CityVisitor
 from models.city import City
 
 
@@ -23,26 +26,49 @@ class StreetPlotGenerator(CityVisitor):
 
     def write_to(self, destination_file):
         bounding_box = self.city.bounding_box()
-        plt.figure(figsize=(bounding_box.width() / 100.0,
-                            bounding_box.height() / 100.0),
-                   dpi=150)
+        figure1 = plt.figure(1, figsize=self._compute_figure_size(), dpi=150)
+        figure2 = plt.figure(2, figsize=self._compute_figure_size(), dpi=150)
         self.run()
-        plt.savefig(destination_file, dpi=150)
-
-    def draw_lane(self, lane):
-        x = []
-        y = []
-        for point in lane.control_points():
-            x.append(point.x)
-            y.append(point.y)
-        return plt.plot(x, y)
+        plt.figure(1)
+        plt.savefig(destination_file + '_streets_polyline.png', dpi=150)
+        plt.figure(2)
+        plt.savefig(destination_file + '_streets_lines_and_arcs.png', dpi=150)
+        plt.close(figure1)
+        plt.close(figure2)
 
     def start_street(self, street):
-        for lane in street.lanes():
-            line = self.draw_lane(lane)
-            plt.setp(line, linewidth=1)
+        self._plot_road(street)
 
     def start_trunk(self, trunk):
-        for lane in trunk.lanes():
-            line = self.draw_lane(lane)
-            plt.setp(line, linewidth=1)
+        self._plot_road(trunk)
+
+    def _plot_road(self, road):
+        for lane in road.lanes():
+            self._draw_geometry(1, lane.geometry_using(PolylineBuilder))
+            self._draw_geometry(2, lane.geometry_using(LinesAndArcsBuilder))
+
+    def _draw_geometry(self, image_id, geometry):
+        plt.figure(image_id)
+        x = []
+        y = []
+        for point in geometry.line_interpolation_points():
+            x.append(point.x)
+            y.append(point.y)
+        polyline = plt.plot(x, y)
+        plt.setp(polyline, linewidth=1)
+
+    def _compute_figure_size(self):
+        bounding_box = self.city.bounding_box()
+        area = bounding_box.width() * bounding_box.height()
+        if area < 1e3:
+            divisor = 5.0
+        elif area < 1e4:
+            divisor = 10.0
+        elif area < 1e5:
+            divisor = 20.0
+        elif area < 1e6:
+            divisor = 50.0
+        else:
+            divisor = 100.0
+        return (bounding_box.width() / divisor,
+                bounding_box.height() / divisor)
