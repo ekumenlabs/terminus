@@ -435,6 +435,50 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_5-s2_1_6: {start: points.s2_1_5, length: 43.99019513592785, explicit_end: points.s2_1_6}
           groups: {}""")
 
+    def test_road_ends_in_intersection_city(self):
+        city = self.test_generator.road_ends_in_intersection_city()
+        self._generate_yaml(city)
+        self._assert_core_contents_are("Road ends in intersection", """
+          points:
+            s1_1_1:
+              xypoint: [-50.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_2:
+              xypoint: [-5.0, 0.0, 0.0]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_3:
+              xypoint: [4.2874646, 2.5724788, 30.96375653207352]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_4:
+              xypoint: [6.0024505, 3.6014703, 30.96375653207352]
+              zpoint: [0.0, 0, 0, 0]
+            s1_1_5:
+              xypoint: [50.0, 30.0, 30.96375653207352]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_1:
+              xypoint: [0.0, -50.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_2:
+              xypoint: [0.0, -7.0, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+            s2_1_3:
+              xypoint: [0.0, 0.7062766, 90.0]
+              zpoint: [0.0, 0, 0, 0]
+          connections:
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
+            s1_1_2-s1_1_3:
+              start: points.s1_1_2
+              arc: [18.0515865, 30.9637565]
+              explicit_end: points.s1_1_3
+            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 1.9999999999999987, explicit_end: points.s1_1_4}
+            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 51.309518948453004, explicit_end: points.s1_1_5}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 43.000000000000036, explicit_end: points.s2_1_2}
+            s2_1_2-s1_1_4:
+              start: points.s2_1_2
+              arc: [12.3633327, -59.0362435]
+              explicit_end: points.s1_1_4
+          groups: {}""")
+
     def test_two_non_collinear_segments_city(self):
         city = self.test_generator.non_collinear_segments_city()
         self._generate_yaml(city)

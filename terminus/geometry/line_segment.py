@@ -33,7 +33,7 @@ class LineSegment(object):
     def from_tuples(cls, t1, t2):
         return cls(Point.from_tuple(t1), Point.from_tuple(t2))
 
-    def includes_point(self, point, buffer=0.001):
+    def includes_point(self, point, buffer=1e-5):
         # First check if the a->b and a->point are collinear. If they are,
         # the cross product should be zero (with some buffer for errors)
         cross_product = (self.b - self.a).cross_product(point - self.a)
@@ -49,7 +49,7 @@ class LineSegment(object):
         # Finally if it is greater than the a->b squared distance it also lays
         # out of bounds
         distance = self.a.squared_distance_to(self.b)
-        if dot_product > distance:
+        if dot_product - distance > buffer:
             return False
 
         return True
@@ -68,6 +68,9 @@ class LineSegment(object):
 
     def translate_by(self, point):
         return LineSegment(self.start_point() + point, self.end_point() + point)
+
+    def inverted(self):
+        return LineSegment(self.b, self.a)
 
     def is_orthogonal_to(self, line_segment, buffer=0.001):
         return abs((self.b - self.a).dot_product(line_segment.b - line_segment.a)) < buffer
@@ -92,7 +95,10 @@ class LineSegment(object):
 
         k2 = v4.cross_product(v1).norm() / v2_cross_v1.norm()
 
-        if (k1 < 0) or (k1 > 1) or (k2 < 0) or (k2 > 1):
+        rounded_k1 = round(k1, 7)
+        rounded_k2 = round(k2, 7)
+
+        if (rounded_k1 < 0.0) or (rounded_k1 > 1.0) or (rounded_k2 < 0.0) or (rounded_k2 > 1.0):
             return []
 
         candidate = p1 + v1 * k1
@@ -171,7 +177,7 @@ class LineSegment(object):
         else:
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
 
-    def extend(self, distance):
+    def extended_by(self, distance):
         """
         Returns a new line segment that has been extended by distance. The extension
         is performed assuming the direction defined as if the line segment was a
@@ -184,6 +190,19 @@ class LineSegment(object):
         new_end = Point(self.b.x + dx / linelen * distance,
                         self.b.y + dy / linelen * distance)
         return LineSegment(self.a, new_end)
+
+    def extended_to(self, new_point):
+        """
+        Returns a new line segment that has been extended up to new_point. The
+        extension is performed assuming the direction defined as if the line
+        segment was a vector going from point a to point b.
+        Fail if the resulting line segment doesn't align with previous one.
+        """
+        new_line_segment = LineSegment(self.a, new_point)
+        # TODO: Use assertions
+        if not new_line_segment.includes_point(self.b):
+            raise ValueError("The resulting line segment is not collinear")
+        return new_line_segment
 
     def point_at_offset(self, offset):
         """

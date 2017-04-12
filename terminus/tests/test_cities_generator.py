@@ -238,6 +238,34 @@ class TestCitiesGenerator(object):
 
         return city
 
+    def road_ends_in_intersection_city(self):
+        """
+        When using smooth geometries, the original intersection point (0,0) does
+        not exist anymore as a place for the roads to intersect (it should be
+        replaced by an arc or similar). Since s2 dies on (0,0) the road geometry
+        has to be extended to touch the new s1 geometry.
+
+                             __--- (50,30)
+        (-50,0) ------- + ---
+                        |
+                        |
+                      (0,-50)
+        """
+        city = City("Road ends in intersection")
+
+        s1 = Street.from_control_points([Point(-50, 0), Point(0, 0), Point(50, 30)])
+        s1.name = "s1"
+
+        s2 = Street.from_control_points([Point(0, -50), Point(0, 0)])
+        s2.name = "s2"
+
+        city.add_intersection_at(Point(0, 0))
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        return city
+
     def non_collinear_segments_city(self):
         """
         (-100,0) -- (0,0) -- (100,30)

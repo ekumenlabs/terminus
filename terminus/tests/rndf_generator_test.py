@@ -377,6 +377,40 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_segment
         end_file""")
 
+    def test_road_ends_in_intersection_city(self):
+        city = self.test_generator.road_ends_in_intersection_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tRoad ends in intersection
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t4
+        lane_width\t13
+        1.1.1\t10.000000\t64.999544
+        1.1.2\t10.000000\t65.000000
+        1.1.3\t10.000033\t65.000055
+        1.1.4\t10.000271\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts2
+        lane\t2.1
+        num_waypoints\t3
+        lane_width\t13
+        exit\t2.1.2\t1.1.3
+        2.1.1\t9.999548\t65.000000
+        2.1.2\t9.999937\t65.000000
+        2.1.3\t10.000000\t65.000000
+        end_lane
+        end_segment
+        end_file""")
+
     def test_two_non_collinear_segments_city(self):
         city = self.test_generator.non_collinear_segments_city()
         self._generate_rndf(city)

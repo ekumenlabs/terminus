@@ -48,8 +48,24 @@ class PathGeometry(object):
     def element_at(self, index):
         return self._elements[index]
 
+    def first_element(self):
+        return self.element_at(0)
+
+    def last_element(self):
+        return self.element_at(-1)
+
+    def start_point(self):
+        return self.element_at(0).start_point()
+
+    def end_point(self):
+        return self.element_at(-1).end_point()
+
     def length(self):
         return sum(map(lambda element: element.length(), self.elements()))
+
+    def replace_element_at(self, index, new_element):
+        self._elements[index] = new_element
+        self._waypoints = None
 
     def simplify(self):
         """
@@ -88,7 +104,10 @@ class PathGeometry(object):
     def waypoints(self, lane, builder):
         if not self._waypoints:
             elements = list(self.elements())
-            nodes_by_point = builder.index_nodes(lane.road().nodes())
+            road_nodes = lane.road().nodes()
+            nodes_by_point = builder.index_nodes(road_nodes)
+            nodes_by_point[self.start_point().rounded()] = road_nodes[0]
+            nodes_by_point[self.end_point().rounded()] = road_nodes[-1]
             self._waypoints = []
             for element in elements:
                 point = element.start_point()

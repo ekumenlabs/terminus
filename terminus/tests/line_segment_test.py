@@ -113,15 +113,20 @@ class LineSegmentTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(first_segment.find_intersection(second_segment), [Point(17.2911323186, 132.470681, 0)])
         self.assertEqual(first_segment.find_intersection(non_intersect_segment), [])
 
-    def test_extend(self):
+        # Intersection happens in the edges
+        first_segment = LineSegment(Point(27.78, -86.73), Point(22.79, -77.32))
+        second_segment = LineSegment(Point(18.39, -78.46), Point(22.79, -77.32))
+        self.assertAlmostEqual(first_segment.find_intersection(second_segment), [Point(22.79, -77.32)])
+
+    def test_extended_by(self):
         original = LineSegment(Point(0, 0), Point(0, 1))
         expected = LineSegment(Point(0, 0), Point(0, 2))
-        self.assertAlmostEqual(original.extend(1), expected)
+        self.assertAlmostEqual(original.extended_by(1), expected)
 
         original = LineSegment(Point(0, 0), Point(1, 0))
         expected = LineSegment(Point(0, 0), Point(3, 0))
-        self.assertAlmostEqual(original.extend(2), expected)
+        self.assertAlmostEqual(original.extended_by(2), expected)
 
         original = LineSegment(Point(0, 0), Point(1, 1))
         expected = LineSegment(Point(0, 0), Point(2, 2))
-        self.assertAlmostEqual(original.extend(sqrt(2)), expected)
+        self.assertAlmostEqual(original.extended_by(sqrt(2)), expected)
