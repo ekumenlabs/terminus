@@ -272,12 +272,10 @@ class OsmCityBuilder(AbstractCityBuilder):
         intersects the bounding box
         '''
         segment = LineSegment(prev_coord, coord)
-
+        intersections = []
         # Check if segment intersects with bounding box
-        intersections = [
-            segment.find_intersection(self.bounds['top']),
-            segment.find_intersection(self.bounds['right']),
-            segment.find_intersection(self.bounds['bottom']),
-            segment.find_intersection(self.bounds['left'])
-        ]
-        return [intersection for intersection in intersections if intersection is not None]
+        intersections.extend(segment.find_intersection(self.bounds['top']))
+        intersections.extend(segment.find_intersection(self.bounds['right']))
+        intersections.extend(segment.find_intersection(self.bounds['bottom']))
+        intersections.extend(segment.find_intersection(self.bounds['left']))
+        return intersections
