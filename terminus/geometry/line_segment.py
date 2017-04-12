@@ -238,7 +238,7 @@ class LineSegment(object):
             raise ValueError("Point {0} is not included in line segment".format(point))
         return (self.a - point).norm()
 
-    def line_string_points(self):
+    def line_interpolation_points(self):
         return [self.a.clone(), self.b.clone()]
 
     def start_heading(self):

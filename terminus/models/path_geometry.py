@@ -175,12 +175,16 @@ class PathGeometry(object):
         message = "Point {0} does not exist in path {1}".format(point, self)
         raise ValueError(message)
 
-    def to_line_string(self):
-        tuples = []
+    def line_interpolation_points(self):
+        points = []
         for element in self.elements():
-            element_tuples = map(lambda point: point.to_tuple(), element.line_string_points())
-            tuples.extend(element_tuples)
-        return LineString(tuples).simplify(0.00001)
+            new_points = element.line_interpolation_points()
+            # Last point of previous element and first point of current
+            # one are the same. Avoid having it twice
+            if points:
+                points.pop()
+            points.extend(new_points)
+        return points
 
     def connect_waypoints(self, exit_waypoint, entry_waypoint):
         raise NotImplementedError()

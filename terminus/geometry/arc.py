@@ -173,7 +173,7 @@ class Arc(object):
                    self.radius(),
                    self.angular_length() + other.angular_length())
 
-    def line_string_points(self, step=1):
+    def line_interpolation_points(self, step=1):
         """
         Return a collection of points used to interpolate the arc.
         """

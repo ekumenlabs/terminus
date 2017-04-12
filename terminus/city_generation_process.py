@@ -61,10 +61,10 @@ class CityGenerationProcess(object):
             self.logger.info(stats)
             self.logger.info("====================================")
 
-        # if self.debug_on:
-        #     self._run_generator(StreetPlotGenerator(city),
-        #                         'Generating street plot',
-        #                         self.base_name + '_streets.png')
+        if self.debug_on:
+            self._run_generator(StreetPlotGenerator(city),
+                                'Generating street plots',
+                                self.base_name)
 
         self._run_generator(RNDFGenerator(city, self.rndf_origin),
                             'Generating RNDF file',

@@ -65,19 +65,16 @@ class PolylineBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         ]
         self.assertEquals(geometry.elements(), expected_elements)
 
-    def test_to_line_string_single_segment_path(self):
+    def test_line_interpolation_points_single_segment_path(self):
         a, b = self._road_points()[0:2]
         lane = Street.from_control_points([a, b]).lane_at(0)
         geometry = lane.geometry_using(PolylineBuilder)
-        expected_line_string = LineString([a.to_tuple(), b.to_tuple()])
-        self.assertEquals(geometry.to_line_string(), expected_line_string)
+        self.assertEquals(geometry.line_interpolation_points(), [a, b])
 
-    def test_to_line_string_multiple_segments_path(self):
+    def test_line_interpolation_points_multiple_segments_path(self):
         points = self._road_points()
         tuples = map(lambda point: point.to_tuple(), points)
         lane = Street.from_control_points(points).lane_at(0)
         geometry = lane.geometry_using(PolylineBuilder)
-        geometry_line_string = geometry.to_line_string()
-        self.assertEquals(len(geometry_line_string.coords), 4)
-        expected_line_string = LineString(tuples)
-        self.assertTrue(geometry.to_line_string().equals(expected_line_string))
+        interpolation_points = geometry.line_interpolation_points()
+        self.assertEquals(interpolation_points, points)
