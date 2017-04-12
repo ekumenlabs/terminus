@@ -60,7 +60,7 @@ class Lane(object):
     def geometry_using(self, builder_class):
         if builder_class not in self._cached_geometries:
             builder = builder_class(self.control_points())
-            geometry = builder.build_path_geometry()
+            geometry = builder.build_path_geometry(self)
             self._cached_geometries[builder_class] = geometry
         return self._cached_geometries[builder_class]
 
@@ -71,3 +71,7 @@ class Lane(object):
             waypoint_geometry = WaypointGeometry(self, geometry, builder)
             self._cached_waypoint_geometries[builder_class] = waypoint_geometry
         return self._cached_waypoint_geometries[builder_class]
+
+    def raw_geometry_using(self, builder_class):
+        builder = builder_class(self.control_points())
+        return builder.build_raw_geometry()
