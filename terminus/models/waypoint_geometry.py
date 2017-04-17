@@ -79,27 +79,28 @@ class WaypointGeometry(object):
                       key=lambda waypoint: geometry.offset_for_point(waypoint.center()))
 
     def _intersecting_waypoints_at(self, road_node, source_lane, source_geometry, target_lane, target_geometry):
-        intersections = set()
+        intersections = {}
 
         for source_element in source_geometry.elements():
             for target_element in target_geometry.elements():
-                intersections.update(source_element.find_intersection(target_element))
+                for point in source_element.find_intersection(target_element):
+                    intersections[point.rounded_to(10)] = point
 
-        intersection = self._pick_intersection_from_list(intersections, road_node, source_geometry, target_geometry)
+        intersection = self._pick_intersection_from_list(intersections.values(), road_node, source_geometry, target_geometry)
 
         if not intersection:
-            return []
+            raise ValueError("Intersection not found")
 
         waypoints = []
 
-        out_connection = self._find_connection(7, road_node, intersection, target_lane, target_geometry, source_lane, source_geometry)
+        out_connection = self._find_connection(4, road_node, intersection, target_lane, target_geometry, source_lane, source_geometry)
 
         if out_connection:
             entry_waypoint, exit_waypoint, connection = out_connection
             exit_waypoint.add_out_connection(connection)
             waypoints.append(exit_waypoint)
 
-        in_connection = self._find_connection(7, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry)
+        in_connection = self._find_connection(4, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry)
 
         if in_connection:
             entry_waypoint, exit_waypoint, connection = in_connection
@@ -197,11 +198,11 @@ class WaypointGeometry(object):
     def _connect(self, exit_waypoint, entry_waypoint):
         primitive = self._builder.connect_waypoints(exit_waypoint, entry_waypoint)
         if primitive.is_valid_path_connection():
-            # TODO: We should start using asserts
             if not primitive.end_point().almost_equal_to(entry_waypoint.center(), 5):
-                message_template = "Bad connection between {0} and {1} using {2}\nExpecting {3} but {4} given"
+                message_template = "Bad connection between {0} and {1}\nUsing {2}\nExpecting {3} but {4} given"
                 message = message_template.format(exit_waypoint, entry_waypoint, primitive, entry_waypoint.center(), primitive.end_point())
-                raise ValueError(message)
+                logger.warn(message)
+                return None
             return WaypointConnection(exit_waypoint, entry_waypoint, primitive)
         else:
             return None

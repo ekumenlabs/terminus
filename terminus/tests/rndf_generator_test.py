@@ -93,8 +93,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.3
         1.1.1\t10.000000\t64.999088
-        1.1.2\t10.000000\t64.999936
-        1.1.3\t10.000000\t65.000064
+        1.1.2\t10.000000\t64.999964
+        1.1.3\t10.000000\t65.000036
         1.1.4\t10.000000\t65.000912
         end_lane
         end_segment
@@ -106,8 +106,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.3
         2.1.1\t10.000904\t65.000000
-        2.1.2\t10.000063\t65.000000
-        2.1.3\t9.999937\t65.000000
+        2.1.2\t10.000036\t65.000000
+        2.1.3\t9.999964\t65.000000
         2.1.4\t9.999096\t65.000000
         end_lane
         end_segment
@@ -129,7 +129,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.2
         1.1.1\t10.000904\t65.000000
-        1.1.2\t10.000063\t65.000000
+        1.1.2\t10.000036\t65.000000
         1.1.3\t10.000000\t65.000000
         end_lane
         end_segment
@@ -140,7 +140,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         2.1.1\t10.000000\t65.000000
-        2.1.2\t10.000000\t65.000064
+        2.1.2\t10.000000\t65.000036
         2.1.3\t10.000000\t65.000912
         end_lane
         end_segment
@@ -163,7 +163,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         exit\t1.1.2\t2.1.2
         exit\t1.1.2\t3.1.2
         1.1.1\t10.000904\t65.000000
-        1.1.2\t10.000063\t65.000000
+        1.1.2\t10.000036\t65.000000
         1.1.3\t10.000000\t65.000000
         end_lane
         end_segment
@@ -174,7 +174,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         2.1.1\t10.000000\t65.000000
-        2.1.2\t9.999955\t64.999955
+        2.1.2\t9.999974\t64.999974
         2.1.3\t9.999096\t64.999088
         end_lane
         end_segment
@@ -185,7 +185,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         3.1.1\t10.000000\t65.000000
-        3.1.2\t9.999955\t65.000045
+        3.1.2\t9.999974\t65.000026
         3.1.3\t9.999096\t65.000912
         end_lane
         end_segment
@@ -206,7 +206,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         1.1.1\t10.000000\t65.000000
-        1.1.2\t10.000063\t65.000000
+        1.1.2\t10.000036\t65.000000
         1.1.3\t10.000904\t65.000000
         end_lane
         end_segment
@@ -218,7 +218,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.2
         2.1.1\t9.999096\t64.999088
-        2.1.2\t9.999955\t64.999955
+        2.1.2\t9.999974\t64.999974
         2.1.3\t10.000000\t65.000000
         end_lane
         end_segment
@@ -230,7 +230,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t3.1.2\t1.1.2
         3.1.1\t9.999096\t65.000912
-        3.1.2\t9.999955\t65.000045
+        3.1.2\t9.999974\t65.000026
         3.1.3\t10.000000\t65.000000
         end_lane
         end_segment
@@ -252,7 +252,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.2
         1.1.1\t10.000000\t64.999088
-        1.1.2\t10.000000\t64.999936
+        1.1.2\t10.000000\t64.999964
         1.1.3\t10.000000\t65.000912
         end_lane
         end_segment
@@ -263,7 +263,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         2.1.1\t10.000000\t65.000000
-        2.1.2\t9.999937\t65.000000
+        2.1.2\t9.999964\t65.000000
         2.1.3\t9.999096\t65.000000
         end_lane
         end_segment
@@ -284,7 +284,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         num_waypoints\t3
         lane_width\t13
         1.1.1\t10.000000\t64.999088
-        1.1.2\t10.000000\t65.000064
+        1.1.2\t10.000000\t65.000036
         1.1.3\t10.000000\t65.000912
         end_lane
         end_segment
@@ -296,7 +296,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.2
         2.1.1\t9.999096\t65.000000
-        2.1.2\t9.999937\t65.000000
+        2.1.2\t9.999964\t65.000000
         2.1.3\t10.000000\t65.000000
         end_lane
         end_segment
@@ -318,9 +318,9 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.3
         1.1.1\t10.000000\t64.999544
-        1.1.2\t10.000000\t64.999936
+        1.1.2\t10.000000\t64.999964
         1.1.3\t10.000000\t65.000000
-        1.1.4\t10.000024\t65.000059
+        1.1.4\t10.000013\t65.000034
         1.1.5\t10.000181\t65.000456
         end_lane
         end_segment
@@ -332,8 +332,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.4
         2.1.1\t9.999548\t65.000000
-        2.1.2\t9.999937\t65.000000
-        2.1.3\t10.000063\t65.000000
+        2.1.2\t9.999964\t65.000000
+        2.1.3\t10.000036\t65.000000
         2.1.4\t10.000452\t65.000000
         end_lane
         end_segment
@@ -355,9 +355,9 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t1.1.2\t2.1.4
         1.1.1\t10.000000\t64.999544
-        1.1.2\t10.000000\t64.999936
+        1.1.2\t10.000000\t64.999964
         1.1.3\t10.000000\t65.000000
-        1.1.4\t10.000024\t65.000059
+        1.1.4\t10.000013\t65.000034
         1.1.5\t10.000181\t65.000456
         end_lane
         end_segment
@@ -369,9 +369,9 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.4
         2.1.1\t9.999548\t65.000000
-        2.1.2\t9.999937\t65.000000
+        2.1.2\t9.999964\t65.000000
         2.1.3\t10.000000\t65.000000
-        2.1.4\t10.000062\t65.000013
+        2.1.4\t10.000035\t65.000007
         2.1.5\t10.000452\t65.000091
         end_lane
         end_segment
@@ -393,7 +393,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         1.1.1\t10.000000\t64.999544
         1.1.2\t10.000000\t65.000000
-        1.1.3\t10.000033\t65.000055
+        1.1.3\t10.000019\t65.000031
         1.1.4\t10.000271\t65.000456
         end_lane
         end_segment
@@ -405,7 +405,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane_width\t13
         exit\t2.1.2\t1.1.3
         2.1.1\t9.999548\t65.000000
-        2.1.2\t9.999937\t65.000000
+        2.1.2\t9.999964\t65.000000
         2.1.3\t10.000000\t65.000000
         end_lane
         end_segment

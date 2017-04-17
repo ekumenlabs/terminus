@@ -33,7 +33,7 @@ class LineSegment(object):
     def from_tuples(cls, t1, t2):
         return cls(Point.from_tuple(t1), Point.from_tuple(t2))
 
-    def includes_point(self, point, buffer=1e-5):
+    def includes_point(self, point, buffer=1e-7):
         # First check if the a->b and a->point are collinear. If they are,
         # the cross product should be zero (with some buffer for errors)
         cross_product = (self.b - self.a).cross_product(point - self.a)
@@ -43,7 +43,7 @@ class LineSegment(object):
         # If the dot product between a->b and a->point is negative then
         # point lays outside the a---b boundaries
         dot_product = (self.b - self.a).dot_product(point - self.a)
-        if dot_product < 0:
+        if dot_product + buffer < 0.0:
             return False
 
         # Finally if it is greater than the a->b squared distance it also lays

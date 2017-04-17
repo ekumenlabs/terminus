@@ -148,3 +148,15 @@ class Point(object):
 
     def __abs__(self):
         return Point(abs(self.x), abs(self.y))
+
+    def __lt__(self, other):
+        return self.x < other.x and self.y < other.y and self.z < other.z
+
+    def __le__(self, other):
+        return self.x <= other.x and self.y <= other.y and self.z <= other.z
+
+    def __gt__(self, other):
+        return other < self
+
+    def __ge__(self, other):
+        return other <= self

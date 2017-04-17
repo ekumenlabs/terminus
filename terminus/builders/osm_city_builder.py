@@ -172,8 +172,8 @@ class OsmCityBuilder(AbstractCityBuilder):
                     self.osm_coords[ref]['point'] = coord
 
                     if self._is_coord_inside_bounds(ref_pair):
-                        # If previous coord were outisde the bounding box,
-                        # add the interscting point with it to the road
+                        # If previous coord were outside the bounding box,
+                        # add the intersecting point with it to the road
                         if prev_coord_outside:
                             for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
                                 self._add_point_to_road(tmp_road, intersection)
@@ -193,7 +193,7 @@ class OsmCityBuilder(AbstractCityBuilder):
                         prev_coord_outside = False
                     else:
                         # If there is already a node inside the bounding box,
-                        # add the interscting point with it to the road
+                        # add the intersecting point with it to the road
                         if tmp_road.node_count() >= 1 and not already_intersected:
                             for intersection in self._check_intersection_with_bounding_box(prev_coord, coord):
                                 self._add_point_to_road(tmp_road, intersection)

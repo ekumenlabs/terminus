@@ -14,4 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PYTHONPATH=$PYTHONPATH:.:./terminus python -m unittest discover -s ./terminus/tests -p '*_test.py'
+PYTHONPATH=$PYTHONPATH:.:./terminus python - <<EOF
+import unittest
+import logging
+
+logging.basicConfig(level=logging.ERROR)
+
+if __name__ == "__main__":
+
+    suite = unittest.TestLoader().discover('./terminus/tests', pattern = "*_test.py")
+    unittest.TextTestRunner(verbosity=1).run(suite)
+EOF
