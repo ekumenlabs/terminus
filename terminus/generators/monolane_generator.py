@@ -120,7 +120,7 @@ class MonolaneGenerator(FileGenerator):
 
         # If the turning radius is less than the driveable_bounds then
         # don't generate the connection
-        if radius <= 4:
+        if radius <= 4.0:
             logger.error("Radius is too small to create an arc connection - {0}".format(primitive))
             return None
 

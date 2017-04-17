@@ -91,7 +91,7 @@ class Arc(object):
         candidates = circle1.intersection(circle2)
         return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
 
-    def includes_point(self, point, buffer=0.001):
+    def includes_point(self, point, buffer=1e-7):
         """
         Answer if a given point is part of the arc's perimeter. Allow to
         parametrize with a given buffer to contemplate rounding errors
@@ -105,7 +105,7 @@ class Arc(object):
         if angle_between_vectors == 0:
             return True
         angular_delta = abs(angle_between_vectors) - abs(self._angular_length)
-        return (angle_between_vectors < 0) == (self._angular_length < 0) and angular_delta < 1e-5
+        return (angle_between_vectors < 0) == (self._angular_length < 0) and angular_delta < buffer
 
     def extend(self, distance):
         """
@@ -133,22 +133,21 @@ class Arc(object):
 
     def point_at_linear_offset(self, reference_point, offset):
         circle1 = Circle(self.center_point(), self.radius())
-        circle2 = geometry.circle.Circle(reference_point, abs(offset))
+        circle2 = Circle(reference_point, abs(offset))
         intersections = circle1.intersection(circle2)
-        if not intersections:
-            return None
-
         candidates = filter(lambda point: self.includes_point(point), intersections)
+
         if not candidates:
             return None
         elif len(candidates) == 1:
             return candidates[0]
         else:
-            local_offset = self.offset_for_point(reference_point)
-            local_nearest_point = self.point_at_offset(local_offset + offset)
             candidates = sorted(candidates,
-                                key=lambda point: point.squared_distance_to(local_nearest_point))
-            return candidates[0]
+                                key=lambda point: self.offset_for_point(point))
+            if offset < 0:
+                return candidates[0]
+            else:
+                return candidates[1]
 
     def split_into(self, pairs):
         arcs = []
@@ -213,14 +212,14 @@ class Arc(object):
 
     def _angular_offset_for_point(self, point):
         if not self.includes_point(point):
-            raise ValueError("Point {0} is not included in arc {1}".format(point, self))
+            raise ValueError("{0} is not included in arc {1}".format(point, self))
         center = self.center_point()
         center_start = self._start_point - center
         center_point = point - center
         return center_start.angle(center_point)
 
     def is_valid_path_connection(self):
-        return self.radius() >= 4
+        return self.radius() > 4.0
 
     def __eq__(self, other):
         return self._start_point == other._start_point and \

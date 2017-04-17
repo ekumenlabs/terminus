@@ -16,6 +16,10 @@ limitations under the License.
 
 from path_geometry import PathGeometry
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 class PathGeometryBuilder(object):
 

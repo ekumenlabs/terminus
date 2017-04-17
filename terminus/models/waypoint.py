@@ -75,8 +75,8 @@ class Waypoint(object):
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
-               (self._heading == other._heading) and \
-               (self._center == other._center) and \
+               (round(self._heading, 7) == round(other._heading, 7)) and \
+               (self._center.rounded_to(7) == other._center.rounded_to(7)) and \
                (self._lane == other._lane) and \
                (self._geometry == other._geometry)
 
@@ -84,7 +84,12 @@ class Waypoint(object):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash((self._lane, self._geometry, self._center, self._heading))
+        return hash((self._lane, self._geometry, self._center.rounded_to(7), round(self._heading, 7)))
 
     def __repr__(self):
-        return "Waypoint at {0}".format(self.center())
+        result = ""
+        if self.is_entry():
+            result += "[ENTRY] "
+        if self.is_exit():
+            result += "[EXIT] "
+        return result + "Waypoint at {0}".format(self.center())

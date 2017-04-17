@@ -126,8 +126,10 @@ class PathGeometry(object):
         matches = []
         for element in self.elements():
             point = element.point_at_linear_offset(reference_point, offset)
-            if point and point not in matches:
-                matches.append(point)
+            if point:
+                rounded_point = point.rounded_to(10)
+                if rounded_point not in matches:
+                    matches.append(rounded_point)
         if len(matches) == 1:
             return matches[0]
         # TODO: Replace this with an assertion

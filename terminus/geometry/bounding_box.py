@@ -39,6 +39,9 @@ class BoundingBox(object):
     def __eq__(self, other):
         return self.origin == other.origin and self.corner == other.corner
 
+    def includes_point(self, point):
+        return (self.origin <= point) and (point <= self.corner)
+
     def merge(self, other):
         merge_origin = self.origin.min(other.origin)
         merge_corner = self.corner.max(other.corner)
