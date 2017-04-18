@@ -214,20 +214,55 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc1 = Arc(Point(1, 0), 90, 1, 90)
         arc2 = Arc(Point(-1, 0), 270, 1, 90)
         self.assertEqual(arc1._find_arc_intersection(arc2), [])
+        # with one point intersection
+        arc1 = Arc(Point(1, 0), 90, 1, 90)
+        arc2 = Arc(Point(0, 1), 180, 1, 90)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(0, 1)])
+        self.assertAlmostEqual(arc2._find_arc_intersection(arc1), [Point(0, 1)])
+        # with two points intersection
+        arc1 = Arc(Point(1, 0), 90, 1, 180)
+        arc2 = Arc(Point(1, 0), -90, 1, -180)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Point(-1, 0), Point(1, 0)])
+        self.assertAlmostEqual(arc2._find_arc_intersection(arc1), [Point(1, 0), Point(-1, 0)])
         # with one arc intersection
         arc1 = Arc(Point(0, -1), 0, 1, 180)
         arc2 = Arc(Point(1, 0), 90, 1, 180)
         expected_arc = Arc(Point(1, 0), 90, 1, 90)
         self.assertEqual(arc1._find_arc_intersection(arc2), [expected_arc])
         self.assertEqual(arc2._find_arc_intersection(arc1), [expected_arc])
+        # with one arc contained in the other
+        arc1 = Arc(Point(2, 4), -90, 2, 270)
+        arc2 = Arc(Point(6, 4), 270, 2, -90)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [Arc(Point(4, 2), 0, 2, 90)])
+        self.assertAlmostEqual(arc2._find_arc_intersection(arc1), [Arc(Point(4, 2), 0, 2, 90)])
+        # with same start point and different end points
+        arc1 = Arc(Point(0, -1), 0, 1, 90)
+        arc2 = Arc(Point(0, -1), 0, 1, 180)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [arc1])
+        self.assertAlmostEqual(arc2._find_arc_intersection(arc1), [arc1])
+        # with the same end point and different start points
+        arc1 = Arc(Point(1, 0), 90, 1, 180)
+        arc2 = Arc(Point(0, 1), 180, 1, 90)
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), [arc2])
+        self.assertAlmostEqual(arc2._find_arc_intersection(arc1), [arc2])
+        # with two arcs intersection
+        arc1 = Arc(Point(-1, 0), 270, 1, 270)
+        arc2 = Arc(Point(1, 0), 90, 1, 270)
+        expected_intersection = [Arc(Point(1, 0), 90, 1, 90), Arc(Point(-1, 0), 270, 1, 90)]
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), expected_intersection)
+        # with and arc in clockwise direction
+        arc1 = Arc(Point(0, 1), 0, 1, -270)
+        arc2 = Arc(Point(1, 0), 90, 1, 270)
+        expected_intersection = [Arc(Point(1, 0), 90, 1, 90), Arc(Point(-1, 0), 270, 1, 90)]
+        self.assertAlmostEqual(arc1._find_arc_intersection(arc2), expected_intersection)
 
     def test_counter_clockwise(self):
         arc1 = Arc(Point(1, 0), 90, 1, 90)
-        arc1.counter_clockwise()
-        self.assertEqual(arc1, Arc(Point(1, 0), 90, 1, 90))
+        self.assertEqual(arc1.counter_clockwise(), Arc(Point(1, 0), 90, 1, 90))
         arc2 = Arc(Point(1, 0), -90, 1, -90)
-        arc2.counter_clockwise()
-        self.assertAlmostEqual(arc2, Arc(Point(0, -1), 0, 1, 90))
+        self.assertAlmostEqual(arc2.counter_clockwise(), Arc(Point(0, -1), 0, 1, 90))
+        arc3 = Arc(Point(0, 1), 0, 1, -270)
+        self.assertAlmostEqual(arc3.counter_clockwise(), Arc(Point(-1, 0), 270, 1, 270))
 
     def test_from_points_in_circle(self):
         circle = Circle(Point(5, 5), 1)
@@ -246,3 +281,8 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         point = Point(1, 0)
         arc = Arc.from_points_in_circle(point, point, circle)
         self.assertEqual(arc, Arc(start_point, 90, 1, 0))
+        point1 = Point(0, -1)
+        point2 = Point(1, 0)
+        circle = Circle(Point(0, 0), 1)
+        expected_arc = Arc(Point(0, -1), 0, 1, 90)
+        self.assertEqual(Arc.from_points_in_circle(point1, point2, circle), expected_arc)

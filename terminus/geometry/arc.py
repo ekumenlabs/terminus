@@ -42,7 +42,7 @@ class Arc(object):
     @classmethod
     def from_points_in_circle(cls, start_point, end_point, circle):
         center = circle.center
-        start_point_angle = (start_point - center).angle(Point(1, 0))
+        start_point_angle = Point(1, 0).angle((start_point - center))
         start_heading = start_point_angle + 90
         angle_between_vectors = (start_point - center).angle(end_point - center)
         if angle_between_vectors >= 0:
@@ -89,10 +89,10 @@ class Arc(object):
         return abs(math.pi * self._radius * self._angular_length / 180.0)
 
     def counter_clockwise(self):
-        if self._angular_length < 0:
-            self._start_point = self.end_point()
-            self._theta = self.end_heading() + 180
-            self._angular_length = - self._angular_length
+        if self.angular_length() < 0:
+            return Arc(self.end_point(), self.end_heading() + 180, self.radius(), -self.angular_length())
+        else:
+            return self
 
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
@@ -110,22 +110,28 @@ class Arc(object):
             candidates = circle1.intersection(circle2)
             return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
         else:
-            self.counter_clockwise()
-            other.counter_clockwise()
-            if self == other:
-                return [self]
-            elif self.includes_point(other.start_point()) and self.includes_point(other.end_point()):
-                if other.includes_point(self.start_point()) and other.includes_point(self.end_point()):
-                    return [Arc.from_points_in_circle(other.start_point(), self.end_point(), circle1),
-                            Arc.from_points_in_circle(self.start_point(), other.end_point(), circle1)]
+            arc1 = self.counter_clockwise()
+            arc2 = other.counter_clockwise()
+            if arc1 == arc2:
+                return [arc1]
+            elif arc1.end_point().distance_to(arc2.start_point()) < 1e-5 and arc2.end_point().distance_to(arc1.start_point()) < 1e-5:
+                return [arc1.end_point(), arc1.start_point()]
+            elif arc1.end_point().distance_to(arc2.start_point()) < 1e-5:
+                return [arc2.start_point()]
+            elif arc2.end_point().distance_to(arc1.start_point()) < 1e-5:
+                return [arc1.start_point()]
+            elif arc1.includes_point(arc2.start_point()) and arc1.includes_point(arc2.end_point()):
+                if arc2.includes_point(arc1.start_point()) and arc2.includes_point(arc1.end_point()):
+                    return [Arc.from_points_in_circle(arc2.start_point(), arc1.end_point(), circle1),
+                            Arc.from_points_in_circle(arc1.start_point(), arc2.end_point(), circle1)]
                 else:
-                    return [other]
-            elif self.includes_point(other.start_point()):
-                return [Arc.from_points_in_circle(other.start_point(), self.end_point(), circle1)]
-            elif self.includes_point(other.end_point()):
-                return [Arc.from_points_in_circle(self.start_point(), other.end_point(), circle1)]
-            elif other.includes_point(self.start_point()):
-                return [self]
+                    return [arc2]
+            elif arc1.includes_point(arc2.start_point()):
+                return [Arc.from_points_in_circle(arc2.start_point(), arc1.end_point(), circle1)]
+            elif arc1.includes_point(arc2.end_point()):
+                return [Arc.from_points_in_circle(arc1.start_point(), arc2.end_point(), circle1)]
+            elif arc2.includes_point(arc1.start_point()):
+                return [arc1]
             else:
                 return []
 
@@ -261,7 +267,7 @@ class Arc(object):
 
     def __eq__(self, other):
         return self._start_point == other._start_point and \
-            (self._theta - other._theta) % 360 == 0 and \
+            self._theta % 360 == other._theta % 360 and \
             self._radius == other._radius and \
             self._angular_length == other._angular_length
 
