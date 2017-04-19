@@ -188,11 +188,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 96.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [9.6568542, -45.0]
+              arc: [9.656854249492381, -45.0]
               explicit_end: points.s2_1_2
             s1_1_2-s3_1_2:
               start: points.s1_1_2
-              arc: [9.6568542, 45.0]
+              arc: [9.656854249492381, 45.0]
               explicit_end: points.s3_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 137.4213562373095, explicit_end: points.s2_1_3}
             s3_1_2-s3_1_3: {start: points.s3_1_2, length: 137.4213562373095, explicit_end: points.s3_1_3}
@@ -235,12 +235,12 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 137.4213562373095, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_2:
               start: points.s2_1_2
-              arc: [9.6568542, 45.0]
+              arc: [9.656854249492373, 45.0]
               explicit_end: points.s1_1_2
             s3_1_1-s3_1_2: {start: points.s3_1_1, length: 137.4213562373095, explicit_end: points.s3_1_2}
             s3_1_2-s1_1_2:
               start: points.s3_1_2
-              arc: [9.6568542, -45.0]
+              arc: [9.656854249492373, -45.0]
               explicit_end: points.s1_1_2
           groups: {}""")
 
@@ -343,17 +343,17 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [5.0, 90.0]
+              arc: [5.0000000000000036, 90.0]
               explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [25.962912, 21.8014095]
+              arc: [25.962912017836256, 21.8014095]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 48.851648071345046, explicit_end: points.s1_1_4}
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.3851648, -68.1985905]
+              arc: [7.385164807134516, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.000000000000007, explicit_end: points.s2_1_3}
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 44.99999999999999, explicit_end: points.s2_1_4}
@@ -392,21 +392,21 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [6.0990195, 78.6900675]
+              arc: [6.0990195135927845, 78.6900675]
               explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [25.962912, 21.8014095]
+              arc: [25.962912017836256, 21.8014095]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 48.851648071345046, explicit_end: points.s1_1_4}
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.3851648, -68.1985905]
+              arc: [7.385164807134505, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3:
               start: points.s2_1_2
-              arc: [50.4950976, -11.3099325]
+              arc: [50.495097567964, -11.3099325]
               explicit_end: points.s2_1_3
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 45.99019513592784, explicit_end: points.s2_1_4}
           groups: {}""")
@@ -441,13 +441,13 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [18.0515865, 30.9637565]
+              arc: [18.051586491408834, 30.9637565]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 53.309518948453004, explicit_end: points.s1_1_4}
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.00000000000004, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [8.8309519, -59.0362435]
+              arc: [8.83095189484526, -59.0362435]
               explicit_end: points.s1_1_3
           groups: {}""")
 
@@ -472,7 +472,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [34.0671775, 16.6992442]
+              arc: [34.06717751485093, 16.6992442]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 99.4030650891055, explicit_end: points.s1_1_4}
           groups: {}""")
@@ -504,12 +504,12 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 5.0, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [50.4950976, 11.3099325]
+              arc: [50.49509756796387, 11.3099325]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 0.19803902718558075, explicit_end: points.s1_1_4}
             s1_1_4-s1_1_5:
               start: points.s1_1_4
-              arc: [37.3362571, 15.2551187]
+              arc: [37.336257084985604, 15.2551187]
               explicit_end: points.s1_1_5
             s1_1_5-s1_1_6: {start: points.s1_1_5, length: 6.180339887498981, explicit_end: points.s1_1_6}
           groups: {}""")
@@ -538,11 +538,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 7.76393202250021, explicit_end: points.s1_1_2}
             s1_1_2-s1_1_3:
               start: points.s1_1_2
-              arc: [9.472136, 26.5650512]
+              arc: [9.47213595499958, 26.5650512]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4:
               start: points.s1_1_3
-              arc: [27.758298, -9.2110265]
+              arc: [27.75829803978227, -9.2110265]
               explicit_end: points.s1_1_4
             s1_1_4-s1_1_5: {start: points.s1_1_4, length: 14.526986636740412, explicit_end: points.s1_1_5}
           groups: {}""")
