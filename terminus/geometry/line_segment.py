@@ -219,19 +219,9 @@ class LineSegment(object):
         return Point(self.a.x + dx / linelen * offset,
                      self.a.y + dy / linelen * offset)
 
-    def point_at_linear_offset(self, reference_point, offset):
+    def points_at_linear_offset(self, reference_point, offset):
         circle = geometry.circle.Circle(reference_point, abs(offset))
-        intersections = self._find_circle_intersection(circle)
-        if not intersections:
-            return None
-        elif len(intersections) == 1:
-            return intersections[0]
-        else:
-            local_offset = self.offset_for_point(reference_point)
-            local_nearest_point = self.point_at_offset(local_offset + offset)
-            intersections = sorted(intersections,
-                                   key=lambda point: point.squared_distance_to(local_nearest_point))
-            return intersections[0]
+        return self._find_circle_intersection(circle)
 
     def offset_for_point(self, point):
         if not self.includes_point(point):

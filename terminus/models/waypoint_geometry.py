@@ -176,23 +176,38 @@ class WaypointGeometry(object):
 
         connection_offset = minimum_offset
 
+        failed_attempts = []
+
         while True:
-            if (source_offset + connection_offset <= source_length) and (target_offset >= connection_offset):
-                entry_point = source_geometry.point_at_linear_offset(original_intersection, connection_offset)
-                entry_heading = source_geometry.heading_at_point(entry_point)
-                entry_waypoint = Waypoint(source_lane, source_geometry, entry_point, entry_heading, road_node)
+            if (source_offset + connection_offset < source_length) and (target_offset > connection_offset):
+                try:
+                    entry_offset = source_offset + connection_offset
+                    entry_reference_point = source_geometry.point_at_offset(entry_offset)
+                    entry_point = source_geometry.point_at_linear_offset(entry_reference_point, original_intersection, connection_offset)
+                    entry_heading = source_geometry.heading_at_point(entry_point)
+                    entry_waypoint = Waypoint(source_lane, source_geometry, entry_point, entry_heading, road_node)
 
-                exit_point = target_geometry.point_at_linear_offset(original_intersection, -connection_offset)
-                exit_heading = target_geometry.heading_at_point(exit_point)
-                exit_waypoint = Waypoint(target_lane, target_geometry, exit_point, exit_heading, road_node)
+                    exit_offset = target_offset - connection_offset
+                    exit_reference_point = target_geometry.point_at_offset(exit_offset)
+                    exit_point = target_geometry.point_at_linear_offset(exit_reference_point, original_intersection, connection_offset)
+                    exit_heading = target_geometry.heading_at_point(exit_point)
+                    exit_waypoint = Waypoint(target_lane, target_geometry, exit_point, exit_heading, road_node)
+                except ValueError:
+                    return None
 
-                connection = self._connect(exit_waypoint, entry_waypoint)
+                try:
+                    connection = self._connect(exit_waypoint, entry_waypoint)
+                except RuntimeError as error:
+                    failed_attempts.append(error)
+                    connection = None
 
                 if connection is None:
                     connection_offset += 0.5
                 else:
                     return (entry_waypoint, exit_waypoint, connection)
             else:
+                if failed_attempts:
+                    logger.error("Failed to connect {0} and {1} at {2}".format(source_geometry, target_geometry, intersection))
                 return None
 
     def _connect(self, exit_waypoint, entry_waypoint):
@@ -201,8 +216,7 @@ class WaypointGeometry(object):
             if not primitive.end_point().almost_equal_to(entry_waypoint.center(), 5):
                 message_template = "Bad connection between {0} and {1}\nUsing {2}\nExpecting {3} but {4} given"
                 message = message_template.format(exit_waypoint, entry_waypoint, primitive, entry_waypoint.center(), primitive.end_point())
-                logger.warn(message)
-                return None
+                raise RuntimeError(message)
             return WaypointConnection(exit_waypoint, entry_waypoint, primitive)
         else:
             return None

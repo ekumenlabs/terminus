@@ -131,23 +131,11 @@ class Arc(object):
         angle = self._angular_offset_for_point(point)
         return abs(math.pi * self._radius * angle / 180.0)
 
-    def point_at_linear_offset(self, reference_point, offset):
+    def points_at_linear_offset(self, reference_point, offset):
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = Circle(reference_point, abs(offset))
         intersections = circle1.intersection(circle2)
-        candidates = filter(lambda point: self.includes_point(point), intersections)
-
-        if not candidates:
-            return None
-        elif len(candidates) == 1:
-            return candidates[0]
-        else:
-            candidates = sorted(candidates,
-                                key=lambda point: self.offset_for_point(point))
-            if offset < 0:
-                return candidates[0]
-            else:
-                return candidates[1]
+        return filter(lambda point: self.includes_point(point), intersections)
 
     def split_into(self, pairs):
         arcs = []
