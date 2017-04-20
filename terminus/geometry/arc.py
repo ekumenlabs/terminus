@@ -41,6 +41,9 @@ class Arc(object):
 
     @classmethod
     def from_points_in_circle(cls, start_point, end_point, circle):
+        """
+        Returns a counter-clockwise arc from start point to end point on the given circle
+        """
         center = circle.center
         start_point_angle = Point(1, 0).angle((start_point - center))
         start_heading = start_point_angle + 90
@@ -239,7 +242,7 @@ class Arc(object):
         if offset > self.length():
             raise ValueError("Offset ({0}) is greater than segment length ({1})".format(offset, self.length()))
         angular_offset = math.copysign(offset, self._angular_length) * 180 / (math.pi * self._radius)
-        return self._theta + angular_offset
+        return (self._theta + angular_offset) % 360
 
     def _compute_point_at(self, angular_offset):
         """

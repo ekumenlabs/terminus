@@ -17,7 +17,7 @@ limitations under the License.
 import unittest
 from custom_assertions_mixin import CustomAssertionsMixin
 
-from math import *
+import math
 
 from geometry.point import Point
 from geometry.arc import Arc
@@ -157,6 +157,13 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc_270_deg = Arc(Point(-1, 0), 90, 3, 270)
         self.assertTrue(arc_270_deg.includes_point(Point(-4, -3)))
 
+        null_arc = Arc(Point(0, 0), 80, 20, 0)
+        self.assertTrue(null_arc.includes_point(Point(0, 0)))
+
+        arc = Arc(Point(0, -1), 0, 1, 180)
+        self.assertFalse(arc.includes_point(Point(0, 0)))
+        self.assertFalse(arc.includes_point(Point(-1, 0)))
+
     def test_point_at_offset(self):
         arc_90_deg = Arc(Point(0, 0), 90, 10, 90)
         self.assertAlmostEqual(arc_90_deg.point_at_offset(0), Point(0, 0))
@@ -167,6 +174,14 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(0), Point(0, 0))
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(15.7079632679), Point(10, 10))
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(23.5619449019), Point(17.07106781, 7.07106781))
+
+    def test_point_at_linear_offset(self):
+        arc = Arc(Point(0, -1), 0, 1, 180)
+        self.assertEqual(arc.point_at_linear_offset(Point(2, 0), 1), Point(1, 0))
+
+        arc = Arc(Point(0, -1), 0, 1, 180)
+        expected_point = Point(math.sqrt(1 / 2), math.sqrt(3 / 4))
+        # self.assertEqual(arc.point_at_linear_offset(Point(1, 0), 1), expected_point)
 
     def test_find_arc_intersection_with_circles_that_do_not_intersect(self):
         arc1 = Arc(Point(1, 0), 90, 1, 180)
@@ -257,32 +272,55 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(arc1._find_arc_intersection(arc2), expected_intersection)
 
     def test_counter_clockwise(self):
+        # for counter-clockwise arc
         arc1 = Arc(Point(1, 0), 90, 1, 90)
-        self.assertEqual(arc1.counter_clockwise(), Arc(Point(1, 0), 90, 1, 90))
+        self.assertEqual(arc1.counter_clockwise(), arc1)
+        # for clockwise arc with length smaller than 180 degrees
         arc2 = Arc(Point(1, 0), -90, 1, -90)
         self.assertAlmostEqual(arc2.counter_clockwise(), Arc(Point(0, -1), 0, 1, 90))
+        # for clockwise arc with length longer than 180 degrees
         arc3 = Arc(Point(0, 1), 0, 1, -270)
         self.assertAlmostEqual(arc3.counter_clockwise(), Arc(Point(-1, 0), 270, 1, 270))
 
     def test_from_points_in_circle(self):
+        # with start_point = end_point
+        circle = Circle(Point(0, 0), 1)
+        point = Point(1, 0)
+        arc = Arc.from_points_in_circle(point, point, circle)
+        self.assertEqual(arc, Arc(point, 90, 1, 0))
+        # with start point different to end point
         circle = Circle(Point(5, 5), 1)
         start_point = Point(6, 5)
         end_point = Point(5, 6)
         arc = Arc.from_points_in_circle(start_point, end_point, circle)
         self.assertEqual(arc, Arc(start_point, 90, 1, 90))
+
+        start_point = Point(0, -1)
+        end_point = Point(1, 0)
+        circle = Circle(Point(0, 0), 1)
+        expected_arc = Arc(Point(0, -1), 0, 1, 90)
+        self.assertEqual(Arc.from_points_in_circle(start_point, end_point, circle), expected_arc)
         # with angular length greater than 180
         circle = Circle(Point(0, 0), 1)
         start_point = Point(1, 0)
         end_point = Point(0, -1)
         arc = Arc.from_points_in_circle(start_point, end_point, circle)
         self.assertEqual(arc, Arc(start_point, 90, 1, 270))
-        # with start_point = end_point
-        circle = Circle(Point(0, 0), 1)
-        point = Point(1, 0)
-        arc = Arc.from_points_in_circle(point, point, circle)
-        self.assertEqual(arc, Arc(start_point, 90, 1, 0))
-        point1 = Point(0, -1)
-        point2 = Point(1, 0)
-        circle = Circle(Point(0, 0), 1)
-        expected_arc = Arc(Point(0, -1), 0, 1, 90)
-        self.assertEqual(Arc.from_points_in_circle(point1, point2, circle), expected_arc)
+
+    def test_can_be_merged_with(self):
+        arc1 = Arc(Point(1, 0), 90, 1, 90)
+        arc2 = Arc(Point(0, 1), 180, 1, 90)
+        arc3 = Arc(Point(0, 1), 0, 1, -90)
+        arc4 = Arc(Point(-1, 0), 270, 1, 90)
+        self.assertTrue(arc1.can_be_merged_with(arc2))
+        # self.assertTrue(arc2.can_be_merged_with(arc1))
+        self.assertFalse(arc1.can_be_merged_with(arc3))
+        self.assertFalse(arc1.can_be_merged_with(arc4))
+
+    def test_heading_at_offset(self):
+        arc = Arc(Point(1, 0), 90, 1, 360)
+        self.assertEqual(arc.heading_at_offset(0), 90)
+        self.assertEqual(arc.heading_at_offset(math.pi / 2), 180)
+        self.assertEqual(arc.heading_at_offset(math.pi), 270)
+        self.assertEqual(arc.heading_at_offset(math.pi * 1.5), 0)
+        self.assertEqual(arc.heading_at_offset(2 * math.pi), 90)
