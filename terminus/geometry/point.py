@@ -60,6 +60,9 @@ class Point(object):
     def orthogonal_vector(self):
         return Point(-self.y, self.x)
 
+    def orthonormal_vector(self):
+        return self.orthogonal_vector().normalized()
+
     def to_shapely_point(self):
         return shapely.geometry.Point(self.x, self.y, self.z)
 
@@ -115,6 +118,9 @@ class Point(object):
 
     def rounded(self):
         return self.rounded_to(7)
+
+    def mid_point(self, other):
+        return (self + other) * (0.5)
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y and self.z == other.z

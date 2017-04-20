@@ -21,6 +21,7 @@ from math import *
 
 from geometry.point import Point
 from geometry.arc import Arc
+from geometry.circle import Circle
 
 
 class ArcTest(CustomAssertionsMixin, unittest.TestCase):
@@ -206,7 +207,42 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(arc3._find_arc_intersection(arc4), [Point(-4, -3), Point(-4, 3)])
 
     def test_find_arc_intersection_with_arcs_in_the_same_circle(self):
+        # intersection between and arc and itself
+        arc = Arc(Point(4, 3), 67, 2, 99)
+        self.assertEqual(arc._find_arc_intersection(arc), [arc])
         # with no intersection
         arc1 = Arc(Point(1, 0), 90, 1, 90)
         arc2 = Arc(Point(-1, 0), 270, 1, 90)
-        # self.assertEqual(arc1._find_arc_intersection(arc2), [])
+        self.assertEqual(arc1._find_arc_intersection(arc2), [])
+        # with one arc intersection
+        arc1 = Arc(Point(0, -1), 0, 1, 180)
+        arc2 = Arc(Point(1, 0), 90, 1, 180)
+        expected_arc = Arc(Point(1, 0), 90, 1, 90)
+        self.assertEqual(arc1._find_arc_intersection(arc2), [expected_arc])
+        self.assertEqual(arc2._find_arc_intersection(arc1), [expected_arc])
+
+    def test_counter_clockwise(self):
+        arc1 = Arc(Point(1, 0), 90, 1, 90)
+        arc1.counter_clockwise()
+        self.assertEqual(arc1, Arc(Point(1, 0), 90, 1, 90))
+        arc2 = Arc(Point(1, 0), -90, 1, -90)
+        arc2.counter_clockwise()
+        self.assertAlmostEqual(arc2, Arc(Point(0, -1), 0, 1, 90))
+
+    def test_from_points_in_circle(self):
+        circle = Circle(Point(5, 5), 1)
+        start_point = Point(6, 5)
+        end_point = Point(5, 6)
+        arc = Arc.from_points_in_circle(start_point, end_point, circle)
+        self.assertEqual(arc, Arc(start_point, 90, 1, 90))
+        # with angular length greater than 180
+        circle = Circle(Point(0, 0), 1)
+        start_point = Point(1, 0)
+        end_point = Point(0, -1)
+        arc = Arc.from_points_in_circle(start_point, end_point, circle)
+        self.assertEqual(arc, Arc(start_point, 90, 1, 270))
+        # with start_point = end_point
+        circle = Circle(Point(0, 0), 1)
+        point = Point(1, 0)
+        arc = Arc.from_points_in_circle(point, point, circle)
+        self.assertEqual(arc, Arc(start_point, 90, 1, 0))

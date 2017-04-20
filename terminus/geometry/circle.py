@@ -25,6 +25,20 @@ class Circle(object):
         self.center = center
         self.radius = radius
 
+    @classmethod
+    def from_points_and_radius(cls, start_point, end_point, radius):
+        # the path between start_point and end_point is walked in counter_clockwise direction
+        # angular length between start_point and end_point is <= 180
+        if start_point == end_point:
+            raise ValueError("start_point and end_point must be different")
+        d = start_point.distance_to(end_point)
+        a = math.sqrt(radius ** 2 - (d / 2) ** 2)
+        vector = end_point - start_point
+        orthonormal_vector = vector.orthonormal_vector()
+        mid_point = start_point.mid_point(end_point)
+        center = mid_point + (orthonormal_vector * a)
+        return Circle(center, radius)
+
     def __eq__(self, other):
         return self.center == other.center and self.radius == other.radius
 
@@ -67,6 +81,6 @@ class Circle(object):
                 a = (r2 ** 2 - r1 ** 2 - d ** 2) / (2 * d)
                 h = math.sqrt(r1 ** 2 - a ** 2)
                 auxiliary_point = self.center + (self.center - other.center) * (a / d)
-                p1 = auxiliary_point + (self.center - other.center). orthogonal_vector() * (h / d)
-                p2 = auxiliary_point - (self.center - other.center). orthogonal_vector() * (h / d)
+                p1 = auxiliary_point + (self.center - other.center).orthogonal_vector() * (h / d)
+                p2 = auxiliary_point - (self.center - other.center).orthogonal_vector() * (h / d)
                 return [p1, p2]
