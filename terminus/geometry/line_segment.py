@@ -108,6 +108,12 @@ class LineSegment(object):
         else:
             return []
 
+    def _find_bounding_box_intersection(self, bounding_box):
+        intersections = []
+        for segment in bounding_box.perimeter():
+            intersections.extend(self.find_intersection(segment))
+        return intersections
+
     def _find_arc_intersection(self, arc):
         local_segment = self.translate_by(arc.center_point().negated())
         local_segment_vector = local_segment.direction_vector()
@@ -174,6 +180,8 @@ class LineSegment(object):
             return self._find_line_segment_intersection(other)
         elif isinstance(other, geometry.arc.Arc):
             return self._find_arc_intersection(other)
+        elif isinstance(other, geometry.bounding_box.BoundingBox):
+            return self._find_bounding_box_intersection(other)
         else:
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
 
@@ -258,6 +266,37 @@ class LineSegment(object):
 
     def is_valid_path_connection(self):
         return self.length() >= 5
+
+    def trim_to_fit(self, bounding_box):
+        if self.is_inside(bounding_box):
+            return [self]
+        if self.is_outside(bounding_box):
+            return []
+
+        intersections = self.find_intersection(bounding_box)
+        if len(intersections) == 1:
+            if bounding_box.includes_point(self.start_point()):
+                return [LineSegment(self.start_point(), intersections[0])]
+            elif bounding_box.includes_point(self.end_point()):
+                return [LineSegment(intersections[0], self.end_point())]
+            else:
+                raise ValueError("Something in the math is wrong")
+        elif len(intersections) == 2:
+            if bounding_box.includes_point(self.start_point()) or \
+               bounding_box.includes_point(self.end_point()):
+                raise ValueError("Something in the math is wrong")
+            return [LineSegment(intersections[0], intersections[1])]
+        else:
+            raise ValueError("Something in the math is wrong - Multiple intersections")
+
+    def is_inside(self, bounding_box):
+        return bounding_box.includes_point(self.start_point()) and \
+            bounding_box.includes_point(self.end_point())
+
+    def is_outside(self, bounding_box):
+        return not bounding_box.includes_point(self.start_point()) and \
+            not bounding_box.includes_point(self.end_point()) and \
+            not self.find_intersection(bounding_box)
 
     def __eq__(self, other):
         return self.a == other.a and self.b == other.b

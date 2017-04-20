@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 from geometry.point import Point
+from geometry.line_segment import LineSegment
 
 
 class BoundingBox(object):
@@ -57,6 +58,26 @@ class BoundingBox(object):
 
     def height(self):
         return self.corner.y - self.origin.y
+
+    def top_left(self):
+        return Point(self.corner.x, self.origin.y)
+
+    def top_right(self):
+        return self.corner.clone()
+
+    def bottom_left(self):
+        return self.origin.clone()
+
+    def bottom_right(self):
+        return Point(self.origin.x, self.corner.y)
+
+    def perimeter(self):
+        return [
+            LineSegment(self.top_left(), self.top_right()),
+            LineSegment(self.top_right(), self.bottom_right()),
+            LineSegment(self.bottom_right(), self.bottom_left()),
+            LineSegment(self.bottom_left(), self.top_left())
+        ]
 
     def _normalize(self):
         new_origin = self.origin.min(self.corner)
