@@ -75,6 +75,10 @@ class Road(CityModel):
         self._add_node(node)
         self._point_to_node[point] = node
 
+    def add_control_points(self, points):
+        for point in points:
+            self.add_control_point(point)
+
     def control_points_count(self):
         return len(self._nodes)
 

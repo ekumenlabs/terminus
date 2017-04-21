@@ -16,8 +16,6 @@ limitations under the License.
 
 from geometry.point import Point
 
-from waypoint_connection import WaypointConnection
-
 
 class Waypoint(object):
 
@@ -29,6 +27,9 @@ class Waypoint(object):
         self._road_node = road_node
         self._in_connections = []
         self._out_connections = []
+
+    def is_proxy(self):
+        return False
 
     def road_node(self):
         return self._road_node

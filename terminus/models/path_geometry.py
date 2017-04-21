@@ -122,24 +122,18 @@ class PathGeometry(object):
             self._waypoints.append(waypoint)
         return self._waypoints
 
-    def point_at_linear_offset(self, reference_point, offset):
+    def point_at_linear_offset(self, reference_point, center, distance):
         matches = []
         for element in self.elements():
-            point = element.point_at_linear_offset(reference_point, offset)
-            if point:
-                rounded_point = point.rounded_to(10)
-                if rounded_point not in matches:
-                    matches.append(rounded_point)
-        if len(matches) == 1:
-            return matches[0]
-        # TODO: Replace this with an assertion
-        if len(matches) > 2:
-            raise ValueError("Too many matches")
+            matches.extend(element.points_at_linear_offset(center, distance))
+
+        if not matches:
+            raise ValueError("Couldn't find any point at the requested linear offset")
         else:
-            if offset < 0:
-                return matches[0]
-            else:
-                return matches[1]
+            reference_offset = self.offset_for_point(reference_point)
+            matches = sorted(matches,
+                             key=lambda point: abs(reference_offset - self.offset_for_point(point)))
+            return matches[0]
 
     def heading_at_point(self, point):
         # TODO: Improve performance

@@ -116,7 +116,7 @@ class MonolaneGenerator(FileGenerator):
 
         primitive = connection.primitive()
 
-        radius = round(primitive.radius(), 7)
+        radius = primitive.radius()
 
         # If the turning radius is less than the driveable_bounds then
         # don't generate the connection
