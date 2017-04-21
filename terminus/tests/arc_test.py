@@ -175,14 +175,6 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(15.7079632679), Point(10, 10))
         self.assertAlmostEqual(arc_135_neg_deg.point_at_offset(23.5619449019), Point(17.07106781, 7.07106781))
 
-    def test_point_at_linear_offset(self):
-        arc = Arc(Point(0, -1), 0, 1, 180)
-        self.assertEqual(arc.point_at_linear_offset(Point(2, 0), 1), Point(1, 0))
-
-        arc = Arc(Point(0, -1), 0, 1, 180)
-        expected_point = Point(math.sqrt(1 / 2), math.sqrt(3 / 4))
-        # self.assertEqual(arc.point_at_linear_offset(Point(1, 0), 1), expected_point)
-
     def test_find_arc_intersection_with_circles_that_do_not_intersect(self):
         arc1 = Arc(Point(1, 0), 90, 1, 180)
         arc2 = Arc(Point(10, 10), 180, 2, 270)
@@ -306,16 +298,6 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         end_point = Point(0, -1)
         arc = Arc.from_points_in_circle(start_point, end_point, circle)
         self.assertEqual(arc, Arc(start_point, 90, 1, 270))
-
-    def test_can_be_merged_with(self):
-        arc1 = Arc(Point(1, 0), 90, 1, 90)
-        arc2 = Arc(Point(0, 1), 180, 1, 90)
-        arc3 = Arc(Point(0, 1), 0, 1, -90)
-        arc4 = Arc(Point(-1, 0), 270, 1, 90)
-        self.assertTrue(arc1.can_be_merged_with(arc2))
-        # self.assertTrue(arc2.can_be_merged_with(arc1))
-        self.assertFalse(arc1.can_be_merged_with(arc3))
-        self.assertFalse(arc1.can_be_merged_with(arc4))
 
     def test_heading_at_offset(self):
         arc = Arc(Point(1, 0), 90, 1, 360)
