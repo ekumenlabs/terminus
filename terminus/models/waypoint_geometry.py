@@ -16,6 +16,7 @@ limitations under the License.
 
 from geometry.point import Point
 from waypoint import Waypoint
+from waypoint_proxy import WaypointProxy
 from waypoint_connection import WaypointConnection
 
 import logging
@@ -47,7 +48,6 @@ class WaypointGeometry(object):
     def _build_prmitives(self):
         self._waypoints = self._build_waypoints()
         self._waypoints = self._remove_redundant_waypoints()
-        self._split_geometry = self._geometry.split_in(self._waypoints)
         self._connections = self._build_connections()
 
     def _build_waypoints(self):
@@ -96,14 +96,18 @@ class WaypointGeometry(object):
         out_connection = self._find_connection(4, road_node, intersection, target_lane, target_geometry, source_lane, source_geometry)
 
         if out_connection:
-            entry_waypoint, exit_waypoint, connection = out_connection
+            entry_waypoint, exit_waypoint, primitive = out_connection
+            entry_proxy = WaypointProxy(target_lane, self._builder.__class__, entry_waypoint.center(), road_node)
+            connection = WaypointConnection(exit_waypoint, entry_proxy, primitive)
             exit_waypoint.add_out_connection(connection)
             waypoints.append(exit_waypoint)
 
         in_connection = self._find_connection(4, road_node, intersection, source_lane, source_geometry, target_lane, target_geometry)
 
         if in_connection:
-            entry_waypoint, exit_waypoint, connection = in_connection
+            entry_waypoint, exit_waypoint, primitive = in_connection
+            exit_proxy = WaypointProxy(source_lane, self._builder.__class__, exit_waypoint.center(), road_node)
+            connection = WaypointConnection(exit_proxy, entry_waypoint, primitive)
             entry_waypoint.add_in_connection(connection)
             waypoints.append(entry_waypoint)
 
@@ -123,20 +127,21 @@ class WaypointGeometry(object):
             raise ValueError("Intersection list is empty, can't pick a value")
 
         if len(intersections) > 1:
-            logger.warn("Multiple intersections found between geometries. Picking the closest one.")
-            logger.warn("ROAD NODE: {0}".format(road_node))
-            logger.warn("SOURCE: {0}".format(source_geometry))
-            logger.warn("TARGET: {0}".format(target_geometry))
-            logger.warn("INTERSECTIONS: {0}".format(intersections))
+            logger.debug("Multiple intersections found between geometries. Picking the closest one.")
+            logger.debug("ROAD NODE: {0}".format(road_node))
+            logger.debug("SOURCE: {0}".format(source_geometry))
+            logger.debug("TARGET: {0}".format(target_geometry))
+            logger.debug("INTERSECTIONS: {0}".format(intersections))
             intersections = sorted(intersections,
                                    key=lambda point: point.squared_distance_to(intersection_control_point))
 
         return intersections[0]
 
     def _build_connections(self):
+        split_geometry = self._geometry.split_in(self._waypoints)
         waypoint_index = 0
         connections = []
-        for element in self._split_geometry.elements():
+        for element in split_geometry.elements():
             start_waypoint = self._waypoints[waypoint_index]
             waypoint_index += 1
             end_waypoint = self._waypoints[waypoint_index]
@@ -204,7 +209,7 @@ class WaypointGeometry(object):
                 if connection is None:
                     connection_offset += 0.5
                 else:
-                    return (entry_waypoint, exit_waypoint, connection)
+                    return connection
             else:
                 if failed_attempts:
                     logger.error("Failed to connect {0} and {1} at {2}".format(source_geometry, target_geometry, intersection))
@@ -217,6 +222,6 @@ class WaypointGeometry(object):
                 message_template = "Bad connection between {0} and {1}\nUsing {2}\nExpecting {3} but {4} given"
                 message = message_template.format(exit_waypoint, entry_waypoint, primitive, entry_waypoint.center(), primitive.end_point())
                 raise RuntimeError(message)
-            return WaypointConnection(exit_waypoint, entry_waypoint, primitive)
+            return (entry_waypoint, exit_waypoint, primitive)
         else:
             return None

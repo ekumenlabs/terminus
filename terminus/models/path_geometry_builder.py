@@ -109,11 +109,11 @@ class PathGeometryBuilder(object):
             raise ValueError("Intersection list is empty, can't pick a value")
 
         if len(intersections) > 1:
-            logger.warn("Multiple intersections found between geometries. Picking the closest one.")
-            logger.warn("ROAD NODE: {0}".format(road_node))
-            logger.warn("SOURCE: {0}".format(source_geometry))
-            logger.warn("TARGET: {0}".format(target_geometry))
-            logger.warn("INTERSECTIONS: {0}".format(intersections))
+            logger.debug("Multiple intersections found between geometries. Picking the closest one.")
+            logger.debug("ROAD NODE: {0}".format(road_node))
+            logger.debug("SOURCE: {0}".format(source_geometry))
+            logger.debug("TARGET: {0}".format(target_geometry))
+            logger.debug("INTERSECTIONS: {0}".format(intersections))
             intersections = sorted(intersections,
                                    key=lambda point: point.squared_distance_to(intersection_control_point))
 

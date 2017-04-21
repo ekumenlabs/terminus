@@ -23,9 +23,13 @@ class WaypointConnection(object):
         self._primitive = primitive
 
     def start_waypoint(self):
+        if self._start_waypoint.is_proxy():
+            self._start_waypoint = self._start_waypoint.resolve()
         return self._start_waypoint
 
     def end_waypoint(self):
+        if self._end_waypoint.is_proxy():
+            self._end_waypoint = self._end_waypoint.resolve()
         return self._end_waypoint
 
     def primitive(self):
