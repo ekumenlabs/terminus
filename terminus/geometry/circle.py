@@ -43,7 +43,10 @@ class Circle(object):
         return self.center == other.center and self.radius == other.radius
 
     def __hash__(self):
-        return hash((hash(self.center), self.radius))
+        return hash((self.center, self.radius))
+
+    def almost_equal_to(self, other):
+        return self.center.almost_equal_to(other.center, 5) and abs(self.radius - other.radius) < 1e-5
 
     def intersection(self, other):
         d = (other.center - self.center).norm()

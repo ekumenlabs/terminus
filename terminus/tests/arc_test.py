@@ -32,6 +32,10 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc2 = Arc(Point(5, 3), 270, 2, -100)
         self.assertAlmostEqual(arc2._compute_point_at(-90), Point(3, 1))
 
+    def test_end_point_after_counter_clockwise(self):
+        arc = Arc(Point(1, 0), -90, 1, -180).counter_clockwise()
+        self.assertAlmostEqual(arc.end_point(), Point(1, 0))
+
     def test_null_arc_end_point(self):
         null_arc = Arc(Point(0, 0), 90, 10, 0)
         self.assertAlmostEqual(null_arc.end_point(), Point(0, 0))
@@ -143,6 +147,9 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc = Arc(Point(0, 0), -60, 10, -1)
         self.assertAlmostEqual(arc.center_point(), Point(-8.660254038, -5))
 
+        arc = Arc(Point(1, 0), 90, 1, 180).counter_clockwise()
+        self.assertAlmostEqual(arc.center_point(), Point(0, 0))
+
     def test_includes_point(self):
         arc_90_deg = Arc(Point(0, 0), 90, 10, 90)
         self.assertTrue(arc_90_deg.includes_point(Point(0, 0)))
@@ -163,6 +170,15 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc = Arc(Point(0, -1), 0, 1, 180)
         self.assertFalse(arc.includes_point(Point(0, 0)))
         self.assertFalse(arc.includes_point(Point(-1, 0)))
+
+        arc = Arc(Point(1, 0), -90, 1, -180).counter_clockwise()
+        self.assertTrue(arc.includes_point(Point(-1, 0)))
+        self.assertTrue(arc.includes_point(Point(1, 0)))
+
+        arc1 = Arc(Point(1, 0), 90, 1, 180).counter_clockwise()
+        arc2 = Arc(Point(1, 0), -90, 1, -180).counter_clockwise()
+        self.assertTrue(arc1.includes_point(arc2.start_point()))
+        self.assertTrue(arc1.includes_point(arc2.end_point()))
 
     def test_point_at_offset(self):
         arc_90_deg = Arc(Point(0, 0), 90, 10, 90)
@@ -273,6 +289,12 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         # for clockwise arc with length longer than 180 degrees
         arc3 = Arc(Point(0, 1), 0, 1, -270)
         self.assertAlmostEqual(arc3.counter_clockwise(), Arc(Point(-1, 0), 270, 1, 270))
+        arc4 = Arc(Point(1, 0), -90, 1, -180)
+        self.assertAlmostEqual(arc4.counter_clockwise(), Arc(Point(-1, 0), -90, 1, 180))
+        arc5 = Arc(Point(1, 0), 90, 1, 180)
+        self.assertAlmostEqual(arc5.counter_clockwise(), arc5)
+        arc6 = Arc(Point(-1, 0), -90, 1, 180)
+        self.assertAlmostEqual(arc6.counter_clockwise(), arc6)
 
     def test_from_points_in_circle(self):
         # with start_point = end_point
@@ -286,10 +308,10 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         end_point = Point(5, 6)
         arc = Arc.from_points_in_circle(start_point, end_point, circle)
         self.assertEqual(arc, Arc(start_point, 90, 1, 90))
-
+        # in the lower half-plane
+        circle = Circle(Point(0, 0), 1)
         start_point = Point(0, -1)
         end_point = Point(1, 0)
-        circle = Circle(Point(0, 0), 1)
         expected_arc = Arc(Point(0, -1), 0, 1, 90)
         self.assertEqual(Arc.from_points_in_circle(start_point, end_point, circle), expected_arc)
         # with angular length greater than 180
@@ -306,3 +328,18 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertEqual(arc.heading_at_offset(math.pi), 270)
         self.assertEqual(arc.heading_at_offset(math.pi * 1.5), 0)
         self.assertEqual(arc.heading_at_offset(2 * math.pi), 90)
+
+    def test_contains_arc(self):
+        # contained arc
+        arc1 = Arc(Point(1, 0), 90, 1, 180)
+        arc2 = Arc(Point(0, 1), 180, 1, 90)
+        self.assertTrue(arc1.contains_arc(arc2))
+        # with not contained arc
+        arc1 = Arc(Point(1, 0), -90, 1, -180)
+        arc2 = Arc(Point(1, 0), 90, 1, 180)
+        self.assertFalse(arc1.contains_arc(arc2))
+
+    def test_almost_equal_to(self):
+        arc1 = Arc(Point(1, 0), 90, 1, 180).counter_clockwise()
+        arc2 = Arc(Point(1, 0), -90, 1, -180).counter_clockwise()
+        self.assertFalse(arc1.almost_equal_to(arc2))

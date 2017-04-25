@@ -34,7 +34,7 @@ class Arc(object):
         is considered counter-clockwise
         """
         self._start_point = start_point
-        self._theta = theta
+        self._theta = theta % 360
         self._radius = radius
         self._angular_length = angular_length
         self._end_point = self._compute_point_at(angular_length)
@@ -85,17 +85,44 @@ class Arc(object):
                        self._radius * direction_multiplier * math.cos(theta_in_radians))
         return self._start_point + vector
 
+    def circle(self):
+        return Circle(self.center_point(), self.radius())
+
     def length(self):
         """
         The length of the perimeter of the arc
         """
         return abs(math.pi * self._radius * self._angular_length / 180.0)
 
+    def _clip_angle_to_360(self, angle):
+        return angle % 360
+
     def counter_clockwise(self):
-        if self.angular_length() < 0:
-            return Arc(self.end_point(), self.end_heading() + 180, self.radius(), -self.angular_length())
-        else:
+        """
+        If the arc has clockwise direction, it returns the same arc traveled in
+        counter-clockwise direction. If it already has counter-clockwise direction,
+        it returns the same arc.
+        """
+        if self.angular_length() >= 0:
+            # Nothing to do, already counter clockwise
             return self
+        return Arc(self.end_point(), self.end_heading() + 180, self.radius(), -self.angular_length())
+
+    def contains_arc(self, other):
+        # this method doesn't consider arc directions
+        if not self.circle().almost_equal_to(other.circle()):
+            return False
+        elif (not self.includes_point(other.start_point())) or (not self.includes_point(other.end_point())):
+            return False
+        else:
+            arc1 = self.counter_clockwise()
+            arc2 = other.counter_clockwise()
+            if arc1.almost_equal_to(arc2):
+                return True
+            elif arc2.includes_point(arc1.start_point()) and arc2.includes_point(arc1.end_point()):
+                return False
+            else:
+                return True
 
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
@@ -107,34 +134,31 @@ class Arc(object):
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
 
     def _find_arc_intersection(self, other):
-        circle1 = Circle(self.center_point(), self.radius())
-        circle2 = Circle(other.center_point(), other.radius())
-        if (circle1.center - circle2.center).norm() > 1e-5 or abs(circle1.radius - circle2.radius) > 1e-5:
+        circle1 = self.circle()
+        circle2 = other.circle()
+        if not circle1.almost_equal_to(circle2):
             candidates = circle1.intersection(circle2)
             return filter(lambda point: self.includes_point(point) and other.includes_point(point), candidates)
+        arc1 = self.counter_clockwise()
+        arc2 = other.counter_clockwise()
+        if arc1.contains_arc(arc2):
+            return [arc2]
+        elif arc2.contains_arc(arc1):
+            return [arc1]
         else:
-            arc1 = self.counter_clockwise()
-            arc2 = other.counter_clockwise()
-            if arc1 == arc2:
-                return [arc1]
-            elif arc1.end_point().distance_to(arc2.start_point()) < 1e-5 and arc2.end_point().distance_to(arc1.start_point()) < 1e-5:
+            if arc1.end_point().almost_equal_to(arc2.start_point(), 5) and arc2.end_point().almost_equal_to(arc1.start_point(), 5):
                 return [arc1.end_point(), arc1.start_point()]
-            elif arc1.end_point().distance_to(arc2.start_point()) < 1e-5:
+            elif arc1.end_point().almost_equal_to(arc2.start_point(), 5):
                 return [arc2.start_point()]
-            elif arc2.end_point().distance_to(arc1.start_point()) < 1e-5:
+            elif arc2.end_point().almost_equal_to(arc1.start_point(), 5):
                 return [arc1.start_point()]
             elif arc1.includes_point(arc2.start_point()) and arc1.includes_point(arc2.end_point()):
-                if arc2.includes_point(arc1.start_point()) and arc2.includes_point(arc1.end_point()):
-                    return [Arc.from_points_in_circle(arc2.start_point(), arc1.end_point(), circle1),
-                            Arc.from_points_in_circle(arc1.start_point(), arc2.end_point(), circle1)]
-                else:
-                    return [arc2]
+                return [Arc.from_points_in_circle(arc2.start_point(), arc1.end_point(), circle1),
+                        Arc.from_points_in_circle(arc1.start_point(), arc2.end_point(), circle1)]
             elif arc1.includes_point(arc2.start_point()):
                 return [Arc.from_points_in_circle(arc2.start_point(), arc1.end_point(), circle1)]
             elif arc1.includes_point(arc2.end_point()):
                 return [Arc.from_points_in_circle(arc1.start_point(), arc2.end_point(), circle1)]
-            elif arc2.includes_point(arc1.start_point()):
-                return [arc1]
             else:
                 return []
 
@@ -149,10 +173,13 @@ class Arc(object):
         if abs(center_point.norm() - self._radius) > buffer:
             return False
         angle_between_vectors = center_start.angle(center_point)
+        if abs(angle_between_vectors) < buffer:
+            # this solves some problems that come from approximate calculations
+            return True
         if self._angular_length >= 0:
-            return 1e-5 >= angle_between_vectors % 360 - self._angular_length
+            return 1e-5 >= self._clip_angle_to_360(angle_between_vectors) - self._angular_length
         else:
-            return self._angular_length - (angle_between_vectors % 360 - 360) <= 1e-5 or angle_between_vectors == 0
+            return self._angular_length - (self._clip_angle_to_360(angle_between_vectors) - 360) < 1e-5 or abs(angle_between_vectors) < 1e-5
 
     def extend(self, distance):
         """
@@ -242,7 +269,7 @@ class Arc(object):
         if offset > self.length():
             raise ValueError("Offset ({0}) is greater than segment length ({1})".format(offset, self.length()))
         angular_offset = math.copysign(offset, self._angular_length) * 180 / (math.pi * self._radius)
-        return (self._theta + angular_offset) % 360
+        return self._clip_angle_to_360(self._theta + angular_offset)
 
     def _compute_point_at(self, angular_offset):
         """
@@ -268,9 +295,15 @@ class Arc(object):
     def is_valid_path_connection(self):
         return self.radius() > 4.0
 
+    def almost_equal_to(self, other):
+        return self.circle().almost_equal_to(other.circle()) and \
+            self.start_point().almost_equal_to(other.start_point(), 5) and \
+            self.end_point().almost_equal_to(other.end_point(), 5) and \
+            self.angular_length() * other.angular_length() > 0
+
     def __eq__(self, other):
         return self._start_point == other._start_point and \
-            self._theta % 360 == other._theta % 360 and \
+            self._theta == other._theta and \
             self._radius == other._radius and \
             self._angular_length == other._angular_length
 

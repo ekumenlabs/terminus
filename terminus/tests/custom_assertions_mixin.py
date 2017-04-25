@@ -46,8 +46,8 @@ class CustomAssertionsMixin(object):
                                     arc2.start_point(),
                                     places=places,
                                     msg=start_point_msg)
-        self.assertAlmostEqual(arc1.theta() % 360,
-                               arc2.theta() % 360,
+        self.assertAlmostEqual(arc1.theta(),
+                               arc2.theta(),
                                places=places,
                                msg=theta_msg)
         self.assertAlmostEqual(arc1.radius(),
