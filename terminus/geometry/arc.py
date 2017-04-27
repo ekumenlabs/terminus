@@ -174,10 +174,10 @@ class Arc(object):
             # this solves some problems that come from approximate calculations
             return True
         if self._angular_length >= 0:
-            return 1e-5 >= self._clip_angle_to_360(angle_between_vectors) - self._angular_length
+            return buffer >= self._clip_angle_to_360(angle_between_vectors) - self._angular_length
         else:
-            return self._angular_length - (self._clip_angle_to_360(angle_between_vectors) - 360) < 1e-5 or \
-                abs(angle_between_vectors) < 1e-5
+            return self._angular_length - (self._clip_angle_to_360(angle_between_vectors) - 360) < buffer or \
+                abs(angle_between_vectors) < buffer
 
     def extend(self, distance):
         """
