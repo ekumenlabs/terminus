@@ -42,7 +42,7 @@ class CircleTest(CustomAssertionsMixin, unittest.TestCase):
         circle1 = Circle(Point(0, 0), math.sqrt(65))
         circle2 = Circle(Point(4, 0), 5)
         self.assertAlmostEqual(circle1.intersection(circle2), [Point(7.0, 4.0, 0.0), Point(7.0, -4.0, 0.0)])
-        # with one cener iside the other circle and the line that contains both intersection points contains one circle's center
+        # with one center inside the other circle and the line that contains both intersection points containing one circle's center
         circle1 = Circle(Point(0, 0), 5)
         circle2 = Circle(Point(-4, 0), 3)
         self.assertEqual(circle1.intersection(circle2), [Point(-4, -3), Point(-4, 3)])

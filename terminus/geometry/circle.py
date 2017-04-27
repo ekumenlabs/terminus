@@ -37,7 +37,7 @@ class Circle(object):
         orthonormal_vector = vector.orthonormal_vector()
         mid_point = start_point.mid_point(end_point)
         center = mid_point + (orthonormal_vector * a)
-        return Circle(center, radius)
+        return cls(center, radius)
 
     def __eq__(self, other):
         return self.center == other.center and self.radius == other.radius
@@ -45,8 +45,8 @@ class Circle(object):
     def __hash__(self):
         return hash((self.center, self.radius))
 
-    def almost_equal_to(self, other):
-        return self.center.almost_equal_to(other.center, 5) and abs(self.radius - other.radius) < 1e-5
+    def almost_equal_to(self, other, decimals=5):
+        return self.center.almost_equal_to(other.center, decimals) and abs(self.radius - other.radius) < 1e-5
 
     def intersection(self, other):
         d = (other.center - self.center).norm()

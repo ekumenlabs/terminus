@@ -52,7 +52,7 @@ class Arc(object):
             angular_length = angle_between_vectors
         else:
             angular_length = 360 + angle_between_vectors
-        return Arc(start_point, start_heading, circle.radius, angular_length)
+        return cls(start_point, start_heading, circle.radius, angular_length)
 
     def start_point(self):
         return self._start_point
@@ -117,12 +117,9 @@ class Arc(object):
         else:
             arc1 = self.counter_clockwise()
             arc2 = other.counter_clockwise()
-            if arc1.almost_equal_to(arc2):
-                return True
-            elif arc2.includes_point(arc1.start_point()) and arc2.includes_point(arc1.end_point()):
-                return False
-            else:
-                return True
+            return arc1.almost_equal_to(arc2) or \
+                (not arc2.includes_point(arc1.start_point())) or \
+                (not arc2.includes_point(arc1.end_point()))
 
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
@@ -179,7 +176,8 @@ class Arc(object):
         if self._angular_length >= 0:
             return 1e-5 >= self._clip_angle_to_360(angle_between_vectors) - self._angular_length
         else:
-            return self._angular_length - (self._clip_angle_to_360(angle_between_vectors) - 360) < 1e-5 or abs(angle_between_vectors) < 1e-5
+            return self._angular_length - (self._clip_angle_to_360(angle_between_vectors) - 360) < 1e-5 or \
+                abs(angle_between_vectors) < 1e-5
 
     def extend(self, distance):
         """
@@ -295,10 +293,10 @@ class Arc(object):
     def is_valid_path_connection(self):
         return self.radius() > 4.0
 
-    def almost_equal_to(self, other):
-        return self.circle().almost_equal_to(other.circle()) and \
-            self.start_point().almost_equal_to(other.start_point(), 5) and \
-            self.end_point().almost_equal_to(other.end_point(), 5) and \
+    def almost_equal_to(self, other, decimals=5):
+        return self.circle().almost_equal_to(other.circle(), decimals) and \
+            self.start_point().almost_equal_to(other.start_point(), decimals) and \
+            self.end_point().almost_equal_to(other.end_point(), decimals) and \
             self.angular_length() * other.angular_length() > 0
 
     def __eq__(self, other):
