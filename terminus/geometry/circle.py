@@ -39,12 +39,6 @@ class Circle(object):
         center = mid_point + (orthonormal_vector * a)
         return cls(center, radius)
 
-    def __eq__(self, other):
-        return self.center == other.center and self.radius == other.radius
-
-    def __hash__(self):
-        return hash((self.center, self.radius))
-
     def almost_equal_to(self, other, decimals=5):
         return self.center.almost_equal_to(other.center, decimals) and abs(self.radius - other.radius) < 1e-5
 
@@ -87,3 +81,12 @@ class Circle(object):
                 p1 = auxiliary_point + (self.center - other.center).orthogonal_vector() * (h / d)
                 p2 = auxiliary_point - (self.center - other.center).orthogonal_vector() * (h / d)
                 return [p1, p2]
+
+    def __eq__(self, other):
+        return self.center == other.center and self.radius == other.radius
+
+    def __hash__(self):
+        return hash((self.center, self.radius))
+
+    def __repr__(self):
+        return "Circle({0}, {1})".format(self.center, self.radius)

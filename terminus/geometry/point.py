@@ -51,6 +51,9 @@ class Point(object):
         max_z = max(self.z, other.z)
         return Point(max_x, max_y, max_z)
 
+    def closest_point_to(self, other):
+        return self
+
     def clone(self):
         return Point(self.x, self.y, self.z)
 
@@ -89,6 +92,12 @@ class Point(object):
         if angle > 180:
             angle = angle - 360
         return angle
+
+    def is_collinear_with(self, other_point, tolerance=1e-5):
+        """
+        We assume that the receiver and the parameter represent vectors
+        """
+        return abs(self.angle(other_point)) <= tolerance
 
     def norm(self):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)

@@ -39,8 +39,9 @@ class SimpleCityBuilder(AbstractCityBuilder):
         self._setup_intersections(city, size)
         self._create_inner_streets(city, size)
         self._create_surrounding_ring_road(city, size)
-        self._create_blocks(city, size)
-        self._create_buildings(city, size)
+        # Disabling this temporarily as we are focusing on road networks
+        # self._create_blocks(city, size)
+        # self._create_buildings(city, size)
         return city
 
     def _setup_intersections(self, city, size):

@@ -187,27 +187,27 @@ class OsmCityBuilder(AbstractCityBuilder):
         if not road.includes_control_point(point):
             road.add_control_point(point)
 
-    # def _create_buildings(self, city):
-    #     '''
-    #     Iterate the ways to find the buildings data and create model buildings
-    #     with it.
-    #     '''
-    #     for key, value in self.osm_ways.iteritems():
-    #         tags = value['tags']
-    #         if 'building' in tags:
-    #             vertices = []
-    #             for ref in value['refs']:
-    #                 ref_lat = self.osm_coords[ref]['lat']
-    #                 ref_lon = self.osm_coords[ref]['lon']
-    #                 ref_pair = LatLon(ref_lat, ref_lon)
-    #                 vertex = self._translate_coords(ref_pair)
-    #                 vertices.append(vertex)
-    #             if 'height' in value:
-    #                 height = value['height']
-    #             else:
-    #                 height = 20
-    #             building = Building(Point(0, 0, 0), vertices, height=height)
-    #             city.add_building(building)
+    def _create_buildings(self, city):
+        '''
+        Iterate the ways to find the buildings data and create model buildings
+        with it.
+        '''
+        for key, value in self.osm_ways.iteritems():
+            tags = value['tags']
+            if 'building' in tags:
+                vertices = []
+                for ref in value['refs']:
+                    ref_lat = self.osm_coords[ref]['lat']
+                    ref_lon = self.osm_coords[ref]['lon']
+                    ref_pair = LatLon(ref_lat, ref_lon)
+                    vertex = self._translate_coords(ref_pair)
+                    vertices.append(vertex)
+                if 'height' in value:
+                    height = value['height']
+                else:
+                    height = 20
+                building = Building(Point(0, 0, 0), vertices, height=height)
+                city.add_building(building)
 
     def _translate_coords(self, latlon):
         (delta_lat, delta_lon) = self.map_origin.delta_in_meters(latlon)

@@ -46,8 +46,21 @@ class RoadNode(object):
     def involved_roads(self):
         raise NotImplementedError()
 
+    def involved_lanes(self):
+        lanes = []
+        for road in self.involved_roads():
+            lanes.extend(road.lanes())
+        return lanes
+
     def involved_roads_except(self, target_road):
         return filter(lambda road: road is not target_road, self.involved_roads())
+
+    def involved_lanes_except_all_in(self, target_road):
+        other_roads = self.involved_roads_except(target_road)
+        other_lanes = []
+        for other_road in other_roads:
+            other_lanes.extend(other_road.lanes())
+        return other_lanes
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and \

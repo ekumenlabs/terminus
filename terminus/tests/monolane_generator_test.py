@@ -46,7 +46,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
           id: {0}
           lane_bounds: [-2, 2]
           driveable_bounds: [-4, 4]
-          position_precision: 0.01
+          position_precision: 0.0005
           orientation_precision: 0.5{1}\n""".format(name, expected_core_contents)
         expected = textwrap.dedent(expected_contents)[1:]
         self.assertMultiLineEqual(self.generated_contents, expected)
@@ -83,10 +83,10 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-100.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [-4.5, 0.0, 0.0]
+              xypoint: [-5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [4.5, 0.0, 0.0]
+              xypoint: [5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
               xypoint: [100.0, 0.0, 0.0]
@@ -95,29 +95,29 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 100.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [0.0, 4.5, -90.0]
+              xypoint: [0.0, 5.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
-              xypoint: [0.0, -4.5, -90.0]
+              xypoint: [0.0, -5.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_4:
               xypoint: [0.0, -100.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.5, explicit_end: points.s1_1_2}
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [4.5, -90.0]
+              arc: [5.0, -90.0]
               explicit_end: points.s2_1_3
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 9.0, explicit_end: points.s1_1_3}
-            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 95.5, explicit_end: points.s1_1_4}
-            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 95.5, explicit_end: points.s2_1_2}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 10.0, explicit_end: points.s1_1_3}
+            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 95.0, explicit_end: points.s1_1_4}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 95.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [4.5, 90.0]
+              arc: [5.0, 90.0]
               explicit_end: points.s1_1_3
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 9.0, explicit_end: points.s2_1_3}
-            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 95.5, explicit_end: points.s2_1_4}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.0, explicit_end: points.s2_1_3}
+            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 95.0, explicit_end: points.s2_1_4}
           groups: {}""")
 
     def test_L_intersection(self):
@@ -129,7 +129,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 100.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [0.0, 4.5, -90.0]
+              xypoint: [0.0, 5.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
               xypoint: [0.0, 0.0, -90.0]
@@ -138,18 +138,18 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [4.5, 0.0, 0.0]
+              xypoint: [5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [100.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.5, explicit_end: points.s1_1_2}
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [4.5, 90.0]
+              arc: [5.0, 90.0]
               explicit_end: points.s2_1_2
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.5, explicit_end: points.s2_1_3}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.0, explicit_end: points.s2_1_3}
           groups: {}""")
 
     def test_Y_intersection_one_to_many(self):
@@ -161,7 +161,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 100.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [0.0, 4.0, -90.0]
+              xypoint: [0.0, 5.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
               xypoint: [0.0, 0.0, -90.0]
@@ -170,7 +170,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, -135.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [-2.8284271, -2.8284271, -135.0]
+              xypoint: [-3.5355339, -3.5355339, -135.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [-100.0, -100.0, -135.0]
@@ -179,23 +179,23 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, -45.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_2:
-              xypoint: [2.8284271, -2.8284271, -45.0]
+              xypoint: [3.5355339, -3.5355339, -45.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_3:
               xypoint: [100.0, -100.0, -45.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 96.0, explicit_end: points.s1_1_2}
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [9.656854249492381, -45.0]
+              arc: [12.071067811865477, -45.0]
               explicit_end: points.s2_1_2
             s1_1_2-s3_1_2:
               start: points.s1_1_2
-              arc: [9.656854249492381, 45.0]
+              arc: [12.071067811865477, 45.0]
               explicit_end: points.s3_1_2
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 137.4213562373095, explicit_end: points.s2_1_3}
-            s3_1_2-s3_1_3: {start: points.s3_1_2, length: 137.4213562373095, explicit_end: points.s3_1_3}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 136.4213562373095, explicit_end: points.s2_1_3}
+            s3_1_2-s3_1_3: {start: points.s3_1_2, length: 136.4213562373095, explicit_end: points.s3_1_3}
           groups: {}""")
 
     def test_Y_intersection_many_to_one(self):
@@ -207,7 +207,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [0.0, 4.0, 90.0]
+              xypoint: [0.0, 5.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
               xypoint: [0.0, 100.0, 90.0]
@@ -216,7 +216,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-100.0, -100.0, 45.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [-2.8284271, -2.8284271, 45.0]
+              xypoint: [-3.5355339, -3.5355339, 45.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [0.0, 0.0, 45.0]
@@ -225,22 +225,22 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [100.0, -100.0, 135.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_2:
-              xypoint: [2.8284271, -2.8284271, 135.0]
+              xypoint: [3.5355339, -3.5355339, 135.0]
               zpoint: [0.0, 0, 0, 0]
             s3_1_3:
               xypoint: [0.0, 0.0, 135.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 96.0, explicit_end: points.s1_1_3}
-            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 137.4213562373095, explicit_end: points.s2_1_2}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 95.0, explicit_end: points.s1_1_3}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 136.4213562373095, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_2:
               start: points.s2_1_2
-              arc: [9.656854249492373, 45.0]
+              arc: [12.071067811865477, 45.0]
               explicit_end: points.s1_1_2
-            s3_1_1-s3_1_2: {start: points.s3_1_1, length: 137.4213562373095, explicit_end: points.s3_1_2}
+            s3_1_1-s3_1_2: {start: points.s3_1_1, length: 136.4213562373095, explicit_end: points.s3_1_2}
             s3_1_2-s1_1_2:
               start: points.s3_1_2
-              arc: [9.656854249492373, -45.0]
+              arc: [12.071067811865477, -45.0]
               explicit_end: points.s1_1_2
           groups: {}""")
 
@@ -253,7 +253,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-100.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [-4.5, 0.0, 0.0]
+              xypoint: [-5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
               xypoint: [100.0, 0.0, 0.0]
@@ -262,19 +262,19 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, 0.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [0.0, -4.5, -90.0]
+              xypoint: [0.0, -5.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [0.0, -100.0, -90.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.5, explicit_end: points.s1_1_2}
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
-              arc: [4.5, -90.0]
+              arc: [5.0, -90.0]
               explicit_end: points.s2_1_2
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 104.5, explicit_end: points.s1_1_3}
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.5, explicit_end: points.s2_1_3}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 105.0, explicit_end: points.s1_1_3}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.0, explicit_end: points.s2_1_3}
           groups: {}""")
 
     def test_T_intersection_in_city(self):
@@ -286,7 +286,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-100.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_2:
-              xypoint: [4.5, 0.0, 0.0]
+              xypoint: [5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
               xypoint: [100.0, 0.0, 0.0]
@@ -295,18 +295,18 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, -100.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_2:
-              xypoint: [0.0, -4.5, 90.0]
+              xypoint: [0.0, -5.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
               xypoint: [0.0, 0.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
-            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 104.5, explicit_end: points.s1_1_2}
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 95.5, explicit_end: points.s1_1_3}
-            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 95.5, explicit_end: points.s2_1_2}
+            s1_1_1-s1_1_2: {start: points.s1_1_1, length: 105.0, explicit_end: points.s1_1_2}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 95.0, explicit_end: points.s1_1_3}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 95.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_2:
               start: points.s2_1_2
-              arc: [4.5, -90.0]
+              arc: [5.0, -90.0]
               explicit_end: points.s1_1_2
           groups: {}""")
 
@@ -353,7 +353,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.385164807134516, -68.1985905]
+              arc: [7.385164807134503, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.000000000000007, explicit_end: points.s2_1_3}
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 44.99999999999999, explicit_end: points.s2_1_4}
@@ -392,7 +392,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [6.0990195135927845, 78.6900675]
+              arc: [6.0990195135927925, 78.6900675]
               explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
@@ -402,7 +402,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.385164807134505, -68.1985905]
+              arc: [7.385164807134503, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3:
               start: points.s2_1_2
@@ -435,7 +435,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [0.0, -5.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
             s2_1_3:
-              xypoint: [0.0, 0.7062766, 90.0]
+              xypoint: [0.0, 0.0, 90.0]
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
@@ -444,10 +444,10 @@ class MonolaneGeneratorTest(unittest.TestCase):
               arc: [18.051586491408834, 30.9637565]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 53.309518948453004, explicit_end: points.s1_1_4}
-            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.00000000000004, explicit_end: points.s2_1_2}
+            s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [8.83095189484526, -59.0362435]
+              arc: [8.8309518948453, -59.0362435]
               explicit_end: points.s1_1_3
           groups: {}""")
 
@@ -489,16 +489,13 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [-5.0, 0.0, 0.0]
               zpoint: [0.0, 0, 0, 0]
             s1_1_3:
-              xypoint: [4.9029034, 0.9805807, 11.309932474019142]
+              xypoint: [4.9029034, 0.9805807, 11.309932474020213]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
-              xypoint: [5.0970966, 1.0194193, 11.309932474019142]
+              xypoint: [14.6492674, 4.3246337, 26.565051176825957]
               zpoint: [0.0, 0, 0, 0]
             s1_1_5:
-              xypoint: [14.472136, 4.236068, 26.565051177079678]
-              zpoint: [0.0, 0, 0, 0]
-            s1_1_6:
-              xypoint: [20.0, 7.0, 26.565051177079678]
+              xypoint: [20.0, 7.0, 26.565051176825957]
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 5.0, explicit_end: points.s1_1_2}
@@ -506,12 +503,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s1_1_2
               arc: [50.49509756796387, 11.3099325]
               explicit_end: points.s1_1_3
-            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 0.19803902718558075, explicit_end: points.s1_1_4}
-            s1_1_4-s1_1_5:
-              start: points.s1_1_4
-              arc: [37.336257084985604, 15.2551187]
-              explicit_end: points.s1_1_5
-            s1_1_5-s1_1_6: {start: points.s1_1_5, length: 6.180339887498981, explicit_end: points.s1_1_6}
+            s1_1_3-s1_1_4:
+              start: points.s1_1_3
+              arc: [38.81506429061114, 15.2551187]
+              explicit_end: points.s1_1_4
+            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 5.9823008605098495, explicit_end: points.s1_1_5}
           groups: {}""")
 
     def test_two_non_collinear_segments_less_than_border_city(self):
@@ -529,10 +525,10 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [2.0, 1.0, 26.56505117707799]
               zpoint: [0.0, 0, 0, 0]
             s1_1_4:
-              xypoint: [6.1342821, 2.6669632, 17.35402463626132]
+              xypoint: [6.1342821, 2.6669632, 17.354024636324457]
               zpoint: [0.0, 0, 0, 0]
             s1_1_5:
-              xypoint: [20.0, 7.0, 17.35402463626132]
+              xypoint: [20.0, 7.0, 17.354024636324457]
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 7.76393202250021, explicit_end: points.s1_1_2}
@@ -542,9 +538,9 @@ class MonolaneGeneratorTest(unittest.TestCase):
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4:
               start: points.s1_1_3
-              arc: [27.75829803978227, -9.2110265]
+              arc: [27.75829803854087, -9.2110265]
               explicit_end: points.s1_1_4
-            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 14.526986636740412, explicit_end: points.s1_1_5}
+            s1_1_4-s1_1_5: {start: points.s1_1_4, length: 14.526986636939123, explicit_end: points.s1_1_5}
           groups: {}""")
 
     def test_S_road_city(self):

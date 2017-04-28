@@ -14,14 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import math
+
 from geometry.point import Point
+from geometry.line import Line
 
 
 class Waypoint(object):
 
-    def __init__(self, lane, geometry, center, heading, road_node):
+    def __init__(self, lane, center, heading, road_node):
         self._lane = lane
-        self._geometry = geometry
         self._center = center
         self._heading = heading
         self._road_node = road_node
@@ -31,6 +33,9 @@ class Waypoint(object):
     def is_proxy(self):
         return False
 
+    def lane(self):
+        return self._lane
+
     def road_node(self):
         return self._road_node
 
@@ -39,6 +44,15 @@ class Waypoint(object):
 
     def heading(self):
         return self._heading
+
+    def heading_vector(self):
+        heading_in_radians = math.radians(self.heading())
+        x = math.cos(heading_in_radians)
+        y = math.sin(heading_in_radians)
+        return Point(x, y)
+
+    def defining_line(self):
+        return Line.from_points(self.center(), self.center() + self.heading_vector())
 
     def is_exit(self):
         return len(self._out_connections) > 0
@@ -61,31 +75,27 @@ class Waypoint(object):
     def out_connections(self):
         return self._out_connections
 
-    def road(self):
-        return self._road
-
     def center(self):
         return self._center
 
-    def add_connections_from(self, other_waypoint):
-        for connection in other_waypoint.in_connections():
-            self.add_in_connection(connection)
-
-        for connection in other_waypoint.out_connections():
-            self.add_out_connection(connection)
+    def move_along(self, path, delta):
+        current_offset = path.offset_for_point(self.center())
+        new_offset = current_offset + delta
+        new_offset = min(max(new_offset, 0), path.length() - 1e-7)
+        self._center = path.point_at_offset(new_offset)
+        self._heading = path.heading_at_offset(new_offset)
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__) and \
                (round(self._heading, 7) == round(other._heading, 7)) and \
                (self._center.rounded_to(7) == other._center.rounded_to(7)) and \
-               (self._lane == other._lane) and \
-               (self._geometry == other._geometry)
+               (self._lane == other._lane)
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash((self._lane, self._geometry, self._center.rounded_to(7), round(self._heading, 7)))
+        return hash((self._lane, self._center.rounded_to(7), round(self._heading, 7)))
 
     def __repr__(self):
         result = ""

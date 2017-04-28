@@ -24,11 +24,11 @@ from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
 
-from models.polyline_builder import PolylineBuilder
+from models.polyline_geometry import PolylineGeometry
 from models.street import Street
 
 
-class PolylineBuilderTest(CustomAssertionsMixin, unittest.TestCase):
+class PolylineGeometryTest(CustomAssertionsMixin, unittest.TestCase):
 
     def _road_points(self):
         return [
@@ -41,23 +41,23 @@ class PolylineBuilderTest(CustomAssertionsMixin, unittest.TestCase):
     def test_malformed_paths(self):
         with self.assertRaises(ValueError):
             lane = Street.from_control_points([]).lane_at(0)
-            geometry = lane.geometry_using(PolylineBuilder)
+            geometry = lane.path_for(PolylineGeometry)
 
         with self.assertRaises(ValueError):
             lane = Street.from_control_points([Point(0, 0)]).lane_at(0)
-            geometry = lane.geometry_using(PolylineBuilder)
+            geometry = lane.path_for(PolylineGeometry)
 
     def test_elements_single_segment_path(self):
         a, b = self._road_points()[0:2]
         lane = Street.from_control_points([a, b]).lane_at(0)
-        geometry = lane.geometry_using(PolylineBuilder)
+        geometry = lane.path_for(PolylineGeometry)
         expected_elements = [LineSegment(a, b)]
         self.assertEquals(geometry.elements(), expected_elements)
 
     def test_elements_multiple_segments_path(self):
         [a, b, c, d] = self._road_points()
         lane = Street.from_control_points([a, b, c, d]).lane_at(0)
-        geometry = lane.geometry_using(PolylineBuilder)
+        geometry = lane.path_for(PolylineGeometry)
         expected_elements = [
             LineSegment(a, b),
             LineSegment(b, c),
@@ -68,13 +68,13 @@ class PolylineBuilderTest(CustomAssertionsMixin, unittest.TestCase):
     def test_line_interpolation_points_single_segment_path(self):
         a, b = self._road_points()[0:2]
         lane = Street.from_control_points([a, b]).lane_at(0)
-        geometry = lane.geometry_using(PolylineBuilder)
+        geometry = lane.path_for(PolylineGeometry)
         self.assertEquals(geometry.line_interpolation_points(), [a, b])
 
     def test_line_interpolation_points_multiple_segments_path(self):
         points = self._road_points()
         tuples = map(lambda point: point.to_tuple(), points)
         lane = Street.from_control_points(points).lane_at(0)
-        geometry = lane.geometry_using(PolylineBuilder)
+        geometry = lane.path_for(PolylineGeometry)
         interpolation_points = geometry.line_interpolation_points()
         self.assertEquals(interpolation_points, points)

@@ -18,7 +18,7 @@ import math
 
 from geometry.point import Point
 from geometry.latlon import LatLon
-from models.polyline_builder import PolylineBuilder
+from models.polyline_geometry import PolylineGeometry
 from file_generator import FileGenerator
 from rndf_id_mapper import RNDFIdMapper
 
@@ -75,7 +75,7 @@ class RNDFGenerator(FileGenerator):
         return len(self.waypoints_for(lane))
 
     def waypoints_for(self, lane):
-        return lane.waypoints_using(PolylineBuilder)
+        return lane.waypoints_for(PolylineGeometry)
 
     def waypoint_connections_for(self, lane):
         exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), self.waypoints_for(lane))

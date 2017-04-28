@@ -75,6 +75,9 @@ class Arc(object):
     def angular_length(self):
         return self._angular_length
 
+    def clone(self):
+        return Arc(self._start_point, self._theta, self._radius, self._angular_length)
+
     def center_point(self):
         """
         Answers the point that is the center of the circular arc
@@ -127,8 +130,15 @@ class Arc(object):
             return self._find_arc_intersection(other)
         elif isinstance(other, geometry.line_segment.LineSegment):
             return other._find_arc_intersection(self)
+        elif isinstance(other, geometry.circle.Circle):
+            return self._find_circle_intersection(other)
         else:
             raise ValueError("Intersection between {0} and {1} not supported".format(self, other))
+
+    def _find_circle_intersection(self, circle):
+        my_circle = self.circle()
+        candidates = my_circle.intersection(circle)
+        return filter(lambda point: self.includes_point(point), candidates)
 
     def _find_arc_intersection(self, other):
         circle1 = self.circle()
@@ -279,7 +289,7 @@ class Arc(object):
         return center_start.angle(center_point)
 
     def is_valid_path_connection(self):
-        return self.radius() > 4.0
+        return round(self.radius(), 7) > 4.1
 
     def almost_equal_to(self, other, decimals=5):
         return self.circle().almost_equal_to(other.circle(), decimals) and \

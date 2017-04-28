@@ -75,6 +75,10 @@ class LineSegment(object):
     def is_orthogonal_to(self, line_segment, buffer=0.001):
         return abs((self.b - self.a).dot_product(line_segment.b - line_segment.a)) < buffer
 
+    def includes_line_segment(self, other_segment):
+        return self.includes_point(other_segment.start_point()) and \
+            self.includes_point(other_segment.end_point())
+
     def _find_line_segment_intersection(self, segment):
         v1 = self.direction_vector()
         p1 = self.start_point()
@@ -88,8 +92,12 @@ class LineSegment(object):
         v1_cross_v2 = v1.cross_product(v2)
         v2_cross_v1 = v2.cross_product(v1)
 
-        if v1_cross_v2.norm() == 0.0:
-            return []
+        if abs(v1_cross_v2.norm()) < 1e-7:
+            overlap = self._collinear_overlap_with(segment)
+            if overlap:
+                return [overlap]
+            else:
+                return []
 
         k1 = v3.cross_product(v2).norm() / v1_cross_v2.norm()
 
@@ -174,12 +182,32 @@ class LineSegment(object):
                           self.start_point() + (local_segment_vector * u2)]
             return filter(lambda point: self.includes_point(point), candidates)
 
+    def _collinear_overlap_with(self, segment):
+        overlap = None
+        if self.includes_line_segment(segment):
+            overlap = segment
+        elif segment.includes_line_segment(self):
+            overlap = self
+        elif self.includes_point(segment.start_point()):
+            overlap = LineSegment(segment.start_point(), segment._pick_segment_endpoint(self))
+        elif self.includes_point(segment.end_point()):
+            overlap = LineSegment(segment.end_point(), segment._pick_segment_endpoint(self))
+
+        if not overlap:
+            return None
+        elif overlap.start_point() == overlap.end_point():
+            return overlap.start_point()
+        else:
+            return overlap
+
     def find_intersection(self, other):
         # TODO: Remove this switch statement and make a proper polymorphic delegation
         if isinstance(other, LineSegment):
             return self._find_line_segment_intersection(other)
         elif isinstance(other, geometry.arc.Arc):
             return self._find_arc_intersection(other)
+        elif isinstance(other, geometry.circle.Circle):
+            return self._find_circle_intersection(other)
         elif isinstance(other, geometry.bounding_box.BoundingBox):
             return self._find_bounding_box_intersection(other)
         else:
@@ -239,6 +267,9 @@ class LineSegment(object):
     def line_interpolation_points(self):
         return [self.a.clone(), self.b.clone()]
 
+    def clone(self):
+        return LineSegment(self.a, self.b)
+
     def start_heading(self):
         return math.degrees(self.a.yaw(self.b))
 
@@ -260,12 +291,15 @@ class LineSegment(object):
             return False
         tentative_merge = LineSegment(self.start_point(), other.end_point())
         return tentative_merge.includes_point(self.end_point())
+        # Alternative to analize in the future
+        # angle = self.direction_vector().angle(other.direction_vector())
+        # return abs(angle) < 1
 
     def merge(self, other):
         return LineSegment(self.start_point(), other.end_point())
 
     def is_valid_path_connection(self):
-        return self.length() >= 5
+        return True
 
     def trim_to_fit(self, bounding_box):
         if self.is_inside(bounding_box):
@@ -297,6 +331,29 @@ class LineSegment(object):
         return not bounding_box.includes_point(self.start_point()) and \
             not bounding_box.includes_point(self.end_point()) and \
             not self.find_intersection(bounding_box)
+
+    def closest_point_to(self, point):
+        direction = self.direction_vector()
+        squared_norm = float(direction.norm_squared())
+
+        start_to_point = point - self.start_point()
+
+        u = (start_to_point.x * direction.x + start_to_point.y * direction.y) / squared_norm
+        u = max(min(u, 1.0), 0.0)
+
+        point = self.start_point() + (direction * u)
+
+        if not self.includes_point(point):
+            raise RuntimeError("Expecting {0} to include {1}".format(self, point))
+
+        return self.start_point() + (direction * u)
+
+    def _pick_segment_endpoint(self, segment):
+        if self.includes_point(segment.start_point()):
+            return segment.start_point()
+        if self.includes_point(segment.end_point()):
+            return segment.end_point()
+        return None
 
     def __eq__(self, other):
         return self.a == other.a and self.b == other.b
