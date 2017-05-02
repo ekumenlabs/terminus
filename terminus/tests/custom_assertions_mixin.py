@@ -1,6 +1,7 @@
 from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
+from geometry.circle import Circle
 
 
 class CustomAssertionsMixin(object):
@@ -17,6 +18,8 @@ class CustomAssertionsMixin(object):
             return self.assertLineSegmentAlmostEqual(first, second, places=places, msg=msg)
         elif first_type is list:
             return self.assertListAlmostEqual(first, second, places=places, msg=msg)
+        elif first_type is Circle:
+            return self.assertCircleAlmostEqual(first, second, places=places, msg=msg)
         else:
             return self.assertEquals(first, second, msg=msg)
 
@@ -92,3 +95,20 @@ class CustomAssertionsMixin(object):
                     message = "Lists differ in index {0}:\n\n{1}\n\n{2}\n{3}".format(index, e.args[0], list1, list2)
                     e.args = (message,)
                     raise
+
+    def assertCircleAlmostEqual(self, circle1, circle2, places=7, msg=None):
+        if msg:
+            center_msg = msg
+            radius_msg = msg
+        else:
+            base_message = "{0} != {1} within {2} places ({3})".format(circle1, circle2, places, '{0}')
+            center_msg = base_message.format('center')
+            radius_msg = base_message.format('radius')
+        self.assertPointAlmostEqual(circle1.center,
+                                    circle2.center,
+                                    places=places,
+                                    msg=center_msg)
+        self.assertAlmostEqual(circle1.radius,
+                               circle2.radius,
+                               places=places,
+                               msg=radius_msg)

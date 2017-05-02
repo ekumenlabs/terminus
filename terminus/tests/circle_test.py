@@ -27,25 +27,55 @@ class CircleTest(CustomAssertionsMixin, unittest.TestCase):
         circle1 = Circle(Point(0, 0), 2)
         circle2 = Circle(Point(3, 0), 1)
         self.assertEqual(circle1.intersection(circle2), [Point(2, 0)])
+        circle1 = Circle(Point(0, 0), 2)
+        circle2 = Circle(Point(0, 3), 1)
+        self.assertEqual(circle1.intersection(circle2), [Point(0, 2)])
 
     def test_intersection_at_one_point_in_nested_circles(self):
         circle1 = Circle(Point(0, 0), 4)
         circle2 = Circle(Point(2, 0), 2)
         self.assertEqual(circle1.intersection(circle2), [Point(4, 0)])
+        circle1 = Circle(Point(0, 0), 4)
+        circle2 = Circle(Point(0, 2), 2)
+        self.assertEqual(circle1.intersection(circle2), [Point(0, 4)])
 
     def test_intersection_at_two_points(self):
+        # with circles with centers at different x and different y
+        circle1 = Circle(Point(0, 0), 1)
+        circle2 = Circle(Point(1, 1), 1)
+        self.assertEqual(circle1.intersection(circle2), [Point(1, 0), Point(0, 1)])
         # with each center outside the other circle
         circle1 = Circle(Point(-3, 0), 5)
         circle2 = Circle(Point(3, 0), 5)
         self.assertEqual(circle1.intersection(circle2), [Point(0, 4), Point(0, -4)])
+        circle1 = Circle(Point(0, -3), 5)
+        circle2 = Circle(Point(0, 3), 5)
+        self.assertEqual(circle1.intersection(circle2), [Point(4, 0), Point(-4, 0)])
         # with each's center inside the other circle
         circle1 = Circle(Point(0, 0), math.sqrt(65))
         circle2 = Circle(Point(4, 0), 5)
         self.assertAlmostEqual(circle1.intersection(circle2), [Point(7.0, 4.0, 0.0), Point(7.0, -4.0, 0.0)])
+        circle1 = Circle(Point(0, 0), math.sqrt(65))
+        circle2 = Circle(Point(0, 4), 5)
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(4.0, 7.0, 0.0), Point(-4.0, 7.0, 0.0)])
         # with one center inside the other circle and the line that contains both intersection points containing one circle's center
         circle1 = Circle(Point(0, 0), 5)
         circle2 = Circle(Point(-4, 0), 3)
-        self.assertEqual(circle1.intersection(circle2), [Point(-4, -3), Point(-4, 3)])
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(-4, 3), Point(-4, -3)])
+        circle1 = Circle(Point(0, 0), 5)
+        circle2 = Circle(Point(0, -4), 3)
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(3, -4), Point(-3, -4)])
+        # with each's center inside the other circle and the line that contains both intersection points separating both centers
+        circle1 = Circle(Point(0, 0), 3)
+        circle2 = Circle(Point(2, 0), 3)
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(1, math.sqrt(8)), Point(1, -math.sqrt(8))])
+        # with one center in the perimeter of the other circle
+        circle1 = Circle(Point(0, 0), 1)
+        circle2 = Circle(Point(1, 0), 1)
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(1.0 / 2, math.sqrt(3.0 / 4)), Point(1.0 / 2, -math.sqrt(3.0 / 4))])
+        circle1 = Circle(Point(0, 0), 1)
+        circle2 = Circle(Point(0, 1), 1)
+        self.assertAlmostEqual(circle1.intersection(circle2), [Point(math.sqrt(3.0 / 4), 1.0 / 2), Point(-math.sqrt(3.0 / 4), 1.0 / 2)])
 
     def test_intersection_with_circles_that_do_not_intersect(self):
         # with not nested circles

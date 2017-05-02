@@ -21,9 +21,9 @@ from numbers import Number
 
 class Point(object):
     def __init__(self, x, y, z=0):
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
 
     @classmethod
     def from_shapely(cls, shapely_point):

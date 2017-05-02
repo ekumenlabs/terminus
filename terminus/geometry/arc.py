@@ -35,7 +35,7 @@ class Arc(object):
         """
         self._start_point = start_point
         self._theta = theta % 360
-        self._radius = radius
+        self._radius = float(radius)
         self._angular_length = angular_length
         self._end_point = self._compute_point_at(angular_length)
 
@@ -217,6 +217,8 @@ class Arc(object):
         circle1 = Circle(self.center_point(), self.radius())
         circle2 = Circle(reference_point, abs(offset))
         intersections = circle1.intersection(circle2)
+        if circle1.almost_equal_to(circle2):
+            return [self]
         return filter(lambda point: self.includes_point(point), intersections)
 
     def split_into(self, pairs):
@@ -237,6 +239,8 @@ class Arc(object):
             self.center_point().almost_equal_to(other.center_point(), 5)
 
     def merge(self, other):
+        if not self.can_be_merged_with(other):
+            raise ValueError("This arcs can't be merged")
         return Arc(self.start_point(),
                    self.theta(),
                    self.radius(),
@@ -286,7 +290,12 @@ class Arc(object):
         center = self.center_point()
         center_start = self._start_point - center
         center_point = point - center
-        return center_start.angle(center_point)
+        if abs(center_start.angle(center_point)) < 1e-7:
+            return 0
+        if self.angular_length() >= 0:
+            return self._clip_angle_to_360(center_start.angle(center_point))
+        else:
+            return self._clip_angle_to_360(center_start.angle(center_point)) - 360
 
     def is_valid_path_connection(self):
         return round(self.radius(), 7) > 4.1

@@ -353,7 +353,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.385164807134503, -68.1985905]
+              arc: [7.3851648071345055, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.000000000000007, explicit_end: points.s2_1_3}
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 44.99999999999999, explicit_end: points.s2_1_4}
@@ -392,7 +392,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
-              arc: [6.0990195135927925, 78.6900675]
+              arc: [6.09901951359278, 78.6900675]
               explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
@@ -402,7 +402,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
-              arc: [7.385164807134503, -68.1985905]
+              arc: [7.3851648071345055, -68.1985905]
               explicit_end: points.s1_1_3
             s2_1_2-s2_1_3:
               start: points.s2_1_2
