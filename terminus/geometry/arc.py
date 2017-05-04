@@ -240,7 +240,7 @@ class Arc(object):
 
     def merge(self, other):
         if not self.can_be_merged_with(other):
-            raise ValueError("This arcs can't be merged")
+            raise ValueError("These arcs can't be merged")
         return Arc(self.start_point(),
                    self.theta(),
                    self.radius(),

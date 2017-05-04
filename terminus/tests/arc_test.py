@@ -382,7 +382,7 @@ class ArcTest(CustomAssertionsMixin, unittest.TestCase):
         arc = Arc(Point(0, -1), 0, 1, 180)
         expected_points = [Point(1.0 / 2, math.sqrt(3.0 / 4)), Point(1.0 / 2, -math.sqrt(3.0 / 4))]
         self.assertAlmostEqual(arc.points_at_linear_offset(Point(1, 0), 1), expected_points)
-        # with 2 points in the circle but only one in the arc
+        # with two points in the circle but only one in the arc
         arc = Arc(Point(0, -1), 0, 1, 90)
         expected_point = [Point(1.0 / 2, -math.sqrt(3.0 / 4))]
         self.assertAlmostEqual(arc.points_at_linear_offset(Point(1, 0), 1), expected_point)
