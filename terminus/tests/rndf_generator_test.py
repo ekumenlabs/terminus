@@ -160,8 +160,8 @@ class RNDFGeneratorTest(unittest.TestCase):
         lane\t1.1
         num_waypoints\t3
         lane_width\t13
-        exit\t1.1.2\t3.1.2
         exit\t1.1.2\t2.1.2
+        exit\t1.1.2\t3.1.2
         1.1.1\t10.000904\t65.000000
         1.1.2\t10.000045\t65.000000
         1.1.3\t10.000000\t65.000000

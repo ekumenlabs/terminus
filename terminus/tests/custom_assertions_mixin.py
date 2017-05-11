@@ -104,11 +104,11 @@ class CustomAssertionsMixin(object):
             base_message = "{0} != {1} within {2} places ({3})".format(circle1, circle2, places, '{0}')
             center_msg = base_message.format('center')
             radius_msg = base_message.format('radius')
-        self.assertPointAlmostEqual(circle1.center,
-                                    circle2.center,
+        self.assertPointAlmostEqual(circle1.center(),
+                                    circle2.center(),
                                     places=places,
                                     msg=center_msg)
-        self.assertAlmostEqual(circle1.radius,
-                               circle2.radius,
+        self.assertAlmostEqual(circle1.radius(),
+                               circle2.radius(),
                                places=places,
                                msg=radius_msg)

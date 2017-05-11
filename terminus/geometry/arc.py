@@ -44,7 +44,7 @@ class Arc(object):
         """
         Returns a counter-clockwise arc from start point to end point on the given circle
         """
-        center = circle.center
+        center = circle.center()
         start_point_angle = Point(1, 0).angle((start_point - center))
         start_heading = start_point_angle + 90
         angle_between_vectors = (start_point - center).angle(end_point - center)
@@ -52,7 +52,7 @@ class Arc(object):
             angular_length = angle_between_vectors
         else:
             angular_length = 360 + angle_between_vectors
-        return cls(start_point, start_heading, circle.radius, angular_length)
+        return cls(start_point, start_heading, circle.radius(), angular_length)
 
     def start_point(self):
         return self._start_point

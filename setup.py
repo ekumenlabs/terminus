@@ -32,6 +32,7 @@ setup(name='terminus',
           'Pillow',
           'PyYAML',
           'mock',
-          'python-slugify'
+          'python-slugify',
+          'sortedcontainers'
       ],
       zip_safe=False)

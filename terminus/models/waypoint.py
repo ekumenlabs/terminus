@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import math
+from sortedcontainers import SortedListWithKey
 
 from geometry.point import Point
 from geometry.line import Line
@@ -27,8 +28,8 @@ class Waypoint(object):
         self._center = center
         self._heading = heading
         self._road_node = road_node
-        self._in_connections = []
-        self._out_connections = []
+        self._in_connections = SortedListWithKey(key=lambda connection: connection.start_point().squared_distance_to(center))
+        self._out_connections = SortedListWithKey(key=lambda connection: connection.end_point().squared_distance_to(center))
 
     def is_proxy(self):
         return False
@@ -64,10 +65,10 @@ class Waypoint(object):
         return self.is_exit() or self.is_entry()
 
     def add_in_connection(self, connection):
-        self._in_connections.append(connection)
+        self._in_connections.add(connection)
 
     def add_out_connection(self, connection):
-        self._out_connections.append(connection)
+        self._out_connections.add(connection)
 
     def in_connections(self):
         return self._in_connections

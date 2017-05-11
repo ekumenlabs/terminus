@@ -22,8 +22,8 @@ from point import Point
 class Circle(object):
 
     def __init__(self, center, radius):
-        self.center = center
-        self.radius = float(radius)
+        self._center = center
+        self._radius = float(radius)
 
     @classmethod
     def from_points_and_radius(cls, start_point, end_point, radius):
@@ -39,73 +39,73 @@ class Circle(object):
         center = mid_point + (orthonormal_vector * a)
         return cls(center, radius)
 
-    def __eq__(self, other):
-        return self.center == other.center and self.radius == other.radius
-
-    def __hash__(self):
-        return hash((self.center, self.radius))
-
     def radius(self):
-        return self.radius
+        return self._radius
 
     def center(self):
-        return self.center
+        return self._center
 
     def almost_equal_to(self, other, decimals=5):
-        return self.center.almost_equal_to(other.center, decimals) and \
-            abs(self.radius - other.radius) < 1e-5
+        buffer = 1.0 / (decimals + 1)
+        return self.center().almost_equal_to(other.center(), decimals) and \
+            abs(self.radius() - other.radius()) < buffer
 
     def intersection(self, other, decimals=7):
-        buffer = 1.0 / (decimals + 1)
-        """
-        To find the intersection, we solve the two equations system given by:
-        (Point(x, y) - self.center).norm_squared = self.radius ** 2
-        (Point(x, y) - other.center).norm_squared = other.radius ** 2
-        """
-        M = 2 * (other.center.x - self.center.x)
-        N = 2 * (other.center.y - self.center.y)
-        self_radius_squared = self.radius ** 2
-        other_radius_squared = other.radius ** 2
-        R = self_radius_squared - other_radius_squared + other.center.norm_squared() - self.center.norm_squared()
-        # M * x + N * y = R
+
+        # Start by ruling out trivial cases
         if self.almost_equal_to(other, decimals):
             return [self]
-        if self.center == other.center and self.radius != other.radius:
+        if self.center() == other.center() and self.radius() != other.radius():
             return []
+
+        # To find the intersection, we solve the two equations system given by:
+        #
+        # (Point(x, y) - self.center).norm_squared()  == self.radius ** 2
+        # (Point(x, y) - other.center).norm_squared() == other.radius ** 2
+        #
+        # Express that as M * x + N * y = R
+
+        buffer = 1.0 / (decimals + 1)
+        center_delta = other.center() - self.center()
+        M = 2 * center_delta.x
+        N = 2 * center_delta.y
+        self_radius_squared = self.radius() ** 2
+        other_radius_squared = other.radius() ** 2
+        R = self_radius_squared - other_radius_squared + other.center().norm_squared() - self.center().norm_squared()
+
         if abs(N) < buffer:
-            """
-            If N = 0, then self.center.y = other.center.y, what means the circles
-            are horizontally aligned.
-            The buffer is used to avoid problems that may come from non exact calculations.
-            If N = 0, then M * x = R.
-            """
+            # If N = 0, then circles are horizontally aligned, hence we need to
+            # solve M * x = R.
             x = R / M
-            x_difference_to_self_center = x - self.center.x
-            x_difference_to_other_center = x - other.center.x
-            """
-            We go back to the equations
-            (Point(x, y) - self.center).norm_squared = self.radius ** 2
-            (Point(x, y) - other.center).norm_squared = other.radius ** 2
-            """
-            if abs(x_difference_to_self_center) < self.radius and abs(x_difference_to_other_center) < other.radius:
-                y_1 = self.center.y + math.sqrt(self_radius_squared - (x_difference_to_self_center) ** 2)
-                y_2 = self.center.y - math.sqrt(self_radius_squared - (x_difference_to_self_center) ** 2)
-                return [Point(x, y_1), Point(x, y_2)]
-            elif abs(abs(x_difference_to_self_center) - self.radius) < buffer and abs(abs(x_difference_to_other_center) - other.radius) < buffer:
-                y = self.center.y
-                return [Point(x, y)]
-            else:
+            self_delta_x = abs(x - self.center().x)
+            other_delta_x = abs(x - other.center().x)
+
+            # Circles are too far away, no intersection
+            if self_delta_x > self.radius() or other_delta_x > other.radius():
                 return []
-        """
-        If N != 0, then we can compute y = (R - M * x) / N and replace y by that expression in
-        (Point(x, y) - self.center).norm_squared = self.radius ** 2.
-        We wil arrive to a quadratic equation of the form  a * x ** 2 + b * x + c = 0,
-        which we will solve, if possible, using the formula
-        x = (-b +/- sqrt(b ** 2 - 4 * a * c)) / (2 * a).
-        """
-        a = 1 + (M ** 2) / (N ** 2)
-        b = 2 * M * self.center.y / N - 2 * self.center.x - 2 * R * M / (N ** 2)
-        c = self.center.norm_squared() + (R ** 2) / (N ** 2) - 2 * R * self.center.y / N - self_radius_squared
+
+            # Single intersection point
+            if self.radius() - self_delta_x < buffer and \
+               self.radius() - self_delta_x < buffer:
+                return [Point(x, self.center().y)]
+
+            # Two intersection points
+            delta_y = math.sqrt(self_radius_squared - self_delta_x ** 2)
+            y_1 = self.center().y + delta_y
+            y_2 = self.center().y - delta_y
+            return [Point(x, y_1), Point(x, y_2)]
+
+        # If N != 0, then we can compute y = (R - M * x) / N and replace y by that
+        # expression in (Point(x, y) - self.center).norm_squared = self.radius ** 2.
+        # We will arrive to a quadratic equation of the form
+        # a * x ** 2 + b * x + c = 0,
+        # which we will solve, if possible, using the formula
+        # x = (-b +/- sqrt(b ** 2 - 4 * a * c)) / (2 * a).
+
+        N_2 = N ** 2
+        a = 1 + M ** 2 / N_2
+        b = 2 * M * self.center().y / N - 2 * self.center().x - 2 * R * M / N_2
+        c = self.center().norm_squared() + (R ** 2) / N_2 - 2 * R * self.center().y / N - self_radius_squared
         if a == 0:
             # If a = 0, then b * x + c = 0
             if b == 0 and abs(c) > buffer:
@@ -120,13 +120,18 @@ class Circle(object):
             x = -b / (2 * a)
             y = (R - M * x) / N
             return [Point(x, y)]
-        x_1 = (-b + math.sqrt(d)) / (2 * a)
-        x_2 = (-b - math.sqrt(d)) / (2 * a)
+        d_squared = math.sqrt(d)
+        x_1 = (-b + d_squared) / (2 * a)
+        x_2 = (-b - d_squared) / (2 * a)
         y_1 = (R - M * x_1) / N
         y_2 = (R - M * x_2) / N
         return [Point(x_1, y_1), Point(x_2, y_2)]
 
+    def __eq__(self, other):
+        return self.center() == other.center() and self.radius() == other.radius()
 
+    def __hash__(self):
+        return hash((self.center(), self.radius()))
 
     def __repr__(self):
-        return "Circle({0}, {1})".format(self.center, self.radius)
+        return "Circle({0}, {1})".format(self.center(), self.radius())

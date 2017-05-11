@@ -153,12 +153,12 @@ class LineSegment(object):
             return filter(lambda point: self.includes_point(point) and arc.includes_point(point), candidates)
 
     def _find_circle_intersection(self, circle):
-        local_segment = self.translate_by(circle.center.negated())
+        local_segment = self.translate_by(circle.center().negated())
         local_segment_vector = local_segment.direction_vector()
 
         a = local_segment_vector.norm_squared()
         b = 2 * ((local_segment_vector.x * local_segment.start_point().x) + (local_segment_vector.y * local_segment.start_point().y))
-        c = local_segment.start_point().norm_squared() - (circle.radius ** 2)
+        c = local_segment.start_point().norm_squared() - (circle.radius() ** 2)
 
         delta = (b ** 2) - (4 * a * c)
 

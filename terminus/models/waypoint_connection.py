@@ -29,8 +29,14 @@ class WaypointConnection(object):
     def start_waypoint(self):
         return self._start_waypoint
 
+    def start_point(self):
+        return self.start_waypoint().center()
+
     def end_waypoint(self):
         return self._end_waypoint
+
+    def end_point(self):
+        return self.end_waypoint().center()
 
     def waypoints(self):
         return self._waypoints
