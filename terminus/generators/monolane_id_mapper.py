@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 from city_visitor import CityVisitor
-from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from models.lines_and_arcs_geometry import LinesAndArcsGeometry
 
 
 class MonolaneIdMapper(CityVisitor):
@@ -30,10 +30,7 @@ class MonolaneIdMapper(CityVisitor):
         super(MonolaneIdMapper, self).run()
 
     def id_for(self, object):
-        try:
-            return self.object_to_id_level_1[id(object)]
-        except KeyError:
-            return self.object_to_id_level_2[object]
+        return self.object_to_id_level_1[id(object)]
 
     def formatted_id_for(self, object):
         id = self.id_for(object)
@@ -54,11 +51,21 @@ class MonolaneIdMapper(CityVisitor):
 
     def start_lane(self, lane):
         self.lane_id = self.lane_id + 1
+
+        # Create a UID for each waypoint
         self.waypoint_id = 0
-        for waypoint in lane.waypoints_using(LinesAndArcsBuilder):
+        for waypoint in lane.waypoints_for(LinesAndArcsGeometry):
             self.waypoint_id = self.waypoint_id + 1
             waypoint_uid = (self.road_id, self.lane_id, self.waypoint_id)
             self._register(waypoint_uid, waypoint)
+
+        # For the out connections that involve complex paths, register the
+        # intermediate waypoints if any
+        for connection in lane.out_connections_for(LinesAndArcsGeometry):
+            for waypoint in connection.intermediate_waypoints():
+                self.waypoint_id = self.waypoint_id + 1
+                waypoint_uid = ('CONNECTION_' + self.road_id, self.lane_id, self.waypoint_id)
+                self._register(waypoint_uid, waypoint)
 
     def _register(self, object_id, object):
         """We do some caching by id, to avoid computing hashes if they are

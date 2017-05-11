@@ -21,9 +21,10 @@ import yaml
 from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
+from geometry.path import Path
 from file_generator import FileGenerator
 from monolane_id_mapper import MonolaneIdMapper
-from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from models.lines_and_arcs_geometry import LinesAndArcsGeometry
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -39,13 +40,14 @@ class MonolaneGenerator(FileGenerator):
         # First run the id mapper
         self.monolane_id_mapper = MonolaneIdMapper(city)
         self.monolane_id_mapper.run()
-        # Reset all of the class variables used until stop_city is called.
+        # Map points and connections to avoid overlapping issues
+        self.connected_points = {}
         self.monolane = {
             'maliput_monolane_builder': OrderedDict([
                 ('id', city.name),
                 ('lane_bounds', [-2, 2]),
                 ('driveable_bounds', [-4, 4]),
-                ('position_precision', 0.01),
+                ('position_precision', 0.0005),
                 ('orientation_precision', 0.5),
                 ('points', OrderedDict()),
                 ('connections', OrderedDict()),
@@ -61,14 +63,33 @@ class MonolaneGenerator(FileGenerator):
         previous_waypoint = None
         previous_monolane_point = None
         last_line_heading = None
-        for waypoint in lane.waypoints_using(LinesAndArcsBuilder):
-            monolane_point = self._monolane_point_from_waypoint(waypoint)
-            monolane_point_id = self.monolane_id_mapper.formatted_id_for(waypoint)
-            self.monolane['maliput_monolane_builder']['points'][monolane_point_id] = monolane_point
+        for waypoint in lane.waypoints_for(LinesAndArcsGeometry):
+            self._store_waypoint(waypoint)
+        for connection in lane.out_connections_for(LinesAndArcsGeometry):
+            for waypoint in connection.intermediate_waypoints():
+                self._store_waypoint(waypoint)
+
+    def _store_waypoint(self, waypoint):
+        monolane_point = self._monolane_point_from_waypoint(waypoint)
+        monolane_point_id = self.monolane_id_mapper.formatted_id_for(waypoint)
+        self.monolane['maliput_monolane_builder']['points'][monolane_point_id] = monolane_point
+
+    def _monolane_point_from_waypoint(self, waypoint):
+        return self._create_monolane_point(waypoint.center(), waypoint.heading())
+
+    def _create_monolane_point(self, center, heading):
+        center = center.rounded_to(7)
+        point = OrderedDict()
+        point['xypoint'] = [float(center.x), float(center.y), float(heading)]
+        point['zpoint'] = [float(center.z), 0, 0, 0]
+        return point
 
     def _build_lane_connections(self, lane):
-        connections = lane.waypoint_geometry_using(LinesAndArcsBuilder).connections()
+        connections = lane.inner_connections_for(LinesAndArcsGeometry)
+        path = lane.path_for(LinesAndArcsGeometry)
+
         for connection in connections:
+
             monolane_connection = None
 
             # If the waypoint is an exit, create the connection with all the
@@ -76,7 +97,7 @@ class MonolaneGenerator(FileGenerator):
             if connection.start_waypoint().is_exit():
                 exit_waypoint = connection.start_waypoint()
                 for out_connection in exit_waypoint.out_connections():
-                    self._create_connection(out_connection)
+                    self._create_out_connection(path, out_connection)
 
             # In some cases we don't want to generate the connection between
             # the previous and following node.
@@ -88,33 +109,97 @@ class MonolaneGenerator(FileGenerator):
             elif belong_to_same_node and (connection is connections[-1]) and connection.start_waypoint().is_exit():
                 pass
             else:
-                self._create_connection(connection)
+                self._create_connection(path, connection)
 
-    def _create_connection(self, connection):
-        connection_primitive = connection.primitive()
-        if isinstance(connection_primitive, Arc):
-            monolane_connection = self._create_arc_connection(connection)
-        elif isinstance(connection_primitive, LineSegment):
-            monolane_connection = self._create_line_connection(connection)
+    def _create_out_connection(self, path, connection):
+        primitive = connection.primitive()
+
+        if isinstance(primitive, Path):
+            if not primitive.is_valid_path_connection():
+                logger.error("Path is not a valid connection - {0}".format(primitive))
+            else:
+                waypoints = connection.waypoints()
+                for index, element in enumerate(primitive):
+                    start = waypoints[index]
+                    end = waypoints[index + 1]
+                    monolane_connection = self._connect(element, start, end)
+                    if monolane_connection is not None:
+                        start_point = start.center().rounded_to(0)
+                        end_point = end.center().rounded_to(0)
+                        self.connected_points[start_point] = start
+                        self.connected_points[end_point] = end
+                        self._write_connection(monolane_connection, start, end)
+        else:
+            monolane_connection = self._connect(primitive, connection.start_waypoint(), connection.end_waypoint())
+
+            if monolane_connection is not None:
+                start = connection.start_waypoint()
+                start_point = start.center().rounded_to(0)
+                end = connection.end_waypoint()
+                end_point = end.center().rounded_to(0)
+                self.connected_points[start_point] = start
+                self.connected_points[end_point] = end
+                self._write_connection(monolane_connection, start, end)
+
+    def _connect(self, primitive, start, end):
+        if isinstance(primitive, Arc):
+            return self._create_arc_connection(primitive, start, end)
+        elif isinstance(primitive, LineSegment):
+            return self._create_line_connection(primitive, start, end)
         else:
             raise ValueError("Connection geometry not supported by monolane generator")
 
+    def _write_connection(self, monolane_connection, start, end):
+        monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(start),
+                                                  self.monolane_id_mapper.formatted_id_for(end))
+        self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
+
+    def _create_connection(self, path, connection):
+        monolane_connection = self._connect(connection.primitive(), connection.start_waypoint(), connection.end_waypoint())
+
         if monolane_connection is not None:
             start = connection.start_waypoint()
+            start_point = start.center().rounded_to(0)
             end = connection.end_waypoint()
-            monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(start), self.monolane_id_mapper.formatted_id_for(end))
-            self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
+            end_point = end.center().rounded_to(0)
 
-    def _create_line_connection(self, connection):
+            if start_point in self.connected_points:
+                existing_waypoint = self.connected_points[start_point]
+                if existing_waypoint.lane() is not start.lane() and \
+                   abs(existing_waypoint.heading() - start.heading()) > 1e-5:
+                    old_start_point = start.center()
+                    start.move_along(path, 0.02)
+                    start_point = start.center().rounded_to(0)
+                    self._store_waypoint(start)
+                    if 'length' in monolane_connection:
+                        monolane_connection['length'] -= 0.02
+                    logger.warn("Moving overlapping waypoint from {0} to {1}".format(old_start_point, start.center()))
+
+            if end_point in self.connected_points:
+                existing_waypoint = self.connected_points[end_point]
+                if existing_waypoint.lane() is not end.lane() and \
+                   abs(existing_waypoint.heading() - end.heading()) > 1e-5:
+                    old_end_point = end.center()
+                    end.move_along(path, -0.02)
+                    end_point = end.center().rounded_to(0)
+                    self._store_waypoint(end)
+                    if 'length' in monolane_connection:
+                        monolane_connection['length'] -= 0.02
+                    logger.warn("Moving overlapping waypoint from {0} to {1}".format(old_end_point, end.center()))
+
+            self.connected_points[start_point] = start
+            self.connected_points[end_point] = end
+
+            self._write_connection(monolane_connection, start, end)
+
+    def _create_line_connection(self, primitive, start, end):
         return OrderedDict([
-            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.start_waypoint())),
-            ('length', connection.primitive().length()),
-            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.end_waypoint()))
+            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(start)),
+            ('length', primitive.length()),
+            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(end))
         ])
 
-    def _create_arc_connection(self, connection):
-
-        primitive = connection.primitive()
+    def _create_arc_connection(self, primitive, start, end):
 
         radius = primitive.radius()
 
@@ -127,17 +212,10 @@ class MonolaneGenerator(FileGenerator):
         angle_in_degrees = round(primitive.angular_length(), 7)
 
         return OrderedDict([
-            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.start_waypoint())),
+            ('start', 'points.' + self.monolane_id_mapper.formatted_id_for(start)),
             ('arc', [radius, angle_in_degrees]),
-            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(connection.end_waypoint()))
+            ('explicit_end', 'points.' + self.monolane_id_mapper.formatted_id_for(end))
         ])
-
-    def _monolane_point_from_waypoint(self, waypoint):
-        center = waypoint.center().rounded_to(7)
-        point = OrderedDict()
-        point['xypoint'] = [float(center.x), float(center.y), float(waypoint.heading())]
-        point['zpoint'] = [float(center.z), 0, 0, 0]
-        return point
 
     def end_document(self):
         """Called after the document is generated, but before it is written to a file."""

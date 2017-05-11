@@ -28,12 +28,10 @@ from waypoint_geometry import WaypointGeometry
 
 class Lane(object):
     def __init__(self, road, width, offset):
-        # Note: all these are private properties and should be kept that way
         self._road = road
         self._width = width
         self._offset = offset
         self._cached_geometries = {}
-        self._cached_waypoint_geometries = {}
 
     def offset(self):
         return self._offset
@@ -51,27 +49,42 @@ class Lane(object):
     def road(self):
         return self._road
 
-    def control_points(self):
-        return self.road().control_points()
+    def road_nodes(self):
+        return self.road().nodes()
 
-    def waypoints_using(self, builder_class):
-        return self.waypoint_geometry_using(builder_class).waypoints()
+    def road_nodes_count(self):
+        return self.road().node_count()
 
-    def geometry_using(self, builder_class):
-        if builder_class not in self._cached_geometries:
-            builder = builder_class(self.control_points())
-            geometry = builder.build_path_geometry(self)
-            self._cached_geometries[builder_class] = geometry
-        return self._cached_geometries[builder_class]
+    def waypoints_for(self, geometry_class):
+        return self._lane_geometry(geometry_class).waypoints()
 
-    def waypoint_geometry_using(self, builder_class):
-        if builder_class not in self._cached_waypoint_geometries:
-            builder = builder_class(self.control_points())
-            geometry = self.geometry_using(builder_class)
-            waypoint_geometry = WaypointGeometry(self, geometry, builder)
-            self._cached_waypoint_geometries[builder_class] = waypoint_geometry
-        return self._cached_waypoint_geometries[builder_class]
+    def path_for(self, geometry_class):
+        return self._lane_geometry(geometry_class).path()
 
-    def raw_geometry_using(self, builder_class):
-        builder = builder_class(self.control_points())
-        return builder.build_raw_geometry()
+    def inner_connections_for(self, geometry_class):
+        '''
+        Returns a list of connections that connect the lane waypoints
+        '''
+        return self._lane_geometry(geometry_class).inner_connections()
+
+    def out_connections_for(self, geometry_class):
+        '''
+        Returns a list of connections that are used to connect the lane
+        waypoints with other lanes
+        '''
+        out_connections = []
+        for waypoint in self.waypoints_for(geometry_class):
+            out_connections.extend(waypoint.out_connections())
+        return out_connections
+
+    def starts_on(self, road_node):
+        return self.road_nodes()[0] == road_node
+
+    def ends_on(self, road_node):
+        return self.road_nodes()[-1] == road_node
+
+    def _lane_geometry(self, geometry_class):
+        if geometry_class not in self._cached_geometries:
+            geometry = geometry_class(self)
+            self._cached_geometries[geometry_class] = geometry
+        return self._cached_geometries[geometry_class]

@@ -16,8 +16,8 @@ limitations under the License.
 
 import matplotlib.pyplot as plt
 
-from models.polyline_builder import PolylineBuilder
-from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from models.polyline_geometry import PolylineGeometry
+from models.lines_and_arcs_geometry import LinesAndArcsGeometry
 from city_visitor import CityVisitor
 from models.city import City
 
@@ -31,9 +31,9 @@ class StreetPlotGenerator(CityVisitor):
         self.run()
         plt.figure(1)
         plt.savefig(destination_file + '_streets_polyline.png', dpi=150)
+        plt.close(figure1)
         plt.figure(2)
         plt.savefig(destination_file + '_streets_lines_and_arcs.png', dpi=150)
-        plt.close(figure1)
         plt.close(figure2)
 
     def start_street(self, street):
@@ -44,14 +44,14 @@ class StreetPlotGenerator(CityVisitor):
 
     def _plot_road(self, road):
         for lane in road.lanes():
-            self._draw_geometry(1, lane.geometry_using(PolylineBuilder))
-            self._draw_geometry(2, lane.geometry_using(LinesAndArcsBuilder))
+            self._draw_geometry(1, lane.path_for(PolylineGeometry))
+            self._draw_geometry(2, lane.path_for(LinesAndArcsGeometry))
 
-    def _draw_geometry(self, image_id, geometry):
+    def _draw_geometry(self, image_id, path):
         plt.figure(image_id)
         x = []
         y = []
-        for point in geometry.line_interpolation_points():
+        for point in path.line_interpolation_points():
             x.append(point.x)
             y.append(point.y)
         polyline = plt.plot(x, y)
@@ -65,7 +65,7 @@ class StreetPlotGenerator(CityVisitor):
         elif area < 1e4:
             divisor = 10.0
         elif area < 1e5:
-            divisor = 20.0
+            divisor = 25.0
         elif area < 1e6:
             divisor = 50.0
         else:

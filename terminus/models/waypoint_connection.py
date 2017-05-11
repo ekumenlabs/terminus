@@ -14,6 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from geometry.path import Path
+from waypoint import Waypoint
+
 
 class WaypointConnection(object):
 
@@ -21,19 +24,46 @@ class WaypointConnection(object):
         self._start_waypoint = start_waypoint
         self._end_waypoint = end_waypoint
         self._primitive = primitive
+        self._waypoints = self._create_waypoints_collection()
 
     def start_waypoint(self):
-        if self._start_waypoint.is_proxy():
-            self._start_waypoint = self._start_waypoint.resolve()
         return self._start_waypoint
 
     def end_waypoint(self):
-        if self._end_waypoint.is_proxy():
-            self._end_waypoint = self._end_waypoint.resolve()
         return self._end_waypoint
+
+    def waypoints(self):
+        return self._waypoints
+
+    def intermediate_waypoints(self):
+        return self._waypoints[1:-1]
 
     def primitive(self):
         return self._primitive
+
+    def connects_same_lanes(self, start_waypoint, end_waypoint):
+        return self.start_waypoint().lane() is start_waypoint.lane() and \
+            self.end_waypoint().lane() is end_waypoint.lane()
+
+    def waypoint_for(self, lane):
+        if self._start_waypoint.lane() is lane:
+            return self._start_waypoint
+        elif self._end_waypoint.lane() is lane:
+            return self._end_waypoint
+        else:
+            raise RuntimeError("No lane matching")
+
+    def _create_waypoints_collection(self):
+        waypoints = [self.start_waypoint()]
+        if isinstance(self.primitive(), Path):
+            lane = self.start_waypoint().lane()
+            road_node = self.start_waypoint().road_node()
+            for element in self.primitive():
+                new_waypoint = Waypoint(lane, element.end_point(), element.end_heading(), road_node)
+                waypoints.append(new_waypoint)
+            waypoints.pop(-1)
+        waypoints.append(self.end_waypoint())
+        return waypoints
 
     def __repr__(self):
         return "WaypointConnection({0}, {1}, {2})".format(self._start_waypoint, self._end_waypoint, self._primitive)

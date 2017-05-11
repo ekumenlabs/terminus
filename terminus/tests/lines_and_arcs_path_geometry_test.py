@@ -24,26 +24,26 @@ from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.arc import Arc
 
-from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from models.lines_and_arcs_geometry import LinesAndArcsGeometry
 from models.street import Street
 
 
-class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
+class LinesAndArcsGeometryTest(CustomAssertionsMixin, unittest.TestCase):
 
     def test_malformed_paths(self):
         with self.assertRaises(ValueError):
             lane = Street.from_control_points([]).lane_at(0)
-            geometry = lane.geometry_using(LinesAndArcsBuilder)
+            geometry = lane.path_for(LinesAndArcsGeometry)
 
         with self.assertRaises(ValueError):
             lane = Street.from_control_points([Point(0, 0)]).lane_at(0)
-            geometry = lane.geometry_using(LinesAndArcsBuilder)
+            geometry = lane.path_for(LinesAndArcsGeometry)
 
     def test_elements_single_segment_path(self):
         a = Point(0, 0)
         b = Point(50, -50)
         lane = Street.from_control_points([a, b]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         expected_elements = [LineSegment(a, b)]
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
@@ -52,7 +52,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         b = Point(50, -50)
         c = Point(100, -100)
         lane = Street.from_control_points([a, b, c]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         expected_elements = [LineSegment(a, c)]
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
@@ -63,7 +63,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         c_down = Point(100, -10)
 
         lane = Street.from_control_points([a, b, c_up]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
 
         expected_elements = [
             LineSegment(a, Point(45.0, 0.0)),
@@ -72,7 +72,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         self.assertAlmostEqual(geometry.elements(), expected_elements)
 
         lane = Street.from_control_points([a, b, c_down]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
 
         expected_elements = [
             LineSegment(a, Point(45.0, 0.0)),
@@ -87,7 +87,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         d = Point(100, 20)
 
         lane = Street.from_control_points([a, b, c, d]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
 
         expected_elements = [
             LineSegment(a, Point(45, 0)),
@@ -104,7 +104,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         d = Point(100, 10)
 
         lane = Street.from_control_points([a, b, c, d]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
 
         expected_elements = [
             LineSegment(a, Point(45, 0)),
@@ -120,7 +120,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         d = Point(100, 7)
 
         lane = Street.from_control_points([a, b, c, d]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
 
         expected_elements = [
             LineSegment(a, Point(46.5, 0)),
@@ -134,7 +134,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         b = Point(50, -50)
 
         lane = Street.from_control_points([a, b]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         elements = geometry.elements()
 
         self.assertAlmostEqual(geometry.elements()[0].start_heading(), -45)
@@ -146,7 +146,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(100, 100)
 
         lane = Street.from_control_points([a, b, c]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 45)
@@ -158,7 +158,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         c = Point(60, 10)
 
         lane = Street.from_control_points([a, b, c]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 0)
@@ -175,7 +175,7 @@ class LinesAndArcsBuilderTest(CustomAssertionsMixin, unittest.TestCase):
         d = Point(100, 20)
 
         lane = Street.from_control_points([a, b, c, d]).lane_at(0)
-        geometry = lane.geometry_using(LinesAndArcsBuilder)
+        geometry = lane.path_for(LinesAndArcsGeometry)
         elements = geometry.elements()
 
         self.assertAlmostEqual(elements[0].start_heading(), 0)

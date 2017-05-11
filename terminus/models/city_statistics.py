@@ -17,8 +17,8 @@ limitations under the License.
 import textwrap
 
 from generators.city_visitor import CityVisitor
-from models.polyline_builder import PolylineBuilder
-from models.lines_and_arcs_builder import LinesAndArcsBuilder
+from models.polyline_geometry import PolylineGeometry
+from models.lines_and_arcs_geometry import LinesAndArcsGeometry
 
 
 class CityStatistics(CityVisitor):
@@ -47,11 +47,11 @@ class CityStatistics(CityVisitor):
 
     def start_lane(self, lane):
         self.stats['lanes_count'] += 1
-        for waypoint in lane.waypoints_using(PolylineBuilder):
+        for waypoint in lane.waypoints_for(PolylineGeometry):
             self.stats['polyline_waypoints_count'] += 1
             if waypoint.is_intersection():
                 self.stats['polyline_intersections_count'] += 1
-        for waypoint in lane.waypoints_using(LinesAndArcsBuilder):
+        for waypoint in lane.waypoints_for(LinesAndArcsGeometry):
             self.stats['lines_and_arcs_waypoints_count'] += 1
             if waypoint.is_intersection():
                 self.stats['lines_and_arcs_intersections_count'] += 1
