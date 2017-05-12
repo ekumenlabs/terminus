@@ -186,14 +186,14 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
-            s1_1_2-s2_1_2:
-              start: points.s1_1_2
-              arc: [12.071067811865477, -45.0]
-              explicit_end: points.s2_1_2
             s1_1_2-s3_1_2:
               start: points.s1_1_2
               arc: [12.071067811865477, 45.0]
               explicit_end: points.s3_1_2
+            s1_1_2-s2_1_2:
+              start: points.s1_1_2
+              arc: [12.071067811865477, -45.0]
+              explicit_end: points.s2_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 136.4213562373095, explicit_end: points.s2_1_3}
             s3_1_2-s3_1_3: {start: points.s3_1_2, length: 136.4213562373095, explicit_end: points.s3_1_3}
           groups: {}""")
