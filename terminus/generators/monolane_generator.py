@@ -89,11 +89,10 @@ class MonolaneGenerator(FileGenerator):
         connections = lane.inner_connections_for(LinesAndArcsGeometry)
         path = lane.path_for(LinesAndArcsGeometry)
 
-        for waypoint in waypoints:
-            # If the waypoint is an exit, create the connection with all the
-            # entry waypoints of the other lanes.
-            for out_connection in waypoint.out_connections():
-                self._create_out_connection(path, out_connection)
+        self._build_lane_inner_connections(lane, connections, path)
+        self._build_lane_out_connections(waypoints, path)
+
+    def _build_lane_inner_connections(self, lane, connections, path):
 
         # Remove extra segments if road starts with an intersection
         connections = self._trim_initial_connections(lane.road_nodes()[0], connections)
@@ -103,6 +102,14 @@ class MonolaneGenerator(FileGenerator):
 
         for connection in connections:
             self._create_connection(path, connection)
+
+    def _build_lane_out_connections(self, waypoints, path):
+
+        for waypoint in waypoints:
+            # If the waypoint is an exit, create the connection with all the
+            # entry waypoints of the other lanes.
+            for out_connection in waypoint.out_connections():
+                self._create_out_connection(path, out_connection)
 
     def _trim_initial_connections(self, initial_node, connections):
 
