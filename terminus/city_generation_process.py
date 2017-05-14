@@ -96,19 +96,19 @@ class CityGenerationProcess(object):
                 # Otherwise warn the user
                 self.logger.warn("Can't generate SVG file for RNDF. Please make sure rndf_visualizer has been properly built")
 
-        # self._run_generator(SDFGeneratorGazebo7(city),
-        #                     "Generating Gazebo 7 SDF",
-        #                     self.base_name + '_gazebo_7.world')
+        self._run_generator(SDFGeneratorGazebo7(city),
+                            "Generating Gazebo 7 SDF",
+                            self.base_name + '_gazebo_7.world')
 
         # We are using a path that suits the Gazebo 8 plugin. This will change once
         # https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/53/rndf-file-path-in-world-file
         # is fixed
         # There is also an offset issue with RNDF vs Gazebo coordinates that will be fixed
         # in https://bitbucket.org/JChoclin/rndf_gazebo_plugin/issues/54/add-origin-node-to-world-description
-        # generator = SDFGeneratorGazebo8(city, self.rndf_origin, '../example/city.rndf')
-        # self._run_generator(generator,
-        #                     'Generating Gazebo 8 SDF',
-        #                     self.base_name + '_gazebo_8.world')
+        generator = SDFGeneratorGazebo8(city, self.rndf_origin, '../example/city.rndf')
+        self._run_generator(generator,
+                            'Generating Gazebo 8 SDF',
+                            self.base_name + '_gazebo_8.world')
 
         # self._run_generator(OpenDriveGenerator(city),
         #                     'Generating OpenDrive file',
