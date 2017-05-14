@@ -291,3 +291,10 @@ class MonolaneGenerator(FileGenerator):
 
         OrderedDumper.add_representer(OrderedDict, _dict_representer)
         return header + yaml.dump(self.monolane, None, OrderedDumper)
+
+    def _prepare_licence(self, contents):
+        contents = self.comment(contents + "\n")
+        return contents + "\n"
+
+    def comment(self, text):
+        return '# ' + ("\n# ".join(text.splitlines()))

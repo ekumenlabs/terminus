@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import textwrap
 
 from geometry.point import Point
 from geometry.latlon import LatLon
@@ -51,7 +52,16 @@ class OsmCityBuilder(AbstractCityBuilder):
                            'tertiary', 'unclassified', 'residential',
                            'living_street']
 
-    def get_city(self):
+    def required_licence(self):
+        return textwrap.dedent("""
+        Map data from (c) OpenStreetMap contributors.
+        This {filename} is made available under the
+        Open Database License: http://opendatacommons.org/licenses/odbl/1.0/.
+        Any rights in individual contents of the database are licensed under the
+        Database Contents License: http://opendatacommons.org/licenses/dbcl/1.0/
+        """)[1:]
+
+    def _buid_city(self):
         city = City()
 
         # Get origin of the map (we use the center)

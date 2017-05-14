@@ -18,6 +18,7 @@ from city_visitor import CityVisitor
 from jinja2 import Template, Environment
 import textwrap
 import re
+import os
 try:
     from cStringIO import StringIO
 except:
@@ -36,7 +37,10 @@ class FileGenerator(CityVisitor):
 
     def write_to(self, destination_file):
         raw_text = self.generate()
+        licence = self.licence(destination_file)
         with open(destination_file, "w") as f:
+            if licence:
+                f.write(licence)
             f.write(raw_text)
 
     def generate(self):
@@ -48,6 +52,18 @@ class FileGenerator(CityVisitor):
         text = textwrap.dedent(text)
         if text[0] == "\n":
             text = text[1:]
+        return text
+
+    def licence(self, destination_file):
+        if self.city.get_metadata('builder') and \
+           self.city.get_metadata('builder').required_licence():
+            filename = os.path.basename(destination_file)
+            licence_template = self.city.get_metadata('builder').required_licence()
+            licence = licence_template.format(**{'filename': filename})
+            return self._prepare_licence(licence)
+        return None
+
+    def comment(self, text):
         return text
 
     # Start/End document handling
@@ -104,3 +120,6 @@ class FileGenerator(CityVisitor):
         new_contents = template.render(**render_params)
         self.document = StringIO()
         self.document.write(new_contents)
+
+    def _prepare_licence(self, contents):
+        return contents

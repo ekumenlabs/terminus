@@ -21,4 +21,12 @@ class AbstractCityBuilder(object):
         return self.__class__.__name__
 
     def get_city(self):
+        city = self._buid_city()
+        city.put_metadata('builder', self)
+        return city
+
+    def required_licence(self):
+        return None
+
+    def _buid_city(self):
         raise NotImplementedError()

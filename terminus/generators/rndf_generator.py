@@ -128,3 +128,11 @@ class RNDFGenerator(FileGenerator):
 
     def trunk_template(self):
         return self.road_template()
+
+    def _prepare_licence(self, contents):
+        contents = self.comment(contents)
+        return contents + "\n\n"
+
+    def comment(self, text):
+        lines = map(lambda str: "/* {0} */".format(str), text.splitlines())
+        return "\n".join(lines)

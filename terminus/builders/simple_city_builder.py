@@ -29,7 +29,7 @@ from builders.abstract_city_builder import AbstractCityBuilder
 
 class SimpleCityBuilder(AbstractCityBuilder):
 
-    def get_city(self):
+    def _buid_city(self):
         # Must be odd
         size = 5
         city = City()
