@@ -197,3 +197,10 @@ class AbstractSDFGenerator(FileGenerator):
         <sdf version="1.5">
           {{inner_contents}}
         </sdf>"""
+
+    def _prepare_licence(self, contents):
+        contents = self.comment("\n" + contents)
+        return contents + "\n"
+
+    def comment(self, text):
+        return "<!--{0}-->".format(text)
