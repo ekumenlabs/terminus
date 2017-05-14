@@ -85,31 +85,77 @@ class MonolaneGenerator(FileGenerator):
         return point
 
     def _build_lane_connections(self, lane):
+        waypoints = lane.waypoints_for(LinesAndArcsGeometry)
         connections = lane.inner_connections_for(LinesAndArcsGeometry)
         path = lane.path_for(LinesAndArcsGeometry)
 
-        for connection in connections:
-
-            monolane_connection = None
-
+        for waypoint in waypoints:
             # If the waypoint is an exit, create the connection with all the
             # entry waypoints of the other lanes.
-            if connection.start_waypoint().is_exit():
-                exit_waypoint = connection.start_waypoint()
-                for out_connection in exit_waypoint.out_connections():
-                    self._create_out_connection(path, out_connection)
+            for out_connection in waypoint.out_connections():
+                self._create_out_connection(path, out_connection)
 
-            # In some cases we don't want to generate the connection between
-            # the previous and following node.
-            # If the lane starts with an intersection, start on the entry waypoint
-            belong_to_same_node = connection.start_waypoint().road_node() is connection.end_waypoint().road_node()
-            if belong_to_same_node and (connection is connections[0]) and connection.end_waypoint().is_entry():
-                pass
-            # If the lane ends with an intersection, end it on the exit waypoint
-            elif belong_to_same_node and (connection is connections[-1]) and connection.start_waypoint().is_exit():
-                pass
-            else:
-                self._create_connection(path, connection)
+        # Remove extra segments if road starts with an intersection
+        connections = self._trim_initial_connections(lane.road_nodes()[0], connections)
+
+        # Remove extra segments if road ends in an intersection
+        connections = self._trim_final_connections(lane.road_nodes()[-1], connections)
+
+        for connection in connections:
+            self._create_connection(path, connection)
+
+    def _trim_initial_connections(self, initial_node, connections):
+
+        def getter(connection):
+            return connection.start_waypoint()
+        connections_clone = list(connections)
+        cutting_connection = self._find_cutting_connection(initial_node, connections_clone, getter)
+        if cutting_connection:
+            while connections_clone[0] is not cutting_connection:
+                connections_clone.pop(0)
+        return connections_clone
+
+    def _trim_final_connections(self, final_node, connections):
+
+        def getter(connection):
+            return connection.end_waypoint()
+        connections_clone = list(connections)
+        connections_clone.reverse()
+        cutting_connection = self._find_cutting_connection(final_node, connections_clone, getter)
+        if cutting_connection:
+            while connections_clone[0] is not cutting_connection:
+                connections_clone.pop(0)
+        connections_clone.reverse()
+        return connections_clone
+
+    def _find_cutting_connection(self, target_node, connections, getter):
+        '''
+        If the target node (either a start or end of road) is an intersection,
+        find which connection should be the new start of the connection, so
+        that we can later drop unneeded segments.
+        '''
+
+        # We only care about intersections
+        if not target_node.is_intersection():
+            return None
+
+        # Find the first connection that has an intersection waypoint
+        iterator = (connection for connection in connections if getter(connection).is_intersection())
+        cutting_connection = next(iterator, None)
+
+        if not cutting_connection:
+            return None
+
+        # If an intersection waypoint form another node got in the way,
+        # make sure we could actually perform the intersection for that node;
+        # otherwise do not perform any cutting
+        if getter(cutting_connection).road_node() is not target_node:
+            should_cut = any(getter(connection).is_intersection() and
+                             getter(connection).road_node() is target_node for connection in connections)
+            if not should_cut:
+                return None
+
+        return cutting_connection
 
     def _create_out_connection(self, path, connection):
         primitive = connection.primitive()
