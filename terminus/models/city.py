@@ -33,6 +33,13 @@ class City(CityModel):
         self.blocks = []
         self.buildings = []
         self.intersections = {}
+        self._metadata = {}
+
+    def put_metadata(self, key, value):
+        self._metadata[key] = value
+
+    def get_metadata(self, key):
+        return self._metadata.get(key, None)
 
     def set_ground_plane(self, ground_plane):
         self.ground_plane = ground_plane

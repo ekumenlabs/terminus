@@ -50,7 +50,7 @@ class ProceduralCityBuilder(AbstractCityBuilder):
         self.ratio = 100  # ratio between pcg and gazebo (1unit = 100m)
         self.pcg_runner.set_size(size / self.ratio)
 
-    def get_city(self):
+    def _buid_city(self):
         city = City()
 
         # If no verticesFilename or polygonsFilename is specified,
