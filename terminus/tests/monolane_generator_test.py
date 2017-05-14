@@ -105,19 +105,19 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 10.0, explicit_end: points.s1_1_3}
+            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 95.0, explicit_end: points.s1_1_4}
             s1_1_2-s2_1_3:
               start: points.s1_1_2
               arc: [5.0, -90.0]
               explicit_end: points.s2_1_3
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 10.0, explicit_end: points.s1_1_3}
-            s1_1_3-s1_1_4: {start: points.s1_1_3, length: 95.0, explicit_end: points.s1_1_4}
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 95.0, explicit_end: points.s2_1_2}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.0, explicit_end: points.s2_1_3}
+            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 95.0, explicit_end: points.s2_1_4}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
               arc: [5.0, 90.0]
               explicit_end: points.s1_1_3
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.0, explicit_end: points.s2_1_3}
-            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 95.0, explicit_end: points.s2_1_4}
           groups: {}""")
 
     def test_L_intersection(self):
@@ -186,14 +186,14 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
-            s1_1_2-s3_1_2:
-              start: points.s1_1_2
-              arc: [12.071067811865477, 45.0]
-              explicit_end: points.s3_1_2
             s1_1_2-s2_1_2:
               start: points.s1_1_2
               arc: [12.071067811865477, -45.0]
               explicit_end: points.s2_1_2
+            s1_1_2-s3_1_2:
+              start: points.s1_1_2
+              arc: [12.071067811865477, 45.0]
+              explicit_end: points.s3_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 136.4213562373095, explicit_end: points.s2_1_3}
             s3_1_2-s3_1_3: {start: points.s3_1_2, length: 136.4213562373095, explicit_end: points.s3_1_3}
           groups: {}""")
@@ -269,11 +269,11 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 95.0, explicit_end: points.s1_1_2}
+            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 105.0, explicit_end: points.s1_1_3}
             s1_1_2-s2_1_2:
               start: points.s1_1_2
               arc: [5.0, -90.0]
               explicit_end: points.s2_1_2
-            s1_1_2-s1_1_3: {start: points.s1_1_2, length: 105.0, explicit_end: points.s1_1_3}
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.0, explicit_end: points.s2_1_3}
           groups: {}""")
 
@@ -341,22 +341,22 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
-            s1_1_2-s2_1_3:
-              start: points.s1_1_2
-              arc: [5.0000000000000036, 90.0]
-              explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
               arc: [25.962912017836256, 21.8014095]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 48.851648071345046, explicit_end: points.s1_1_4}
+            s1_1_2-s2_1_3:
+              start: points.s1_1_2
+              arc: [5.0000000000000036, 90.0]
+              explicit_end: points.s2_1_3
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
+            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.000000000000007, explicit_end: points.s2_1_3}
+            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 44.99999999999999, explicit_end: points.s2_1_4}
             s2_1_2-s1_1_3:
               start: points.s2_1_2
               arc: [7.385164807134503, -68.1985905]
               explicit_end: points.s1_1_3
-            s2_1_2-s2_1_3: {start: points.s2_1_2, length: 10.000000000000007, explicit_end: points.s2_1_3}
-            s2_1_3-s2_1_4: {start: points.s2_1_3, length: 44.99999999999999, explicit_end: points.s2_1_4}
           groups: {}""")
 
     def test_broken_intersection_on_two_lanes_city(self):
@@ -390,25 +390,25 @@ class MonolaneGeneratorTest(unittest.TestCase):
               zpoint: [0.0, 0, 0, 0]
           connections:
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
-            s1_1_2-s2_1_3:
-              start: points.s1_1_2
-              arc: [6.0990195135927925, 78.6900675]
-              explicit_end: points.s2_1_3
             s1_1_2-s1_1_3:
               start: points.s1_1_2
               arc: [25.962912017836256, 21.8014095]
               explicit_end: points.s1_1_3
             s1_1_3-s1_1_4: {start: points.s1_1_3, length: 48.851648071345046, explicit_end: points.s1_1_4}
+            s1_1_2-s2_1_3:
+              start: points.s1_1_2
+              arc: [6.0990195135927925, 78.6900675]
+              explicit_end: points.s2_1_3
             s2_1_1-s2_1_2: {start: points.s2_1_1, length: 45.0, explicit_end: points.s2_1_2}
-            s2_1_2-s1_1_3:
-              start: points.s2_1_2
-              arc: [7.385164807134503, -68.1985905]
-              explicit_end: points.s1_1_3
             s2_1_2-s2_1_3:
               start: points.s2_1_2
               arc: [50.495097567964, -11.3099325]
               explicit_end: points.s2_1_3
             s2_1_3-s2_1_4: {start: points.s2_1_3, length: 45.99019513592784, explicit_end: points.s2_1_4}
+            s2_1_2-s1_1_3:
+              start: points.s2_1_2
+              arc: [7.385164807134503, -68.1985905]
+              explicit_end: points.s1_1_3
           groups: {}""")
 
     def test_road_ends_in_intersection_city(self):

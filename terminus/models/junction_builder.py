@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import math
+from collections import OrderedDict
 
 from geometry.circle import Circle
 from geometry.point import Point
@@ -53,10 +54,10 @@ class JunctionBuilder(object):
         except JunctionNotSatisfied:
             connections = self._fulfill_intersection_with_adaptive_approach()
 
-        waypoints_by_lane = {}
+        waypoints_by_lane = OrderedDict()
 
         for lane in self.lanes():
-            waypoints_by_lane[lane] = {}
+            waypoints_by_lane[lane] = OrderedDict()
 
         for connection in connections:
             exit_waypoint = connection.start_waypoint()
@@ -85,7 +86,7 @@ class JunctionBuilder(object):
         up = [x / 2.0 for x in range(10, 31)]  # [5.0, 5.5, 6.0, ...]
         down = [x / 2.0 for x in reversed(range(1, 10))]  # [4.5, 4.0, ...]
         radius_candidates = up + down
-        intersections = {}
+        intersections = OrderedDict()
 
         for radius in radius_candidates:
             try:
@@ -98,13 +99,13 @@ class JunctionBuilder(object):
         waypoints = self._get_waypoints_for_intersections(intersections)
         exit_waypoints, entry_waypoints = self._split_exit_entry_waypoints(waypoints)
 
-        lane_pairs = {}
+        lane_pairs = OrderedDict()
 
         for exit_waypoint in exit_waypoints:
             for entry_waypoint in entry_waypoints:
                 if exit_waypoint.lane() is not entry_waypoint.lane():
                     if not exit_waypoint.lane() in lane_pairs:
-                        lane_pairs[exit_waypoint.lane()] = {}
+                        lane_pairs[exit_waypoint.lane()] = OrderedDict()
                     lane_pairs[exit_waypoint.lane()][entry_waypoint.lane()] = None
 
         for radius in radius_candidates:
@@ -192,7 +193,7 @@ class JunctionBuilder(object):
         return connections
 
     def _create_lane_intersections_mapping(self, radius, check_count=True):
-        lane_intersections = {}
+        lane_intersections = OrderedDict()
         intersection_center = self.intersection_center()
         circle = Circle(intersection_center, radius)
         node = self._road_node
@@ -206,7 +207,7 @@ class JunctionBuilder(object):
             else:
                 expected_intersections = 1
 
-            indexed_intersections = {}
+            indexed_intersections = OrderedDict()
             for intersection in path_intersections:
                 point = intersection.closest_point_to(intersection_center)
                 rounded_point = point.rounded_to(7)
@@ -218,7 +219,7 @@ class JunctionBuilder(object):
         return lane_intersections
 
     def _get_waypoints_for_intersections(self, intersection_points):
-        new_waypoints = {}
+        new_waypoints = OrderedDict()
         waypoints = []
         for lane, points in intersection_points.iteritems():
             for point in points:
