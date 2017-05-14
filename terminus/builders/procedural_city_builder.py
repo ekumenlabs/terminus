@@ -71,16 +71,22 @@ class ProceduralCityBuilder(AbstractCityBuilder):
         return city
 
     def _build_roads(self, city, vertex_list):
+        origin = Point(0, 0)
         vertex_mapping = {}
         for vertex in vertex_list:
             vertex_mapping[vertex] = GraphNode.from_vertex(vertex, self.ratio)
         for vertex, node in vertex_mapping.iteritems():
             node_neighbours = map(lambda vertex_neighbour: vertex_mapping[vertex_neighbour],
                                   vertex.neighbours)
+            node_neighbours = sorted(node_neighbours,
+                                     key=lambda node: node.location.distance_to(origin))
             node.set_neighbours(node_neighbours)
 
+        nodes = sorted(vertex_mapping.values(),
+                       key=lambda node: node.location.distance_to(origin))
+
         # 0.79 rad ~ 45 deg
-        converter = VertexGraphToRoadsConverter(city, 0.79, vertex_mapping.values())
+        converter = VertexGraphToRoadsConverter(city, 0.79, nodes)
         converter.run()
 
     def _build_blocks(self, polygon_list):
