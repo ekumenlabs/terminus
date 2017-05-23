@@ -27,31 +27,31 @@ from lane_geometry import LaneGeometry
 class LinesAndArcsGeometry(LaneGeometry):
 
     @classmethod
-    def build_path_and_waypoints(cls, lane):
+    def build_path_and_waypoints(cls, lane, mapped_centers):
         if lane.road_nodes_count() < 2:
             raise ValueError("At least two nodes are required to build a geometry")
 
         road_nodes = list(lane.road_nodes())
-        is_circular = road_nodes[0].center.almost_equal_to(road_nodes[-1].center, 5)
+        is_circular = mapped_centers[road_nodes[0]].almost_equal_to(mapped_centers[road_nodes[-1]], 5)
         path = Path()
         waypoints = []
 
         previous_node = road_nodes.pop(0)
-        previous_point = previous_node.center
+        previous_point = mapped_centers[previous_node]
 
         nodes_count = len(road_nodes)
 
         for index, node in enumerate(road_nodes):
-            point = node.center
+            point = mapped_centers[node]
             is_last_node = index + 1 == nodes_count
 
             if is_last_node:
                 if is_circular:
-                    next_point = road_nodes[0].center
+                    next_point = mapped_centers[road_nodes[0]]
                 else:
                     next_point = None
             else:
-                next_point = road_nodes[index + 1].center
+                next_point = mapped_centers[road_nodes[index + 1]]
 
             if path.is_empty():
                 previous_element_end_point = previous_point
@@ -73,7 +73,6 @@ class LinesAndArcsGeometry(LaneGeometry):
                     if is_last_node:
                         waypoints.append(cls._new_waypoint(lane, element, road_nodes[0], False))
                 else:
-                    angle_between_vectors = previous_vector.angle(next_vector)
 
                     inverted_previous_segment = LineSegment(point, previous_point)
                     real_inverted_previous_segment = LineSegment(point, previous_element_end_point)
@@ -98,6 +97,7 @@ class LinesAndArcsGeometry(LaneGeometry):
                             next_segment_new_start_point = next_segment.point_at_offset(new_delta)
                             previous_segment = LineSegment(previous_element_end_point, previous_segment_new_end_point)
 
+                    angle_between_vectors = previous_vector.angle(next_vector)
                     d2 = previous_segment_new_end_point.squared_distance_to(next_segment_new_start_point)
                     cos = math.cos(math.radians(angle_between_vectors))
                     radius = math.sqrt(d2 / (2.0 * (1.0 - cos)))
@@ -113,7 +113,7 @@ class LinesAndArcsGeometry(LaneGeometry):
                         path.add_element(connection_arc)
                         waypoints.append(cls._new_waypoint(lane, connection_arc, node))
 
-                        if not connection_arc.end_point().almost_equal_to(next_segment_new_start_point, 4):
+                        if not connection_arc.end_point().almost_equal_to(next_segment_new_start_point, 3):
                             raise RuntimeError("Expecting arc end {0} to match next segment entry point {1}".format(
                                                connection_arc.end_point(),
                                                next_segment_new_start_point))
@@ -127,7 +127,7 @@ class LinesAndArcsGeometry(LaneGeometry):
                         path.add_element(connection_arc)
                         waypoints.append(cls._new_waypoint(lane, connection_arc, node))
 
-                        if not connection_arc.end_point().almost_equal_to(next_segment_new_start_point, 4):
+                        if not connection_arc.end_point().almost_equal_to(next_segment_new_start_point, 3):
                             raise RuntimeError("Expecting arc end {0} to match next segment entry point {1}".format(
                                                connection_arc.end_point(),
                                                next_segment_new_start_point))
@@ -144,7 +144,7 @@ class LinesAndArcsGeometry(LaneGeometry):
                         waypoints.append(cls._new_waypoint(lane, connection_arc, road_nodes[0], False))
 
             previous_node = node
-            previous_point = previous_node.center
+            previous_point = mapped_centers[previous_node]
         return (path, waypoints)
 
     @classmethod

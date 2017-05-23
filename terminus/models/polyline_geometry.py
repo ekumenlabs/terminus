@@ -24,7 +24,7 @@ from lane_geometry import LaneGeometry
 class PolylineGeometry(LaneGeometry):
 
     @classmethod
-    def build_path_and_waypoints(cls, lane):
+    def build_path_and_waypoints(cls, lane, mapped_centers):
         if lane.road_nodes_count() < 2:
             raise ValueError("At least two nodes are required to build a geometry")
 
@@ -33,8 +33,8 @@ class PolylineGeometry(LaneGeometry):
         path = Path()
         waypoints = []
         for start_node, end_node in node_pairs:
-            start_point = start_node.center
-            end_point = end_node.center
+            start_point = mapped_centers[start_node]
+            end_point = mapped_centers[end_node]
             segment = LineSegment(start_point, end_point)
             path.add_element(segment)
             waypoints.append(cls._new_waypoint(lane, segment, start_node))
