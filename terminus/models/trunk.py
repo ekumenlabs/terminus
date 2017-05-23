@@ -20,8 +20,8 @@ from road import Road
 class Trunk(Road):
     def __init__(self, name=None):
         super(Trunk, self).__init__(name)
-        self.add_lane(2)
-        self.add_lane(-2, reversed=True)
+        self.add_lane(2, reversed=True)
+        self.add_lane(-2)
 
     def accept(self, generator):
         generator.start_trunk(self)
