@@ -47,7 +47,7 @@ class MonolaneGenerator(FileGenerator):
                 ('id', city.name),
                 ('lane_bounds', [-2, 2]),
                 ('driveable_bounds', [-4, 4]),
-                ('position_precision', 0.0005),
+                ('position_precision', 0.01),
                 ('orientation_precision', 0.5),
                 ('points', OrderedDict()),
                 ('connections', OrderedDict()),

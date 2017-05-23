@@ -27,11 +27,15 @@ from waypoint_geometry import WaypointGeometry
 
 
 class Lane(object):
-    def __init__(self, road, width, offset):
+    def __init__(self, road, width, offset, reversed):
         self._road = road
         self._width = width
         self._offset = offset
+        self._reversed = reversed
         self._cached_geometries = {}
+
+    def is_reversed(self):
+        return self._reversed
 
     def offset(self):
         return self._offset
@@ -50,10 +54,13 @@ class Lane(object):
         return self._road
 
     def road_nodes(self):
-        return self.road().nodes()
+        if self._reversed:
+            return self.road().nodes()[::-1]
+        else:
+            return self.road().nodes()
 
     def road_nodes_count(self):
-        return self.road().node_count()
+        return len(self.road_nodes())
 
     def waypoints_for(self, geometry_class):
         return self._lane_geometry(geometry_class).waypoints()

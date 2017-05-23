@@ -41,11 +41,10 @@ class VertexGraphToRoadsConverter(object):
             while node.get_neighbours_to_traverse():
                 # Revert this commented code once we support trunks in monolane
                 # generator
-                # if node.is_minor_road:
-                #     road = Street()
-                # else:
-                #     road = Trunk()
-                road = Street()
+                if node.is_minor_road:
+                    road = Street()
+                else:
+                    road = Trunk()
                 if node.neighbours_count() > 1:
                     self.city.add_intersection_at(node.location)
 

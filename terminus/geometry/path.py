@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from geometry.point import Point
 from geometry.circle import Circle
 from geometry.line_segment import LineSegment
 
@@ -105,6 +106,35 @@ class Path(object):
 
     def includes_point(self, point, buffer=1e-7):
         return any(element.includes_point(point, buffer) for element in self._elements)
+
+    def offset_by(self, delta):
+        if delta == 0:
+            return self.clone()
+
+        normals = []
+
+        for element in self:
+            # TODO: Extend this to other geometries
+            if not isinstance(element, LineSegment):
+                raise RuntimeError("Only polylines are currently supported")
+            direction = element.direction_vector()
+            if delta > 0:
+                normal = Point(-direction.y, direction.x).normalized()
+            else:
+                normal = Point(direction.y, -direction.x).normalized()
+            normal = normal * abs(delta)
+
+            if not normals:
+                normals.append(normal)
+                normals.append(normal)
+            else:
+                previous_normal = normals[-1]
+                new_normal = (previous_normal + normal) / 2.0
+                normals[-1] = new_normal
+                normals.append(normal)
+
+        points = map(lambda (point, normal): point + normal, zip(self.vertices(), normals))
+        return Path.polyline_from_points(points)
 
     def simplify(self):
         """

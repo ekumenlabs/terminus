@@ -30,6 +30,7 @@ class LaneGeometry(object):
 
     def __init__(self, lane):
         self._lane = lane
+        self._node_centers_mapping = self._map_node_centers()
         self._path, self._waypoints = self._build_path_and_waypoints(lane)
         self._center_to_waypoint = self._build_waypoint_table()
         self._simplify_path()
@@ -42,9 +43,6 @@ class LaneGeometry(object):
 
     def lane(self):
         return self._lane
-
-    def road(self):
-        return self.lane().road()
 
     def road_nodes(self):
         return self.lane().road_nodes()
@@ -64,6 +62,15 @@ class LaneGeometry(object):
 
     def waypoint_at_point(self, point):
         return self._center_to_waypoint.get(point.rounded_to(5), None)
+
+    def _map_node_centers(self):
+        road_nodes = self.road_nodes()
+        points = map(lambda node: node.center, road_nodes)
+        offset = self.lane().offset()
+        if self.lane().is_reversed():
+            offset = -offset
+        path = Path.polyline_from_points(points).offset_by(offset)
+        return dict(zip(road_nodes, path.vertices()))
 
     def resolve_intersection(self, road_node, waypoints):
         # Mark as resolved
@@ -118,7 +125,7 @@ class LaneGeometry(object):
         return Waypoint(lane, point, heading, node)
 
     def _path_for(self, lane):
-        return self.species().build_path_and_waypoints(lane)[0]
+        return self._build_path_and_waypoints(lane)[0]
 
     def _simplify_path(self):
         self._path.simplify()
@@ -169,7 +176,7 @@ class LaneGeometry(object):
         return len(self._unresolved_intersections) == 0
 
     def _build_path_and_waypoints(self, lane):
-        return self.species().build_path_and_waypoints(lane)
+        return self.species().build_path_and_waypoints(lane, self._node_centers_mapping)
 
     def _resolve_intersections(self):
         self._build_missing_intersections()
@@ -178,5 +185,6 @@ class LaneGeometry(object):
         lane = self.lane()
         # We will be removing items as we iterate, so make a copy
         for node in list(self._unresolved_intersections):
-            builder = JunctionBuilder(node, self.species())
+            mapped_intersection_point = self._node_centers_mapping[node]
+            builder = JunctionBuilder(node, mapped_intersection_point, self.species())
             builder.add_connections_to_lanes()

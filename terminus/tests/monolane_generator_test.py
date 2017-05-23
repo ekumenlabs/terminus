@@ -46,7 +46,7 @@ class MonolaneGeneratorTest(unittest.TestCase):
           id: {0}
           lane_bounds: [-2, 2]
           driveable_bounds: [-4, 4]
-          position_precision: 0.0005
+          position_precision: 0.01
           orientation_precision: 0.5{1}\n""".format(name, expected_core_contents)
         expected = textwrap.dedent(expected_contents)[1:]
         self.assertMultiLineEqual(self.generated_contents, expected)

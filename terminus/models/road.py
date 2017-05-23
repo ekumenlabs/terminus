@@ -103,8 +103,8 @@ class Road(CityModel):
 
     # Lane management
 
-    def add_lane(self, offset, width=4):
-        self._lanes.append(Lane(self, width, offset))
+    def add_lane(self, offset, width=4, reversed=False):
+        self._lanes.append(Lane(self, width, offset, reversed))
 
     def lane_count(self):
         return len(self._lanes)

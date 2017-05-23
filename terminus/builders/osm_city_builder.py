@@ -141,12 +141,11 @@ class OsmCityBuilder(AbstractCityBuilder):
 
         return geometry.trim_to_fit(self.bounding_box)
 
-    def _create_road(self, city, osm_id, geometry, is_one_way, is_reversed):
-        if is_one_way:
-            road = Street(name='OSM_' + osm_id)
+    def _create_road(self, city, osm_id, geometry, is_one_way, is_reversed, is_trunk):
+        if is_trunk:
+            road = Trunk(name='OSM_' + osm_id)
         else:
             road = Street(name='OSM_' + osm_id)
-            # tmp_road = Trunk(name='OSM_' + str(osm_id))
 
         if is_reversed:
             geometry = geometry.reversed()
@@ -177,16 +176,19 @@ class OsmCityBuilder(AbstractCityBuilder):
                 # Check if the points were given in reversed order
                 is_reversed = is_one_way and (value['tags']['oneway'] in ['-1', 'reverse'])
 
+                # This should be improved in the future
+                is_trunk = tags['highway'] in ['trunk', 'primary', 'secondary']
+
                 # The road went outside the bounding box and back in. For that
                 # case we will generate a new road for each piece.
                 if len(geometry) > 1:
                     index = "A"
                     for road_geometry in geometry:
-                        self._create_road(city, str(osmid) + "_" + index, road_geometry, is_one_way, is_reversed)
+                        self._create_road(city, str(osmid) + "_" + index, road_geometry, is_one_way, is_reversed, is_trunk)
                         index = chr(ord(index) + 1)
                 else:
                     road_geometry = geometry[0]
-                    self._create_road(city, str(osmid), road_geometry, is_one_way, is_reversed)
+                    self._create_road(city, str(osmid), road_geometry, is_one_way, is_reversed, is_trunk)
 
     def _create_intersections(self, city):
         for node_id, nodes in self.nodes.iteritems():
