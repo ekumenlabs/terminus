@@ -32,7 +32,7 @@ class SimpleCityBuilder(AbstractCityBuilder):
     def _buid_city(self):
         # Must be odd
         size = 5
-        city = City()
+        city = City("Simple City")
         self.multiplier = 100
 
         self._create_ground_plane(city, size)

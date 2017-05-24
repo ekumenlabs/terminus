@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import math
+import re
 
 from geometry.point import Point
 from geometry.latlon import LatLon
@@ -77,6 +78,18 @@ class RNDFGenerator(FileGenerator):
     def waypoints_for(self, lane):
         return lane.waypoints_for(PolylineGeometry)
 
+    def sanitize(self, string):
+        '''
+        From the RNDF specification: strings have a maximum length of 128
+        characters, and do not contain any spaces, backslashes, or *.
+        '''
+        # Let's be a bit more on the safe side and remove all non-word characters
+        # and replace them with an underscore
+        string = re.sub('[^\w\s]', ' ', string)
+        string = re.sub('\s+', '_', string)
+        # Finally, truncate the string if needed
+        return string[:128]
+
     def waypoint_connections_for(self, lane):
         exit_waypoints = filter(lambda waypoint: waypoint.is_exit(), self.waypoints_for(lane))
         waypoint_connections = []
@@ -95,7 +108,7 @@ class RNDFGenerator(FileGenerator):
     # proper format.
     def city_template(self):
         return """
-        RNDF_name\t{{model.name}}
+        RNDF_name\t{{generator.sanitize(model.name)}}
         num_segments\t{{model.roads_count()}}
         num_zones\t0
         format_version\t1.0{{inner_contents}}
