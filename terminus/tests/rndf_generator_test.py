@@ -61,7 +61,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.simple_street_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tSingle street
+        RNDF_name\tSingle_street
         num_segments\t1
         num_zones\t0
         format_version\t1.0
@@ -117,7 +117,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.L_intersection_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tL intersection
+        RNDF_name\tL_intersection
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -150,7 +150,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.Y_intersection_one_to_many_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tY intersection - One to many
+        RNDF_name\tY_intersection_One_to_many
         num_segments\t3
         num_zones\t0
         format_version\t1.0
@@ -195,7 +195,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.Y_intersection_many_to_one_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tY intersection - Many to one
+        RNDF_name\tY_intersection_Many_to_one
         num_segments\t3
         num_zones\t0
         format_version\t1.0
@@ -240,7 +240,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.T_intersection_out_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tT intersection out
+        RNDF_name\tT_intersection_out
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -273,7 +273,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.T_intersection_in_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tT intersection in
+        RNDF_name\tT_intersection_in
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -306,7 +306,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.broken_intersection_on_one_lane_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tBroken intersection - One lane
+        RNDF_name\tBroken_intersection_One_lane
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -343,7 +343,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.broken_intersection_on_two_lanes_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tBroken intersection - Two lanes
+        RNDF_name\tBroken_intersection_Two_lanes
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -381,7 +381,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.road_ends_in_intersection_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tRoad ends in intersection
+        RNDF_name\tRoad_ends_in_intersection
         num_segments\t2
         num_zones\t0
         format_version\t1.0
@@ -415,7 +415,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.non_collinear_segments_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tNon collinear segments - Standard
+        RNDF_name\tNon_collinear_segments_Standard
         num_segments\t1
         num_zones\t0
         format_version\t1.0
@@ -436,7 +436,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.two_non_collinear_segments_border_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tNon collinear segments - Border
+        RNDF_name\tNon_collinear_segments_Border
         num_segments\t1
         num_zones\t0
         format_version\t1.0
@@ -458,7 +458,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.two_non_collinear_segments_less_than_border_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tNon collinear segments - Less than border
+        RNDF_name\tNon_collinear_segments_Less_than_border
         num_segments\t1
         num_zones\t0
         format_version\t1.0
@@ -480,7 +480,7 @@ class RNDFGeneratorTest(unittest.TestCase):
         city = self.test_generator.S_road_city()
         self._generate_rndf(city)
         self._assert_contents_are("""
-        RNDF_name\tS road
+        RNDF_name\tS_road
         num_segments\t1
         num_zones\t0
         format_version\t1.0
