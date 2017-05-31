@@ -23,7 +23,6 @@ from shapely.geometry.collection import GeometryCollection
 from shapely.geometry import Point as ShapelyPoint, MultiPoint
 from city_model import CityModel
 from waypoint import Waypoint
-from waypoint_geometry import WaypointGeometry
 
 
 class Lane(object):
