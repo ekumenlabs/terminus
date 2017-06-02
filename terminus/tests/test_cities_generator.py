@@ -17,6 +17,7 @@ limitations under the License.
 from geometry.point import Point
 from models.city import City
 from models.street import Street
+from models.trunk import Trunk
 
 
 class TestCitiesGenerator(object):
@@ -323,5 +324,79 @@ class TestCitiesGenerator(object):
         s1.name = "s1"
 
         city.add_road(s1)
+
+        return city
+
+    def collinear_streets_city(self):
+        """
+         --->---+--->---
+        """
+        city = City("Collinear streets")
+
+        s1 = Street.from_control_points([
+            Point(0, 0),
+            Point(50, 0)
+        ])
+
+        s2 = Street.from_control_points([
+            Point(50, 0),
+            Point(100, 0)
+        ])
+
+        city.add_road(s1)
+        city.add_road(s2)
+
+        city.add_intersection_at(Point(50, 0))
+
+        return city
+
+
+    def trunk_to_street_city(self):
+        """
+         ---<---
+               +-->---
+         --->--+
+        """
+        city = City("Trunk to street")
+
+        trunk = Trunk.from_control_points([
+            Point(0, 0),
+            Point(50, 0)
+        ])
+
+        street = Street.from_control_points([
+            Point(50, 0),
+            Point(100, 0)
+        ])
+
+        city.add_road(trunk)
+        city.add_road(street)
+
+        city.add_intersection_at(Point(50, 0))
+
+        return city
+
+    def trunk_from_street_city(self):
+        """
+         ---<---
+               +---<---
+         --->--+
+        """
+        city = City("Trunk from street")
+
+        trunk = Trunk.from_control_points([
+            Point(0, 0),
+            Point(50, 0)
+        ])
+
+        street = Street.from_control_points([
+            Point(100, 0),
+            Point(50, 0)
+        ])
+
+        city.add_road(trunk)
+        city.add_road(street)
+
+        city.add_intersection_at(Point(50, 0))
 
         return city

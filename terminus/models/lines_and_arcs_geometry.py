@@ -17,6 +17,7 @@ limitations under the License.
 import math
 
 from geometry.arc import Arc
+from geometry.point import Point
 from geometry.line_segment import LineSegment
 from geometry.path import Path
 
@@ -150,7 +151,47 @@ class LinesAndArcsGeometry(LaneGeometry):
     @classmethod
     def connect(cls, exit_waypoint, entry_waypoint):
         if abs(exit_waypoint.heading() - entry_waypoint.heading()) < 1e-3:
-            return LineSegment(exit_waypoint.center(), entry_waypoint.center())
+            waypoints_angle = math.degrees(exit_waypoint.center().yaw(entry_waypoint.center()))
+            if abs(exit_waypoint.heading() - waypoints_angle) < 1e-3:
+                # Waypoints are in collinear lanes and can be connected by a line
+                # segment with the same heading
+                return LineSegment(exit_waypoint.center(), entry_waypoint.center())
+            else:
+                # Waypoints are in collinear lanes but have different offsets,
+                # so they must be connected by an S-shaped path
+                exit_line = exit_waypoint.defining_line()
+                entry_line = entry_waypoint.defining_line()
+                cutting_line = entry_line.perpendicular_line_at(entry_waypoint.center())
+
+                delta_length = (exit_waypoint.center() - exit_line.intersection(cutting_line)).norm()
+                segment_extension = delta_length / 5.0
+
+                exit_extension = LineSegment.from_point_and_heading(exit_waypoint.center(),
+                                                                    exit_waypoint.heading(),
+                                                                    segment_extension)
+
+                entry_extension = LineSegment.from_point_and_heading(entry_waypoint.center(),
+                                                                     entry_waypoint.heading() + 180,
+                                                                     segment_extension)
+
+                connecting_segment = LineSegment(exit_extension.end_point(), entry_extension.end_point())
+                connecting_segment = connecting_segment.extended_by(-segment_extension).inverted()
+                connecting_segment = connecting_segment.extended_by(-segment_extension).inverted()
+
+                start_arc = cls._build_arc(exit_waypoint.center(),
+                                           exit_waypoint.heading(),
+                                           connecting_segment.start_point(),
+                                           connecting_segment.start_heading())
+                end_arc = cls._build_arc(connecting_segment.end_point(),
+                                         connecting_segment.end_heading(),
+                                         entry_waypoint.center(),
+                                         entry_waypoint.heading())
+                path = Path()
+                path.add_element(start_arc)
+                path.add_element(connecting_segment)
+                path.add_element(end_arc)
+                return path
+
         else:
             exit_point = exit_waypoint.center()
             exit_line = exit_waypoint.defining_line()
