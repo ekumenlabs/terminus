@@ -45,5 +45,17 @@ class Line(object):
         else:
             return None
 
+    def slope(self):
+        return -self.a / self.b
+
+    def perpendicular_line_at(self, point):
+        if self.slope() == 0:
+            return Line.from_points(point, point + Point(0, point.y + 1))
+
+        perpendicular_slope = -1.0 / self.slope()
+        c = point.y - perpendicular_slope * point.x
+
+        return Line(1, perpendicular_slope, c)
+
     def __repr__(self):
         return "Line({0}, {1}, {2})".format(self.a, self.b, self.c)
