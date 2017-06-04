@@ -337,11 +337,13 @@ class TestCitiesGenerator(object):
             Point(0, 0),
             Point(50, 0)
         ])
+        s1.name = "s1"
 
         s2 = Street.from_control_points([
             Point(50, 0),
             Point(100, 0)
         ])
+        s2.name = "s2"
 
         city.add_road(s1)
         city.add_road(s2)
@@ -349,7 +351,6 @@ class TestCitiesGenerator(object):
         city.add_intersection_at(Point(50, 0))
 
         return city
-
 
     def trunk_to_street_city(self):
         """
@@ -363,11 +364,13 @@ class TestCitiesGenerator(object):
             Point(0, 0),
             Point(50, 0)
         ])
+        trunk.name = "t1"
 
         street = Street.from_control_points([
             Point(50, 0),
             Point(100, 0)
         ])
+        street.name = "s1"
 
         city.add_road(trunk)
         city.add_road(street)
@@ -388,11 +391,13 @@ class TestCitiesGenerator(object):
             Point(0, 0),
             Point(50, 0)
         ])
+        trunk.name = "t1"
 
         street = Street.from_control_points([
             Point(100, 0),
             Point(50, 0)
         ])
+        street.name = "s1"
 
         city.add_road(trunk)
         city.add_road(street)

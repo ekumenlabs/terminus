@@ -497,3 +497,114 @@ class RNDFGeneratorTest(unittest.TestCase):
         end_lane
         end_segment
         end_file""")
+
+    def test_trunk_to_street_city(self):
+        city = self.test_generator.trunk_to_street_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tTrunk_to_street
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t2
+        segment_name\tt1
+        lane\t1.1
+        num_waypoints\t2
+        lane_width\t13
+        1.1.1\t10.000018\t65.000456
+        1.1.2\t10.000018\t65.000000
+        end_lane
+        lane\t1.2
+        num_waypoints\t3
+        lane_width\t13
+        exit\t1.2.2\t2.1.2
+        1.2.1\t9.999982\t65.000000
+        1.2.2\t9.999982\t65.000414
+        1.2.3\t9.999982\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts1
+        lane\t2.1
+        num_waypoints\t3
+        lane_width\t13
+        2.1.1\t10.000000\t65.000456
+        2.1.2\t10.000000\t65.000502
+        2.1.3\t10.000000\t65.000912
+        end_lane
+        end_segment
+        end_file""")
+
+    def test_trunk_from_street_city(self):
+        city = self.test_generator.trunk_from_street_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tTrunk_from_street
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t2
+        segment_name\tt1
+        lane\t1.1
+        num_waypoints\t3
+        lane_width\t13
+        1.1.1\t10.000018\t65.000456
+        1.1.2\t10.000018\t65.000414
+        1.1.3\t10.000018\t65.000000
+        end_lane
+        lane\t1.2
+        num_waypoints\t2
+        lane_width\t13
+        1.2.1\t9.999982\t65.000000
+        1.2.2\t9.999982\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts1
+        lane\t2.1
+        num_waypoints\t3
+        lane_width\t13
+        exit\t2.1.2\t1.1.2
+        2.1.1\t10.000000\t65.000912
+        2.1.2\t10.000000\t65.000502
+        2.1.3\t10.000000\t65.000456
+        end_lane
+        end_segment
+        end_file""")
+
+    def test_collinear_streets_city(self):
+        city = self.test_generator.collinear_streets_city()
+        self._generate_rndf(city)
+        self._assert_contents_are("""
+        RNDF_name\tCollinear_streets
+        num_segments\t2
+        num_zones\t0
+        format_version\t1.0
+        segment\t1
+        num_lanes\t1
+        segment_name\ts1
+        lane\t1.1
+        num_waypoints\t3
+        lane_width\t13
+        exit\t1.1.2\t2.1.2
+        1.1.1\t10.000000\t65.000000
+        1.1.2\t10.000000\t65.000410
+        1.1.3\t10.000000\t65.000456
+        end_lane
+        end_segment
+        segment\t2
+        num_lanes\t1
+        segment_name\ts2
+        lane\t2.1
+        num_waypoints\t3
+        lane_width\t13
+        2.1.1\t10.000000\t65.000456
+        2.1.2\t10.000000\t65.000502
+        2.1.3\t10.000000\t65.000912
+        end_lane
+        end_segment
+        end_file""")
