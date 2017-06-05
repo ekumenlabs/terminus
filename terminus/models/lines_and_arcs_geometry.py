@@ -164,17 +164,13 @@ class LinesAndArcsGeometry(LaneGeometry):
                 cutting_line = entry_line.perpendicular_line_at(entry_waypoint.center())
 
                 delta_length = (exit_waypoint.center() - exit_line.intersection(cutting_line)).norm()
-
                 segment_extension = delta_length / 5.0
-
                 exit_extension = LineSegment.from_point_and_heading(exit_waypoint.center(),
                                                                     exit_waypoint.heading(),
                                                                     segment_extension)
-
                 entry_extension = LineSegment.from_point_and_heading(entry_waypoint.center(),
                                                                      entry_waypoint.heading() + 180,
                                                                      segment_extension)
-
                 connecting_segment = LineSegment(exit_extension.end_point(), entry_extension.end_point())
                 connecting_segment = connecting_segment.extended_by(-segment_extension).inverted()
                 connecting_segment = connecting_segment.extended_by(-segment_extension).inverted()
