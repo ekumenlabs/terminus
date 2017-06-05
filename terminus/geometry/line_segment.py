@@ -33,6 +33,13 @@ class LineSegment(object):
     def from_tuples(cls, t1, t2):
         return cls(Point.from_tuple(t1), Point.from_tuple(t2))
 
+    @classmethod
+    def from_point_and_heading(cls, point, heading, length=1):
+        heading_in_radians = math.radians(heading)
+        dx = math.cos(heading_in_radians) * length
+        dy = math.sin(heading_in_radians) * length
+        return cls(point, point + Point(dx, dy))
+
     def includes_point(self, point, buffer=1e-7):
         # First check if the a->b and a->point are collinear. If they are,
         # the cross product should be zero (with some buffer for errors)
