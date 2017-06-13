@@ -49,8 +49,13 @@ class Line(object):
         return -self.a / self.b
 
     def perpendicular_line_at(self, point):
+        # Slope is undefined, we have a vertical line
+        if self.b == 0:
+            return Line.from_points(point, point + Point(1.0, 0.0))
+        # Slope is 0, we have a horizontal line
         if self.slope() == 0:
-            return Line.from_points(point, point + Point(0, point.y + 1))
+            return Line.from_points(point, point + Point(0.0, 1.0))
+
         perpendicular_slope = -1.0 / self.slope()
         c = point.y - perpendicular_slope * point.x
 
