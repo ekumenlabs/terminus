@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-find . -name \*.py -exec pep8 --ignore=E501 --exclude='*/procedural_city_generation/*,./env/*' {} +
+find . -name \*.py -exec pep8 --ignore=E501 --exclude='*/procedural_city_generation/*,./env/*,./.git/*' {} +

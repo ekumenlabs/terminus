@@ -639,10 +639,10 @@ class MonolaneGeneratorTest(unittest.TestCase):
               xypoint: [50.0, 0.0, 180.0]
               zpoint: [0.0, 0, 0, 0]
             CONNECTION_s1_1_4:
-              xypoint: [51.2733579, 0.6296592, 160.81958637414252]
+              xypoint: [51.2733579, 0.6296592, 160.8195863741425]
               zpoint: [0.0, 0, 0, 0]
             CONNECTION_s1_1_5:
-              xypoint: [49.1440664, 1.3703408, 160.81958637414252]
+              xypoint: [49.1440664, 1.3703408, 160.8195863741425]
               zpoint: [0.0, 0, 0, 0]
           connections:
             t1_1_2-t1_1_3: {start: points.t1_1_2, length: 45.41742430504416, explicit_end: points.t1_1_3}
@@ -650,13 +650,13 @@ class MonolaneGeneratorTest(unittest.TestCase):
             s1_1_1-s1_1_2: {start: points.s1_1_1, length: 45.0, explicit_end: points.s1_1_2}
             s1_1_2-CONNECTION_s1_1_4:
               start: points.s1_1_2
-              arc: [11.342908167538237, -19.1804136]
+              arc: [11.342908167538248, -19.1804136]
               explicit_end: points.CONNECTION_s1_1_4
-            CONNECTION_s1_1_4-CONNECTION_s1_1_5: {start: points.CONNECTION_s1_1_4, length: 2.2544382025800993,
+            CONNECTION_s1_1_4-CONNECTION_s1_1_5: {start: points.CONNECTION_s1_1_4, length: 2.254438202580077,
               explicit_end: points.CONNECTION_s1_1_5}
             CONNECTION_s1_1_5-t1_1_2:
               start: points.CONNECTION_s1_1_5
-              arc: [11.342908167538216, 19.1804136]
+              arc: [11.342908167538248, 19.1804136]
               explicit_end: points.t1_1_2
           groups: {}""")
 
