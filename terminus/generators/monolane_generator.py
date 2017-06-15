@@ -36,12 +36,13 @@ class MonolaneGenerator(FileGenerator):
         super(MonolaneGenerator, self).__init__(city)
 
     def start_city(self, city):
-        """Called when a visitation of a new city starts."""
         # First run the id mapper
         self.monolane_id_mapper = MonolaneIdMapper(city)
         self.monolane_id_mapper.run()
         # Map points and connections to avoid overlapping issues
         self.connected_points = {}
+        self.connections_per_waypoint = OrderedDict()
+        self.waypoints_per_connection = OrderedDict()
         self.monolane = {
             'maliput_monolane_builder': OrderedDict([
                 ('id', city.name),
@@ -55,9 +56,52 @@ class MonolaneGenerator(FileGenerator):
             ])
         }
 
+    def end_city(self, city):
+        """At this point all the connections have been created. We now need
+        to create the groups in the intersections"""
+        self._build_groups()
+
     def start_lane(self, lane):
         self._build_lane_points(lane)
         self._build_lane_connections(lane)
+
+    def _register_intersection_connection(self, waypoint, monolane_connection_id):
+        waypoint_id = id(waypoint)
+        key = (waypoint_id, waypoint)
+        if key not in self.connections_per_waypoint:
+            self.connections_per_waypoint[key] = []
+        self.connections_per_waypoint[key].append(monolane_connection_id)
+
+        if monolane_connection_id not in self.waypoints_per_connection:
+            self.waypoints_per_connection[monolane_connection_id] = []
+        self.waypoints_per_connection[monolane_connection_id].append(waypoint)
+
+    def _build_groups(self):
+        group_index = 0
+        while self.connections_per_waypoint:
+            (waypoint_id, waypoint) = next(self.connections_per_waypoint.iterkeys())
+            group_connections = self._build_recursive_connections_starting(waypoint)
+            if group_connections:
+                group_index += 1
+                self.monolane['maliput_monolane_builder']['groups'][str(group_index)] = list(set(group_connections))
+
+    def _build_recursive_connections_starting(self, waypoint):
+        waypoint_id = id(waypoint)
+        key = (waypoint_id, waypoint)
+
+        if key not in self.connections_per_waypoint:
+            return []
+
+        connections = self.connections_per_waypoint[key]
+        del self.connections_per_waypoint[key]
+
+        if len(connections) <= 2:
+            return []
+
+        for connection_id in connections:
+            for waypoint_to_traverse in self.waypoints_per_connection[connection_id]:
+                connections.extend(self._build_recursive_connections_starting(waypoint_to_traverse))
+        return connections
 
     def _build_lane_points(self, lane):
         previous_waypoint = None
@@ -206,6 +250,11 @@ class MonolaneGenerator(FileGenerator):
         monolane_connection_id = "{0}-{1}".format(self.monolane_id_mapper.formatted_id_for(start),
                                                   self.monolane_id_mapper.formatted_id_for(end))
         self.monolane['maliput_monolane_builder']['connections'][monolane_connection_id] = monolane_connection
+
+        if start.is_intersection():
+            self._register_intersection_connection(start, monolane_connection_id)
+        if end.is_intersection():
+            self._register_intersection_connection(end, monolane_connection_id)
 
     def _create_connection(self, path, connection):
         monolane_connection = self._connect(connection.primitive(), connection.start_waypoint(), connection.end_waypoint())

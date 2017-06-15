@@ -118,7 +118,9 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s2_1_2
               arc: [5.0, 90.0]
               explicit_end: points.s1_1_3
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s1_1_3, s1_1_3-s1_1_4, s2_1_3-s2_1_4, s2_1_2-s2_1_3, s1_1_2-s2_1_3,
+              s2_1_1-s2_1_2, s2_1_2-s1_1_3, s1_1_1-s1_1_2]""")
 
     def test_L_intersection(self):
         city = self.test_generator.L_intersection_city()
@@ -196,7 +198,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
               explicit_end: points.s3_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 136.4213562373095, explicit_end: points.s2_1_3}
             s3_1_2-s3_1_3: {start: points.s3_1_2, length: 136.4213562373095, explicit_end: points.s3_1_3}
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s3_1_2, s1_1_2-s2_1_2, s1_1_1-s1_1_2]""")
 
     def test_Y_intersection_many_to_one(self):
         city = self.test_generator.Y_intersection_many_to_one_city()
@@ -242,7 +245,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s3_1_2
               arc: [12.071067811865477, -45.0]
               explicit_end: points.s1_1_2
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s1_1_3, s3_1_2-s1_1_2, s2_1_2-s1_1_2]""")
 
     def test_T_intersection_out_city(self):
         city = self.test_generator.T_intersection_out_city()
@@ -275,7 +279,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
               arc: [5.0, -90.0]
               explicit_end: points.s2_1_2
             s2_1_2-s2_1_3: {start: points.s2_1_2, length: 95.0, explicit_end: points.s2_1_3}
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s2_1_2, s1_1_1-s1_1_2, s1_1_2-s1_1_3]""")
 
     def test_T_intersection_in_city(self):
         city = self.test_generator.T_intersection_in_city()
@@ -308,7 +313,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s2_1_2
               arc: [5.0, -90.0]
               explicit_end: points.s1_1_2
-          groups: {}""")
+          groups:
+            '1': [s1_1_1-s1_1_2, s1_1_2-s1_1_3, s2_1_2-s1_1_2]""")
 
     def test_broken_intersection_on_one_lane_city(self):
         city = self.test_generator.broken_intersection_on_one_lane_city()
@@ -357,7 +363,9 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s2_1_2
               arc: [7.385164807134503, -68.1985905]
               explicit_end: points.s1_1_3
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s1_1_3, s1_1_3-s1_1_4, s2_1_3-s2_1_4, s2_1_2-s2_1_3, s1_1_2-s2_1_3,
+              s2_1_1-s2_1_2, s2_1_2-s1_1_3, s1_1_1-s1_1_2]""")
 
     def test_broken_intersection_on_two_lanes_city(self):
         city = self.test_generator.broken_intersection_on_two_lanes_city()
@@ -409,7 +417,9 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s2_1_2
               arc: [7.385164807134503, -68.1985905]
               explicit_end: points.s1_1_3
-          groups: {}""")
+          groups:
+            '1': [s1_1_2-s1_1_3, s1_1_3-s1_1_4, s2_1_3-s2_1_4, s2_1_2-s2_1_3, s1_1_2-s2_1_3,
+              s2_1_1-s2_1_2, s2_1_2-s1_1_3, s1_1_1-s1_1_2]""")
 
     def test_road_ends_in_intersection_city(self):
         city = self.test_generator.road_ends_in_intersection_city()
@@ -449,7 +459,8 @@ class MonolaneGeneratorTest(unittest.TestCase):
               start: points.s2_1_2
               arc: [8.8309518948453, -59.0362435]
               explicit_end: points.s1_1_3
-          groups: {}""")
+          groups:
+            '1': [s2_1_2-s1_1_3, s1_1_2-s1_1_3, s1_1_3-s1_1_4]""")
 
     def test_two_non_collinear_segments_city(self):
         city = self.test_generator.non_collinear_segments_city()

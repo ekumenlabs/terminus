@@ -104,4 +104,4 @@ class Waypoint(object):
             result += "[ENTRY] "
         if self.is_exit():
             result += "[EXIT] "
-        return result + "Waypoint at {0}".format(self.center())
+        return result + "Waypoint at {0} in lane {1}" .format(self.center(), id(self.lane))
